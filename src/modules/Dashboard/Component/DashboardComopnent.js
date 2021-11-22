@@ -6,9 +6,9 @@ const DashboardComponent = () => {
       <div class="page-content">
         <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
           <div>
-            <h4 class="mb-3 mb-md-0">Welcome to Dashboard</h4>
+            <h4 class="mb-3 mb-md-0">Hallo, Reza</h4>
           </div>
-          <div class="d-flex align-items-center flex-wrap text-nowrap">
+          {/* <div class="d-flex align-items-center flex-wrap text-nowrap">
             <div
               class="input-group date datepicker dashboard-date mr-2 mb-2 mb-md-0 d-md-none d-xl-flex"
               id="dashboardDate"
@@ -39,7 +39,7 @@ const DashboardComponent = () => {
               <i class="btn-icon-prepend" data-feather="download-cloud"></i>
               Download Report
             </button>
-          </div>
+          </div> */}
         </div>
 
         <div class="row">
@@ -49,7 +49,7 @@ const DashboardComponent = () => {
                 <div class="card">
                   <div class="card-body">
                     <div class="d-flex justify-content-between align-items-baseline">
-                      <h6 class="card-title mb-0">New Customers</h6>
+                      <h6 class="card-title mb-0">Total Customers</h6>
                       <div class="dropdown mb-2">
                         <button
                           class="btn p-0"
@@ -127,7 +127,7 @@ const DashboardComponent = () => {
                 <div class="card">
                   <div class="card-body">
                     <div class="d-flex justify-content-between align-items-baseline">
-                      <h6 class="card-title mb-0">New Orders</h6>
+                      <h6 class="card-title mb-0">Total Unit</h6>
                       <div class="dropdown mb-2">
                         <button
                           class="btn p-0"
@@ -208,7 +208,7 @@ const DashboardComponent = () => {
                 <div class="card">
                   <div class="card-body">
                     <div class="d-flex justify-content-between align-items-baseline">
-                      <h6 class="card-title mb-0">Growth</h6>
+                      <h6 class="card-title mb-0">Total Transaksi</h6>
                       <div class="dropdown mb-2">
                         <button
                           class="btn p-0"

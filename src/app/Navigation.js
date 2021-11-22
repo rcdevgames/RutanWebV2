@@ -40,7 +40,7 @@ export default function Navigation() {
 
   return (
     <>
-      <Helmet titleTemplate="PT. RUTAN - " defaultTitle="PT. RUTAN">
+      <Helmet titleTemplate="PT. Rutan - " defaultTitle="PT. Rutan">
         <meta
           name="description"
           content="Lomba Film Pendek 2021 TV Digital Indonesia, Menuju Analog Switch Off tahun 2022. Kementerian Komunikasi dan Informatika Republik Indonesia."

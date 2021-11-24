@@ -1,7 +1,7 @@
 import React from "react";
-import DashboardComponent from "../Component/DashboardComopnent";
+import DashboardComponent from "../Component/DashboardComponent";
 
-const DashboardContainer = () => {
+const DashboardContainer = (props) => {
   return <DashboardComponent />;
 };
 

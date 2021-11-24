@@ -1,10 +1,10 @@
 import * as React from "react";
 import hoistNonReactStatics from "hoist-non-react-statics";
 
-const withTemplate = (Template, WrappedComponent, footerImg, footer) => {
+const withTemplate = (Template, WrappedComponent, isLandingPage) => {
   const AddedTemplate = (props) => {
     return (
-      <Template {...props} footerImg={footerImg} footer={footer}>
+      <Template {...props} isLandingPage={isLandingPage}>
         <WrappedComponent {...props} />
       </Template>
     );

@@ -58,27 +58,27 @@ export function* handleErrorProcess(action) {
     } else if (responseStatus === 500) {
       if (error.response.data.ErrorCode === "4201") {
         toastMessage = (
-          <span className="capitalFirst">
+          <span class="capitalFirst">
             <FormattedMessage id="authentication.credential.invalid" />
           </span>
         );
       }
       if (error.response.data.ErrorCode === "5100") {
         toastMessage = (
-          <span className="capitalFirst">
+          <span class="capitalFirst">
             <FormattedMessage id="authentication.credential.invalid" />
           </span>
         );
       } else {
         toastMessage = (
-          <span className="capitalFirst">
+          <span class="capitalFirst">
             <FormattedMessage id={error.response.data.MessageKey} />
           </span>
         );
       }
     } else if (responseStatus === 403) {
       toastMessage = (
-        <span className="capitalFirst">
+        <span class="capitalFirst">
           <FormattedMessage id={"forbiddenError"} />
         </span>
       );
@@ -87,20 +87,20 @@ export function* handleErrorProcess(action) {
         const dataErr = error.response.data?.Data?.Failures[0]?.ErrorKey;
         if (dataErr) {
           toastMessage = (
-            <span className="capitalFirst">
+            <span class="capitalFirst">
               <FormattedMessage id={dataErr} />
             </span>
           );
         } else {
           toastMessage = (
-            <span className="capitalFirst">
+            <span class="capitalFirst">
               <FormattedMessage id="unknownError" />
             </span>
           );
         }
       } catch (error) {
         toastMessage = (
-          <span className="capitalFirst">
+          <span class="capitalFirst">
             <FormattedMessage id={error} />
           </span>
         );
@@ -109,7 +109,7 @@ export function* handleErrorProcess(action) {
   } else {
     if (action.errorData.response.data.Message) {
       toastMessage = (
-        <span className="capitalFirst">
+        <span class="capitalFirst">
           <FormattedMessage id={action.errorData.response.data.Message} />
         </span>
       );

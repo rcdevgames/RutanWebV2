@@ -5,11 +5,15 @@ import { Route, Switch } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { ToastContainer } from "react-toastify";
 import ReduxToastr from "react-redux-toastr";
-// import withTemplate from "./WithTemplate";
+import TemplateContainer from "../modules/Template/Container/TemplateContainer";
+import withTemplate from "./withTemplate";
 
+// Pages
 import DashboardContainer from "../modules/Dashboard/Container/DashboardContainer";
 import LoginContainer from "../modules/Auth/Container/LoginContainer";
-import NotFoundPage from "./assets/Components/NotFoundPage";
+import InternalServiceContainer from "../modules/InternalService/Container/InternalServiceContainer";
+import MonitoringEmployeeContainer from "../modules/MonitoringEmployee/Container/MonitoringEmployeeContainer";
+import NotFoundPage from "../components/NotFound/NotFound";
 
 export default function Navigation() {
   //   const authenticatedPage = (component, footerImg, footer) => {
@@ -23,13 +27,16 @@ export default function Navigation() {
   //     );
   //   };
 
-  //   const templateLanding = (component, footerImg, footer) => {
-  //     return withTemplate(TemplateContainer, component, footerImg, footer);
-  //   };
+  const templating = (component, isLandingPage) => {
+    return withTemplate(TemplateContainer, component, isLandingPage);
+  };
 
-  //   const Dashboard = templateLanding(DashboardContainer, true, true);
+  const Login = templating(LoginContainer, false);
+  const NotFound = templating(NotFoundPage, false);
+  const Dashboard = templating(DashboardContainer, true);
+  const InternalService = templating(InternalServiceContainer, true);
+  const MonitoringEmployee = templating(MonitoringEmployeeContainer, true);
   //   const Home = templateLanding(HomeContainer, true, true);
-  //   const Login = templateLanding(LoginContainer, false, false);
   //   const LatarBelakang = templateLanding(LatarBelakangContainer, true, true);
   //   const Kompetisi = templateLanding(KompetisiContainer, true, true);
   //   const Unduh = templateLanding(UnduhContainer, false, false);
@@ -40,12 +47,7 @@ export default function Navigation() {
 
   return (
     <>
-      <Helmet titleTemplate="PT. Rutan - " defaultTitle="PT. Rutan">
-        <meta
-          name="description"
-          content="Lomba Film Pendek 2021 TV Digital Indonesia, Menuju Analog Switch Off tahun 2022. Kementerian Komunikasi dan Informatika Republik Indonesia."
-        />
-      </Helmet>
+      <Helmet titleTemplate="PT. Rutan - " defaultTitle="PT. Rutan"></Helmet>
       <ReduxToastr
         timeOut={4000}
         newestOnTop={false}
@@ -58,9 +60,15 @@ export default function Navigation() {
       />
       <ToastContainer autoClose={2000} />
       <Switch>
-        <Route exact path="/" component={DashboardContainer} />
-        <Route exact path="/auth" component={LoginContainer} />
-        <Route path={"*"} component={NotFoundPage} />
+        <Route exact path="/" component={Dashboard} />
+        <Route exact path="/auth" component={Login} />
+        <Route exact path="/new-internal-service" component={InternalService} />
+        <Route
+          exact
+          path="/monitoring-employee"
+          component={MonitoringEmployee}
+        />
+        <Route path={"*"} component={NotFound} />
       </Switch>
     </>
   );

@@ -1,6 +1,6 @@
 import React from "react";
 
-const DashboardComponent = () => {
+const DashboardComponent = (props) => {
   return (
     <div>
       <div class="page-content">
@@ -8,38 +8,6 @@ const DashboardComponent = () => {
           <div>
             <h4 class="mb-3 mb-md-0">Hallo, Reza</h4>
           </div>
-          {/* <div class="d-flex align-items-center flex-wrap text-nowrap">
-            <div
-              class="input-group date datepicker dashboard-date mr-2 mb-2 mb-md-0 d-md-none d-xl-flex"
-              id="dashboardDate"
-            >
-              <span class="input-group-addon bg-transparent">
-                <i data-feather="calendar" class=" text-primary"></i>
-              </span>
-              <input type="text" class="form-control" />
-            </div>
-            <button
-              type="button"
-              class="btn btn-outline-info btn-icon-text mr-2 d-none d-md-block"
-            >
-              <i class="btn-icon-prepend" data-feather="download"></i>
-              Import
-            </button>
-            <button
-              type="button"
-              class="btn btn-outline-primary btn-icon-text mr-2 mb-2 mb-md-0"
-            >
-              <i class="btn-icon-prepend" data-feather="printer"></i>
-              Print
-            </button>
-            <button
-              type="button"
-              class="btn btn-primary btn-icon-text mb-2 mb-md-0"
-            >
-              <i class="btn-icon-prepend" data-feather="download-cloud"></i>
-              Download Report
-            </button>
-          </div> */}
         </div>
 
         <div class="row">
@@ -79,28 +47,40 @@ const DashboardComponent = () => {
                             class="dropdown-item d-flex align-items-center"
                             href="#"
                           >
-                            <i data-feather="edit-2" class="icon-sm mr-2"></i>{" "}
+                            <i
+                              data-feather="edit-2"
+                              class="icon-sm mr-2"
+                            ></i>{" "}
                             <span class="">Edit</span>
                           </a>
                           <a
                             class="dropdown-item d-flex align-items-center"
                             href="#"
                           >
-                            <i data-feather="trash" class="icon-sm mr-2"></i>{" "}
+                            <i
+                              data-feather="trash"
+                              class="icon-sm mr-2"
+                            ></i>{" "}
                             <span class="">Delete</span>
                           </a>
                           <a
                             class="dropdown-item d-flex align-items-center"
                             href="#"
                           >
-                            <i data-feather="printer" class="icon-sm mr-2"></i>{" "}
+                            <i
+                              data-feather="printer"
+                              class="icon-sm mr-2"
+                            ></i>{" "}
                             <span class="">Print</span>
                           </a>
                           <a
                             class="dropdown-item d-flex align-items-center"
                             href="#"
                           >
-                            <i data-feather="download" class="icon-sm mr-2"></i>{" "}
+                            <i
+                              data-feather="download"
+                              class="icon-sm mr-2"
+                            ></i>{" "}
                             <span class="">Download</span>
                           </a>
                         </div>
@@ -112,7 +92,10 @@ const DashboardComponent = () => {
                         <div class="d-flex align-items-baseline">
                           <p class="text-success">
                             <span>+3.3%</span>
-                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                            <i
+                              data-feather="arrow-up"
+                              class="icon-sm mb-1"
+                            ></i>
                           </p>
                         </div>
                       </div>
@@ -157,28 +140,40 @@ const DashboardComponent = () => {
                             class="dropdown-item d-flex align-items-center"
                             href="#"
                           >
-                            <i data-feather="edit-2" class="icon-sm mr-2"></i>{" "}
+                            <i
+                              data-feather="edit-2"
+                              class="icon-sm mr-2"
+                            ></i>{" "}
                             <span class="">Edit</span>
                           </a>
                           <a
                             class="dropdown-item d-flex align-items-center"
                             href="#"
                           >
-                            <i data-feather="trash" class="icon-sm mr-2"></i>{" "}
+                            <i
+                              data-feather="trash"
+                              class="icon-sm mr-2"
+                            ></i>{" "}
                             <span class="">Delete</span>
                           </a>
                           <a
                             class="dropdown-item d-flex align-items-center"
                             href="#"
                           >
-                            <i data-feather="printer" class="icon-sm mr-2"></i>{" "}
+                            <i
+                              data-feather="printer"
+                              class="icon-sm mr-2"
+                            ></i>{" "}
                             <span class="">Print</span>
                           </a>
                           <a
                             class="dropdown-item d-flex align-items-center"
                             href="#"
                           >
-                            <i data-feather="download" class="icon-sm mr-2"></i>{" "}
+                            <i
+                              data-feather="download"
+                              class="icon-sm mr-2"
+                            ></i>{" "}
                             <span class="">Download</span>
                           </a>
                         </div>
@@ -238,28 +233,40 @@ const DashboardComponent = () => {
                             class="dropdown-item d-flex align-items-center"
                             href="#"
                           >
-                            <i data-feather="edit-2" class="icon-sm mr-2"></i>{" "}
+                            <i
+                              data-feather="edit-2"
+                              class="icon-sm mr-2"
+                            ></i>{" "}
                             <span class="">Edit</span>
                           </a>
                           <a
                             class="dropdown-item d-flex align-items-center"
                             href="#"
                           >
-                            <i data-feather="trash" class="icon-sm mr-2"></i>{" "}
+                            <i
+                              data-feather="trash"
+                              class="icon-sm mr-2"
+                            ></i>{" "}
                             <span class="">Delete</span>
                           </a>
                           <a
                             class="dropdown-item d-flex align-items-center"
                             href="#"
                           >
-                            <i data-feather="printer" class="icon-sm mr-2"></i>{" "}
+                            <i
+                              data-feather="printer"
+                              class="icon-sm mr-2"
+                            ></i>{" "}
                             <span class="">Print</span>
                           </a>
                           <a
                             class="dropdown-item d-flex align-items-center"
                             href="#"
                           >
-                            <i data-feather="download" class="icon-sm mr-2"></i>{" "}
+                            <i
+                              data-feather="download"
+                              class="icon-sm mr-2"
+                            ></i>{" "}
                             <span class="">Download</span>
                           </a>
                         </div>
@@ -271,7 +278,10 @@ const DashboardComponent = () => {
                         <div class="d-flex align-items-baseline">
                           <p class="text-success">
                             <span>+2.8%</span>
-                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                            <i
+                              data-feather="arrow-up"
+                              class="icon-sm mb-1"
+                            ></i>
                           </p>
                         </div>
                       </div>
@@ -671,7 +681,9 @@ const DashboardComponent = () => {
                         <h6 class="text-body mb-2">Jensen Combs</h6>
                         <p class="text-muted tx-12">08.22 PM</p>
                       </div>
-                      <p class="text-muted tx-13">This template is awesome!</p>
+                      <p class="text-muted tx-13">
+                        This template is awesome!
+                      </p>
                     </div>
                   </a>
                   <a
@@ -818,7 +830,9 @@ const DashboardComponent = () => {
                         <td>01/05/2021</td>
                         <td>10/09/2021</td>
                         <td>
-                          <span class="badge badge-info-muted">Pending</span>
+                          <span class="badge badge-info-muted">
+                            Pending
+                          </span>
                         </td>
                         <td>Jensen Combs</td>
                       </tr>
@@ -852,7 +866,9 @@ const DashboardComponent = () => {
                         <td>01/01/2021</td>
                         <td>31/12/2021</td>
                         <td>
-                          <span class="badge badge-primary">Coming soon</span>
+                          <span class="badge badge-primary">
+                            Coming soon
+                          </span>
                         </td>
                         <td>Carl Henson</td>
                       </tr>
@@ -862,7 +878,9 @@ const DashboardComponent = () => {
                         <td class="border-bottom">01/05/2021</td>
                         <td class="border-bottom">10/11/2021</td>
                         <td class="border-bottom">
-                          <span class="badge badge-info-muted">Pending</span>
+                          <span class="badge badge-info-muted">
+                            Pending
+                          </span>
                         </td>
                         <td class="border-bottom">Jensen Combs</td>
                       </tr>

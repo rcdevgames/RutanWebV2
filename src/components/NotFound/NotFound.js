@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function NotFoundPage(props) {
+const NotFound = (props) => {
   return (
     // <div class="main-wrapper">
     //   <div class="page-wrapper full-page">
@@ -26,4 +26,6 @@ export default function NotFoundPage(props) {
     //   </div>
     // </div>
   );
-}
+};
+
+export default NotFound;

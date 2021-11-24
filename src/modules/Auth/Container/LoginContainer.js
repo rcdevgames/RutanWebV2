@@ -3,16 +3,23 @@ import LoginComponent from "../Component/LoginComponent";
 import { reduxForm, reset } from "redux-form"; // imported Field
 import { connect } from "react-redux";
 import * as AuthActions from "../Store/AuthAction";
+import * as validateForm from "../../../app/validateForm";
 
 const LoginContainer = (props) => {
+  const { valid } = props;
+
   const submitForm = (values) => {
-    AuthActions.handleSubmitLogin(values);
+    if (valid) {
+      AuthActions.handleSubmitLogin(values);
+    }
   };
 
   return <LoginComponent submitForm={submitForm} {...props} />;
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
 const mapDispatchToProps = (dispatch) => ({
   resetForm: () => {
     dispatch(reset("loginForm"));
@@ -26,6 +33,5 @@ const EnhanceContainer = connect(
 
 export default reduxForm({
   form: "loginForm",
-  // onSubmit,
-  // no fields array given
+  validate: validateForm.validateFormLogin,
 })(EnhanceContainer);

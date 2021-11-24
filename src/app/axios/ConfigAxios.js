@@ -10,11 +10,11 @@ const ConfigAxios = axios.create({
 });
 
 // Where you would set stuff like your 'Authorization' header, etc ...
-ConfigAxios.defaults.headers.common["Authorization"] = "AUTH TOKEN FROM INSTANCE";
+ConfigAxios.defaults.headers.common["Authorization"] =
+  "AUTH TOKEN FROM INSTANCE";
 
 // Also add/ configure interceptors && all the other cool stuff
-
-axios.interceptors.request.use(
+ConfigAxios.interceptors.request.use(
   (requestFulfilled) => {
     if (
       process.env.NODE_ENV === "development" &&
@@ -39,6 +39,34 @@ axios.interceptors.request.use(
       }
     }
     return Promise.reject(requestRejected);
+  }
+);
+
+ConfigAxios.interceptors.response.use(
+  (responseFulfilled) => {
+    if (
+      process.env.NODE_ENV === "development" &&
+      !_.isEmpty(responseFulfilled)
+    ) {
+      console.log(
+        "axios-debug-response-fulfilled",
+        JSON.parse(JSON.stringify(responseFulfilled))
+      );
+    }
+    return Promise.resolve(responseFulfilled);
+  },
+  (responseRejected) => {
+    if (!_.isEmpty(responseRejected)) {
+      if (process.env.NODE_ENV === "development") {
+        console.log(
+          "axios-debug-response-rejected",
+          JSON.parse(
+            JSON.stringify(responseRejected.response || responseRejected)
+          )
+        );
+      }
+    }
+    return Promise.reject(responseRejected);
   }
 );
 

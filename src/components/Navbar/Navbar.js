@@ -1,6 +1,7 @@
 import React from "react";
 
-const Navbar = () => {
+const Navbar = (props) => {
+  const { onLogout } = props;
   return (
     <nav class="navbar">
       <a href="#" class="sidebar-toggler">
@@ -226,7 +227,7 @@ const Navbar = () => {
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="javascript:;" class="nav-link">
+                    <a onClick={onLogout} class="nav-link">
                       <i data-feather="log-out"></i>
                       <span>Log Out</span>
                     </a>

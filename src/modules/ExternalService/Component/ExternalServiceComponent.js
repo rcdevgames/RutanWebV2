@@ -1,6 +1,6 @@
 import React from "react";
 
-const InternalServiceComponent = () => {
+const ExternalServiceComponent = () => {
   return (
     <div class="page-content">
       <div class="mt-5">
@@ -8,9 +8,9 @@ const InternalServiceComponent = () => {
           <div class="col-md-12 grid-margin">
             <div class="card">
               <div class="card-body">
-                <h6 class="card-title">Buat Internal Service</h6>
+                <h6 class="card-title">Buat External Service</h6>
                 <p class="card-description">
-                  Form yang ditujukan untuk pembuatan internal service baru yang
+                  Form yang ditujukan untuk pembuatan external service baru yang
                   akan dikerjakan oleh teknisi.
                 </p>
                 <form class="forms-sample">
@@ -154,4 +154,4 @@ const InternalServiceComponent = () => {
   );
 };
 
-export default InternalServiceComponent;
+export default ExternalServiceComponent;

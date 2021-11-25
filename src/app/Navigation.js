@@ -12,15 +12,17 @@ import withTemplate from "./withTemplate";
 import DashboardContainer from "../modules/Dashboard/Container/DashboardContainer";
 import LoginContainer from "../modules/Auth/Container/LoginContainer";
 import InternalServiceContainer from "../modules/InternalService/Container/InternalServiceContainer";
+import ExternalServiceContainer from "../modules/ExternalService/Container/ExternalServiceContainer";
 import MonitoringEmployeeContainer from "../modules/MonitoringEmployee/Container/MonitoringEmployeeContainer";
 import NotFoundPage from "../components/NotFound/NotFound";
+import AuthMiddleware from "./AuthMiddleware";
 
 export default function Navigation() {
-  //   const authenticatedPage = (component, footerImg, footer) => {
-  //     return AuthMiddleware(
-  //       withTemplate(TemplateContainer, component, footerImg, footer)
-  //     );
-  //   };
+  const authenticatedPage = (component, footerImg, footer) => {
+    return AuthMiddleware(
+      withTemplate(TemplateContainer, component, footerImg, footer)
+    );
+  };
   //   const juriAuthenticatedPage = (component, footerImg, footer) => {
   //     return JuriMiddleware(
   //       withTemplate(TemplateContainer, component, footerImg, footer)
@@ -33,8 +35,9 @@ export default function Navigation() {
 
   const Login = templating(LoginContainer, false);
   const NotFound = templating(NotFoundPage, false);
-  const Dashboard = templating(DashboardContainer, true);
+  const Dashboard = authenticatedPage(DashboardContainer, true);
   const InternalService = templating(InternalServiceContainer, true);
+  const ExternalService = templating(ExternalServiceContainer, true);
   const MonitoringEmployee = templating(MonitoringEmployeeContainer, true);
   //   const Home = templateLanding(HomeContainer, true, true);
   //   const LatarBelakang = templateLanding(LatarBelakangContainer, true, true);
@@ -63,6 +66,7 @@ export default function Navigation() {
         <Route exact path="/" component={Dashboard} />
         <Route exact path="/auth" component={Login} />
         <Route exact path="/new-internal-service" component={InternalService} />
+        <Route exact path="/new-external-service" component={ExternalService} />
         <Route
           exact
           path="/monitoring-employee"

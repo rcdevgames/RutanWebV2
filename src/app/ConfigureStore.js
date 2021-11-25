@@ -12,16 +12,17 @@ import storage from "redux-persist/lib/storage";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["Auth", "Video"],
+  // whitelist: [],
 };
 
 const resetEnhancer = (rootReducer) => (state, action) => {
   if (action.type !== "LOGOUT") {
     return rootReducer(state, action);
+  } else {
+    const newState = rootReducer(undefined, {});
+    newState.router = state.router;
+    return newState;
   }
-  const newState = rootReducer(undefined, {});
-  newState.router = state.router;
-  return newState;
 };
 
 const persistedReducer = persistReducer(

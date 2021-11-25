@@ -1,6 +1,5 @@
 import Invoke from "../../../app/axios/Invoke";
 import { store } from "../../../app/ConfigureStore";
-import { Redirect } from "react-router-dom";
 import history from "../../../app/History";
 
 export const SET_ACCESS_TOKEN_DATA = "SET_ACCESS_TOKEN_DATA";
@@ -25,17 +24,31 @@ export const setErrorLogin = (payload) => {
     payload,
   };
 };
+export const logout = () => {
+  return {
+    type: "LOGOUT",
+  };
+};
+
+const appendItem = (data) =>
+  new Promise((resolve, reject) => {
+    // do anything here
+    store.dispatch(setAccessToken(data.data.callback.accessToken));
+    delete data.data.callback.accessToken;
+    store.dispatch(setUserDetail(data.data.callback));
+    resolve();
+  });
 
 export const handleSubmitLogin = async (values) => {
   const { username, password } = values;
   const payload = { username, password };
+
   Invoke.submitLogin(payload)
     .then((data) => {
-      store.dispatch(setAccessToken(data.data.callback.accessToken));
-      delete data.data.callback.accessToken;
-      store.dispatch(setUserDetail(data.data.callback));
-      history.push("/");
-      window.location.reload();
+      appendItem(data).then(() => {
+        history.push("/");
+        window.location.reload();
+      });
     })
     .catch((onRejected) => {
       if (onRejected) {

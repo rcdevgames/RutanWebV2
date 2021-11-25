@@ -2,8 +2,8 @@ export const validateFormLogin = (values) => {
   const errors = {};
   if (!values.username) {
     errors.username = "Username wajib diisi!";
-  } else if (values.username.length < 5) {
-    errors.username = "Minimal 5 karakter atau lebih";
+  } else if (values.username.length < 4) {
+    errors.username = "Minimal 4 karakter atau lebih";
   }
   if (!values.password) {
     errors.password = "Password wajib diisi!";

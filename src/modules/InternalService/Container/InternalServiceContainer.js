@@ -1,8 +1,8 @@
 import React from "react";
 import InternalServiceComponent from "../Component/InternalServiceComponent";
 
-const DashboardContainer = () => {
+const InternalServiceContainer = () => {
   return <InternalServiceComponent />;
 };
 
-export default DashboardContainer;
+export default InternalServiceContainer;

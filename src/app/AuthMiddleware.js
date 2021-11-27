@@ -3,14 +3,19 @@ import history from "./History";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import * as Selectors from "../modules/Auth/Selector/AuthSelector";
+import ConfigAxios from "./axios/ConfigAxios";
 
 const AuthMiddleware = (ComposedComponent) => {
   const returnData = (props) => {
     const { isAuthenticated, redirect } = props;
 
-    console.log("=== isAuthenticated : ", isAuthenticated);
     if (!isAuthenticated) {
       redirect();
+    } else {
+      ConfigAxios.defaults.headers["Content-Type"] = "application/json";
+      ConfigAxios.defaults.headers[
+        "Authorization"
+      ] = `Bearer ${isAuthenticated}`;
     }
 
     return (

@@ -32,7 +32,6 @@ export const logout = () => {
 
 const appendItem = (data) =>
   new Promise((resolve, reject) => {
-    // do anything here
     store.dispatch(setAccessToken(data.data.callback.accessToken));
     delete data.data.callback.accessToken;
     store.dispatch(setUserDetail(data.data.callback));
@@ -46,8 +45,10 @@ export const handleSubmitLogin = async (values) => {
   Invoke.submitLogin(payload)
     .then((data) => {
       appendItem(data).then(() => {
-        history.push("/");
-        window.location.reload();
+        setTimeout(() => {
+          history.push("/");
+          window.location.reload();
+        }, 1500);
       });
     })
     .catch((onRejected) => {

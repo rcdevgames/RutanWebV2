@@ -1,8 +1,8 @@
 import React from "react";
 import MonitoringEmployeeComponent from "../Component/MonitoringEmployeeComponent";
 
-const DashboardContainer = () => {
+const MonitoringEmployeeContainer = () => {
   return <MonitoringEmployeeComponent />;
 };
 
-export default DashboardContainer;
+export default MonitoringEmployeeContainer;

@@ -10,12 +10,15 @@ const ConfigAxios = axios.create({
 });
 
 // Where you would set stuff like your 'Authorization' header, etc ...
-ConfigAxios.defaults.headers.common["Authorization"] =
-  "AUTH TOKEN FROM INSTANCE";
+// ConfigAxios.defaults.headers.common["Authorization"] =
+//   "AUTH TOKEN FROM INSTANCE";
 
 // Also add/ configure interceptors && all the other cool stuff
 ConfigAxios.interceptors.request.use(
   (requestFulfilled) => {
+    if (requestFulfilled.method === "get") {
+      requestFulfilled.data = true;
+    }
     if (
       process.env.NODE_ENV === "development" &&
       !_.isEmpty(requestFulfilled)

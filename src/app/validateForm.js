@@ -10,8 +10,36 @@ export const validateFormLogin = (values) => {
   } else if (values.password.length < 5) {
     errors.password = "Minimal 5 karakter atau lebih";
   }
-  console.log("=== error : ", errors);
   return errors;
 };
 
-// export default validateForm;
+export const validateFormInternalService = (values) => {
+  const errors = {};
+  if (!values.nik) {
+    errors.nik = "NIK wajib ada!";
+  } else if (values.nik.length < 5) {
+    errors.nik = "Minimal 5 karakter!";
+  }
+  if (!values.typeService) {
+    errors.typeService = "Tipe service wajib diisi!";
+  }
+  if (!values.startDate) {
+    errors.startDate = "Tanggal Mulai wajib diisi!";
+  }
+  if (!values.endDate) {
+    errors.endDate = "Tanggal Akhir wajib diisi!";
+  }
+  if (!values.jobPerform) {
+    errors.jobPerform = "Job Perform wajib diisi!";
+  }
+  if (!values.employee) {
+    errors.employee = "Wajib pilih karyawan!";
+  }
+  if (!values.customer) {
+    errors.customer = "Wajib pilih custome!r";
+  }
+  if (!values.location) {
+    errors.location = "Lokasi wajib diisi!";
+  }
+  return errors;
+};

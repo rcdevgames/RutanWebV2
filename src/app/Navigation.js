@@ -14,6 +14,7 @@ import LoginContainer from "../modules/Auth/Container/LoginContainer";
 import InternalServiceContainer from "../modules/InternalService/Container/InternalServiceContainer";
 import ExternalServiceContainer from "../modules/ExternalService/Container/ExternalServiceContainer";
 import MonitoringEmployeeContainer from "../modules/MonitoringEmployee/Container/MonitoringEmployeeContainer";
+import ListServicesContainer from "../modules/ListServices/Container/ListServicesContainer";
 import NotFoundPage from "../components/NotFound/NotFound";
 import AuthMiddleware from "./AuthMiddleware";
 
@@ -23,11 +24,6 @@ export default function Navigation() {
       withTemplate(TemplateContainer, component, footerImg, footer)
     );
   };
-  //   const juriAuthenticatedPage = (component, footerImg, footer) => {
-  //     return JuriMiddleware(
-  //       withTemplate(TemplateContainer, component, footerImg, footer)
-  //     );
-  //   };
 
   const templating = (component, isLandingPage) => {
     return withTemplate(TemplateContainer, component, isLandingPage);
@@ -36,17 +32,13 @@ export default function Navigation() {
   const Login = templating(LoginContainer, false);
   const NotFound = templating(NotFoundPage, false);
   const Dashboard = authenticatedPage(DashboardContainer, true);
-  const InternalService = templating(InternalServiceContainer, true);
-  const ExternalService = templating(ExternalServiceContainer, true);
-  const MonitoringEmployee = templating(MonitoringEmployeeContainer, true);
-  //   const Home = templateLanding(HomeContainer, true, true);
-  //   const LatarBelakang = templateLanding(LatarBelakangContainer, true, true);
-  //   const Kompetisi = templateLanding(KompetisiContainer, true, true);
-  //   const Unduh = templateLanding(UnduhContainer, false, false);
-  //   const DashboardUser = authenticatedPage(DashboardUserContainer, false, false);
-  //   const UploadVideo = authenticatedPage(UploadVideoContainer, false, false);
-  //   const VotingHome = templateLanding(VotingContainer, true, true);
-  // const VotingCategory = templateLanding(VotingCategoryContainer, true, true);
+  const InternalService = authenticatedPage(InternalServiceContainer, true);
+  const ExternalService = authenticatedPage(ExternalServiceContainer, true);
+  const MonitoringEmployee = authenticatedPage(
+    MonitoringEmployeeContainer,
+    true
+  );
+  const ListServices = authenticatedPage(ListServicesContainer, true);
 
   return (
     <>
@@ -71,6 +63,11 @@ export default function Navigation() {
           exact
           path="/monitoring-employee"
           component={MonitoringEmployee}
+        />
+        <Route
+          exact
+          path="/list-services"
+          component={ListServices}
         />
         <Route path={"*"} component={NotFound} />
       </Switch>

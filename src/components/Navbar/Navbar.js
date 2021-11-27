@@ -227,7 +227,7 @@ const Navbar = (props) => {
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a onClick={onLogout} class="nav-link">
+                    <a onClick={onLogout} class="nav-link cursor-pointer">
                       <i data-feather="log-out"></i>
                       <span>Log Out</span>
                     </a>

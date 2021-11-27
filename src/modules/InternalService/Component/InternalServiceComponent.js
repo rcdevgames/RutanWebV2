@@ -1,6 +1,10 @@
 import React from "react";
+import { Field } from "redux-form";
+import CInput from "../../../components/CInput/CInput";
+import CSelect from "../../../components/CSelect/CSelect";
 
-const InternalServiceComponent = () => {
+const InternalServiceComponent = (props) => {
+  const { handleSubmit, submitForm } = props;
   return (
     <div class="page-content">
       <div class="mt-5">
@@ -8,12 +12,12 @@ const InternalServiceComponent = () => {
           <div class="col-md-12 grid-margin">
             <div class="card">
               <div class="card-body">
-                <h6 class="card-title">Buat Internal Service</h6>
+                <h6 class="card-title">Tambah Internal Service</h6>
                 <p class="card-description">
                   Form yang ditujukan untuk pembuatan internal service baru yang
                   akan dikerjakan oleh teknisi.
                 </p>
-                <form class="forms-sample">
+                <form class="forms-sample" onSubmit={handleSubmit(submitForm)}>
                   <div class="form-group row">
                     <div class="col">
                       <div class="form-group">
@@ -50,41 +54,76 @@ const InternalServiceComponent = () => {
                     <div class="col-md-4"></div>
                     <div class="col-md-8">
                       <label>Job Perform</label>
-                      <textarea
+                      {/* <textarea
                         id="maxlength-textarea"
                         class="form-control"
                         maxlength="100"
                         rows="8"
                         placeholder="This textarea has a limit of 100 chars."
-                      ></textarea>
+                      ></textarea> */}
+                      <Field
+                        name="jobPerform"
+                        label="Job Perform"
+                        component={CInput}
+                        typeComponent="textarea"
+                      />
                     </div>
                   </div>
                   <div class="form-group row">
                     <div class="col-md-4">
-                      <label>Pilih Karyawan</label>
-                      <select class="w-100" data-width="100%">
+                      {/* <select class="js-example-basic-single w-100" data-width="100%">
                         <option value="TX">Repair</option>
                         <option value="NY">Troubleshoot</option>
-                      </select>
+                      </select> */}
+                      <Field
+                        data={[1, 2, 3, 4]}
+                        name="employee"
+                        label="Pilih Karyawan"
+                        component={CSelect}
+                      />
                     </div>
                     <div class="col-md-4">
-                      <label>NIK</label>
-                      <input disabled class="form-control" />
+                      <Field
+                        name="nik"
+                        label="NIK"
+                        placeholder="-"
+                        component={CInput}
+                        type="text"
+                        disabled
+                      />
                     </div>
                     <div class="col-md-4">
-                      <label>No. Telepon</label>
-                      <input class="form-control mb-4 mb-md-0" disabled />
+                      <Field
+                        name="phoneNumber"
+                        label="No. Telepon"
+                        placeholder="-"
+                        component={CInput}
+                        type="text"
+                        disabled
+                      />
                     </div>
                   </div>
                   <div class="form-group row">
                     <div class="col-md-4"></div>
                     <div class="col-md-4">
-                      <label>Nama Provinsi</label>
-                      <input class="form-control" disabled />
+                      <Field
+                        name="provinceName"
+                        label="Nama Provinsi"
+                        placeholder="-"
+                        component={CInput}
+                        type="text"
+                        disabled
+                      />
                     </div>
                     <div class="col-md-4">
-                      <label>Nama Kota/Kabupaten</label>
-                      <input class="form-control mb-4 mb-md-0" disabled />
+                      <Field
+                        name="cityName"
+                        label="Nama Kota/Kabupaten"
+                        placeholder="-"
+                        component={CInput}
+                        type="text"
+                        disabled
+                      />
                     </div>
                   </div>
                   <div class="form-group row">
@@ -96,31 +135,67 @@ const InternalServiceComponent = () => {
                       </select>
                     </div>
                     <div class="col-md-2">
-                      <label>No. Telepon</label>
-                      <input class="form-control" disabled />
+                      <Field
+                        name="customerPhoneNumber"
+                        label="No. Telepon"
+                        placeholder="-"
+                        component={CInput}
+                        type="text"
+                        disabled
+                      />
                     </div>
                     <div class="col-md-2">
-                      <label>PIC</label>
-                      <input class="form-control mb-4 mb-md-0" disabled />
+                      <Field
+                        name="picCustomer"
+                        label="PIC"
+                        placeholder="-"
+                        component={CInput}
+                        type="text"
+                        disabled
+                      />
                     </div>
                     <div class="col-md-4">
-                      <label>Alamat</label>
-                      <input class="form-control mb-4 mb-md-0" disabled />
+                      <Field
+                        name="customerAddress"
+                        label="Alamat"
+                        placeholder="-"
+                        component={CInput}
+                        type="text"
+                        disabled
+                      />
                     </div>
                   </div>
                   <div class="form-group row">
                     <div class="col-md-4"></div>
                     <div class="col-md-2">
-                      <label>PIC Telepon</label>
-                      <input class="form-control mb-4 mb-md-0" disabled />
+                      <Field
+                        name="picPhoneNumber"
+                        label="PIC Telepon"
+                        placeholder="-"
+                        component={CInput}
+                        type="text"
+                        disabled
+                      />
                     </div>
                     <div class="col-md-2">
-                      <label>Nama Provinsi</label>
-                      <input class="form-control" disabled />
+                      <Field
+                        name="customerProvinceName"
+                        label="Nama Provinsi"
+                        placeholder="-"
+                        component={CInput}
+                        type="text"
+                        disabled
+                      />
                     </div>
                     <div class="col-md-4">
-                      <label>Nama Kota/Kabupaten</label>
-                      <input class="form-control" disabled />
+                      <Field
+                        name="customerCityName"
+                        label="Nama Kota/Kabupaten"
+                        placeholder="-"
+                        component={CInput}
+                        type="text"
+                        disabled
+                      />
                     </div>
                   </div>
                   <div class="form-group row">

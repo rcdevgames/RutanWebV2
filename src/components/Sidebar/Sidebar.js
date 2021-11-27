@@ -99,7 +99,7 @@ const Sidebar = () => {
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/list-service">
+              <a class="nav-link" href="/list-services">
                 <i class="link-icon" data-feather="list"></i>
                 <span class="link-title">List Service</span>
               </a>

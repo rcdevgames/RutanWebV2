@@ -3,7 +3,9 @@ import LoginComponent from "../Component/LoginComponent";
 import { reduxForm, reset } from "redux-form"; // imported Field
 import { connect } from "react-redux";
 import * as AuthActions from "../Store/AuthAction";
+import * as AuthSelector from "../Selector/AuthSelector";
 import * as validateForm from "../../../app/validateForm";
+import { createStructuredSelector } from "reselect";
 
 const LoginContainer = (props) => {
   const { valid } = props;
@@ -17,9 +19,12 @@ const LoginContainer = (props) => {
   return <LoginComponent submitForm={submitForm} {...props} />;
 };
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
+const mapStateToProps = createStructuredSelector({
+  // isGlobalLoading: AuthSelector.IsGlobalLoading(),
+  auth: AuthSelector.AllAuthData(),
+  error: AuthSelector.ErrorData(),
 });
+
 const mapDispatchToProps = (dispatch) => ({
   resetForm: () => {
     dispatch(reset("loginForm"));

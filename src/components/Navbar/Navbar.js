@@ -1,7 +1,7 @@
 import React from "react";
 
 const Navbar = (props) => {
-  const { onLogout } = props;
+  const { onLogout, userDetail } = props;
   return (
     <nav class="navbar">
       <a href="#" class="sidebar-toggler">
@@ -86,7 +86,7 @@ const Navbar = (props) => {
                   </div>
                   <div class="content">
                     <div class="d-flex justify-content-between align-items-center">
-                      <p>Amiah Burton</p>
+                      <p>{userDetail.fullname}</p>
                       <p class="sub-text text-muted">2 hrs ago</p>
                     </div>
                     <p class="sub-text text-muted">Project deadline</p>
@@ -198,12 +198,14 @@ const Navbar = (props) => {
             </a>
             <div class="dropdown-menu" aria-labelledby="profileDropdown">
               <div class="dropdown-header d-flex flex-column align-items-center">
-                <div class="figure mb-3">
+                {/* <div class="figure mb-3">
                   <img src="https://via.placeholder.com/80x80" alt="" />
-                </div>
+                </div> */}
                 <div class="info text-center">
-                  <p class="name font-weight-bold mb-0">Amiah Burton</p>
-                  <p class="email text-muted mb-3">amiahburton@gmail.com</p>
+                  <p class="name font-weight-bold mb-0">
+                    {userDetail.fullname.toUpperCase()}
+                  </p>
+                  <p class="email text-muted mb-3">Administrator</p>
                 </div>
               </div>
               <div class="dropdown-body">
@@ -212,18 +214,6 @@ const Navbar = (props) => {
                     <a href="pages/general/profile.html" class="nav-link">
                       <i data-feather="user"></i>
                       <span>Profile</span>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="javascript:;" class="nav-link">
-                      <i data-feather="edit"></i>
-                      <span>Edit Profile</span>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="javascript:;" class="nav-link">
-                      <i data-feather="repeat"></i>
-                      <span>Switch User</span>
                     </a>
                   </li>
                   <li class="nav-item">

@@ -1,21 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { bindActionCreators, compose } from "redux";
+import React from "react";
+import { compose } from "redux";
 
 import TemplateComponent from "../Component/TemplateComponent";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import * as authActions from "../../Auth/Store/AuthAction";
+import * as AuthSelector from "../../Auth/Selector/AuthSelector";
+import * as AppSelector from "../../App/Selector/AppSelector";
 
 const TemplateContainer = (props) => {
   return <TemplateComponent {...props} />;
 };
 const mapStateToProps = createStructuredSelector({
-  //   isGlobalLoading: SelectorComponent.IsGlobalLoading(),
+  isGlobalLoading: AppSelector.IsGlobalLoading(),
+  userDetail: AuthSelector.UserDetail(),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  //   componentAction: bindActionCreators(actionComponent, dispatch),
-  logout: () => dispatch(authActions.logout()),
+  logout: () => {
+    authActions.doLogout(dispatch);
+    // dispatch(authActions.logout());
+  },
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

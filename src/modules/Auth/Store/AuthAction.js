@@ -1,6 +1,8 @@
 import Invoke from "../../../app/axios/Invoke";
 import { store } from "../../../app/ConfigureStore";
 import history from "../../../app/History";
+import { toastr } from "react-redux-toastr";
+import { setGlobalLoading } from "../../App/Store/ComponentAction";
 
 export const SET_ACCESS_TOKEN_DATA = "SET_ACCESS_TOKEN_DATA";
 export const SET_USER_DETAIL_DATA = "SET_USER_DETAIL_DATA";
@@ -30,6 +32,18 @@ export const logout = () => {
   };
 };
 
+export const doLogout = (dispatch) => {
+  const toastrConfirmOptions = {
+    onOk: () => {
+      dispatch(logout());
+    },
+    okText: "Ya",
+    cancelText: "Tidak",
+  };
+
+  toastr.confirm("Apakah Anda Yakin Ingin Keluar?", toastrConfirmOptions);
+};
+
 const appendItem = (data) =>
   new Promise((resolve, reject) => {
     store.dispatch(setAccessToken(data.data.callback.accessToken));
@@ -42,12 +56,15 @@ export const handleSubmitLogin = async (values) => {
   const { username, password } = values;
   const payload = { username, password };
 
+  store.dispatch(setGlobalLoading(true));
+
   Invoke.submitLogin(payload)
     .then((data) => {
       appendItem(data).then(() => {
         setTimeout(() => {
           history.push("/");
           window.location.reload();
+          store.dispatch(setGlobalLoading(false));
         }, 1500);
       });
     })
@@ -66,6 +83,7 @@ export const handleSubmitLogin = async (values) => {
           error.message = dataResponseRejected.message;
           store.dispatch(setErrorLogin(error));
         }
+        store.dispatch(setGlobalLoading(false));
       }
     });
 };

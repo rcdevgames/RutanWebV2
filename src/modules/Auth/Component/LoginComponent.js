@@ -3,7 +3,7 @@ import { Field } from "redux-form";
 import CInput from "../../../components/CInput/CInput";
 
 const LoginComponent = (props) => {
-  const { handleSubmit, submitForm, onRejectedLogin } = props;
+  const { handleSubmit, submitForm, error } = props;
 
   return (
     <div class="page-content d-flex align-items-center justify-content-center">
@@ -45,10 +45,8 @@ const LoginComponent = (props) => {
                       />
                     </div>
 
-                    {onRejectedLogin && (
-                      <span className="mt-2 text-danger">
-                        {"This field required"}
-                      </span>
+                    {error.status && (
+                      <span className="mt-2 text-danger">{error.message}</span>
                     )}
 
                     <div class="mt-3">

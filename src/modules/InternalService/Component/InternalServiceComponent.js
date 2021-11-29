@@ -1,5 +1,6 @@
 import React from "react";
 import { Field } from "redux-form";
+import CDatePicker from "../../../components/CDatePicker/CDatePicker";
 import CInput from "../../../components/CInput/CInput";
 import CSelect from "../../../components/CSelect/CSelect";
 
@@ -30,37 +31,25 @@ const InternalServiceComponent = (props) => {
                     </div>
                     <div class="col-md-4">
                       <label>Tanggal Mulai</label>
-                      <div class="input-group date datepicker" id="start_date">
-                        <input type="text" class="form-control" />
-                        <span class="input-group-addon">
-                          <i data-feather="calendar"></i>
-                        </span>
-                      </div>
+                      <Field
+                        name="endDate"
+                        label="Tanggal Akhir"
+                        component={CDatePicker}
+                      />
                     </div>
                     <div class="col-md-4">
                       <label>Tanggal Akhir</label>
-                      <div
-                        class="input-group date datepicker"
-                        id="datePickerExample"
-                      >
-                        <input type="text" class="form-control" />
-                        <span class="input-group-addon">
-                          <i data-feather="calendar"></i>
-                        </span>
-                      </div>
+                      <Field
+                        name="endDate"
+                        label="Tanggal Akhir"
+                        component={CDatePicker}
+                      />
                     </div>
                   </div>
                   <div class="form-group row">
                     <div class="col-md-4"></div>
                     <div class="col-md-8">
                       <label>Job Perform</label>
-                      {/* <textarea
-                        id="maxlength-textarea"
-                        class="form-control"
-                        maxlength="100"
-                        rows="8"
-                        placeholder="This textarea has a limit of 100 chars."
-                      ></textarea> */}
                       <Field
                         name="jobPerform"
                         label="Job Perform"
@@ -71,10 +60,6 @@ const InternalServiceComponent = (props) => {
                   </div>
                   <div class="form-group row">
                     <div class="col-md-4">
-                      {/* <select class="js-example-basic-single w-100" data-width="100%">
-                        <option value="TX">Repair</option>
-                        <option value="NY">Troubleshoot</option>
-                      </select> */}
                       <Field
                         data={[1, 2, 3, 4]}
                         name="employee"

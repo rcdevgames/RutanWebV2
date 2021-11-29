@@ -6,11 +6,13 @@ import history from "./History";
 import authReducer from "../modules/Auth/Store/AuthReducer";
 import listServicesReducer from "../modules/ListServices/Store/ListServicesReducer";
 import ComponentReducer from "../modules/App/Store/ComponentReducer";
+import adminReducer from "../modules/Admin/Store/AdminReducer";
 
 const rootReducers = combineReducers({
   router: connectRouter(history),
   auth: authReducer,
   services: listServicesReducer,
+  admins: adminReducer,
   component: ComponentReducer,
   form: formReducer,
   toastr: toastrReducer,

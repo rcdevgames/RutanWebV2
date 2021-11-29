@@ -4,7 +4,7 @@ export const initialState = {
   listServices: [],
 };
 
-export default function authReducer(state = initialState, action) {
+export default function listServiceReducer(state = initialState, action) {
   const newState = Object.assign({}, state);
   // eslint-disable-next-line default-case
   switch (action.type) {

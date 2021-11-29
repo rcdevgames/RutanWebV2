@@ -67,18 +67,20 @@ const ListServicesComponent = (props) => {
                                   item["created_date"].length - 6
                                 )}
                               </td>
-                              <td>
-                                <CButtonIcon
-                                  type="warning"
-                                  icon="edit"
-                                ></CButtonIcon>
-                              </td>
-                              <td>
-                                <CButtonIcon
-                                  type="danger"
-                                  icon="trash"
-                                ></CButtonIcon>
-                              </td>
+                              <div class="row mt-2">
+                                <div class="ml-4">
+                                  <CButtonIcon
+                                    type="warning"
+                                    icon="edit"
+                                  ></CButtonIcon>
+                                </div>
+                                <div class="ml-2">
+                                  <CButtonIcon
+                                    type="danger"
+                                    icon="trash"
+                                  ></CButtonIcon>
+                                </div>
+                              </div>
                             </tr>
                           );
                         })}

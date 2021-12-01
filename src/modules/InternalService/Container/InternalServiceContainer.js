@@ -3,9 +3,13 @@ import { connect } from "react-redux";
 import { reduxForm, reset } from "redux-form";
 import InternalServiceComponent from "../Component/InternalServiceComponent";
 import * as validateForm from "../../../app/validateForm";
+import * as CustomerActions from "../../Customers/Store/CustomersActions";
 
 const InternalServiceContainer = (props) => {
-  const { valid } = props;
+  const {
+    valid,
+    customers: { listCustomers },
+  } = props;
 
   const submitForm = (values) => {
     if (valid) {
@@ -13,11 +17,42 @@ const InternalServiceContainer = (props) => {
       console.log("success");
     }
   };
-  return <InternalServiceComponent submitForm={submitForm} {...props} />;
+
+  React.useEffect(() => {
+    CustomerActions.loadCustomerListData();
+  }, []);
+
+  const SelectCustomerData = [];
+  listCustomers.map((item, index) => {
+    SelectCustomerData.push({
+      id: `customer-${index}`,
+      value: item.id,
+      label: item.name,
+    });
+  });
+
+  const SelectEmployeeData = [];
+  listCustomers.map((item, index) => {
+    SelectEmployeeData.push({
+      id: `employee-${index}`,
+      value: item.id,
+      label: item.name,
+    });
+  });
+
+  return (
+    <InternalServiceComponent
+      listCustomers={SelectCustomerData}
+      listEmployee={SelectEmployeeData}
+      submitForm={submitForm}
+      {...props}
+    />
+  );
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  customers: state.customers,
 });
 const mapDispatchToProps = (dispatch) => ({
   resetForm: () => {

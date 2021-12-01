@@ -1,11 +1,12 @@
 import React from "react";
 import { Field } from "redux-form";
 import CDatePicker from "../../../components/CDatePicker/CDatePicker";
+import CDateRangeAntd from "../../../components/CDateRangeAntd/CDateRangeAntd";
 import CInput from "../../../components/CInput/CInput";
-import CSelect from "../../../components/CSelect/CSelect";
+import CSelectAntd from "../../../components/CSelect/CSelectAntd";
 
 const InternalServiceComponent = (props) => {
-  const { handleSubmit, submitForm } = props;
+  const { handleSubmit, submitForm, listCustomers, listEmployee } = props;
   return (
     <div class="page-content">
       <div class="mt-5">
@@ -29,20 +30,12 @@ const InternalServiceComponent = (props) => {
                         </select>
                       </div>
                     </div>
+                    <div class="col-md-4"></div>
                     <div class="col-md-4">
-                      <label>Tanggal Mulai</label>
                       <Field
                         name="endDate"
-                        label="Tanggal Akhir"
-                        component={CDatePicker}
-                      />
-                    </div>
-                    <div class="col-md-4">
-                      <label>Tanggal Akhir</label>
-                      <Field
-                        name="endDate"
-                        label="Tanggal Akhir"
-                        component={CDatePicker}
+                        label="Tanggal Mulai - Tanggal Akhir"
+                        component={CDateRangeAntd}
                       />
                     </div>
                   </div>
@@ -61,10 +54,10 @@ const InternalServiceComponent = (props) => {
                   <div class="form-group row">
                     <div class="col-md-4">
                       <Field
-                        data={[1, 2, 3, 4]}
+                        data={listEmployee}
                         name="employee"
                         label="Pilih Karyawan"
-                        component={CSelect}
+                        component={CSelectAntd}
                       />
                     </div>
                     <div class="col-md-4">
@@ -113,11 +106,12 @@ const InternalServiceComponent = (props) => {
                   </div>
                   <div class="form-group row">
                     <div class="col-md-4">
-                      <label>Pilih Customer</label>
-                      <select class="w-100" data-width="100%">
-                        <option value="TX">Repair</option>
-                        <option value="NY">Troubleshoot</option>
-                      </select>
+                      <Field
+                        data={listCustomers}
+                        name="customer"
+                        label="Pilih Customer"
+                        component={CSelectAntd}
+                      />
                     </div>
                     <div class="col-md-2">
                       <Field

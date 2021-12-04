@@ -144,4 +144,34 @@ Invoke.deleteRoleById = (customerId) => {
 };
 // === End Roles API ===
 
+// === Master Province API === :
+Invoke.getProvinceList = (page, limit) => {
+  return ConfigAxios.get(`/provinces?page=${page}&limit=${limit}`);
+};
+
+// Invoke.getEmployeeById = (employeeId) => {
+//   return ConfigAxios.get(`/employees/${employeeId}`);
+// };
+
+// Invoke.addEmployee = (data) => {
+//   return ConfigAxios.post("/employees", data);
+// };
+
+// Invoke.updateEmployee = (data) => {
+//   return ConfigAxios.put("/employees", data);
+// };
+
+// Invoke.deleteEmployeeById = (employeeId) => {
+//   return ConfigAxios.delete(`/employees/${employeeId}`);
+// };
+// === End Master Province API ===
+
+// === Master Cities API === :
+Invoke.getCityList = (page, limit, provinceId) => {
+  return ConfigAxios.get(
+    `/provinces/cities/${provinceId}?page=${page}&limit=${limit}`
+  );
+};
+// === End Master Cities API ===
+
 export default Invoke;

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import history from "../../app/History";
 
 const Sidebar = () => {
   return (
@@ -87,7 +88,13 @@ const Sidebar = () => {
             </li>
             <li class="nav-item nav-category">Service Repair</li>
             <li class="nav-item">
-              <a class="nav-link" href="/new-internal-service">
+              <a
+                class="nav-link"
+                onClick={() => {
+                  history.push("/new-internal-service");
+                  window.location.reload();
+                }}
+              >
                 <i class="link-icon" data-feather="file-plus"></i>
                 <span class="link-title">Internal Service</span>
               </a>

@@ -1,12 +1,20 @@
 import React from "react";
 import { Field } from "redux-form";
-import CDatePicker from "../../../components/CDatePicker/CDatePicker";
-import CDateRangeAntd from "../../../components/CDateRangeAntd/CDateRangeAntd";
+import { Form } from "antd";
 import CInput from "../../../components/CInput/CInput";
-import CSelectAntd from "../../../components/CSelect/CSelectAntd";
+import CSelect from "../../../components/CSelect/CSelect";
+import CDatePicker from "../../../components/CDatePicker/CDatePicker";
 
 const InternalServiceComponent = (props) => {
-  const { handleSubmit, submitForm, listCustomers, listEmployee } = props;
+  const {
+    handleSubmit,
+    submitForm,
+    listCustomers,
+    listEmployee,
+    enumType,
+    handleAutoPopulateEmployee,
+    handleAutoPopulateCustomer,
+  } = props;
   return (
     <div class="page-content">
       <div class="mt-5">
@@ -19,45 +27,41 @@ const InternalServiceComponent = (props) => {
                   Form yang ditujukan untuk pembuatan internal service baru yang
                   akan dikerjakan oleh teknisi.
                 </p>
-                <form class="forms-sample" onSubmit={handleSubmit(submitForm)}>
-                  <div class="form-group row">
+                <Form onSubmit={handleSubmit(submitForm)}>
+                  <div class="row">
                     <div class="col">
-                      <div class="form-group">
-                        <label>Tipe</label>
-                        <select class="w-100" data-width="100%">
-                          <option value="TX">Repair</option>
-                          <option value="NY">Troubleshoot</option>
-                        </select>
-                      </div>
+                      <CSelect data={enumType} name="type" label="Tipe" />
                     </div>
-                    <div class="col-md-4"></div>
                     <div class="col-md-4">
-                      <Field
-                        name="endDate"
-                        label="Tanggal Mulai - Tanggal Akhir"
-                        component={CDateRangeAntd}
-                      />
+                      <CDatePicker name="startDate" label="Tanggal Mulai" />
+                    </div>
+                    <div class="col-md-4">
+                      <CDatePicker name="endDate" label="Tanggal Akhir" />
                     </div>
                   </div>
-                  <div class="form-group row">
+                  <div class="row">
                     <div class="col-md-4"></div>
-                    <div class="col-md-8">
-                      <label>Job Perform</label>
+                    <div class="col-md-12">
                       <Field
                         name="jobPerform"
                         label="Job Perform"
                         component={CInput}
                         typeComponent="textarea"
+                        placeholder="Masukan job perform teknisi"
                       />
                     </div>
                   </div>
-                  <div class="form-group row">
+                  <hr />
+                  <div class="row">
                     <div class="col-md-4">
-                      <Field
+                      <CSelect
+                        showSearch
                         data={listEmployee}
                         name="employee"
                         label="Pilih Karyawan"
-                        component={CSelectAntd}
+                        onChange={(employee) => {
+                          handleAutoPopulateEmployee(employee);
+                        }}
                       />
                     </div>
                     <div class="col-md-4">
@@ -72,7 +76,7 @@ const InternalServiceComponent = (props) => {
                     </div>
                     <div class="col-md-4">
                       <Field
-                        name="phoneNumber"
+                        name="employeePhoneNumber"
                         label="No. Telepon"
                         placeholder="-"
                         component={CInput}
@@ -81,11 +85,11 @@ const InternalServiceComponent = (props) => {
                       />
                     </div>
                   </div>
-                  <div class="form-group row">
+                  <div class="row">
                     <div class="col-md-4"></div>
                     <div class="col-md-4">
                       <Field
-                        name="provinceName"
+                        name="employeeProvinceName"
                         label="Nama Provinsi"
                         placeholder="-"
                         component={CInput}
@@ -95,7 +99,7 @@ const InternalServiceComponent = (props) => {
                     </div>
                     <div class="col-md-4">
                       <Field
-                        name="cityName"
+                        name="employeeCityName"
                         label="Nama Kota/Kabupaten"
                         placeholder="-"
                         component={CInput}
@@ -104,13 +108,17 @@ const InternalServiceComponent = (props) => {
                       />
                     </div>
                   </div>
-                  <div class="form-group row">
+                  <hr />
+                  <div class="row">
                     <div class="col-md-4">
-                      <Field
+                      <CSelect
+                        showSearch
                         data={listCustomers}
                         name="customer"
                         label="Pilih Customer"
-                        component={CSelectAntd}
+                        onChange={(employee) => {
+                          handleAutoPopulateCustomer(employee);
+                        }}
                       />
                     </div>
                     <div class="col-md-2">
@@ -144,7 +152,7 @@ const InternalServiceComponent = (props) => {
                       />
                     </div>
                   </div>
-                  <div class="form-group row">
+                  <div class="row">
                     <div class="col-md-4"></div>
                     <div class="col-md-2">
                       <Field
@@ -177,7 +185,7 @@ const InternalServiceComponent = (props) => {
                       />
                     </div>
                   </div>
-                  <div class="form-group row">
+                  <div class="row">
                     <div class="col-md-12">
                       <label>Lokasi</label>
                       <textarea
@@ -189,7 +197,7 @@ const InternalServiceComponent = (props) => {
                       ></textarea>
                     </div>
                   </div>
-                  <div class="form-group row">
+                  <div class="mt-4 row">
                     <div class="col-md-12">
                       <input
                         class="btn btn-primary"
@@ -198,7 +206,7 @@ const InternalServiceComponent = (props) => {
                       />
                     </div>
                   </div>
-                </form>
+                </Form>
               </div>
             </div>
           </div>

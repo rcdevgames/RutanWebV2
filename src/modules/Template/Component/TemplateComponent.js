@@ -4,7 +4,7 @@ import Sidebar from "../../../components/Sidebar/Sidebar";
 import Footer from "../../../components/Footer/Footer";
 import Navbar from "../../../components/Navbar/Navbar";
 
-export default function TemplateComponent(props) {
+const TemplateComponent = (props) => {
   const { children, isGlobalLoading, isLandingPage, logout, userDetail } =
     props;
 
@@ -19,4 +19,6 @@ export default function TemplateComponent(props) {
       </div>
     </React.Fragment>
   );
-}
+};
+
+export default TemplateComponent;

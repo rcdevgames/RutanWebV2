@@ -14,22 +14,27 @@ interface IProps {
   meta: { error: any; touched: any };
   disabled: boolean;
   maxLength: number;
+  rows: number;
 }
 
 const CInput: React.FC<IProps> = (props) => {
   switch (props.typeComponent) {
     case "textarea":
       return (
-        <textarea
-          id={props.name}
-          className={`form-control ${props.error && "is-invalid"}`}
-          maxLength={props.maxLength ?? 250}
-          rows={8}
-          name={props.name}
-          onChange={props.onChange}
-          placeholder={props.placeholder ?? ""}
-          value={props.value}
-        ></textarea>
+        <div className="form-group">
+          <label htmlFor={props.name}>{props.label}</label>
+          <textarea
+            id={props.name}
+            className={`form-control ${props.error && "is-invalid"}`}
+            maxLength={props.maxLength ?? 250}
+            rows={props.rows ?? 8}
+            name={props.name}
+            onChange={props.onChange}
+            placeholder={props.placeholder ?? ""}
+            value={props.value}
+            {...props.input}
+          ></textarea>
+        </div>
       );
     default:
       return (

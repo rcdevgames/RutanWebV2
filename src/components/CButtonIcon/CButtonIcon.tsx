@@ -17,6 +17,9 @@ interface IProps {
 const CButtonIcon: React.FC<IProps> = (props) => {
   return (
     <button
+      style={{
+        width: "auto",
+      }}
       onClick={props.onPress}
       type="button"
       className={`btn btn-${props.type} btn-icon`}

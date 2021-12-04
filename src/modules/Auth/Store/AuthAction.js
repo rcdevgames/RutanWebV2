@@ -69,6 +69,7 @@ export const handleSubmitLogin = async (values) => {
       });
     })
     .catch((onRejected) => {
+      store.dispatch(setGlobalLoading(false));
       if (onRejected) {
         const status = onRejected.response.data.status;
         const dataResponseRejected = onRejected.response.data;
@@ -83,7 +84,6 @@ export const handleSubmitLogin = async (values) => {
           error.message = dataResponseRejected.message;
           store.dispatch(setErrorLogin(error));
         }
-        store.dispatch(setGlobalLoading(false));
       }
     });
 };

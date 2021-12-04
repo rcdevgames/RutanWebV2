@@ -10,6 +10,7 @@ export default function ComponentReducer(state = initialState, action) {
   }
   const newState = Object.assign({}, state);
 
+  // eslint-disable-next-line default-case
   switch (action.type) {
     case PROCESS_GLOBAL_LOADING: {
       newState.isLoadingGlobal = action.payload;

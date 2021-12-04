@@ -30,24 +30,24 @@ const AdminComponent = (props) => {
                       {listAdmin.length > 0 &&
                         listAdmin.map((item, index) => {
                           return (
-                            <tr className="text-left">
+                            <tr
+                              key={`list-admin-${index}`}
+                              className="text-left"
+                            >
                               <td>{index + 1}</td>
                               <td>{item.username}</td>
                               <td>{item.fullname}</td>
                               <td>{item["created_date"]}</td>
                               <div class="row mt-2">
-                                <div class="ml-4">
-                                  <CButtonIcon
-                                    type="warning"
-                                    icon="edit"
-                                  ></CButtonIcon>
-                                </div>
-                                <div class="ml-2">
-                                  <CButtonIcon
-                                    type="danger"
-                                    icon="trash"
-                                  ></CButtonIcon>
-                                </div>
+                                <CButtonIcon
+                                  onPress={() => {
+                                    console.log("=== Test : ", index);
+                                  }}
+                                  type="warning"
+                                  icon="edit"
+                                />
+                                <div class="ml-4" />
+                                <CButtonIcon type="danger" icon="trash" />
                               </div>
                             </tr>
                           );

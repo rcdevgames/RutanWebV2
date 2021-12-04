@@ -19,7 +19,6 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch) => ({
   logout: () => {
     authActions.doLogout(dispatch);
-    // dispatch(authActions.logout());
   },
 });
 

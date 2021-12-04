@@ -14,13 +14,12 @@ interface IProps {
   name: any;
   label: string;
   placeholder: string;
+  onChange: any;
+  input: any;
+  custom: any;
 }
 
 const CSelectAntd: React.FC<IProps> = (props) => {
-  const onChange = (value: any) => {
-    console.log(`selected ${value}`);
-  };
-
   const onBlur = () => {
     console.log("blur");
   };
@@ -41,18 +40,19 @@ const CSelectAntd: React.FC<IProps> = (props) => {
         </div>
       )}
       <Select
-        fieldNames={props.name}
         showSearch
-        style={{ width: 200 }}
+        style={{ width: 200, marginBottom: 16 }}
         placeholder={props.placeholder ?? ""}
         optionFilterProp="children"
-        onChange={onChange}
+        onChange={props.onChange}
         onFocus={onFocus}
         onBlur={onBlur}
         onSearch={onSearch}
         filterOption={(input: any, option: any) =>
           option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
         }
+        {...props.input}
+        {...props.custom}
       >
         {props.data.map((item: any, index: number) => {
           return (

@@ -15,11 +15,6 @@ export const validateFormLogin = (values) => {
 
 export const validateFormInternalService = (values) => {
   const errors = {};
-  if (!values.nik) {
-    errors.nik = "NIK wajib ada!";
-  } else if (values.nik.length < 5) {
-    errors.nik = "Minimal 5 karakter!";
-  }
   if (!values.typeService) {
     errors.typeService = "Tipe service wajib diisi!";
   }
@@ -36,10 +31,10 @@ export const validateFormInternalService = (values) => {
     errors.employee = "Wajib pilih karyawan!";
   }
   if (!values.customer) {
-    errors.customer = "Wajib pilih custome!r";
+    errors.customer = "Wajib pilih customer";
   }
-  if (!values.location) {
-    errors.location = "Lokasi wajib diisi!";
+  if (!values.customerLocation) {
+    errors.customerLocation = "Lokasi wajib diisi!";
   }
   return errors;
 };

@@ -18,8 +18,8 @@ const InternalServiceContainer = (props) => {
 
   const submitForm = (values) => {
     if (valid) {
-      // AuthActions.handleSubmitLogin(values);
-      console.log("success");
+      InternalServiceActions.handleSubmitForm(values);
+    } else {
     }
   };
 
@@ -28,7 +28,6 @@ const InternalServiceContainer = (props) => {
     EmployeeActions.loadEmployeeListData();
     MasterDataActions.loadProvinceListData();
     return () => {
-      console.log("=== reset Form");
       resetForm();
     };
   }, []);

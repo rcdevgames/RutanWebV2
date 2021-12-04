@@ -1,5 +1,8 @@
+import moment from "moment";
 import { change } from "redux-form";
 import { store } from "../../../app/ConfigureStore";
+import { v4 as uuidv4 } from "uuid";
+import Invoke from "../../../app/axios/Invoke";
 
 const getEmployeeByIdFromReducer = async (employeeId, type) => {
   const { getState } = store;
@@ -47,9 +50,6 @@ export const setAutoPopulateEmployee = async (employeeId) => {
     store.dispatch(
       change("internalServiceForm", "employeeDetailProvince", provinceData)
     );
-    // store.dispatch(
-    //   change("internalServiceForm", "employeeCityName", detailEmployee.nik)
-    // );
   } catch (error) {
     console.log("process error");
     console.log(error);
@@ -89,36 +89,41 @@ export const setAutoPopulateCustomer = async (customerId) => {
       change("internalServiceForm", "customerDetailProvince", provinceData)
     );
   } catch (error) {
-    console.log("process error");
     console.log(error);
   }
 };
 
-const handleSubmitForm = (values) => {
+export const handleSubmitForm = async (values) => {
+  const splitEmployeeId = values.employee.split("|");
+  const splitCustomerId = values.customer.split("|");
+  const splitTypeId = values.typeService.split("|");
   const payload = {
-    customer_id: "f9e37843-6bdc-4b6c-97a8-0df4c5a4e66f",
-    job_form_id: "b1546af9-9be8-4704-b935-294820d5e127",
+    customer_id: splitCustomerId[0],
+    job_form_id: uuidv4(),
     identification_id: null,
-    type: "T1",
+    type: splitTypeId[0],
     status: "S1",
     is_external: "false",
-    location: "in the house",
-    start: "2021-03-02",
-    due: "2021-03-09",
-    job_perform: "job perform",
-    warranty: "true",
-    warranty_month: "10",
-    warranty_year: "2021",
-    units: [
-      {
-        unit_model_id: "ddfd2436-423f-46f6-b880-ed3fb11a89fb",
-      },
-    ],
+    location: values.customerLocation,
+    start: moment(values.startDate).format("YYYY-MM-DD"),
+    due: moment(values.endDate).format("YYYY-MM-DD"),
+    job_perform: values.jobPerform,
+    warranty: "false",
+    warranty_month: "", // null because internal services
+    warranty_year: "", // null because internal services
+    units: [], // empty array because internal services
     employees: [
       {
-        employee_id: "16836301-fe52-4627-90bd-198cc2f0d2ba",
+        employee_id: splitEmployeeId[0],
         active: "true",
       },
     ],
   };
+
+  try {
+    await Invoke.addInternalService(payload);
+    console.log("=== Success insert services");
+  } catch (error) {
+    console.log(error);
+  }
 };

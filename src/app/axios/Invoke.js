@@ -174,4 +174,10 @@ Invoke.getCityList = (page, limit, provinceId) => {
 };
 // === End Master Cities API ===
 
+// === Services API ===
+Invoke.addInternalService = (data) => {
+  return ConfigAxios.post("/services", data);
+};
+// === End Service API ===
+
 export default Invoke;

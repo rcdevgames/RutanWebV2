@@ -34,6 +34,11 @@ const CInput: React.FC<IProps> = (props) => {
             value={props.value}
             {...props.input}
           ></textarea>
+          {props.meta.touched && props.meta.error && (
+            <span className="mt-2 text-danger">
+              {props.meta.error ?? "This field required"}
+            </span>
+          )}
         </div>
       );
     default:

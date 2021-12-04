@@ -4,7 +4,7 @@ import moment from "moment";
 import { Field } from "redux-form";
 
 const RenderDatePicker = (props) => {
-  const { name, input, label } = props;
+  const { name, input, label, meta } = props;
 
   return (
     <div>
@@ -19,6 +19,11 @@ const RenderDatePicker = (props) => {
         defaultValue={moment()}
         {...input}
       />
+      {meta.touched && meta.error && (
+        <span className="mt-2 text-danger">
+          {meta.error ?? "This field required"}
+        </span>
+      )}
     </div>
   );
 };

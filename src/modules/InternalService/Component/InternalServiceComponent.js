@@ -1,6 +1,5 @@
 import React from "react";
-import { Field } from "redux-form";
-import { Form } from "antd";
+import { Field, Form } from "redux-form";
 import CInput from "../../../components/CInput/CInput";
 import CSelect from "../../../components/CSelect/CSelect";
 import CDatePicker from "../../../components/CDatePicker/CDatePicker";
@@ -29,19 +28,19 @@ const InternalServiceComponent = (props) => {
                 </p>
                 <Form onSubmit={handleSubmit(submitForm)}>
                   <div class="row">
-                    <div class="col">
-                      <CSelect data={enumType} name="type" label="Tipe" />
+                    <div class="col-md-4 mt-2">
+                      <CSelect data={enumType} name="typeService" label="Tipe" />
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 mt-2">
                       <CDatePicker name="startDate" label="Tanggal Mulai" />
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 mt-2">
                       <CDatePicker name="endDate" label="Tanggal Akhir" />
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-4"></div>
-                    <div class="col-md-12">
+                    <div class="col-md-12 mt-2">
                       <Field
                         name="jobPerform"
                         label="Job Perform"
@@ -187,14 +186,13 @@ const InternalServiceComponent = (props) => {
                   </div>
                   <div class="row">
                     <div class="col-md-12">
-                      <label>Lokasi</label>
-                      <textarea
-                        id="maxlength-textarea"
-                        class="form-control"
-                        maxlength="100"
-                        rows="8"
-                        placeholder="Masukan alamat lokasi lengkap"
-                      ></textarea>
+                      <Field
+                        name="customerLocation"
+                        label="Lokasi"
+                        component={CInput}
+                        typeComponent="textarea"
+                        placeholder="Masukan Lokasi Customer"
+                      />
                     </div>
                   </div>
                   <div class="mt-4 row">

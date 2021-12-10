@@ -18,6 +18,8 @@ import ListServicesContainer from "../modules/ListServices/Container/ListService
 import AdminContainer from "../modules/Admin/Container/AdminContainer";
 import NotFoundPage from "../components/NotFound/NotFound";
 import AuthMiddleware from "./AuthMiddleware";
+import DetailServiceTransactionContainer from "../modules/DetailServiceTransaction/Container/DetailServiceTransactionContainer";
+import RolesContainer from "../modules/Roles/Container/RolesContainer";
 
 export default function Navigation() {
   const authenticatedPage = (component, footerImg, footer) => {
@@ -33,6 +35,7 @@ export default function Navigation() {
   const Login = templating(LoginContainer, false);
   const NotFound = templating(NotFoundPage, false);
   const Admin = authenticatedPage(AdminContainer, true);
+  const Roles = authenticatedPage(RolesContainer, true);
   const Dashboard = authenticatedPage(DashboardContainer, true);
   const InternalService = authenticatedPage(InternalServiceContainer, true);
   const ExternalService = authenticatedPage(ExternalServiceContainer, true);
@@ -60,6 +63,7 @@ export default function Navigation() {
         <Route exact path="/" component={Dashboard} />
         <Route exact path="/auth" component={Login} />
         <Route exact path="/admin" component={Admin} />
+        <Route exact path="/roles" component={Roles} />
         <Route exact path="/new-internal-service" component={InternalService} />
         <Route exact path="/new-external-service" component={ExternalService} />
         <Route
@@ -68,6 +72,11 @@ export default function Navigation() {
           component={MonitoringEmployee}
         />
         <Route exact path="/list-services" component={ListServices} />
+        <Route
+          exact
+          path="/detail-services"
+          component={DetailServiceTransactionContainer}
+        />
         <Route path={"*"} component={NotFound} />
       </Switch>
     </>

@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import history from "../../app/History";
 
-const Sidebar = () => {
+const Sidebar = ({ role }) => {
   return (
     <div>
       <nav class="sidebar">
@@ -26,42 +26,46 @@ const Sidebar = () => {
               </a>
             </li>
             <li class="nav-item nav-category">Master Data</li>
-            <li class="nav-item">
-              <a class="nav-link" href="/admin">
-                <i class="link-icon" data-feather="user"></i>
-                <span class="link-title">Admin</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/branch" class="nav-link">
-                <i class="link-icon" data-feather="link"></i>
-                <span class="link-title">Cabang</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/employee" class="nav-link">
-                <i class="link-icon" data-feather="users"></i>
-                <span class="link-title">Karyawan</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/customer" class="nav-link">
-                <i class="link-icon" data-feather="users"></i>
-                <span class="link-title">Customer</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/division" class="nav-link">
-                <i class="link-icon" data-feather="briefcase"></i>
-                <span class="link-title">Divisi</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/role" class="nav-link">
-                <i class="link-icon" data-feather="key"></i>
-                <span class="link-title">Role</span>
-              </a>
-            </li>
+            {role !== "admin" ? null : (
+              <>
+                <li class="nav-item">
+                  <a class="nav-link" href="/admin">
+                    <i class="link-icon" data-feather="user"></i>
+                    <span class="link-title">Admin</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/branch" class="nav-link">
+                    <i class="link-icon" data-feather="link"></i>
+                    <span class="link-title">Cabang</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/employee" class="nav-link">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Karyawan</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/customer" class="nav-link">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Customer</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/division" class="nav-link">
+                    <i class="link-icon" data-feather="briefcase"></i>
+                    <span class="link-title">Divisi</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/roles" class="nav-link">
+                    <i class="link-icon" data-feather="key"></i>
+                    <span class="link-title">Role</span>
+                  </a>
+                </li>
+              </>
+            )}
             <li class="nav-item">
               <a href="/tools" class="nav-link">
                 <i class="link-icon" data-feather="tool"></i>
@@ -111,15 +115,17 @@ const Sidebar = () => {
                 <span class="link-title">List Service</span>
               </a>
             </li>
-            <li class="nav-item nav-category">Monitoring</li>
-            <li class="nav-item">
-              {/* <Link to="/monitoring-employee"> */}
-              <a class="nav-link" href="/monitoring-employee">
-                <i class="link-icon" data-feather="monitor"></i>
-                <span class="link-title">Monitoring Karyawan</span>
-              </a>
-              {/* </Link> */}
-            </li>
+            {role !== "admin" ? null : (
+              <>
+                <li class="nav-item nav-category">Monitoring</li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/monitoring-employee">
+                    <i class="link-icon" data-feather="monitor"></i>
+                    <span class="link-title">Monitoring Karyawan</span>
+                  </a>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </nav>

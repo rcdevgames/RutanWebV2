@@ -42,7 +42,11 @@ const ListServicesComponent = (props) => {
                               <td>{index + 1}</td>
                               <td>2011/04/25</td>
                               <td>
-                                <CBadgeText type={"warning"}>
+                                <CBadgeText
+                                  type={
+                                    item["is_external"] ? "success" : "info"
+                                  }
+                                >
                                   {item.type.toUpperCase()}
                                 </CBadgeText>
                               </td>

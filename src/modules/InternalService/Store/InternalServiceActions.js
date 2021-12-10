@@ -1,8 +1,10 @@
 import moment from "moment";
-import { change } from "redux-form";
+import { change, reset } from "redux-form";
 import { store } from "../../../app/ConfigureStore";
 import { v4 as uuidv4 } from "uuid";
 import Invoke from "../../../app/axios/Invoke";
+import { setGlobalFormLoading } from "../../App/Store/ComponentAction";
+import { toast } from "react-toastify";
 
 const getEmployeeByIdFromReducer = async (employeeId, type) => {
   const { getState } = store;
@@ -94,6 +96,9 @@ export const setAutoPopulateCustomer = async (customerId) => {
 };
 
 export const handleSubmitForm = async (values) => {
+  const { dispatch } = store;
+  dispatch(setGlobalFormLoading(true));
+
   const splitEmployeeId = values.employee.split("|");
   const splitCustomerId = values.customer.split("|");
   const splitTypeId = values.typeService.split("|");
@@ -121,9 +126,28 @@ export const handleSubmitForm = async (values) => {
   };
 
   try {
-    await Invoke.addInternalService(payload);
-    console.log("=== Success insert services");
+    const functionThatReturnPromise = () =>
+      new Promise((resolve, reject) => {
+        Invoke.addInternalService(payload)
+          .then(() => {
+            setTimeout(() => {
+              dispatch(setGlobalFormLoading(false));
+              dispatch(reset("internalServiceForm"));
+              resolve();
+            }, 1000);
+          })
+          .catch(() => {
+            setTimeout(reject, 1000);
+            dispatch(setGlobalFormLoading(false));
+          });
+      });
+    toast.promise(functionThatReturnPromise, {
+      pending: "Proses menyimpan data...",
+      success: "Data berhasil disimpan 👌",
+      error: "Data gagal disimpan, harap coba lagi 🤯",
+    });
   } catch (error) {
     console.log(error);
+    dispatch(setGlobalFormLoading(false));
   }
 };

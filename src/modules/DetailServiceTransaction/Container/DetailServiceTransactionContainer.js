@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
 import DetailServiceTransactionComponent from "../Component/DetailServiceTransactionComponent";
-import * as ListServiceActions from "../Store/ListServicesActions";
+import * as DetailActions from "../Store/DetailServiceTransactionAction";
 
 const DetailServiceTransaction = (props) => {
   const {
@@ -39,7 +39,7 @@ const mapStateToProps = (state) => ({
   services: state.services,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getListServices: () => ListServiceActions.getListServicesRequested(),
+  // getListServices: () => DetailActions.getListServicesRequested(),
 });
 
 const EnhanceContainer = connect(

@@ -1,10 +1,15 @@
 import React from "react";
-import { Field } from "redux-form";
+import { Field, FieldArray } from "redux-form";
 import { Form } from "antd";
 import CInput from "../../../components/CInput/CInput";
 import CSelect from "../../../components/CSelect/CSelect";
 import CDatePicker from "../../../components/CDatePicker/CDatePicker";
-import CButtonIcon from "../../../components/CButtonIcon/CButtonIcon";
+import CButtonAntd from "../../../components/CButton/CButtonAntd";
+import {
+  DeleteOutlined,
+  PlusOutlined,
+  InfoCircleTwoTone,
+} from "@ant-design/icons";
 
 const ExternalServiceComponent = (props) => {
   const {
@@ -15,10 +20,77 @@ const ExternalServiceComponent = (props) => {
     enumType,
     handleAutoPopulateEmployee,
     handleAutoPopulateCustomer,
-    handleAddNewUnit,
-    handleSubtractUnit,
-    unitData,
+    listUnit,
   } = props;
+
+  const renderUnits = ({ fields }) => {
+    const handleRemoveField = (index) => {
+      fields.remove(index);
+    };
+    return (
+      <>
+        <div class="d-flex flex-row-reverse">
+          <div class="ml-2" />
+          <CButtonAntd
+            key={`plusUnit`}
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={() => fields.push({})}
+          >
+            Tambah Unit
+          </CButtonAntd>
+        </div>
+        <br />
+        {fields.map((itemUnit, indexUnit) => {
+          return (
+            <div>
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title">{`Unit ${indexUnit + 1}`}</h5>
+                </div>
+
+                <CButtonAntd
+                  key={`removeUnits-${indexUnit}`}
+                  type="primary"
+                  icon={<DeleteOutlined />}
+                  onClick={() => handleRemoveField(indexUnit)}
+                  danger
+                  size="small"
+                />
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <CSelect
+                    data={listUnit}
+                    name={`${itemUnit}.id`}
+                    label="Pilih Unit"
+                  />
+                </div>
+                <div class="col-md-4">
+                  <CSelect
+                    data={enumType}
+                    name={`${itemUnit}.unitModelId`}
+                    label="Model"
+                  />
+                </div>
+                <div class="col-md-4">
+                  <Field
+                    name={`${itemUnit}.unitModelSerialNumber`}
+                    label="Serial Number"
+                    placeholder="-"
+                    component={CInput}
+                    type="text"
+                    disabled
+                  />
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </>
+    );
+  };
+
   return (
     <div class="page-content">
       <div class="mt-5">
@@ -33,14 +105,28 @@ const ExternalServiceComponent = (props) => {
                 </p>
                 <Form onSubmit={handleSubmit(submitForm)}>
                   <div class="row">
-                    <div class="col">
-                      <CSelect data={enumType} name="type" label="Tipe" />
+                    <div class="col-md-2">
+                      <CSelect data={enumType} name="typeService" label="Tipe" />
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                       <CDatePicker name="startDate" label="Tanggal Mulai" />
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                       <CDatePicker name="endDate" label="Tanggal Akhir" />
+                    </div>
+                    <div class="col-md-2">
+                      <CSelect
+                        data={enumType}
+                        name="jobForm"
+                        label="Job Form"
+                      />
+                    </div>
+                    <div class="col-md-2">
+                      <CSelect
+                        data={enumType}
+                        name="warranty"
+                        label="Warranty"
+                      />
                     </div>
                   </div>
                   <div class="row">
@@ -190,52 +276,14 @@ const ExternalServiceComponent = (props) => {
                     </div>
                   </div>
                   <hr />
-                  <div class="d-flex flex-row-reverse">
-                    <CButtonIcon
-                      onPress={handleSubtractUnit}
-                      type="danger"
-                      icon="minus"
-                    />
-                    <div class="ml-2" />
-                    <CButtonIcon
-                      onPress={handleAddNewUnit}
-                      type="success"
-                      icon="plus"
-                    />
+                  <div className="row">
+                    <InfoCircleTwoTone />
+                    <p className="text-small ml-2">
+                      Tips : Bisa menambahkan lebih dari satu unit.
+                    </p>
                   </div>
-                  {unitData.map((itemUnit, indexUnit) => {
-                    return (
-                      <div>
-                        <h5 class="card-title">{`Unit ${indexUnit + 1}`}</h5>
-                        <div class="row">
-                          <div class="col">
-                            <CSelect
-                              data={enumType}
-                              name={`unit|${indexUnit}`}
-                              label="Pilih Unit"
-                            />
-                          </div>
-                          <div class="col-md-4">
-                            <CSelect
-                              data={enumType}
-                              name={`modelUnit|${indexUnit}`}
-                              label="Model"
-                            />
-                          </div>
-                          <div class="col-md-4">
-                            <Field
-                              name={`unitSerialNumber|${indexUnit}`}
-                              label="Serial Number"
-                              placeholder="-"
-                              component={CInput}
-                              type="text"
-                              disabled
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
+                  <FieldArray name="units" component={renderUnits} />
+                  <hr />
                   <div class="row">
                     <div class="col-md-12">
                       <label>Lokasi</label>

@@ -3,6 +3,7 @@ import { store } from "../../../app/ConfigureStore";
 import history from "../../../app/History";
 import { toastr } from "react-redux-toastr";
 import { setGlobalLoading } from "../../App/Store/ComponentAction";
+import { initializeApp } from "../../../app/InitializeApp";
 
 export const SET_ACCESS_TOKEN_DATA = "SET_ACCESS_TOKEN_DATA";
 export const SET_USER_DETAIL_DATA = "SET_USER_DETAIL_DATA";
@@ -61,11 +62,12 @@ export const handleSubmitLogin = async (values) => {
   Invoke.submitLogin(payload)
     .then((data) => {
       appendItem(data).then(() => {
+        initializeApp();
         setTimeout(() => {
           history.push("/");
           window.location.reload();
           store.dispatch(setGlobalLoading(false));
-        }, 1500);
+        }, 5000);
       });
     })
     .catch((onRejected) => {

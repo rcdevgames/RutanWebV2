@@ -1,5 +1,5 @@
 import "react-redux-toastr/lib/css/react-redux-toastr.min.css";
-import 'antd/dist/antd.css'; 
+import "antd/dist/antd.css";
 import { ConnectedRouter } from "connected-react-router";
 import history from "./app/History";
 import { Provider } from "react-redux";

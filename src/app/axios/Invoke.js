@@ -139,8 +139,8 @@ Invoke.updateRole = (data) => {
   return ConfigAxios.put("/roles", data);
 };
 
-Invoke.deleteRoleById = (customerId) => {
-  return ConfigAxios.delete(`/roles/${customerId}`);
+Invoke.deleteRoleById = (roleId) => {
+  return ConfigAxios.delete(`/roles/${roleId}`);
 };
 // === End Roles API ===
 
@@ -179,5 +179,15 @@ Invoke.addInternalService = (data) => {
   return ConfigAxios.post("/services", data);
 };
 // === End Service API ===
+
+// === Master unit API === :
+Invoke.getUnitList = (page, limit) => {
+  return ConfigAxios.get(`/units?page=${page}&limit=${limit}`);
+};
+
+// === Master unit-model API === :
+Invoke.getListUnitModel = (page, limit, unitId) => {
+  return ConfigAxios.get(`units/models/${unitId}?page=${page}&limit=${limit}`);
+};
 
 export default Invoke;

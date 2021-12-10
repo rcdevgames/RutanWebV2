@@ -7,12 +7,14 @@ import * as CustomerActions from "../../Customers/Store/CustomersActions";
 import * as EmployeeActions from "../../Employees/Store/EmployeesActions";
 import * as MasterDataActions from "../../MasterData/Store/MasterDataActions";
 import * as InternalServiceActions from "../Store/InternalServiceActions";
+import * as ComponentAction from "../../App/Store/ComponentAction";
 
 const InternalServiceContainer = (props) => {
   const {
     valid,
     customers: { listCustomers },
     employees: { listEmployees },
+    component: { isLoadingFormGlobal },
     resetForm,
   } = props;
 
@@ -24,12 +26,13 @@ const InternalServiceContainer = (props) => {
   };
 
   React.useEffect(() => {
+    // Reset all form data and loading when first load data
+    ComponentAction.resetAllGlobalLoadingProcess();
+    // resetForm();
+
     CustomerActions.loadCustomerListData();
     EmployeeActions.loadEmployeeListData();
     MasterDataActions.loadProvinceListData();
-    return () => {
-      resetForm();
-    };
   }, []);
 
   const SelectCustomerData = [];
@@ -61,6 +64,7 @@ const InternalServiceContainer = (props) => {
       listEmployee={SelectEmployeeData}
       enumType={enumType}
       submitForm={submitForm}
+      isLoadingFormGlobal={isLoadingFormGlobal}
       {...props}
     />
   );
@@ -70,6 +74,7 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
   customers: state.customers,
   employees: state.employees,
+  component: state.component,
 });
 const mapDispatchToProps = (dispatch) => ({
   resetForm: () => {

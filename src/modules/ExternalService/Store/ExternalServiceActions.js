@@ -101,7 +101,7 @@ const handleSubmitForm = (values) => {
     identification_id: null,
     type: "T1",
     status: "S1",
-    is_external: "false",
+    is_external: "true",
     location: "in the house",
     start: "2021-03-02",
     due: "2021-03-09",

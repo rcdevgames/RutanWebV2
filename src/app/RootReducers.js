@@ -8,14 +8,18 @@ import listServicesReducer from "../modules/ListServices/Store/ListServicesReduc
 import ComponentReducer from "../modules/App/Store/ComponentReducer";
 import customersReducer from "../modules/Customers/Store/CustomersReducer";
 import adminReducer from "../modules/Admin/Store/AdminReducer";
+import rolesReducer from "../modules/Roles/Store/RolesReducer";
 import employeesReducer from "../modules/Employees/Store/EmployeesReducer";
 import masterDataReducer from "../modules/MasterData/Store/MasterDataReducer";
+import unitReducer from "../modules/Units/Store/UnitReducer";
 
 const rootReducers = combineReducers({
   router: connectRouter(history),
   auth: authReducer,
   services: listServicesReducer,
   admins: adminReducer,
+  roles: rolesReducer,
+  units: unitReducer,
   customers: customersReducer,
   employees: employeesReducer,
   component: ComponentReducer,

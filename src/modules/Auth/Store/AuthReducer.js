@@ -7,7 +7,6 @@ import {
 export const initialState = {
   accessToken: "",
   userDetail: null,
-  authRole: null,
   avatar: null,
   error: {
     status: false,

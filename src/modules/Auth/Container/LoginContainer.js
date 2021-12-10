@@ -20,7 +20,6 @@ const LoginContainer = (props) => {
 };
 
 const mapStateToProps = createStructuredSelector({
-  // isGlobalLoading: AuthSelector.IsGlobalLoading(),
   auth: AuthSelector.AllAuthData(),
   error: AuthSelector.ErrorData(),
 });

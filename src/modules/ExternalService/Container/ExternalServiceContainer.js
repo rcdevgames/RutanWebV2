@@ -7,6 +7,7 @@ import * as CustomerActions from "../../Customers/Store/CustomersActions";
 import * as EmployeeActions from "../../Employees/Store/EmployeesActions";
 import * as MasterDataActions from "../../MasterData/Store/MasterDataActions";
 import * as InternalServiceActions from "../Store/ExternalServiceActions";
+import * as UnitActions from "../../Units/Store/UnitActions";
 
 const ExternalServiceContainer = (props) => {
   const [unitQty, setUnitQty] = React.useState(1);
@@ -16,6 +17,7 @@ const ExternalServiceContainer = (props) => {
     valid,
     customers: { listCustomers },
     employees: { listEmployees },
+    units: { listUnit },
     resetForm,
   } = props;
 
@@ -68,12 +70,22 @@ const ExternalServiceContainer = (props) => {
     });
   });
 
+  const SelectUnitData = [];
+  listUnit.map((item, index) => {
+    SelectUnitData.push({
+      id: `unit-${index}`,
+      value: item.id,
+      label: item.name,
+    });
+  });
+
   const enumType = [
     { id: `enum-type-1`, value: "T1", label: "Repair" },
     { id: `enum-type-2`, value: "T2", label: "TroubleShoot" },
   ];
 
   React.useEffect(() => {
+    UnitActions.getListUnitRequested();
     let totalUnit = [];
     for (let i = 0; i < unitQty; i++) {
       totalUnit.push(i);
@@ -87,6 +99,7 @@ const ExternalServiceContainer = (props) => {
     <ExternalServiceComponent
       listCustomers={SelectCustomerData}
       listEmployee={SelectEmployeeData}
+      listUnit={SelectUnitData}
       enumType={enumType}
       submitForm={submitForm}
       handleAddNewUnit={handleAddNewUnit}
@@ -101,10 +114,11 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
   customers: state.customers,
   employees: state.employees,
+  units: state.units,
 });
 const mapDispatchToProps = (dispatch) => ({
   resetForm: () => {
-    dispatch(reset("internalServiceForm"));
+    dispatch(reset("externalServiceForm"));
   },
   handleAutoPopulateEmployee: (employeeId) => {
     const arrVal = employeeId.split("|");
@@ -123,5 +137,5 @@ const EnhanceContainer = connect(
 
 export default reduxForm({
   form: "externalServiceForm",
-  validate: validateForm.validateFormInternalService,
+  validate: validateForm.validateFormExternalService,
 })(EnhanceContainer);

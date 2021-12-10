@@ -5,13 +5,13 @@ import Footer from "../../../components/Footer/Footer";
 import Navbar from "../../../components/Navbar/Navbar";
 
 const TemplateComponent = (props) => {
-  const { children, isGlobalLoading, isLandingPage, logout, userDetail } =
+  const { children, isGlobalLoading, isLandingPage, logout, userDetail, role } =
     props;
 
   return (
     <React.Fragment>
       <CGlobalOverlay loading={isGlobalLoading} />
-      {isLandingPage && <Sidebar />}
+      {isLandingPage && <Sidebar role={role}/>}
       <div className={`page-wrapper ${!isLandingPage ? "full-page" : ""}`}>
         {isLandingPage && <Navbar onLogout={logout} userDetail={userDetail} />}
         {children}

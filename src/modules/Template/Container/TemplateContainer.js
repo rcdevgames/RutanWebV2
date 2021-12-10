@@ -9,7 +9,16 @@ import * as AuthSelector from "../../Auth/Selector/AuthSelector";
 import * as AppSelector from "../../App/Selector/AppSelector";
 
 const TemplateContainer = (props) => {
-  return <TemplateComponent {...props} />;
+  const [role, setRole] = React.useState("");
+  const { userDetail } = props;
+
+  React.useEffect(() => {
+    if (userDetail && userDetail.role) {
+      setRole(userDetail.role[0].name);
+    }
+  }, [userDetail]);
+
+  return <TemplateComponent role={role} {...props} />;
 };
 const mapStateToProps = createStructuredSelector({
   isGlobalLoading: AppSelector.IsGlobalLoading(),

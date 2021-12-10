@@ -3,6 +3,7 @@ import { Field, Form } from "redux-form";
 import CInput from "../../../components/CInput/CInput";
 import CSelect from "../../../components/CSelect/CSelect";
 import CDatePicker from "../../../components/CDatePicker/CDatePicker";
+import CButton from "../../../components/CButton/CButton";
 
 const InternalServiceComponent = (props) => {
   const {
@@ -13,6 +14,7 @@ const InternalServiceComponent = (props) => {
     enumType,
     handleAutoPopulateEmployee,
     handleAutoPopulateCustomer,
+    isLoadingFormGlobal,
   } = props;
   return (
     <div class="page-content">
@@ -29,7 +31,11 @@ const InternalServiceComponent = (props) => {
                 <Form onSubmit={handleSubmit(submitForm)}>
                   <div class="row">
                     <div class="col-md-4 mt-2">
-                      <CSelect data={enumType} name="typeService" label="Tipe" />
+                      <CSelect
+                        data={enumType}
+                        name="typeService"
+                        label="Tipe"
+                      />
                     </div>
                     <div class="col-md-4 mt-2">
                       <CDatePicker name="startDate" label="Tanggal Mulai" />
@@ -197,11 +203,14 @@ const InternalServiceComponent = (props) => {
                   </div>
                   <div class="mt-4 row">
                     <div class="col-md-12">
-                      <input
+                      {/* <input
                         class="btn btn-primary"
                         type="submit"
                         value="Simpan"
-                      />
+                      /> */}
+                      <CButton type="submit" isLoading={isLoadingFormGlobal}>
+                        Simpan
+                      </CButton>
                     </div>
                   </div>
                 </Form>

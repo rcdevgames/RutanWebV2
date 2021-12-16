@@ -1,13 +1,24 @@
 // First we need to import axios.js
 import axios from "axios";
 import _ from "lodash";
+import { toast } from "react-toastify";
 
 // Next we make an 'instance' of it
 const ConfigAxios = axios.create({
   // .. where we make our configurations
   baseURL: "http://109.235.71.161:3000",
-  headers: { "Content-Type": "application/json" },
+  headers: {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers": "Authorization",
+  },
+  timeout: 15000,
 });
+ConfigAxios.defaults.headers.delete = {
+  "Content-Type": "application/json",
+};
 
 // Where you would set stuff like your 'Authorization' header, etc ...
 // ConfigAxios.defaults.headers.common["Authorization"] =
@@ -59,6 +70,15 @@ ConfigAxios.interceptors.response.use(
     return Promise.resolve(responseFulfilled);
   },
   (responseRejected) => {
+    toast.error("Request Timout!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
     if (!_.isEmpty(responseRejected)) {
       if (process.env.NODE_ENV === "development") {
         console.log(

@@ -12,6 +12,7 @@ import rolesReducer from "../modules/Roles/Store/RolesReducer";
 import employeesReducer from "../modules/Employees/Store/EmployeesReducer";
 import masterDataReducer from "../modules/MasterData/Store/MasterDataReducer";
 import unitReducer from "../modules/Units/Store/UnitReducer";
+import jobFormsReducer from "../modules/JobForms/Store/JobFormsReducer";
 
 const rootReducers = combineReducers({
   router: connectRouter(history),
@@ -20,6 +21,7 @@ const rootReducers = combineReducers({
   admins: adminReducer,
   roles: rolesReducer,
   units: unitReducer,
+  jobForms: jobFormsReducer,
   customers: customersReducer,
   employees: employeesReducer,
   component: ComponentReducer,

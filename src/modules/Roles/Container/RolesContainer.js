@@ -13,6 +13,7 @@ const RolesContainer = (props) => {
     getListRoles,
     handlePressEdit,
     handlePressDelete,
+    handlePressAddNew,
     roles: { listRoles },
   } = props;
 
@@ -42,7 +43,9 @@ const RolesContainer = (props) => {
   const renderActionTable = (text, record) => (
     <Space size="middle">
       <CButtonAntd
-        onClick={() => handlePressEdit(record.id)}
+        onClick={() => {
+          handlePressEdit(record);
+        }}
         type="primary"
         icon={<EditOutlined />}
         size="middle"
@@ -66,6 +69,8 @@ const RolesContainer = (props) => {
       headers={headers}
       listRoles={listRoles}
       renderActionTable={renderActionTable}
+      handlePressAddNew={handlePressAddNew}
+      // {...props}
     />
   );
 };
@@ -75,9 +80,19 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
   getListRoles: () => RolesActions.getListRolesRequested(),
-  handlePressEdit: (roleId) => {
-    dispatch(RolesActions.setSelectedRoleId(roleId));
+  handlePressAddNew: async () => {
+    await dispatch(RolesActions.setSelectedRoleDetail({}));
+    await dispatch(RolesActions.setSelectedRoleId(""));
+    dispatch(RolesActions.setFormStatus("add"));
     dispatch(ComponentActions.setGlobalModal(true));
+    RolesActions.resetForm();
+  },
+  handlePressEdit: (record) => {
+    dispatch(RolesActions.setFormStatus("edit"));
+    dispatch(RolesActions.setSelectedRoleId(record.id));
+    dispatch(RolesActions.setSelectedRoleDetail(record));
+    dispatch(ComponentActions.setGlobalModal(true));
+    RolesActions.mapDetailRoleToForm();
   },
   handlePressDelete: async (roleId) => {
     await dispatch(RolesActions.setSelectedRoleId(roleId));

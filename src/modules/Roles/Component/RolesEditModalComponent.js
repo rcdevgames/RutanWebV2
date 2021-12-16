@@ -4,26 +4,27 @@ import { Field, Form } from "redux-form";
 import CInput from "../../../components/CInput/CInput";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 
-const RenderFooter = () => {
+const RenderFooter = ({ handleSaveForm, formStatus }) => {
   return [
     <CButtonAntd
       key="submit"
       type="primary"
       loading={false}
-      onClick={() => console.log("test")}
+      onClick={handleSaveForm}
     >
       Simpan
     </CButtonAntd>,
   ];
 };
 
-const RenderContent = ({ handleSubmit, submitForm, isLoadingFormGlobal }) => {
+const RenderContent = ({ handleSubmit, submitForm, formName }) => {
   return (
     <div class="page-content">
+      <h6 class="card-title text-center">{formName}</h6>
       <Form onSubmit={handleSubmit(submitForm)}>
         <div class="col-md-12">
           <Field
-            name="roleId"
+            name="id"
             label="Role ID"
             placeholder="-"
             component={CInput}
@@ -33,7 +34,7 @@ const RenderContent = ({ handleSubmit, submitForm, isLoadingFormGlobal }) => {
         </div>
         <div class="col-md-12">
           <Field
-            name="roleDescription"
+            name="description"
             label="Nama Role"
             component={CInput}
             type="text"
@@ -51,17 +52,19 @@ const RolesEditModalComponent = (props) => {
     submitForm,
     isLoadingFormGlobal,
     handleCancel,
+    formName,
   } = props;
   return (
     <CModal
       visible={isModalVisible}
       onCancel={handleCancel}
-      footer={<RenderFooter />}
+      footer={<RenderFooter handleSaveForm={handleSubmit} />}
       content={
         <RenderContent
           handleSubmit={handleSubmit}
           submitForm={submitForm}
           isLoadingFormGlobal={isLoadingFormGlobal}
+          formName={formName}
         />
       }
     />

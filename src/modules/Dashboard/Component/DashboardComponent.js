@@ -1,15 +1,13 @@
 import React from "react";
 
 const DashboardComponent = (props) => {
+  const { userDetail } = props;
   return (
     <div>
       <div class="page-content">
         <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
-          <div>
-            <h4 class="mb-3 mb-md-0">Hallo, Reza</h4>
-          </div>
+          <h4 class="mt-5 ml-2">{`Hallo, ${userDetail.fullname}`}</h4>
         </div>
-
         <div class="row">
           <div class="col-12 col-xl-12 stretch-card">
             <div class="row flex-grow">
@@ -47,40 +45,28 @@ const DashboardComponent = (props) => {
                             class="dropdown-item d-flex align-items-center"
                             href="#"
                           >
-                            <i
-                              data-feather="edit-2"
-                              class="icon-sm mr-2"
-                            ></i>{" "}
+                            <i data-feather="edit-2" class="icon-sm mr-2"></i>{" "}
                             <span class="">Edit</span>
                           </a>
                           <a
                             class="dropdown-item d-flex align-items-center"
                             href="#"
                           >
-                            <i
-                              data-feather="trash"
-                              class="icon-sm mr-2"
-                            ></i>{" "}
+                            <i data-feather="trash" class="icon-sm mr-2"></i>{" "}
                             <span class="">Delete</span>
                           </a>
                           <a
                             class="dropdown-item d-flex align-items-center"
                             href="#"
                           >
-                            <i
-                              data-feather="printer"
-                              class="icon-sm mr-2"
-                            ></i>{" "}
+                            <i data-feather="printer" class="icon-sm mr-2"></i>{" "}
                             <span class="">Print</span>
                           </a>
                           <a
                             class="dropdown-item d-flex align-items-center"
                             href="#"
                           >
-                            <i
-                              data-feather="download"
-                              class="icon-sm mr-2"
-                            ></i>{" "}
+                            <i data-feather="download" class="icon-sm mr-2"></i>{" "}
                             <span class="">Download</span>
                           </a>
                         </div>
@@ -92,10 +78,7 @@ const DashboardComponent = (props) => {
                         <div class="d-flex align-items-baseline">
                           <p class="text-success">
                             <span>+3.3%</span>
-                            <i
-                              data-feather="arrow-up"
-                              class="icon-sm mb-1"
-                            ></i>
+                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
                           </p>
                         </div>
                       </div>
@@ -140,40 +123,28 @@ const DashboardComponent = (props) => {
                             class="dropdown-item d-flex align-items-center"
                             href="#"
                           >
-                            <i
-                              data-feather="edit-2"
-                              class="icon-sm mr-2"
-                            ></i>{" "}
+                            <i data-feather="edit-2" class="icon-sm mr-2"></i>{" "}
                             <span class="">Edit</span>
                           </a>
                           <a
                             class="dropdown-item d-flex align-items-center"
                             href="#"
                           >
-                            <i
-                              data-feather="trash"
-                              class="icon-sm mr-2"
-                            ></i>{" "}
+                            <i data-feather="trash" class="icon-sm mr-2"></i>{" "}
                             <span class="">Delete</span>
                           </a>
                           <a
                             class="dropdown-item d-flex align-items-center"
                             href="#"
                           >
-                            <i
-                              data-feather="printer"
-                              class="icon-sm mr-2"
-                            ></i>{" "}
+                            <i data-feather="printer" class="icon-sm mr-2"></i>{" "}
                             <span class="">Print</span>
                           </a>
                           <a
                             class="dropdown-item d-flex align-items-center"
                             href="#"
                           >
-                            <i
-                              data-feather="download"
-                              class="icon-sm mr-2"
-                            ></i>{" "}
+                            <i data-feather="download" class="icon-sm mr-2"></i>{" "}
                             <span class="">Download</span>
                           </a>
                         </div>
@@ -233,40 +204,28 @@ const DashboardComponent = (props) => {
                             class="dropdown-item d-flex align-items-center"
                             href="#"
                           >
-                            <i
-                              data-feather="edit-2"
-                              class="icon-sm mr-2"
-                            ></i>{" "}
+                            <i data-feather="edit-2" class="icon-sm mr-2"></i>{" "}
                             <span class="">Edit</span>
                           </a>
                           <a
                             class="dropdown-item d-flex align-items-center"
                             href="#"
                           >
-                            <i
-                              data-feather="trash"
-                              class="icon-sm mr-2"
-                            ></i>{" "}
+                            <i data-feather="trash" class="icon-sm mr-2"></i>{" "}
                             <span class="">Delete</span>
                           </a>
                           <a
                             class="dropdown-item d-flex align-items-center"
                             href="#"
                           >
-                            <i
-                              data-feather="printer"
-                              class="icon-sm mr-2"
-                            ></i>{" "}
+                            <i data-feather="printer" class="icon-sm mr-2"></i>{" "}
                             <span class="">Print</span>
                           </a>
                           <a
                             class="dropdown-item d-flex align-items-center"
                             href="#"
                           >
-                            <i
-                              data-feather="download"
-                              class="icon-sm mr-2"
-                            ></i>{" "}
+                            <i data-feather="download" class="icon-sm mr-2"></i>{" "}
                             <span class="">Download</span>
                           </a>
                         </div>
@@ -278,10 +237,7 @@ const DashboardComponent = (props) => {
                         <div class="d-flex align-items-baseline">
                           <p class="text-success">
                             <span>+2.8%</span>
-                            <i
-                              data-feather="arrow-up"
-                              class="icon-sm mb-1"
-                            ></i>
+                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
                           </p>
                         </div>
                       </div>
@@ -297,105 +253,7 @@ const DashboardComponent = (props) => {
         </div>
 
         <div class="row">
-          <div class="col-12 col-xl-12 grid-margin stretch-card">
-            <div class="card overflow-hidden">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-baseline mb-4 mb-md-3">
-                  <h6 class="card-title mb-0">Revenue</h6>
-                  <div class="dropdown">
-                    <button
-                      class="btn p-0"
-                      type="button"
-                      id="dropdownMenuButton3"
-                      data-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                    >
-                      <i
-                        class="icon-lg text-muted pb-3px"
-                        data-feather="more-horizontal"
-                      ></i>
-                    </button>
-                    <div
-                      class="dropdown-menu"
-                      aria-labelledby="dropdownMenuButton3"
-                    >
-                      <a
-                        class="dropdown-item d-flex align-items-center"
-                        href="#"
-                      >
-                        <i data-feather="eye" class="icon-sm mr-2"></i>{" "}
-                        <span class="">View</span>
-                      </a>
-                      <a
-                        class="dropdown-item d-flex align-items-center"
-                        href="#"
-                      >
-                        <i data-feather="edit-2" class="icon-sm mr-2"></i>{" "}
-                        <span class="">Edit</span>
-                      </a>
-                      <a
-                        class="dropdown-item d-flex align-items-center"
-                        href="#"
-                      >
-                        <i data-feather="trash" class="icon-sm mr-2"></i>{" "}
-                        <span class="">Delete</span>
-                      </a>
-                      <a
-                        class="dropdown-item d-flex align-items-center"
-                        href="#"
-                      >
-                        <i data-feather="printer" class="icon-sm mr-2"></i>{" "}
-                        <span class="">Print</span>
-                      </a>
-                      <a
-                        class="dropdown-item d-flex align-items-center"
-                        href="#"
-                      >
-                        <i data-feather="download" class="icon-sm mr-2"></i>{" "}
-                        <span class="">Download</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="row align-items-start mb-2">
-                  <div class="col-md-7">
-                    <p class="text-muted tx-13 mb-3 mb-md-0">
-                      Revenue is the income that a business has from its normal
-                      business activities, usually from the sale of goods and
-                      services to customers.
-                    </p>
-                  </div>
-                  <div class="col-md-5 d-flex justify-content-md-end">
-                    <div
-                      class="btn-group mb-3 mb-md-0"
-                      role="group"
-                      aria-label="Basic example"
-                    >
-                      <button type="button" class="btn btn-outline-primary">
-                        Today
-                      </button>
-                      <button
-                        type="button"
-                        class="btn btn-outline-primary d-none d-md-block"
-                      >
-                        Week
-                      </button>
-                      <button type="button" class="btn btn-primary">
-                        Month
-                      </button>
-                      <button type="button" class="btn btn-outline-primary">
-                        Year
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div class="flot-wrapper">
-                  <div id="flotChart1" class="flot-chart"></div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <div class="col-12 col-xl-12 grid-margin stretch-card"></div>
         </div>
 
         <div class="row">
@@ -681,9 +539,7 @@ const DashboardComponent = (props) => {
                         <h6 class="text-body mb-2">Jensen Combs</h6>
                         <p class="text-muted tx-12">08.22 PM</p>
                       </div>
-                      <p class="text-muted tx-13">
-                        This template is awesome!
-                      </p>
+                      <p class="text-muted tx-13">This template is awesome!</p>
                     </div>
                   </a>
                   <a
@@ -830,9 +686,7 @@ const DashboardComponent = (props) => {
                         <td>01/05/2021</td>
                         <td>10/09/2021</td>
                         <td>
-                          <span class="badge badge-info-muted">
-                            Pending
-                          </span>
+                          <span class="badge badge-info-muted">Pending</span>
                         </td>
                         <td>Jensen Combs</td>
                       </tr>
@@ -866,9 +720,7 @@ const DashboardComponent = (props) => {
                         <td>01/01/2021</td>
                         <td>31/12/2021</td>
                         <td>
-                          <span class="badge badge-primary">
-                            Coming soon
-                          </span>
+                          <span class="badge badge-primary">Coming soon</span>
                         </td>
                         <td>Carl Henson</td>
                       </tr>
@@ -878,9 +730,7 @@ const DashboardComponent = (props) => {
                         <td class="border-bottom">01/05/2021</td>
                         <td class="border-bottom">10/11/2021</td>
                         <td class="border-bottom">
-                          <span class="badge badge-info-muted">
-                            Pending
-                          </span>
+                          <span class="badge badge-info-muted">Pending</span>
                         </td>
                         <td class="border-bottom">Jensen Combs</td>
                       </tr>

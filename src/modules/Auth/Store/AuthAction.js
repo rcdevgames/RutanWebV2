@@ -64,7 +64,7 @@ export const handleSubmitLogin = async (values) => {
       appendItem(data).then(() => {
         initializeApp();
         setTimeout(() => {
-          history.push("/");
+          history.push("/dashboard");
           window.location.reload();
           store.dispatch(setGlobalLoading(false));
         }, 5000);
@@ -73,18 +73,20 @@ export const handleSubmitLogin = async (values) => {
     .catch((onRejected) => {
       store.dispatch(setGlobalLoading(false));
       if (onRejected) {
-        const status = onRejected.response.data.status;
-        const dataResponseRejected = onRejected.response.data;
-        if (status === 400) {
-          const error = {};
-          error.status = true;
-          error.message = dataResponseRejected.message;
-          store.dispatch(setErrorLogin(error));
-        } else if (status === 401) {
-          const error = {};
-          error.status = true;
-          error.message = dataResponseRejected.message;
-          store.dispatch(setErrorLogin(error));
+        const status = onRejected?.response?.data?.status;
+        const dataResponseRejected = onRejected?.response?.data ?? null;
+        if (dataResponseRejected) {
+          if (status === 400) {
+            const error = {};
+            error.status = true;
+            error.message = dataResponseRejected.message;
+            store.dispatch(setErrorLogin(error));
+          } else if (status === 401) {
+            const error = {};
+            error.status = true;
+            error.message = dataResponseRejected.message;
+            store.dispatch(setErrorLogin(error));
+          }
         }
       }
     });

@@ -1,9 +1,15 @@
 import React from "react";
-import { Field, Form } from "redux-form";
+import { Field, FieldArray, Form } from "redux-form";
 import CInput from "../../../components/CInput/CInput";
 import CSelect from "../../../components/CSelect/CSelect";
 import CDatePicker from "../../../components/CDatePicker/CDatePicker";
 import CButton from "../../../components/CButton/CButton";
+import CButtonAntd from "../../../components/CButton/CButtonAntd";
+import {
+  DeleteOutlined,
+  PlusOutlined,
+  InfoCircleTwoTone,
+} from "@ant-design/icons";
 
 const InternalServiceComponent = (props) => {
   const {
@@ -16,6 +22,105 @@ const InternalServiceComponent = (props) => {
     handleAutoPopulateCustomer,
     isLoadingFormGlobal,
   } = props;
+
+  const renderEmployee = ({ fields }) => {
+    const handleRemoveField = (index) => {
+      fields.remove(index);
+    };
+    return (
+      <>
+        <div class="d-flex flex-row-reverse">
+          <div class="ml-2" />
+          <CButtonAntd
+            key={`plusUnit`}
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={() => fields.push({})}
+          >
+            Tambah Karyawan
+          </CButtonAntd>
+        </div>
+        <br />
+        {fields.map((itemEmployee, indexEmployee) => {
+          return (
+            <div>
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title">{`Karyawan ${indexEmployee + 1}`}</h5>
+                </div>
+
+                <CButtonAntd
+                  key={`removeEmployee-${indexEmployee}`}
+                  type="primary"
+                  icon={<DeleteOutlined />}
+                  onClick={() => handleRemoveField(indexEmployee)}
+                  danger
+                  size="small"
+                />
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <CSelect
+                    showSearch
+                    data={listEmployee}
+                    name={`${itemEmployee}.employee`}
+                    label="Pilih Karyawan"
+                    onChange={(employee) => {
+                      handleAutoPopulateEmployee(employee, indexEmployee);
+                    }}
+                  />
+                </div>
+                <div class="col-md-4">
+                  <Field
+                    name={`${itemEmployee}.nik`}
+                    label="NIK"
+                    placeholder="-"
+                    component={CInput}
+                    type="text"
+                    disabled
+                  />
+                </div>
+                <div class="col-md-4">
+                  <Field
+                    name={`${itemEmployee}.employeePhoneNumber`}
+                    label="No. Telepon"
+                    placeholder="-"
+                    component={CInput}
+                    type="text"
+                    disabled
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                  <Field
+                    name={`${itemEmployee}.employeeProvinceName`}
+                    label="Nama Provinsi"
+                    placeholder="-"
+                    component={CInput}
+                    type="text"
+                    disabled
+                  />
+                </div>
+                <div class="col-md-4">
+                  <Field
+                    name={`${itemEmployee}.employeeCityName`}
+                    label="Nama Kota/Kabupaten"
+                    placeholder="-"
+                    component={CInput}
+                    type="text"
+                    disabled
+                  />
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </>
+    );
+  };
+
   return (
     <div class="page-content">
       <div class="mt-5">
@@ -57,62 +162,15 @@ const InternalServiceComponent = (props) => {
                     </div>
                   </div>
                   <hr />
-                  <div class="row">
-                    <div class="col-md-4">
-                      <CSelect
-                        showSearch
-                        data={listEmployee}
-                        name="employee"
-                        label="Pilih Karyawan"
-                        onChange={(employee) => {
-                          handleAutoPopulateEmployee(employee);
-                        }}
-                      />
-                    </div>
-                    <div class="col-md-4">
-                      <Field
-                        name="nik"
-                        label="NIK"
-                        placeholder="-"
-                        component={CInput}
-                        type="text"
-                        disabled
-                      />
-                    </div>
-                    <div class="col-md-4">
-                      <Field
-                        name="employeePhoneNumber"
-                        label="No. Telepon"
-                        placeholder="-"
-                        component={CInput}
-                        type="text"
-                        disabled
-                      />
-                    </div>
+                  {/* This render employee */}
+                  <div className="row">
+                    <InfoCircleTwoTone />
+                    <p className="text-small ml-2">
+                      Tips : Bisa menambahkan lebih dari satu karyawan.
+                    </p>
                   </div>
-                  <div class="row">
-                    <div class="col-md-4"></div>
-                    <div class="col-md-4">
-                      <Field
-                        name="employeeProvinceName"
-                        label="Nama Provinsi"
-                        placeholder="-"
-                        component={CInput}
-                        type="text"
-                        disabled
-                      />
-                    </div>
-                    <div class="col-md-4">
-                      <Field
-                        name="employeeCityName"
-                        label="Nama Kota/Kabupaten"
-                        placeholder="-"
-                        component={CInput}
-                        type="text"
-                        disabled
-                      />
-                    </div>
-                  </div>
+                  <FieldArray name="employees" component={renderEmployee} />
+                  <hr />
                   <hr />
                   <div class="row">
                     <div class="col-md-4">

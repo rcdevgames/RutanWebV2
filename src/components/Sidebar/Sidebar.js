@@ -20,7 +20,7 @@ const Sidebar = ({ role }) => {
           <ul class="nav">
             <li class="nav-item nav-category">Main</li>
             <li class="nav-item">
-              <a href="/" class="nav-link">
+              <a href="/dashboard" class="nav-link">
                 <i class="link-icon" data-feather="command"></i>
                 <span class="link-title">Dashboard</span>
               </a>
@@ -41,7 +41,7 @@ const Sidebar = ({ role }) => {
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="/employee" class="nav-link">
+                  <a href="/employees" class="nav-link">
                     <i class="link-icon" data-feather="users"></i>
                     <span class="link-title">Karyawan</span>
                   </a>
@@ -59,7 +59,7 @@ const Sidebar = ({ role }) => {
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="/roles" class="nav-link">
+                  <a href="/role" class="nav-link">
                     <i class="link-icon" data-feather="key"></i>
                     <span class="link-title">Role</span>
                   </a>

@@ -21,7 +21,7 @@ const getProvinceByIdFromReducer = async (provinceId) => {
   return result[0] ?? {};
 };
 
-export const setAutoPopulateEmployee = async (employeeId) => {
+export const setAutoPopulateEmployee = async (employeeId, indexEmployee) => {
   try {
     const employeeData = await getEmployeeByIdFromReducer(
       employeeId,
@@ -32,23 +32,27 @@ export const setAutoPopulateEmployee = async (employeeId) => {
     );
     // Mapping data to redux-form
     store.dispatch(
-      change("internalServiceForm", "nik", employeeData.nik ?? "")
+      change(
+        "externalServiceForm",
+        `employees[${indexEmployee}].nik`,
+        employeeData.nik ?? ""
+      )
     );
     store.dispatch(
       change(
-        "internalServiceForm",
-        "employeePhoneNumber",
+        "externalServiceForm",
+        `employees[${indexEmployee}].employeePhoneNumber`,
         employeeData.phone ?? ""
       )
     );
     store.dispatch(
-      change("internalServiceForm", "employeeProvinceName", provinceData.name)
+      change("externalServiceForm", `employees[${indexEmployee}].employeeProvinceName`, provinceData.name)
     );
     store.dispatch(
-      change("internalServiceForm", "employeeDetailProvince", provinceData)
+      change("externalServiceForm", `employees[${indexEmployee}].employeeDetailProvince`, provinceData)
     );
     // store.dispatch(
-    //   change("internalServiceForm", "employeeCityName", detailEmployee.nik)
+    //   change("externalServiceForm", "employeeCityName", detailEmployee.nik)
     // );
   } catch (error) {
     console.log("process error");
@@ -68,25 +72,25 @@ export const setAutoPopulateCustomer = async (customerId) => {
     // Mapping data to redux-form
     store.dispatch(
       change(
-        "internalServiceForm",
+        "externalServiceForm",
         "customerPhoneNumber",
         customersData.phone ?? ""
       )
     );
     store.dispatch(
-      change("internalServiceForm", "picCustomer", customersData.pic)
+      change("externalServiceForm", "picCustomer", customersData.pic)
     );
     store.dispatch(
-      change("internalServiceForm", "customerAddress", customersData.address)
+      change("externalServiceForm", "customerAddress", customersData.address)
     );
     store.dispatch(
-      change("internalServiceForm", "picPhoneNumber", customersData.pic_phone)
+      change("externalServiceForm", "picPhoneNumber", customersData.pic_phone)
     );
     store.dispatch(
-      change("internalServiceForm", "customerProvinceName", provinceData.name)
+      change("externalServiceForm", "customerProvinceName", provinceData.name)
     );
     store.dispatch(
-      change("internalServiceForm", "customerDetailProvince", provinceData)
+      change("externalServiceForm", "customerDetailProvince", provinceData)
     );
   } catch (error) {
     console.log("process error");

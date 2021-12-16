@@ -6,6 +6,7 @@
       "dom.iterable",
       "esnext"
     ],
+    "rootDir": "src",
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -20,6 +21,15 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
+  "exclude": [
+    "build",
+    "scripts",
+    "acceptance-tests",
+    "webpack",
+    "jest",
+    "src/setupTests.ts",
+    "setup/scripts"
+  ],
   "include": [
     "src"
   ]

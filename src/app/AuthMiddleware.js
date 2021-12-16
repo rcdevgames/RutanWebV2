@@ -12,7 +12,6 @@ const AuthMiddleware = (ComposedComponent) => {
     if (!isAuthenticated) {
       redirect();
     } else {
-      ConfigAxios.defaults.headers["Content-Type"] = "application/json";
       ConfigAxios.defaults.headers[
         "Authorization"
       ] = `Bearer ${isAuthenticated}`;

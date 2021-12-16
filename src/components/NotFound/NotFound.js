@@ -17,7 +17,7 @@ const NotFound = (props) => {
           <h6 class="text-muted mb-3 text-center">
             Oopps!! The page you were looking for doesn't exist.
           </h6>
-          <a href="/" class="btn btn-primary">
+          <a href="/dashboard" class="btn btn-primary">
             Back to home
           </a>
         </div>

@@ -25,11 +25,14 @@ const CSelect = (props) => {
         {...props}
       >
         <Option value="">{props.placeholder ?? "- Pilih -"}</Option>
-        {props.data.map((item, index) => {
-          return (
-            <Option value={`${item.value}|${item.label}`}>{item.label}</Option>
-          );
-        })}
+        {props.data.length > 0 &&
+          props.data.map((item, index) => {
+            return (
+              <Option value={`${item.value}|${item.label}`}>
+                {item.label}
+              </Option>
+            );
+          })}
       </Field>
     </div>
   );

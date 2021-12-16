@@ -20,6 +20,8 @@ import NotFoundPage from "../components/NotFound/NotFound";
 import AuthMiddleware from "./AuthMiddleware";
 import DetailServiceTransactionContainer from "../modules/DetailServiceTransaction/Container/DetailServiceTransactionContainer";
 import RolesContainer from "../modules/Roles/Container/RolesContainer";
+import EmployeesListContainer from "../modules/Employees/Container/EmployeesListContainer";
+import EmployeeEditContainer from "../modules/Employees/Container/EmployeeEditContainer";
 
 export default function Navigation() {
   const authenticatedPage = (component, footerImg, footer) => {
@@ -36,6 +38,8 @@ export default function Navigation() {
   const NotFound = templating(NotFoundPage, false);
   const Admin = authenticatedPage(AdminContainer, true);
   const Roles = authenticatedPage(RolesContainer, true);
+  const EmployeeList = authenticatedPage(EmployeesListContainer, true);
+  const EditEmployee = authenticatedPage(EmployeeEditContainer, true);
   const Dashboard = authenticatedPage(DashboardContainer, true);
   const InternalService = authenticatedPage(InternalServiceContainer, true);
   const ExternalService = authenticatedPage(ExternalServiceContainer, true);
@@ -61,9 +65,12 @@ export default function Navigation() {
       <ToastContainer autoClose={2000} />
       <Switch>
         <Route exact path="/" component={Dashboard} />
+        <Route exact path="/dashboard" component={Dashboard} />
         <Route exact path="/auth" component={Login} />
         <Route exact path="/admin" component={Admin} />
-        <Route exact path="/roles" component={Roles} />
+        <Route exact path="/role" component={Roles} />
+        <Route exact path="/employees" component={EmployeeList} />
+        <Route exact path="/edit-employee" component={EditEmployee} />
         <Route exact path="/new-internal-service" component={InternalService} />
         <Route exact path="/new-external-service" component={ExternalService} />
         <Route

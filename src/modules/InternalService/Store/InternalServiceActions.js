@@ -26,7 +26,7 @@ const getProvinceByIdFromReducer = async (provinceId) => {
   return result[0] ?? {};
 };
 
-export const setAutoPopulateEmployee = async (employeeId) => {
+export const setAutoPopulateEmployee = async (employeeId, indexEmployee) => {
   try {
     const employeeData = await getEmployeeByIdFromReducer(
       employeeId,
@@ -37,20 +37,32 @@ export const setAutoPopulateEmployee = async (employeeId) => {
     );
     // Mapping data to redux-form
     store.dispatch(
-      change("internalServiceForm", "nik", employeeData.nik ?? "")
+      change(
+        "internalServiceForm",
+        `employees[${indexEmployee}].nik`,
+        employeeData.nik ?? ""
+      )
     );
     store.dispatch(
       change(
         "internalServiceForm",
-        "employeePhoneNumber",
+        `employees[${indexEmployee}].employeePhoneNumber`,
         employeeData.phone ?? ""
       )
     );
     store.dispatch(
-      change("internalServiceForm", "employeeProvinceName", provinceData.name)
+      change(
+        "internalServiceForm",
+        `employees[${indexEmployee}].employeeProvinceName`,
+        provinceData.name
+      )
     );
     store.dispatch(
-      change("internalServiceForm", "employeeDetailProvince", provinceData)
+      change(
+        "internalServiceForm",
+        `employees[${indexEmployee}].employeeDetailProvince`,
+        provinceData
+      )
     );
   } catch (error) {
     console.log("process error");

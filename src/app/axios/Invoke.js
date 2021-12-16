@@ -140,7 +140,12 @@ Invoke.updateRole = (data) => {
 };
 
 Invoke.deleteRoleById = (roleId) => {
-  return ConfigAxios.delete(`/roles/${roleId}`);
+  return ConfigAxios.delete(`/roles/${roleId}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: {},
+  });
 };
 // === End Roles API ===
 
@@ -180,14 +185,34 @@ Invoke.addInternalService = (data) => {
 };
 // === End Service API ===
 
-// === Master unit API === :
+// === Master Unit API === :
 Invoke.getUnitList = (page, limit) => {
   return ConfigAxios.get(`/units?page=${page}&limit=${limit}`);
 };
+// === End Master Unit API ===
 
 // === Master unit-model API === :
 Invoke.getListUnitModel = (page, limit, unitId) => {
-  return ConfigAxios.get(`units/models/${unitId}?page=${page}&limit=${limit}`);
+  return ConfigAxios.get(`/units/models/${unitId}?page=${page}&limit=${limit}`);
 };
+// === End Master Unit-Model API ===
+
+// === Master Job-Form API === :
+Invoke.getListJobForm = (page, limit) => {
+  return ConfigAxios.get(`job_forms?page=${page}&limit=${limit}`);
+};
+// === End Job-Form API ===
+
+// === Master Branch API === :
+Invoke.getListBranch = (page, limit) => {
+  return ConfigAxios.get(`/branches?page=${page}&limit=${limit}`);
+};
+// === End Branch API ===
+
+// === Master Menu API === :
+Invoke.getListMenu = (page, limit) => {
+  return ConfigAxios.get(`/menus?page=${page}&limit=${limit}`);
+};
+// === End Menu API ===
 
 export default Invoke;

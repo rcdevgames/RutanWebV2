@@ -15,7 +15,6 @@ const InternalServiceContainer = (props) => {
     customers: { listCustomers },
     employees: { listEmployees },
     component: { isLoadingFormGlobal },
-    resetForm,
   } = props;
 
   const submitForm = (values) => {
@@ -56,6 +55,7 @@ const InternalServiceContainer = (props) => {
   const enumType = [
     { id: `enum-type-1`, value: "T1", label: "Repair" },
     { id: `enum-type-2`, value: "T2", label: "TroubleShoot" },
+    { id: `enum-type-3`, value: "T3", label: "Training" },
   ];
 
   return (
@@ -80,9 +80,9 @@ const mapDispatchToProps = (dispatch) => ({
   resetForm: () => {
     dispatch(reset("internalServiceForm"));
   },
-  handleAutoPopulateEmployee: (employeeId) => {
+  handleAutoPopulateEmployee: (employeeId, indexEmployee) => {
     const arrVal = employeeId.split("|");
-    InternalServiceActions.setAutoPopulateEmployee(arrVal[0]);
+    InternalServiceActions.setAutoPopulateEmployee(arrVal[0], indexEmployee);
   },
   handleAutoPopulateCustomer: (customerId) => {
     const arrVal = customerId.split("|");

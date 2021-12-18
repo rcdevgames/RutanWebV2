@@ -8,7 +8,6 @@ import * as EmployeesActions from "../../Employees/Store/EmployeesActions";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import EmployeesListComponent from "../Component/EmployeesListComponent";
-import history from "../../../app/History";
 import { navigate } from "../../../app/Helpers";
 
 const EmployeesListContainer = (props) => {
@@ -47,13 +46,6 @@ const EmployeesListContainer = (props) => {
       width: "30%",
       sorter: (a, b) => a.description.length - b.description.length,
     },
-    // {
-    //   title: "Role",
-    //   dataIndex: "role",
-    //   key: "role",
-    //   width: "30%",
-    //   sorter: (a, b) => a.description.length - b.description.length,
-    // },
     {
       title: "Nomor Telepon",
       dataIndex: "phone",
@@ -90,6 +82,7 @@ const EmployeesListContainer = (props) => {
       headers={headers}
       listRoles={listEmployees}
       renderActionTable={renderActionTable}
+      {...props}
     />
   );
 };
@@ -100,9 +93,20 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getListEmployees: () => EmployeeActions.loadEmployeeListData(),
   handlePressEdit: async (employeeId) => {
+    dispatch(EmployeeActions.setFormStatus("edit"));
     await dispatch(EmployeeActions.setSelectedEmployeeId(employeeId));
     await EmployeesActions.getEmployeeDataByIdRequested(employeeId);
-    navigate("/edit-employee");
+    setTimeout(() => {
+      navigate("/edit-employee");
+    }, 500);
+  },
+  handlePressAddNew: async () => {
+    dispatch(EmployeesActions.setFormStatus("add"));
+    await dispatch(EmployeesActions.setSelectedEmployeeId(""));
+    await dispatch(EmployeesActions.setSelectedEmployeeData({}));
+    setTimeout(() => {
+      navigate("/edit-employee");
+    }, 500);
   },
   //   handlePressDelete: async (roleId) => {
   //     await dispatch(RolesActions.setSelectedRoleId(roleId));

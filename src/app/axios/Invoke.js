@@ -1,6 +1,12 @@
 import ConfigAxios from "./ConfigAxios";
 
 const Invoke = {};
+const headersConfigDelete = {
+  headers: {
+    "Content-Type": "application/json",
+  },
+  data: {},
+};
 
 Invoke.submitLogin = (data) => {
   return ConfigAxios.post("/login", data);
@@ -144,12 +150,7 @@ Invoke.updateRole = (data) => {
 };
 
 Invoke.deleteRoleById = (roleId) => {
-  return ConfigAxios.delete(`/roles/${roleId}`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    data: {},
-  });
+  return ConfigAxios.delete(`/roles/${roleId}`, headersConfigDelete);
 };
 // === End Roles API ===
 
@@ -202,5 +203,19 @@ Invoke.getListMenu = (page, limit) => {
   return ConfigAxios.get(`/menus?page=${page}&limit=${limit}`);
 };
 // === End Menu API ===
+
+// === Master Menu - Roles API === :
+Invoke.addMenuRole = (payload) => {
+  return ConfigAxios.post(`/menus/roles`, payload);
+};
+
+Invoke.getMenuByRoleId = (roleId) => {
+  return ConfigAxios.get(`/menus/menu_by_role/${roleId}`);
+};
+
+Invoke.deleteMenuByMenuRoleId = (menuRoleId) => {
+  return ConfigAxios.delete(`menus/roles/${menuRoleId}`, headersConfigDelete);
+};
+// === End Menu - Roles API ===
 
 export default Invoke;

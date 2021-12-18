@@ -4,7 +4,9 @@ import { reduxForm } from "redux-form";
 import * as ComponentActions from "../../App/Store/ComponentAction";
 import * as EmployeesActions from "../../Employees/Store/EmployeesActions";
 import * as BranchActions from "../../Branch/Store/BranchActions";
+import * as MasterDataActions from "../../MasterData/Store/MasterDataActions";
 import EmployeeEditComponent from "../Component/EmployeeEditComponent";
+import { navigate } from "../../../app/Helpers";
 
 const EmployeeEditContainer = (props) => {
   const {
@@ -13,7 +15,8 @@ const EmployeeEditContainer = (props) => {
     component: { isModalVisible },
     roles: { listRoles },
     branch: { listBranch },
-    employees: { selectedEmployeeId, selectedEmployeeData },
+    employees: { formStatus, selectedEmployeeData },
+    masters: { listProvince },
     getDetailEmployee,
     setAutoPopulateEmployee,
   } = props;
@@ -21,6 +24,7 @@ const EmployeeEditContainer = (props) => {
   React.useEffect(() => {
     setAutoPopulateEmployee();
     BranchActions.getBranchListDataRequested();
+    MasterDataActions.loadProvinceListData();
   }, []);
 
   const submitForm = (values) => {
@@ -63,6 +67,15 @@ const EmployeeEditContainer = (props) => {
     });
   });
 
+  const SelectProvince = [];
+  listProvince.map((item, index) => {
+    SelectProvince.push({
+      id: `province-${index}`,
+      value: item.id,
+      label: item.name,
+    });
+  });
+
   return (
     <EmployeeEditComponent
       isModalVisible={isModalVisible}
@@ -70,8 +83,10 @@ const EmployeeEditContainer = (props) => {
       submitForm={submitForm}
       enumBranch={SelectBranch}
       enumRole={SelectEmployeeRole}
+      enumProvince={SelectProvince}
       detailEmployee={selectedEmployeeData}
       handleUploadPhoto={handleUploadPhoto}
+      formStatus={formStatus}
       {...props}
     />
   );
@@ -83,6 +98,7 @@ const mapStateToProps = (state) => ({
   component: state.component,
   employees: state.employees,
   branch: state.branch,
+  masters: state.masters,
 });
 const mapDispatchToProps = (dispatch) => ({
   handleCancel: () => dispatch(ComponentActions.setGlobalModal(false)),

@@ -6,4 +6,5 @@ export const initializeApp = async () => {
   await AdminActions.getListAdminRequested();
   await RoleActions.getListRolesRequested();
   await MasterDataActions.loadMenuListData();
+  await MasterDataActions.loadProvinceListData();
 };

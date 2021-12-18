@@ -35,7 +35,7 @@ const RolesComponent = (props) => {
           </div>
         </div>
       </div>
-      <RolesEditModalContainer {...props} />
+      <RolesEditModalContainer />
     </div>
   );
 };

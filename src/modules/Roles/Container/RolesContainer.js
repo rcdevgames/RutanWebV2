@@ -87,12 +87,13 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(ComponentActions.setGlobalModal(true));
     RolesActions.resetForm();
   },
-  handlePressEdit: (record) => {
-    dispatch(RolesActions.setFormStatus("edit"));
-    dispatch(RolesActions.setSelectedRoleId(record.id));
-    dispatch(RolesActions.setSelectedRoleDetail(record));
-    dispatch(ComponentActions.setGlobalModal(true));
-    RolesActions.mapDetailRoleToForm();
+  handlePressEdit: async (record) => {
+    await dispatch(RolesActions.setFormStatus("edit"));
+    await dispatch(RolesActions.setSelectedRoleId(record.id));
+    await dispatch(RolesActions.setSelectedRoleDetail(record));
+    await RolesActions.getMenuByRolesId(record.id);
+    await dispatch(ComponentActions.setGlobalModal(true));
+    await RolesActions.mapDetailRoleToForm();
   },
   handlePressDelete: async (roleId) => {
     await dispatch(RolesActions.setSelectedRoleId(roleId));

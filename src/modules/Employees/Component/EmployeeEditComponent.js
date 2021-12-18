@@ -1,15 +1,10 @@
 import React from "react";
-import { Field, FieldArray, Form } from "redux-form";
+import { Field, Form } from "redux-form";
 import CInput from "../../../components/CInput/CInput";
 import CSelect from "../../../components/CSelect/CSelect";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
-import {
-  DeleteOutlined,
-  PlusOutlined,
-  InfoCircleTwoTone,
-  UploadOutlined,
-} from "@ant-design/icons";
-import { Checkbox, Col, Row, Upload } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
+import { Checkbox, Col, Image, Row, Upload } from "antd";
 
 const EmployeeEditComponent = (props) => {
   const {
@@ -18,17 +13,10 @@ const EmployeeEditComponent = (props) => {
     enumBranch,
     detailEmployee,
     enumRole,
+    enumProvince,
     isLoadingFormGlobal,
-    handleUploadPhoto
+    handleUploadPhoto,
   } = props;
-
-  const normFile = (e) => {
-    console.log("Upload event:", e);
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
-  };
 
   const SelectRole = (props) => {
     const {
@@ -41,15 +29,6 @@ const EmployeeEditComponent = (props) => {
     const onChange = (checkedValues) => {
       console.log("checked = ", checkedValues);
     };
-
-    const options = [
-      { label: "Apple", value: "Apple" },
-      { label: "Pear", value: "Pear" },
-      { label: "Orange", value: "Orange" },
-      { label: "Banana", value: "Banana" },
-      { label: "Pearl", value: "Pearl" },
-      { label: "Bamboo", value: "Bamboo" },
-    ];
 
     const Item = ({ item }) => {
       return (
@@ -105,7 +84,24 @@ const EmployeeEditComponent = (props) => {
                         placeholder="-"
                         component={CInput}
                         type="text"
-                        disabled
+                      />
+                    </div>
+                    <div class="col-md-6">
+                      <CSelect
+                        data={enumProvince}
+                        name="province"
+                        label="Nama Provinsi"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <Field
+                        name={`phone`}
+                        label="No. Telepon"
+                        placeholder="-"
+                        component={CInput}
+                        type="text"
                       />
                     </div>
                     <div class="col-md-6">
@@ -115,36 +111,12 @@ const EmployeeEditComponent = (props) => {
                         placeholder="-"
                         component={CInput}
                         type="text"
-                        disabled
-                      />
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <Field
-                        name={`name`}
-                        label="No. Telepon"
-                        placeholder="-"
-                        component={CInput}
-                        type="text"
-                        disabled
-                      />
-                    </div>
-                    <div class="col-md-6">
-                      <Field
-                        name={`province`}
-                        label="Provinsi"
-                        placeholder="-"
-                        component={CInput}
-                        type="text"
-                        disabled
                       />
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-6">
                       <CSelect data={enumBranch} name="branch" label="Cabang" />
-                      {/* <CSelect data={enumRole} name="role" label="Pilih Role" /> */}
                       <Field
                         name="address"
                         label="Alamat"
@@ -162,14 +134,15 @@ const EmployeeEditComponent = (props) => {
                     </div>
                     <div class="col-md-6">
                       <div class="card-body">
-                        <img
-                          class="img-fluid mb-2 img-responsive"
+                        <Image
+                          width={400}
+                          height={300}
                           src={
                             detailEmployee.photo ??
-                            "https://cdn3.vectorstock.com/i/1000x1000/50/32/user-icon-male-person-symbol-profile-avatar-vector-20715032.jpg"
+                            `https://cdn3.vectorstock.com/i/1000x1000/50/32/user-icon-male-person-symbol-profile-avatar-vector-20715032.jpg`
                           }
-                          alt=""
                         />
+                        <br />
                         <Upload
                           name="profilePicture"
                           listType="picture"

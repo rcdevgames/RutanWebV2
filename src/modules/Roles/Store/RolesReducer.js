@@ -4,12 +4,14 @@ import {
   SET_SELECTED_ROLE_DETAIL,
   SET_FORM_STATUS,
   RESET_STATE,
+  SET_SELECTED_ROLE_MENU
 } from "./RolesActions";
 
 export const initialState = {
   listRoles: [],
   selectedRoleId: "",
   selectedRoleDetail: {},
+  selectedRoleMenu: [],
   formStatus: "add",
 };
 
@@ -31,6 +33,10 @@ export default function rolesReducer(state = initialState, action) {
 
     case SET_SELECTED_ROLE_DETAIL:
       newState.selectedRoleDetail = action.payload;
+      return { ...newState };
+
+    case SET_SELECTED_ROLE_MENU:
+      newState.selectedRoleMenu = action.payload;
       return { ...newState };
 
     case RESET_STATE:

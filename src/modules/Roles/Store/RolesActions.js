@@ -10,6 +10,7 @@ export const SET_SELECTED_ROLE_ID = "SET_SELECTED_ROLE_ID";
 export const SET_SELECTED_ROLE_DETAIL = "SET_SELECTED_ROLE_DETAIL";
 export const SET_FORM_STATUS = "SET_FORM_STATUS";
 export const RESET_STATE = "RESET_STATE";
+export const SET_SELECTED_ROLE_MENU = "SET_SELECTED_ROLE_MENU";
 
 export const resetState = (payload) => {
   return {
@@ -42,6 +43,13 @@ export const setFormStatus = (payload) => {
 export const setSelectedRoleDetail = (payload) => {
   return {
     type: SET_SELECTED_ROLE_DETAIL,
+    payload,
+  };
+};
+
+export const setSelectedRoleMenu = (payload) => {
+  return {
+    type: SET_SELECTED_ROLE_MENU,
     payload,
   };
 };
@@ -97,13 +105,22 @@ export const mapDetailRoleToForm = async () => {
   dispatch(change("editRolesForm", `description`, data.description ?? ""));
 };
 
+export const getMenuByRolesId = async (roleId) => {
+  const { data } = await Invoke.getMenuByRoleId(roleId);
+  let subItem = [];
+  data.callback.map((item, index) => {
+    subItem.push(item.menu_id);
+  });
+  store.dispatch(setSelectedRoleMenu(subItem));
+};
+
 export const resetForm = async () => {
   const { dispatch } = store;
   dispatch(change("editRolesForm", `id`, ""));
   dispatch(change("editRolesForm", `description`, ""));
 };
 
-const doAddRoleProcess = async (values) => {
+const doAddRoleProcess = async (values, menuSelected) => {
   const { dispatch } = store;
   try {
     const splitDescription = values.description.split(" ");
@@ -124,7 +141,48 @@ const doAddRoleProcess = async (values) => {
   }
 };
 
-const doEditRoleProcess = async (values) => {
+const doDeleteMenuRoleProcess = async (menuId, menuListApi) => {
+  const [menu] = menuListApi.filter((x) => x.menu_id === menuId);
+  await Invoke.deleteMenuByMenuRoleId(menu.id);
+};
+
+const doAddMenuRoleProcess = async (menuId, roleId) => {
+  const payload = {
+    menu_id: menuId,
+    role_id: roleId,
+    view: true,
+    insert: true,
+    update: true,
+    delete: false,
+  };
+  console.log("=== payload : ", payload);
+  await Invoke.addMenuRole(payload);
+};
+
+const doSaveMenuRole = async (newMenuSelected) => {
+  const { getState } = store;
+  const currentMenuSelected = getState().roles.selectedRoleMenu;
+  const selectedRoleId = getState().roles.selectedRoleId;
+  const { data } = await Invoke.getMenuByRoleId(selectedRoleId);
+  const menuListApi = data.callback;
+
+  if (currentMenuSelected.length > 0) {
+    await currentMenuSelected.map((item, index) => {
+      doDeleteMenuRoleProcess(item, menuListApi);
+    });
+    setTimeout(() => {
+      newMenuSelected.map((newMenu, index) => {
+        doAddMenuRoleProcess(newMenu, selectedRoleId);
+      });
+    }, 1000);
+  } else {
+    newMenuSelected.map((item, index) => {
+      doAddMenuRoleProcess(item, selectedRoleId);
+    });
+  }
+};
+
+const doEditRoleProcess = async (values, menuSelected) => {
   const { dispatch } = store;
   try {
     const splitDescription = values.description.split(" ");
@@ -135,6 +193,7 @@ const doEditRoleProcess = async (values) => {
         ? values.description.replaceAll(" ", "_")
         : values.description;
     payload.description = values.description;
+    await doSaveMenuRole(menuSelected);
     await Invoke.updateRole(payload);
     showToast("Data Berhasil Disimpan", "success");
     getListRolesRequested();
@@ -172,13 +231,13 @@ export const deleteRoleRequested = async (roleId) => {
   );
 };
 
-export const saveRoleRequested = async (type, values) => {
+export const saveRoleRequested = async (type, values, menuSelected) => {
   const toastrConfirmOptions = {
     onOk: () => {
       if (type === "add") {
-        doAddRoleProcess(values);
+        doAddRoleProcess(values, menuSelected);
       } else {
-        doEditRoleProcess(values);
+        doEditRoleProcess(values, menuSelected);
       }
     },
     okText: "Ya",

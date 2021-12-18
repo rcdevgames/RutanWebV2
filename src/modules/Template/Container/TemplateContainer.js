@@ -53,6 +53,9 @@ const TemplateContainer = (props) => {
       case "/category":
         return "file-text";
 
+      case "/unit":
+        return "box";
+
       case "/internal-service":
         return "file-plus";
 
@@ -88,7 +91,8 @@ const TemplateContainer = (props) => {
         item.path === "/tools" ||
         item.path === "/machine" ||
         item.path === "/jobforms" ||
-        item.path === "/category"
+        item.path === "/category" ||
+        item.path === "/unit"
       ) {
         masterDataMenu.push(menu);
       } else if (

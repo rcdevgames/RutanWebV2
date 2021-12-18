@@ -6,6 +6,7 @@ import { setGlobalLoading } from "../../App/Store/ComponentAction";
 export const SET_EMPLOYEE_LIST_DATA = "SET_EMPLOYEE_LIST_DATA";
 export const SET_SELECTED_EMPLOYEE_ID = "SET_SELECTED_EMPLOYEE_ID";
 export const SET_SELECTED_EMPLOYEE_DATA = "SET_SELECTED_EMPLOYEE_DATA";
+export const SET_FORM_STATUS = "SET_FORM_STATUS";
 
 export const setEmployeeListData = (payload) => {
   return {
@@ -24,6 +25,13 @@ export const setSelectedEmployeeId = (payload) => {
 export const setSelectedEmployeeData = (payload) => {
   return {
     type: SET_SELECTED_EMPLOYEE_DATA,
+    payload,
+  };
+};
+
+export const setFormStatus = (payload) => {
+  return {
+    type: SET_FORM_STATUS,
     payload,
   };
 };
@@ -52,7 +60,17 @@ export const setAutoPopulateEmployee = () => {
   const { getState, dispatch } = store;
   const selectedEmployeeData = getState().employees.selectedEmployeeData;
   dispatch(change("editEmployeeForm", "name", selectedEmployeeData.name ?? ""));
-  dispatch(change("editEmployeeForm", "address", selectedEmployeeData.address ?? ""));
-  dispatch(change("editEmployeeForm", "province", selectedEmployeeData['province_name'] ?? ""));
-  dispatch(change("editEmployeeForm", "city", selectedEmployeeData['city_name'] ?? ""));
+  dispatch(
+    change("editEmployeeForm", "address", selectedEmployeeData.address ?? "")
+  );
+  dispatch(
+    change(
+      "editEmployeeForm",
+      "province",
+      selectedEmployeeData["province_name"] ?? ""
+    )
+  );
+  dispatch(
+    change("editEmployeeForm", "city", selectedEmployeeData["city_name"] ?? "")
+  );
 };

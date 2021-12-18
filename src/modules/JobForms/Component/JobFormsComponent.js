@@ -143,14 +143,6 @@ const EmployeeEditComponent = (props) => {
                         typeComponent="textarea"
                       />
                       <br />
-                      {/* <h6 class="card-title">Pilih Role</h6> */}
-                      {/* <Field
-                        name="employeeRole"
-                        label="Pilih Role"
-                        component={SelectRole}
-                        type="checkbox"
-                      /> */}
-                      {/* <SelectRole /> */}
                     </div>
                     <div class="col-md-6">
                       <div class="card-body">

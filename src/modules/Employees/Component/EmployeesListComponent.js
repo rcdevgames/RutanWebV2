@@ -1,8 +1,10 @@
 import React from "react";
+import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import CTableAntd from "../../../components/CTable/CTableAntd";
-// import RolesEditModalContainer from "../Container/RolesEditModalContainer";
+import { PlusOutlined } from "@ant-design/icons";
+
 const EmployeesListComponent = (props) => {
-  const { headers, listRoles, renderActionTable } = props;
+  const { headers, listRoles, renderActionTable, handlePressAddNew } = props;
   return (
     <div class="page-content">
       <div class="mt-5">
@@ -10,7 +12,17 @@ const EmployeesListComponent = (props) => {
           <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
               <div class="card-body">
-                <h6 class="card-title">Data Karyawan</h6>
+                <div class="row d-flex justify-content-between mb-2">
+                  <h6 class="ml-3 card-title">Data Karyawan</h6>
+                  <CButtonAntd
+                    onClick={handlePressAddNew}
+                    type="primary"
+                    icon={<PlusOutlined />}
+                    size="middle"
+                  >
+                    Tambah Karyawan
+                  </CButtonAntd>
+                </div>
                 <div class="table-responsive">
                   <CTableAntd
                     data={listRoles}

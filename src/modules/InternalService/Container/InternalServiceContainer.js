@@ -98,4 +98,7 @@ const EnhanceContainer = connect(
 export default reduxForm({
   form: "internalServiceForm",
   validate: validateForm.validateFormInternalService,
+  initialValues: {
+    employees: [],
+  },
 })(EnhanceContainer);

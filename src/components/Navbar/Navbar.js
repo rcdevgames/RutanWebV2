@@ -203,7 +203,9 @@ const Navbar = (props) => {
                 </div> */}
                 <div class="info text-center">
                   <p class="name font-weight-bold mb-0">
-                    {userDetail.fullname.toUpperCase()}
+                    {userDetail.fullname
+                      ? userDetail.fullname.toUpperCase()
+                      : "Anonym"}
                   </p>
                   <p class="email text-muted mb-3">Administrator</p>
                 </div>

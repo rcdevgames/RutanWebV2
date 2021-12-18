@@ -35,7 +35,7 @@ const InternalServiceComponent = (props) => {
             key={`plusUnit`}
             type="primary"
             icon={<PlusOutlined />}
-            onClick={() => fields.push({})}
+            onClick={() => fields.push({ employee: "" })}
           >
             Tambah Karyawan
           </CButtonAntd>

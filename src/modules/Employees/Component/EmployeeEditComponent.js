@@ -17,7 +17,9 @@ const EmployeeEditComponent = (props) => {
     submitForm,
     enumBranch,
     detailEmployee,
+    enumRole,
     isLoadingFormGlobal,
+    handleUploadPhoto
   } = props;
 
   const normFile = (e) => {
@@ -30,6 +32,7 @@ const EmployeeEditComponent = (props) => {
 
   const SelectRole = (props) => {
     const {
+      data,
       // onChange,
       // options,
       // plainOptions,
@@ -64,7 +67,7 @@ const EmployeeEditComponent = (props) => {
           onChange={onChange}
         >
           <Row>
-            {options.map((item, index) => {
+            {data.map((item, index) => {
               return (
                 <Col span={8}>
                   <Field
@@ -152,7 +155,7 @@ const EmployeeEditComponent = (props) => {
                       <div class="card">
                         <div class="card-body">
                           <h6 class="card-title text-center">Pilih Role</h6>
-                          <SelectRole />
+                          <SelectRole data={enumRole} />
                         </div>
                       </div>
                       <br />
@@ -168,9 +171,9 @@ const EmployeeEditComponent = (props) => {
                           alt=""
                         />
                         <Upload
-                          name="logo"
-                          action="/upload.do"
+                          name="profilePicture"
                           listType="picture"
+                          onChange={handleUploadPhoto}
                         >
                           <CButtonAntd icon={<UploadOutlined />}>
                             Ubah Foto

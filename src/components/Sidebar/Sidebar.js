@@ -2,7 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import history from "../../app/History";
 
-const Sidebar = ({ role }) => {
+const Sidebar = ({
+  role,
+  mainMenu,
+  masterDataMenu,
+  reportMenu,
+  serviceRepairMenu,
+}) => {
   return (
     <div>
       <nav class="sidebar">
@@ -18,84 +24,34 @@ const Sidebar = ({ role }) => {
         </div>
         <div class="sidebar-body">
           <ul class="nav">
-            <li class="nav-item nav-category">Main</li>
-            <li class="nav-item">
-              <a href="/dashboard" class="nav-link">
-                <i class="link-icon" data-feather="command"></i>
-                <span class="link-title">Dashboard</span>
-              </a>
-            </li>
-            <li class="nav-item nav-category">Master Data</li>
-            {role !== "admin" ? null : (
-              <>
-                <li class="nav-item">
-                  <a class="nav-link" href="/admin">
-                    <i class="link-icon" data-feather="user"></i>
-                    <span class="link-title">Admin</span>
+            {mainMenu.length > 0 && <li class="nav-item nav-category">Main</li>}
+            {mainMenu.length > 0 &&
+              mainMenu.map((item, index) => (
+                <li key={`sidebar-main-menu-${index}`} class="nav-item">
+                  <a href={item.path} class="nav-link">
+                    <i class="link-icon" data-feather={item.icon}></i>
+                    <span class="link-title">{item.name}</span>
                   </a>
                 </li>
-                <li class="nav-item">
-                  <a href="/branch" class="nav-link">
-                    <i class="link-icon" data-feather="link"></i>
-                    <span class="link-title">Cabang</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="/employees" class="nav-link">
-                    <i class="link-icon" data-feather="users"></i>
-                    <span class="link-title">Karyawan</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="/customer" class="nav-link">
-                    <i class="link-icon" data-feather="users"></i>
-                    <span class="link-title">Customer</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="/division" class="nav-link">
-                    <i class="link-icon" data-feather="briefcase"></i>
-                    <span class="link-title">Divisi</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="/role" class="nav-link">
-                    <i class="link-icon" data-feather="key"></i>
-                    <span class="link-title">Role</span>
-                  </a>
-                </li>
-              </>
+              ))}
+            {masterDataMenu.length > 0 && (
+              <li class="nav-item nav-category">Master Data</li>
             )}
-            <li class="nav-item">
-              <a href="/tools" class="nav-link">
-                <i class="link-icon" data-feather="tool"></i>
-                <span class="link-title">Peralatan</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/engine-configuration" class="nav-link">
-                <i class="link-icon" data-feather="settings"></i>
-                <span class="link-title">Konfigurasi Mesin</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/job-form" class="nav-link">
-                <i class="link-icon" data-feather="file-text"></i>
-                <span class="link-title">Job Forms</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/category-form" class="nav-link">
-                <i class="link-icon" data-feather="file-text"></i>
-                <span class="link-title">Kategori Form</span>
-              </a>
-            </li>
+            {masterDataMenu.length > 0 &&
+              masterDataMenu.map((item, index) => (
+                <li key={`sidebar-master-data-${index}`} class="nav-item">
+                  <a class="nav-link" href={item.path}>
+                    <i class="link-icon" data-feather={item.icon}></i>
+                    <span class="link-title">{item.name}</span>
+                  </a>
+                </li>
+              ))}
             <li class="nav-item nav-category">Service Repair</li>
             <li class="nav-item">
               <a
                 class="nav-link"
                 onClick={() => {
-                  history.push("/new-internal-service");
+                  history.push("/internal-service");
                   window.location.reload();
                 }}
               >
@@ -104,7 +60,7 @@ const Sidebar = ({ role }) => {
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/new-external-service">
+              <a class="nav-link" href="/external-service">
                 <i class="link-icon" data-feather="file-plus"></i>
                 <span class="link-title">External Service</span>
               </a>

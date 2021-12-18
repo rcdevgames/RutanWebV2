@@ -6,7 +6,9 @@ const DashboardComponent = (props) => {
     <div>
       <div class="page-content">
         <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
-          <h4 class="mt-5 ml-2">{`Hallo, ${userDetail.fullname}`}</h4>
+          <h4 class="mt-5 ml-2">{`Hallo, ${
+            userDetail.fullname ?? "Anonym"
+          }`}</h4>
         </div>
         <div class="row">
           <div class="col-12 col-xl-12 stretch-card">

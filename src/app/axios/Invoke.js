@@ -6,6 +6,10 @@ Invoke.submitLogin = (data) => {
   return ConfigAxios.post("/login", data);
 };
 
+Invoke.submitLoginEmployee = (data) => {
+  return ConfigAxios.post("/m_auth", data);
+};
+
 Invoke.getListServices = (page, limit) => {
   return ConfigAxios.get(`/services?page=${page}&limit=${limit}`);
 };
@@ -153,22 +157,6 @@ Invoke.deleteRoleById = (roleId) => {
 Invoke.getProvinceList = (page, limit) => {
   return ConfigAxios.get(`/provinces?page=${page}&limit=${limit}`);
 };
-
-// Invoke.getEmployeeById = (employeeId) => {
-//   return ConfigAxios.get(`/employees/${employeeId}`);
-// };
-
-// Invoke.addEmployee = (data) => {
-//   return ConfigAxios.post("/employees", data);
-// };
-
-// Invoke.updateEmployee = (data) => {
-//   return ConfigAxios.put("/employees", data);
-// };
-
-// Invoke.deleteEmployeeById = (employeeId) => {
-//   return ConfigAxios.delete(`/employees/${employeeId}`);
-// };
 // === End Master Province API ===
 
 // === Master Cities API === :

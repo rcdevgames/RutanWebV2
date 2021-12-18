@@ -71,8 +71,8 @@ export default function Navigation() {
         <Route exact path="/role" component={Roles} />
         <Route exact path="/employees" component={EmployeeList} />
         <Route exact path="/edit-employee" component={EditEmployee} />
-        <Route exact path="/new-internal-service" component={InternalService} />
-        <Route exact path="/new-external-service" component={ExternalService} />
+        <Route exact path="/internal-service" component={InternalService} />
+        <Route exact path="/external-service" component={ExternalService} />
         <Route
           exact
           path="/monitoring-employee"

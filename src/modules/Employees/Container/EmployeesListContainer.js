@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
 import * as EmployeeActions from "../Store/EmployeesActions";
 import * as ComponentActions from "../../App/Store/ComponentAction";
+import * as EmployeesActions from "../../Employees/Store/EmployeesActions";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import EmployeesListComponent from "../Component/EmployeesListComponent";
@@ -98,9 +99,10 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
   getListEmployees: () => EmployeeActions.loadEmployeeListData(),
-  handlePressEdit: (employeeId) => {
+  handlePressEdit: async (employeeId) => {
+    await dispatch(EmployeeActions.setSelectedEmployeeId(employeeId));
+    await EmployeesActions.getEmployeeDataByIdRequested(employeeId);
     navigate("/edit-employee");
-    dispatch(EmployeeActions.setSelectedEmployeeId(employeeId));
   },
   //   handlePressDelete: async (roleId) => {
   //     await dispatch(RolesActions.setSelectedRoleId(roleId));

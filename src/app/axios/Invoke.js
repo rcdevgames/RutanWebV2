@@ -66,6 +66,22 @@ Invoke.deleteAdminRolesById = (customerId) => {
 };
 // === End Admin - Roles API ===
 
+// === Employee - Roles API : ===
+Invoke.getEmployeeRoles = (employeeId, page, limit) => {
+  return ConfigAxios.get(
+    `/employees/roles/${employeeId}?page=${page}&limit=${limit}`
+  );
+};
+
+Invoke.addEmployeeRole = (data) => {
+  return ConfigAxios.post(`/employees/roles`, data);
+};
+
+Invoke.deleteEmployeeRole = (id) => {
+  return ConfigAxios.delete(`/employees/roles/${id}`, headersConfigDelete);
+};
+// === End Employee - Roles API ===
+
 // === Customers API ===
 Invoke.getCustomerList = (page, limit) => {
   return ConfigAxios.get(`/customers?page=${page}&limit=${limit}`);

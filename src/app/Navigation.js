@@ -48,6 +48,10 @@ export default function Navigation() {
     true
   );
   const ListServices = authenticatedPage(ListServicesContainer, true);
+  const DetailService = authenticatedPage(
+    DetailServiceTransactionContainer,
+    true
+  );
 
   return (
     <>
@@ -79,11 +83,7 @@ export default function Navigation() {
           component={MonitoringEmployee}
         />
         <Route exact path="/list-services" component={ListServices} />
-        <Route
-          exact
-          path="/detail-services"
-          component={DetailServiceTransactionContainer}
-        />
+        <Route exact path="/detail-services" component={DetailService} />
         <Route path={"*"} component={NotFound} />
       </Switch>
     </>

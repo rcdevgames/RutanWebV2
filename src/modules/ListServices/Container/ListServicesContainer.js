@@ -1,12 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
+import { navigate } from "../../../app/Helpers";
 import ListServicesComponent from "../Component/ListServicesComponent";
 import * as ListServiceActions from "../Store/ListServicesActions";
 
 const ListServicesContainer = (props) => {
   const {
     getListServices,
+    handlePressEdit,
     services: { listServices },
   } = props;
   const headers = [
@@ -28,7 +30,11 @@ const ListServicesContainer = (props) => {
   }, []);
 
   return (
-    <ListServicesComponent headers={headers} listServices={listServices} />
+    <ListServicesComponent
+      headers={headers}
+      listServices={listServices}
+      handlePressEdit={handlePressEdit}
+    />
   );
 };
 
@@ -37,6 +43,12 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
   getListServices: () => ListServiceActions.getListServicesRequested(),
+  handlePressEdit: async (value) => {
+    await dispatch(ListServiceActions.setSelectedJobService(value));
+    setTimeout(() => {
+      navigate("detail-services");
+    }, 500);
+  },
 });
 
 const EnhanceContainer = connect(
@@ -45,5 +57,5 @@ const EnhanceContainer = connect(
 )(ListServicesContainer);
 
 export default reduxForm({
-  form: "loginForm",
+  form: "listServices",
 })(EnhanceContainer);

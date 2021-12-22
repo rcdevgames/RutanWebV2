@@ -6,7 +6,7 @@ import * as EmployeesActions from "../../Employees/Store/EmployeesActions";
 import * as BranchActions from "../../Branch/Store/BranchActions";
 import * as MasterDataActions from "../../MasterData/Store/MasterDataActions";
 import EmployeeEditComponent from "../Component/EmployeeEditComponent";
-import { navigate } from "../../../app/Helpers";
+import { validateFormEmployee } from "../../../app/validateForm";
 
 const EmployeeEditContainer = (props) => {
   const {
@@ -15,11 +15,17 @@ const EmployeeEditContainer = (props) => {
     component: { isModalVisible },
     roles: { listRoles },
     branch: { listBranch },
-    employees: { formStatus, selectedEmployeeData },
-    masters: { listProvince },
-    getDetailEmployee,
+    employees: {
+      formStatus,
+      selectedEmployeeData,
+      selectedRoleEmployee,
+    },
+    masters: { listProvince, listCity },
     setAutoPopulateEmployee,
+    handleClearSelectedEmployeeRole,
   } = props;
+  const [listCityState, setListCityState] = React.useState([]);
+  const [roleSelected, setRoleSelected] = React.useState([]);
 
   React.useEffect(() => {
     setAutoPopulateEmployee();
@@ -30,6 +36,7 @@ const EmployeeEditContainer = (props) => {
   const submitForm = (values) => {
     if (valid) {
       console.log("valid");
+      EmployeesActions.saveEmployeeRequested(formStatus, values, roleSelected);
     } else {
     }
   };
@@ -76,6 +83,26 @@ const EmployeeEditContainer = (props) => {
     });
   });
 
+  React.useEffect(() => {
+    let subItem = [];
+    listCity.map((item, index) => {
+      subItem.push({
+        id: `city-${index}`,
+        value: item.id,
+        label: item.name,
+      });
+    });
+    setListCityState(subItem);
+    return () => {
+      handleClearSelectedEmployeeRole();
+    };
+  }, []);
+
+  const onChangeRoleEmployee = (menus) => {
+    console.log("== menu : ", menus);
+    setRoleSelected(menus);
+  };
+
   return (
     <EmployeeEditComponent
       isModalVisible={isModalVisible}
@@ -84,9 +111,12 @@ const EmployeeEditContainer = (props) => {
       enumBranch={SelectBranch}
       enumRole={SelectEmployeeRole}
       enumProvince={SelectProvince}
+      enumCity={listCityState}
       detailEmployee={selectedEmployeeData}
       handleUploadPhoto={handleUploadPhoto}
       formStatus={formStatus}
+      selectedRoleEmployee={selectedRoleEmployee}
+      onChangeRoleEmployee={onChangeRoleEmployee}
       {...props}
     />
   );
@@ -105,6 +135,9 @@ const mapDispatchToProps = (dispatch) => ({
   getDetailEmployee: async (employeeId) =>
     await EmployeesActions.getEmployeeDataByIdRequested(employeeId),
   setAutoPopulateEmployee: () => EmployeesActions.setAutoPopulateEmployee(),
+  handleClearSelectedEmployeeRole: () => {
+    dispatch(EmployeesActions.setSelectedRoleEmployee([]));
+  },
 });
 
 const EnhanceContainer = connect(
@@ -114,4 +147,5 @@ const EnhanceContainer = connect(
 
 export default reduxForm({
   form: "editEmployeeForm",
+  validate: validateFormEmployee,
 })(EnhanceContainer);

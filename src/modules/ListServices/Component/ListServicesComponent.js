@@ -1,8 +1,11 @@
 import React from "react";
 import CBadgeText from "../../../components/CBadgeText/CBadgeText";
+import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import CButtonIcon from "../../../components/CButtonIcon/CButtonIcon";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+
 const ListServicesComponent = (props) => {
-  const { headers, listServices } = props;
+  const { headers, listServices, handlePressEdit } = props;
   return (
     <div class="page-content">
       <div class="mt-5">
@@ -73,10 +76,12 @@ const ListServicesComponent = (props) => {
                               </td>
                               <div class="row mt-2">
                                 <div class="ml-4">
-                                  <CButtonIcon
-                                    type="warning"
-                                    icon="edit"
-                                  ></CButtonIcon>
+                                  <CButtonAntd
+                                    onClick={() => handlePressEdit(item)}
+                                    type="primary"
+                                    icon={<EditOutlined />}
+                                    size="middle"
+                                  />
                                 </div>
                                 <div class="ml-2">
                                   <CButtonIcon

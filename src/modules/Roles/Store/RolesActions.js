@@ -54,7 +54,7 @@ export const setSelectedRoleMenu = (payload) => {
   };
 };
 
-const showToast = (message, type) => {
+export const showToast = (message, type) => {
   switch (type) {
     case "success":
       toast.success(message, {
@@ -155,7 +155,6 @@ const doAddMenuRoleProcess = async (menuId, roleId) => {
     update: true,
     delete: false,
   };
-  console.log("=== payload : ", payload);
   await Invoke.addMenuRole(payload);
 };
 

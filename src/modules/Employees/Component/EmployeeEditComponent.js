@@ -6,6 +6,50 @@ import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import { UploadOutlined } from "@ant-design/icons";
 import { Checkbox, Col, Image, Row, Upload } from "antd";
 
+const SelectRole = (props) => {
+  const {
+    data,
+    defaultValues,
+    onChangeRoleEmployee,
+    // options,
+    // plainOptions,
+    // optionsWithDisabled,
+  } = props;
+
+  const Item = ({ item }) => {
+    return (
+      <Checkbox name={`item.${item.value}`} value={item.value}>
+        {item.label}
+      </Checkbox>
+    );
+  };
+
+  return (
+    <>
+      <Checkbox.Group
+        {...props.input}
+        style={{ width: "100%" }}
+        onChange={onChangeRoleEmployee}
+        defaultValue={defaultValues}
+      >
+        <Row>
+          {data.map((item, index) => {
+            return (
+              <Col span={8}>
+                <Field
+                  item={item}
+                  name={`item.${item.value}`}
+                  component={Item}
+                />
+              </Col>
+            );
+          })}
+        </Row>
+      </Checkbox.Group>
+    </>
+  );
+};
+
 const EmployeeEditComponent = (props) => {
   const {
     handleSubmit,
@@ -14,54 +58,12 @@ const EmployeeEditComponent = (props) => {
     detailEmployee,
     enumRole,
     enumProvince,
+    enumCity,
     isLoadingFormGlobal,
     handleUploadPhoto,
+    selectedRoleEmployee,
+    onChangeRoleEmployee,
   } = props;
-
-  const SelectRole = (props) => {
-    const {
-      data,
-      // onChange,
-      // options,
-      // plainOptions,
-      // optionsWithDisabled,
-    } = props;
-    const onChange = (checkedValues) => {
-      console.log("checked = ", checkedValues);
-    };
-
-    const Item = ({ item }) => {
-      return (
-        <Checkbox name={`item.${item.value}`} value={item.value}>
-          {item.label}
-        </Checkbox>
-      );
-    };
-
-    return (
-      <>
-        <Checkbox.Group
-          {...props.input}
-          style={{ width: "100%" }}
-          onChange={onChange}
-        >
-          <Row>
-            {data.map((item, index) => {
-              return (
-                <Col span={8}>
-                  <Field
-                    item={item}
-                    name={`item.${item.value}`}
-                    component={Item}
-                  />
-                </Col>
-              );
-            })}
-          </Row>
-        </Checkbox.Group>
-      </>
-    );
-  };
 
   return (
     <div class="page-content">
@@ -75,7 +77,7 @@ const EmployeeEditComponent = (props) => {
                   Anda dapat mengelola role ataupun mengubah data karyawan pada
                   halaman ini.
                 </p>
-                <Form onSubmit={handleSubmit(submitForm)}>
+                <Form>
                   <div class="row">
                     <div class="col-md-6">
                       <Field
@@ -105,12 +107,10 @@ const EmployeeEditComponent = (props) => {
                       />
                     </div>
                     <div class="col-md-6">
-                      <Field
-                        name={`city`}
+                      <CSelect
+                        name="city"
+                        data={enumCity}
                         label="Kota/Kabupaten"
-                        placeholder="-"
-                        component={CInput}
-                        type="text"
                       />
                     </div>
                   </div>
@@ -127,7 +127,11 @@ const EmployeeEditComponent = (props) => {
                       <div class="card">
                         <div class="card-body">
                           <h6 class="card-title text-center">Pilih Role</h6>
-                          <SelectRole data={enumRole} />
+                          <SelectRole
+                            data={enumRole}
+                            defaultValues={selectedRoleEmployee}
+                            onChangeRoleEmployee={onChangeRoleEmployee}
+                          />
                         </div>
                       </div>
                       <br />
@@ -155,6 +159,14 @@ const EmployeeEditComponent = (props) => {
                       </div>
                     </div>
                   </div>
+                  <CButtonAntd
+                    key="submit"
+                    type="primary"
+                    loading={false}
+                    onClick={handleSubmit(submitForm)}
+                  >
+                    Simpan
+                  </CButtonAntd>
                 </Form>
               </div>
             </div>

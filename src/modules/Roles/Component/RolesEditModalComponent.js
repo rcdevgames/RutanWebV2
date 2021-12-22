@@ -122,11 +122,6 @@ const RolesEditModalComponent = (props) => {
     formStatus,
     onChangeRoleMenu,
   } = props;
-  const [defaultValuesMenu, setDefaultValuesMenu] = React.useState([]);
-
-  React.useEffect(() => {
-    setDefaultValuesMenu(menuChecked);
-  }, [menuChecked]);
 
   return (
     <CModal
@@ -140,7 +135,7 @@ const RolesEditModalComponent = (props) => {
           isLoadingFormGlobal={isLoadingFormGlobal}
           formName={formName}
           enumMenu={enumMenu}
-          defaultValuesMenu={defaultValuesMenu}
+          defaultValuesMenu={menuChecked}
           formStatus={formStatus}
           onChangeRoleMenu={onChangeRoleMenu}
         />

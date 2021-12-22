@@ -94,6 +94,7 @@ const mapDispatchToProps = (dispatch) => ({
   getListEmployees: () => EmployeeActions.loadEmployeeListData(),
   handlePressEdit: async (employeeId) => {
     dispatch(EmployeeActions.setFormStatus("edit"));
+    await EmployeesActions.getRolesByEmployeeId(employeeId);
     await dispatch(EmployeeActions.setSelectedEmployeeId(employeeId));
     await EmployeesActions.getEmployeeDataByIdRequested(employeeId);
     setTimeout(() => {

@@ -2,13 +2,15 @@ import {
   SET_EMPLOYEE_LIST_DATA,
   SET_SELECTED_EMPLOYEE_ID,
   SET_SELECTED_EMPLOYEE_DATA,
-  SET_FORM_STATUS
+  SET_FORM_STATUS,
+  SET_SELECTED_ROLE_EMPLOYEE,
 } from "./EmployeesActions";
 
 export const initialState = {
   listEmployees: [],
   selectedEmployeeId: "",
   selectedEmployeeData: {},
+  selectedRoleEmployee: [],
   formStatus: "add",
 };
 
@@ -26,6 +28,10 @@ export default function employeesReducer(state = initialState, action) {
 
     case SET_SELECTED_EMPLOYEE_DATA:
       newState.selectedEmployeeData = action.payload;
+      return { ...newState };
+
+    case SET_SELECTED_ROLE_EMPLOYEE:
+      newState.selectedRoleEmployee = action.payload;
       return { ...newState };
 
     case SET_FORM_STATUS:

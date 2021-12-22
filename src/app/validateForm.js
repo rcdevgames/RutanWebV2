@@ -88,3 +88,26 @@ export const validateFormRoles = (values) => {
   }
   return errors;
 };
+
+export const validateFormEmployee = (values) => {
+  const errors = {};
+  if (!values.name) {
+    errors.name = "Nama wajib diisi!";
+  }
+  if (!values.phone) {
+    errors.phone = "No. Telpon wajib diisi!";
+  }
+  if (!values.province) {
+    errors.province = "Wajib pilih provinsi!";
+  }
+  if (!values.city) {
+    errors.city = "Wajib pilih kota!";
+  }
+  if (!values.branch) {
+    errors.branch = "Wajib pilih cabang!";
+  }
+  if (!values.address) {
+    errors.address = "Wajib isi alamat!";
+  }
+  return errors;
+};

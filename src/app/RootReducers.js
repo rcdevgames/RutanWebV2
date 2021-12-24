@@ -14,6 +14,7 @@ import masterDataReducer from "../modules/MasterData/Store/MasterDataReducer";
 import unitReducer from "../modules/Units/Store/UnitReducer";
 import jobFormsReducer from "../modules/JobForms/Store/JobFormsReducer";
 import branchReducer from "../modules/Branch/Store/BranchReducer";
+import detailServiceTransactionReducer from "../modules/DetailServiceTransaction/Store/DetailServiceTransactionReducer";
 
 const rootReducers = combineReducers({
   router: connectRouter(history),
@@ -28,6 +29,7 @@ const rootReducers = combineReducers({
   component: ComponentReducer,
   masters: masterDataReducer,
   branch: branchReducer,
+  detailService: detailServiceTransactionReducer,
   form: formReducer,
   toastr: toastrReducer,
 });

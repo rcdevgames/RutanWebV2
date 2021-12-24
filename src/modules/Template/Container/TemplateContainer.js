@@ -62,6 +62,9 @@ const TemplateContainer = (props) => {
       case "/external-service":
         return "file-plus";
 
+      case "/list_service":
+        return "list";
+
       case "/monitoring_karyawan":
         return "monitor";
 
@@ -97,7 +100,8 @@ const TemplateContainer = (props) => {
         masterDataMenu.push(menu);
       } else if (
         item.path === "/internal-service" ||
-        item.path === "/external-service"
+        item.path === "/external-service" ||
+        item.path === "/list_service"
       ) {
         serviceRepairMenu.push(menu);
       } else if (item.path === "/monitoring_karyawan") {

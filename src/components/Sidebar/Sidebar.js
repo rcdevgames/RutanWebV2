@@ -47,41 +47,25 @@ const Sidebar = ({
                 </li>
               ))}
             <li class="nav-item nav-category">Service Repair</li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                onClick={() => {
-                  history.push("/internal-service");
-                  window.location.reload();
-                }}
-              >
-                <i class="link-icon" data-feather="file-plus"></i>
-                <span class="link-title">Internal Service</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/external-service">
-                <i class="link-icon" data-feather="file-plus"></i>
-                <span class="link-title">External Service</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/list-services">
-                <i class="link-icon" data-feather="list"></i>
-                <span class="link-title">List Service</span>
-              </a>
-            </li>
-            {role !== "admin" ? null : (
-              <>
-                <li class="nav-item nav-category">Monitoring</li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/monitoring-employee">
-                    <i class="link-icon" data-feather="monitor"></i>
-                    <span class="link-title">Monitoring Karyawan</span>
+            {serviceRepairMenu.length > 0 &&
+              serviceRepairMenu.map((item, index) => (
+                <li key={`sidebar-master-data-${index}`} class="nav-item">
+                  <a class="nav-link" href={item.path}>
+                    <i class="link-icon" data-feather={item.icon}></i>
+                    <span class="link-title">{item.name}</span>
                   </a>
                 </li>
-              </>
-            )}
+              ))}
+            <li class="nav-item nav-category">Monitoring</li>
+            {reportMenu.length > 0 &&
+              reportMenu.map((item, index) => (
+                <li key={`sidebar-master-data-${index}`} class="nav-item">
+                  <a class="nav-link" href={item.path}>
+                    <i class="link-icon" data-feather={item.icon}></i>
+                    <span class="link-title">{item.name}</span>
+                  </a>
+                </li>
+              ))}
           </ul>
         </div>
       </nav>

@@ -190,6 +190,20 @@ Invoke.addInternalService = (data) => {
 };
 // === End Service API ===
 
+// Services - Employee API
+Invoke.getServicesEmployee = (jobId, page, limit) => {
+  return ConfigAxios.get(
+    `/services/employees/${jobId}?page=${page}&limit=${limit}`
+  );
+};
+Invoke.addNewEmployeeService = (jobId, payload) => {
+  return ConfigAxios.post(`/services/employees/${jobId}`, payload);
+};
+Invoke.nonActiveEmployeeService = (jobId, payload) => {
+  return ConfigAxios.post(`/services/employees/${jobId}`, payload);
+};
+// End Services - Employee API
+
 // === Master Unit API === :
 Invoke.getUnitList = (page, limit) => {
   return ConfigAxios.get(`/units?page=${page}&limit=${limit}`);

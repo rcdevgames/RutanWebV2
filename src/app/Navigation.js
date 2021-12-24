@@ -82,7 +82,7 @@ export default function Navigation() {
           path="/monitoring-employee"
           component={MonitoringEmployee}
         />
-        <Route exact path="/list-services" component={ListServices} />
+        <Route exact path="/list_service" component={ListServices} />
         <Route exact path="/detail-services" component={DetailService} />
         <Route path={"*"} component={NotFound} />
       </Switch>

@@ -1,11 +1,6 @@
 import React from "react";
 import { Tabs } from "antd";
 import { Typography } from "antd";
-import {
-  FileImageOutlined,
-  UsergroupAddOutlined,
-  CheckCircleOutlined,
-} from "@ant-design/icons";
 import CBadgeText from "../../../components/CBadgeText/CBadgeText";
 import moment from "moment";
 
@@ -13,7 +8,7 @@ const { Text } = Typography;
 const { TabPane } = Tabs;
 
 const DetailServiceTransactionComponent = (props) => {
-  const { data } = props;
+  const { data, TabPanel, onChangeTab } = props;
   return (
     <div class="page-content">
       <div class="mt-5">
@@ -33,10 +28,13 @@ const DetailServiceTransactionComponent = (props) => {
                   </CBadgeText>
                   <br />
                   <Text>Unit : </Text>
+                  <Text>{data.unit ?? "-"}</Text>
                   <br />
                   <Text>Model (SN) : </Text>
+                  <Text>{data.model ?? "-"}</Text>
                   <br />
                   <Text>Job Forms : </Text>
+                  <Text>{data.job_forms ?? "-"}</Text>
                   <br />
                   <Text>Customer : </Text>
                   <Text strong>{data.customer_name}</Text>
@@ -75,40 +73,20 @@ const DetailServiceTransactionComponent = (props) => {
                 </div>
                 <div class="col-md-4"></div>
               </div>
-              <Tabs defaultActiveKey="2">
-                <TabPane
-                  tab={
-                    <span>
-                      <CheckCircleOutlined />
-                      Checklist
-                    </span>
-                  }
-                  key="1"
-                >
-                  Checklist
-                </TabPane>
-                <TabPane
-                  tab={
-                    <span>
-                      <UsergroupAddOutlined />
-                      Teknisi
-                    </span>
-                  }
-                  key="2"
-                >
-                  Teknisi
-                </TabPane>
-                <TabPane
-                  tab={
-                    <span>
-                      <FileImageOutlined />
-                      Gambar
-                    </span>
-                  }
-                  key="3"
-                >
-                  Gambar
-                </TabPane>
+              <Tabs defaultActiveKey="1" onChange={onChangeTab}>
+                {TabPanel.map((item, index) => (
+                  <TabPane
+                    tab={
+                      <span>
+                        {item.icon}
+                        {item.title}
+                      </span>
+                    }
+                    key={item.key}
+                  >
+                    {item.component}
+                  </TabPane>
+                ))}
               </Tabs>
             </div>
           </div>

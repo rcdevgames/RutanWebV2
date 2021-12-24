@@ -110,10 +110,18 @@ export const setAutoPopulateCustomer = async (customerId) => {
 export const handleSubmitForm = async (values) => {
   const { dispatch } = store;
   dispatch(setGlobalFormLoading(true));
-
-  const splitEmployeeId = values.employee.split("|");
   const splitCustomerId = values.customer.split("|");
   const splitTypeId = values.typeService.split("|");
+  let employees = [];
+
+  values.employees.map((item, index) => {
+    const splitEmployeeId = item.employee.split("|");
+    employees.push({
+      employee_id: splitEmployeeId[0],
+      active: "true",
+    });
+  });
+
   const payload = {
     customer_id: splitCustomerId[0],
     job_form_id: uuidv4(),
@@ -129,13 +137,10 @@ export const handleSubmitForm = async (values) => {
     warranty_month: "", // null because internal services
     warranty_year: "", // null because internal services
     units: [], // empty array because internal services
-    employees: [
-      {
-        employee_id: splitEmployeeId[0],
-        active: "true",
-      },
-    ],
+    employees: employees,
   };
+
+  console.log("=== payload : ", payload);
 
   try {
     const functionThatReturnPromise = () =>

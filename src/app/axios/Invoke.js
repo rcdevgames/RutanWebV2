@@ -199,10 +199,26 @@ Invoke.getServicesEmployee = (jobId, page, limit) => {
 Invoke.addNewEmployeeService = (jobId, payload) => {
   return ConfigAxios.post(`/services/employees/${jobId}`, payload);
 };
-Invoke.nonActiveEmployeeService = (jobId, payload) => {
-  return ConfigAxios.post(`/services/employees/${jobId}`, payload);
+Invoke.setStatusEmployeeService = (jobId, payload) => {
+  return ConfigAxios.put(
+    `/services/employees/${jobId}`,
+    payload,
+    headersConfigDelete
+  );
 };
 // End Services - Employee API
+
+// === Service - Views API ===
+Invoke.getJobServiceSummary = (jobId) => {
+  return ConfigAxios.get(`/services/summary/${jobId}`);
+};
+Invoke.getJobServiceMedia = (jobId) => {
+  return ConfigAxios.get(`/services/medias/${jobId}`);
+};
+Invoke.getJobServiceDailies = (jobId) => {
+  return ConfigAxios.get(`/services/dailies/${jobId}`);
+};
+// === End Service Views ===
 
 // === Master Unit API === :
 Invoke.getUnitList = (page, limit) => {

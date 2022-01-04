@@ -37,21 +37,6 @@ export const validateFormInternalService = (values) => {
   if (!values.employees) {
     errors.employees = "Wajib pilih karyawan!";
   }
-  // Validate employee array
-  // const membersArrayErrors = [];
-  // if (values.employees) {
-  //   values.employees.forEach((employee, employeeIndex) => {
-  //     const employeeErrors = {};
-  //     if (!employee || !employee.employee) {
-  //       employeeErrors.employee = "Required";
-  //       employeeErrors.nik = "Required";
-  //       membersArrayErrors[employeeIndex] = employeeErrors;
-  //     }
-  //   });
-  // }
-  // if (membersArrayErrors.length) {
-  //   errors.employee = membersArrayErrors;
-  // }
   return errors;
 };
 
@@ -108,6 +93,14 @@ export const validateFormEmployee = (values) => {
   }
   if (!values.address) {
     errors.address = "Wajib isi alamat!";
+  }
+  return errors;
+};
+
+export const validateServiceEmployeeForm = (values) => {
+  const errors = {};
+  if (!values.employee) {
+    errors.employee = "Karyawan wajib diisi!";
   }
   return errors;
 };

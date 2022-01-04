@@ -3,6 +3,7 @@ import { Tabs } from "antd";
 import { Typography } from "antd";
 import CBadgeText from "../../../components/CBadgeText/CBadgeText";
 import moment from "moment";
+import AddEmployeeModalContainer from "../Container/AddEmployeeModalContainer";
 
 const { Text } = Typography;
 const { TabPane } = Tabs;
@@ -92,6 +93,7 @@ const DetailServiceTransactionComponent = (props) => {
           </div>
         </div>
       </div>
+      <AddEmployeeModalContainer />
     </div>
   );
 };

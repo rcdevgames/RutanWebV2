@@ -12,7 +12,7 @@ import storage from "redux-persist/lib/storage";
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: ["form"],
+  blacklist: ["form", "component"],
 };
 
 const resetEnhancer = (rootReducer) => (state, action) => {

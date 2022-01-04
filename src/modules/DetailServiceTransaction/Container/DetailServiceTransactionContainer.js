@@ -6,7 +6,6 @@ import {
   FileImageOutlined,
   UsergroupAddOutlined,
   CheckCircleOutlined,
-  VideoCameraOutlined,
   EditOutlined,
   FileTextOutlined,
   CloseSquareOutlined,
@@ -14,6 +13,10 @@ import {
 } from "@ant-design/icons";
 import TabPanelEmployeeContainer from "./TabPanel/TabPanelEmployeeContainer";
 import * as DetailServiceActions from "../Store/DetailServiceTransactionAction";
+import * as EmployeesActions from "../../Employees/Store/EmployeesActions";
+import TabPanelSummaryContainer from "./TabPanel/TabPanelSummaryContainer";
+import TabPanelImagesContainer from "./TabPanel/TabPanelImagesContainer";
+import TabPanelDailiesContainer from "./TabPanel/TabPanelDailiesContainer";
 
 const Panel1 = ({ title }) => {
   return (
@@ -26,18 +29,17 @@ const Panel1 = ({ title }) => {
 const DetailServiceTransactionContainer = (props) => {
   const {
     services: { selectedJobService },
-    detailService: { selectedServiceEmployeeList },
+    detailService: {
+      selectedServiceEmployeeList,
+      selectedServiceSummary,
+      selectedServiceMedia,
+      selectedServiceDailies,
+    },
   } = props;
 
   const TabPanel = [
     {
-      key: "panel-1",
-      title: "Checklist",
-      icon: <CheckCircleOutlined />,
-      component: <Panel1 title="Checklist" />,
-    },
-    {
-      key: "panel-2",
+      key: "panel-teknisi",
       title: "Teknisi",
       icon: <UsergroupAddOutlined />,
       component: (
@@ -45,28 +47,22 @@ const DetailServiceTransactionContainer = (props) => {
       ),
     },
     {
-      key: "panel-3",
+      key: "panel-gambar",
       title: "Gambar",
       icon: <FileImageOutlined />,
-      component: <Panel1 title="Gambar" />,
+      component: <TabPanelImagesContainer medias={selectedServiceMedia} />,
     },
     {
-      key: "panel-4",
-      title: "Video",
-      icon: <VideoCameraOutlined />,
-      component: <Panel1 title="Video" />,
-    },
-    {
-      key: "panel-5",
+      key: "panel-dailies",
       title: "Catatan Teknisi",
       icon: <EditOutlined />,
-      component: <Panel1 title="Catatan Teknisi" />,
+      component: <TabPanelDailiesContainer dailies={selectedServiceDailies} />,
     },
     {
-      key: "panel-6",
+      key: "panel-summary",
       title: "Summary",
       icon: <FileTextOutlined />,
-      component: <Panel1 title="Summary" />,
+      component: <TabPanelSummaryContainer summary={selectedServiceSummary} />,
     },
     {
       key: "panel-7",
@@ -82,16 +78,41 @@ const DetailServiceTransactionContainer = (props) => {
     },
   ];
 
+  if (selectedJobService.is_external) {
+    TabPanel.push({
+      key: "panel-1",
+      title: "Checklist",
+      icon: <CheckCircleOutlined />,
+      component: <Panel1 title="Checklist" />,
+    });
+  }
+
   const onChangeTab = (activeTab) => {
     switch (activeTab.toLowerCase()) {
-      case "panel-2":
+      case "panel-teknisi":
         DetailServiceActions.getJobServiceEmployeeList(selectedJobService.id);
         break;
 
+      case "panel-summary":
+        DetailServiceActions.getJobServiceSummary(selectedJobService.id);
+        break;
+
+      case "panel-gambar":
+        DetailServiceActions.getJobServiceMedia(selectedJobService.id);
+        break;
+      case "panel-dailies":
+        DetailServiceActions.getJobServiceDailies(selectedJobService.id);
+        break;
+
       default:
+        console.log("no panel selected...");
         break;
     }
   };
+
+  React.useEffect(() => {
+    EmployeesActions.loadEmployeeListData();
+  }, []);
 
   return (
     <DetailServiceTransactionComponent

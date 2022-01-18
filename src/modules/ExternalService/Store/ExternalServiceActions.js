@@ -1,5 +1,15 @@
 import { change } from "redux-form";
 import { store } from "../../../app/ConfigureStore";
+import Invoke from "../../../app/axios/Invoke";
+
+export const SET_ENUM_UNIT_MODEL = "SET_ENUM_UNIT_MODEL";
+
+export const setEnumUnintModel = (payload) => {
+  return {
+    type: SET_ENUM_UNIT_MODEL,
+    payload,
+  };
+};
 
 const getEmployeeByIdFromReducer = async (employeeId, type) => {
   const { getState } = store;
@@ -19,6 +29,19 @@ const getProvinceByIdFromReducer = async (provinceId) => {
   const { listProvince } = getState().masters;
   const result = listProvince.filter((x) => x.id === provinceId);
   return result[0] ?? {};
+};
+
+export const setAutoPopulateUnitModel = async (unitId, fieldIndex) => {
+  const { dispatch } = store;
+  const { data } = await Invoke.getListUnitModel(1, 100, unitId);
+
+  dispatch(
+    change(
+      "externalServiceForm",
+      `units[${fieldIndex}].enumUnitModel`,
+      data.callback ?? []
+    )
+  );
 };
 
 export const setAutoPopulateEmployee = async (employeeId, indexEmployee) => {
@@ -46,10 +69,18 @@ export const setAutoPopulateEmployee = async (employeeId, indexEmployee) => {
       )
     );
     store.dispatch(
-      change("externalServiceForm", `employees[${indexEmployee}].employeeProvinceName`, provinceData.name)
+      change(
+        "externalServiceForm",
+        `employees[${indexEmployee}].employeeProvinceName`,
+        provinceData.name
+      )
     );
     store.dispatch(
-      change("externalServiceForm", `employees[${indexEmployee}].employeeDetailProvince`, provinceData)
+      change(
+        "externalServiceForm",
+        `employees[${indexEmployee}].employeeDetailProvince`,
+        provinceData
+      )
     );
     // store.dispatch(
     //   change("externalServiceForm", "employeeCityName", detailEmployee.nik)

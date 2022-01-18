@@ -2,24 +2,24 @@ import { Space } from "antd";
 import React from "react";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
-import * as BranchActions from "../Store/BranchActions";
+import * as JobFormsActions from "../Store/JobFormsActions";
 import * as ComponentActions from "../../App/Store/ComponentAction";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
-import BranchComponent from "../Component/BranchComponent";
+import JobFormsComponent from "../Component/JobFormsComponent";
 
-const BranchContainer = (props) => {
+const JobFormsContainer = (props) => {
   const {
-    getListBranch,
+    getListJobForms,
     handlePressEdit,
     handlePressDelete,
     handlePressAddNew,
-    branch: { listBranch },
+    jobForms: { listJobForms },
   } = props;
 
-  if (listBranch.length > 0) {
-    listBranch.map((item, index) => {
-      listBranch[index] = { ...item, no: index + 1 };
+  if (listJobForms.length > 0) {
+    listJobForms.map((item, index) => {
+      listJobForms[index] = { ...item, no: index + 1 };
     });
   }
 
@@ -61,13 +61,13 @@ const BranchContainer = (props) => {
   );
 
   React.useEffect(() => {
-    getListBranch();
+    getListJobForms();
   }, []);
 
   return (
-    <BranchComponent
+    <JobFormsComponent
       headers={headers}
-      listRoles={listBranch}
+      listJobForms={listJobForms}
       renderActionTable={renderActionTable}
       handlePressAddNew={handlePressAddNew}
       // {...props}
@@ -76,34 +76,34 @@ const BranchContainer = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  branch: state.branch,
+  jobForms: state.jobForms,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getListBranch: () => BranchActions.getBranchListDataRequested(),
+  getListJobForms: () => JobFormsActions.getJobFormsListDataRequested(),
   handlePressAddNew: async () => {
-    await dispatch(BranchActions.setSelectedBranchData({}));
-    await dispatch(BranchActions.setSelectedBranchId(""));
-    dispatch(BranchActions.setFormStatus("add"));
+    await dispatch(JobFormsActions.setSelectedJobFormsData({}));
+    await dispatch(JobFormsActions.setSelectedJobFormsId(""));
+    dispatch(JobFormsActions.setFormStatus("add"));
     dispatch(ComponentActions.setGlobalModal(true));
-    BranchActions.resetForm();
+    JobFormsActions.resetForm();
   },
   handlePressEdit: async (record) => {
-    await dispatch(BranchActions.setFormStatus("edit"));
-    await dispatch(BranchActions.setSelectedBranchId(record.id));
-    await dispatch(BranchActions.setSelectedBranchData(record));
+    await dispatch(JobFormsActions.setFormStatus("edit"));
+    await dispatch(JobFormsActions.setSelectedJobFormsId(record.id));
+    await dispatch(JobFormsActions.setSelectedJobFormsData(record));
     await dispatch(ComponentActions.setGlobalModal(true));
-    await BranchActions.mapDetailBranchToForm();
+    await JobFormsActions.mapDetailJobFormsToForm();
   },
-  handlePressDelete: async (branchId) => {
-    await dispatch(BranchActions.setSelectedBranchId(branchId));
-    BranchActions.deleteBranchRequested(branchId);
+  handlePressDelete: async (jobFormsId) => {
+    await dispatch(JobFormsActions.setSelectedJobFormsId(jobFormsId));
+    JobFormsActions.deleteJobFormsRequested(jobFormsId);
   },
 });
 
 const EnhanceContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(BranchContainer);
+)(JobFormsContainer);
 
 export default reduxForm({
   form: "branchForm",

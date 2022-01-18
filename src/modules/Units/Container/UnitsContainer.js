@@ -2,13 +2,13 @@ import { Space } from "antd";
 import React from "react";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
-import * as BranchActions from "../Store/BranchActions";
+import * as BranchActions from "../Store/UnitsActions";
 import * as ComponentActions from "../../App/Store/ComponentAction";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
-import BranchComponent from "../Component/BranchComponent";
+import UnitsComponent from "../Component/UnitsComponent";
 
-const BranchContainer = (props) => {
+const UnitsConatiner = (props) => {
   const {
     getListBranch,
     handlePressEdit,
@@ -65,7 +65,7 @@ const BranchContainer = (props) => {
   }, []);
 
   return (
-    <BranchComponent
+    <UnitsComponent
       headers={headers}
       listRoles={listBranch}
       renderActionTable={renderActionTable}
@@ -103,8 +103,8 @@ const mapDispatchToProps = (dispatch) => ({
 const EnhanceContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(BranchContainer);
+)(UnitsConatiner);
 
 export default reduxForm({
-  form: "branchForm",
+  form: "unitsForm",
 })(EnhanceContainer);

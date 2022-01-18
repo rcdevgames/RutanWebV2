@@ -75,7 +75,6 @@ export const getRolesByEmployeeId = async (employeeId) => {
   data.callback.map((item, index) => {
     subItem.push(item.role_id);
   });
-  console.log("=== subItem : ", subItem);
   store.dispatch(setSelectedRoleEmployee(subItem));
 };
 

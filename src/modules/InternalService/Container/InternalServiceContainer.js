@@ -8,6 +8,7 @@ import * as EmployeeActions from "../../Employees/Store/EmployeesActions";
 import * as MasterDataActions from "../../MasterData/Store/MasterDataActions";
 import * as InternalServiceActions from "../Store/InternalServiceActions";
 import * as ComponentAction from "../../App/Store/ComponentAction";
+import { enumTypeInternalServices } from "../../../app/Helpers";
 
 const InternalServiceContainer = (props) => {
   const {
@@ -52,17 +53,11 @@ const InternalServiceContainer = (props) => {
     });
   });
 
-  const enumType = [
-    { id: `enum-type-1`, value: "T1", label: "Repair" },
-    { id: `enum-type-2`, value: "T2", label: "TroubleShoot" },
-    { id: `enum-type-3`, value: "T3", label: "Training" },
-  ];
-
   return (
     <InternalServiceComponent
       listCustomers={SelectCustomerData}
       listEmployee={SelectEmployeeData}
-      enumType={enumType}
+      enumType={enumTypeInternalServices}
       submitForm={submitForm}
       isLoadingFormGlobal={isLoadingFormGlobal}
       {...props}

@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import Invoke from "../../../app/axios/Invoke";
 import { setGlobalFormLoading } from "../../App/Store/ComponentAction";
 import { toast } from "react-toastify";
+import { SelectStatus } from "../../../app/Helpers";
 
 const getEmployeeByIdFromReducer = async (employeeId, type) => {
   const { getState } = store;
@@ -127,7 +128,7 @@ export const handleSubmitForm = async (values) => {
     job_form_id: uuidv4(),
     identification_id: null,
     type: splitTypeId[0],
-    status: "S1",
+    status: SelectStatus[0].value,
     is_external: "false",
     location: values.customerLocation,
     start: moment(values.startDate).format("YYYY-MM-DD"),

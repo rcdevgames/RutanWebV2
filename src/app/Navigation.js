@@ -22,6 +22,10 @@ import DetailServiceTransactionContainer from "../modules/DetailServiceTransacti
 import RolesContainer from "../modules/Roles/Container/RolesContainer";
 import EmployeesListContainer from "../modules/Employees/Container/EmployeesListContainer";
 import EmployeeEditContainer from "../modules/Employees/Container/EmployeeEditContainer";
+import BranchContainer from "../modules/Branch/Container/BranchContainer";
+import JobFormsContainer from "../modules/JobForms/Container/JobFormsContainer";
+import FormWizardIdentificationContainer from "../modules/Identification/Container/Wizard/FormWizardIdentificationContainer";
+import ListIdentificationContainer from "../modules/Identification/Container/ListIdentificationContainer";
 
 export default function Navigation() {
   const authenticatedPage = (component, footerImg, footer) => {
@@ -38,6 +42,8 @@ export default function Navigation() {
   const NotFound = templating(NotFoundPage, false);
   const Admin = authenticatedPage(AdminContainer, true);
   const Roles = authenticatedPage(RolesContainer, true);
+  const JobForms = authenticatedPage(JobFormsContainer, true);
+  const Branches = authenticatedPage(BranchContainer, true);
   const EmployeeList = authenticatedPage(EmployeesListContainer, true);
   const EditEmployee = authenticatedPage(EmployeeEditContainer, true);
   const Dashboard = authenticatedPage(DashboardContainer, true);
@@ -50,6 +56,14 @@ export default function Navigation() {
   const ListServices = authenticatedPage(ListServicesContainer, true);
   const DetailService = authenticatedPage(
     DetailServiceTransactionContainer,
+    true
+  );
+  const FormWizardIdentification = authenticatedPage(
+    FormWizardIdentificationContainer,
+    true
+  );
+  const ListIdentification = authenticatedPage(
+    ListIdentificationContainer,
     true
   );
 
@@ -73,6 +87,8 @@ export default function Navigation() {
         <Route exact path="/auth" component={Login} />
         <Route exact path="/admin" component={Admin} />
         <Route exact path="/role" component={Roles} />
+        <Route exact path="/cabang" component={Branches} />
+        <Route exact path="/jobforms" component={JobForms} />
         <Route exact path="/employees" component={EmployeeList} />
         <Route exact path="/edit-employee" component={EditEmployee} />
         <Route exact path="/internal-service" component={InternalService} />
@@ -84,6 +100,16 @@ export default function Navigation() {
         />
         <Route exact path="/list_service" component={ListServices} />
         <Route exact path="/detail-services" component={DetailService} />
+        <Route
+          exact
+          path="/form-identification"
+          component={FormWizardIdentification}
+        />
+        <Route
+          exact
+          path="/identification"
+          component={ListIdentification}
+        />
         <Route path={"*"} component={NotFound} />
       </Switch>
     </>

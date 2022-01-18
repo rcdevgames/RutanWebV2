@@ -11,6 +11,7 @@ const RenderDatePicker = (props) => {
       <label htmlFor={name}>{label}</label>
       <br />
       <DatePicker
+        placeholder="Pilih Tanggal"
         style={{ width: "100%" }}
         name={name}
         onBlur={(e) => {

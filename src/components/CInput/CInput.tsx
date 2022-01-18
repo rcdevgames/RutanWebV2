@@ -15,6 +15,8 @@ interface IProps {
   disabled: boolean;
   maxLength: number;
   rows: number;
+  key: string;
+  labelSize: number;
 }
 
 const CInput: React.FC<IProps> = (props) => {
@@ -24,6 +26,7 @@ const CInput: React.FC<IProps> = (props) => {
         <div className="form-group">
           <label htmlFor={props.name}>{props.label}</label>
           <textarea
+            key={props.key ?? ""}
             id={props.name}
             className={`form-control ${props.error && "is-invalid"}`}
             maxLength={props.maxLength ?? 250}
@@ -44,7 +47,12 @@ const CInput: React.FC<IProps> = (props) => {
     default:
       return (
         <div className="form-group">
-          <label htmlFor={props.name}>{props.label}</label>
+          <label
+            htmlFor={props.name}
+            style={{ fontSize: props.labelSize ?? 14 }}
+          >
+            {props.label}
+          </label>
           <input
             id={props.name}
             maxLength={props.maxLength ?? 250}

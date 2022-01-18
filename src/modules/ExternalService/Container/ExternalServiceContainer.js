@@ -1,26 +1,30 @@
 import React from "react";
 import { connect } from "react-redux";
-import { reduxForm, reset } from "redux-form";
+import { getFormValues, reduxForm, reset } from "redux-form";
 import ExternalServiceComponent from "../Component/ExternalServiceComponent";
 import * as validateForm from "../../../app/validateForm";
 import * as CustomerActions from "../../Customers/Store/CustomersActions";
 import * as EmployeeActions from "../../Employees/Store/EmployeesActions";
 import * as MasterDataActions from "../../MasterData/Store/MasterDataActions";
 import * as ExternalServiceActions from "../Store/ExternalServiceActions";
-import * as UnitActions from "../../Units/Store/UnitActions";
+import * as UnitsActions from "../../Units/Store/UnitsActions";
 import * as JobFormsActions from "../../JobForms/Store/JobFormsActions";
+import { enumTypeExternalServices, enumWarranty } from "../../../app/Helpers";
 
 const ExternalServiceContainer = (props) => {
   const [unitQty, setUnitQty] = React.useState(1);
   const [unitData, setUnitData] = React.useState([]);
+  const [selectedUnitModelList, setSelectedUnitModelList] = React.useState([]);
 
   const {
     valid,
     customers: { listCustomers },
     employees: { listEmployees },
-    units: { listUnit },
+    units: { listUnits },
     jobForms: { listJobForms },
     resetForm,
+    formValues,
+    // form: { externalServiceForm },
   } = props;
 
   const submitForm = (values) => {
@@ -43,6 +47,31 @@ const ExternalServiceContainer = (props) => {
     }
     setUnitQty(unitQty - 1);
   };
+
+  const getData = () => {
+    console.log("=== formValues : ", formValues);
+    const units = formValues.units;
+    const unitModel = [];
+
+    if (units.length > 0) {
+      units.map((item, indexUnit) => {
+        item.enumModel.map((item, indexEnumModel) => {
+          const subItem = {
+            id: `unit-model-${indexEnumModel}`,
+            value: item.id,
+            label: item.name,
+          };
+          unitModel.push(subItem);
+        });
+      });
+    }
+
+    setSelectedUnitModelList(unitModel);
+  };
+
+  React.useEffect(() => {
+    getData();
+  }, [formValues]);
 
   React.useEffect(() => {
     CustomerActions.loadCustomerListData();
@@ -73,7 +102,7 @@ const ExternalServiceContainer = (props) => {
   });
 
   const SelectUnitData = [];
-  listUnit.map((item, index) => {
+  listUnits.map((item, index) => {
     SelectUnitData.push({
       id: `unit-${index}`,
       value: item.id,
@@ -90,23 +119,9 @@ const ExternalServiceContainer = (props) => {
     });
   });
 
-  const enumType = [
-    { id: `enum-type-1`, value: "T1", label: "Repair" },
-    { id: `enum-type-2`, value: "T2", label: "TroubleShoot" },
-    { id: `enum-type-3`, value: "T3", label: "Identification" },
-    { id: `enum-type-4`, value: "T4", label: "Training" },
-    { id: `enum-type-5`, value: "T5", label: "Demo" },
-    { id: `enum-type-6`, value: "T6", label: "Modification" },
-  ];
-
-  const enumWarranty = [
-    { id: `enum-warranty-1`, value: true, label: "Warranty" },
-    { id: `enum-warranty-2`, value: false, label: "No Warranty" },
-  ];
-
   React.useEffect(() => {
-    UnitActions.getListUnitRequested();
-    JobFormsActions.getJobFormsListRequested();
+    UnitsActions.getUnitListDataRequested();
+    JobFormsActions.getJobFormsListDataRequested();
     let totalUnit = [];
     for (let i = 0; i < unitQty; i++) {
       totalUnit.push(i);
@@ -114,20 +129,19 @@ const ExternalServiceContainer = (props) => {
     setUnitData(totalUnit);
   }, [unitQty]);
 
-  console.log("=== unit : ", unitData);
-
   return (
     <ExternalServiceComponent
       listCustomers={SelectCustomerData}
       listEmployee={SelectEmployeeData}
       listUnit={SelectUnitData}
       enumJobForms={SelectJobFormsData}
-      enumType={enumType}
+      enumType={enumTypeExternalServices}
       enumWarranty={enumWarranty}
       submitForm={submitForm}
       handleAddNewUnit={handleAddNewUnit}
       handleSubtractUnit={handleSubtractUnit}
       unitData={unitData}
+      selectedUnitModelList={selectedUnitModelList}
       {...props}
     />
   );
@@ -139,6 +153,7 @@ const mapStateToProps = (state) => ({
   employees: state.employees,
   units: state.units,
   jobForms: state.jobForms,
+  formValues: getFormValues("externalServiceForm")(state),
 });
 const mapDispatchToProps = (dispatch) => ({
   resetForm: () => {
@@ -151,6 +166,10 @@ const mapDispatchToProps = (dispatch) => ({
   handleAutoPopulateCustomer: (customerId) => {
     const arrVal = customerId.split("|");
     ExternalServiceActions.setAutoPopulateCustomer(arrVal[0]);
+  },
+  handleAutoPopulateUnitModel: (unitId, fieldIndex) => {
+    const arrVal = unitId.split("|");
+    ExternalServiceActions.setAutoPopulateUnitModel(arrVal[0], fieldIndex);
   },
 });
 

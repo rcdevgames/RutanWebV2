@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Field, FieldArray } from "redux-form";
 import { Form } from "antd";
 import CInput from "../../../components/CInput/CInput";
@@ -22,7 +22,9 @@ const ExternalServiceComponent = (props) => {
     handleAutoPopulateEmployee,
     handleAutoPopulateCustomer,
     listUnit,
-    enumJobForms
+    enumJobForms,
+    handleAutoPopulateUnitModel,
+    selectedUnitModelList,
   } = props;
 
   const renderUnits = ({ fields }) => {
@@ -30,7 +32,7 @@ const ExternalServiceComponent = (props) => {
       fields.remove(index);
     };
     return (
-      <>
+      <Fragment>
         <div class="d-flex flex-row-reverse">
           <div class="ml-2" />
           <CButtonAntd
@@ -45,13 +47,13 @@ const ExternalServiceComponent = (props) => {
         <br />
         {fields.map((itemUnit, indexUnit) => {
           return (
-            <div>
+            <div key={`unit-item-${indexUnit}`}>
               <div class="row">
                 <div class="col">
                   <h5 class="card-title">{`Unit ${indexUnit + 1}`}</h5>
                 </div>
                 <CButtonAntd
-                  key={`removeUnits-${indexUnit}`}
+                  key={`remove-unit-btn-${indexUnit}`}
                   type="primary"
                   icon={<DeleteOutlined />}
                   onClick={() => handleRemoveField(indexUnit)}
@@ -62,6 +64,10 @@ const ExternalServiceComponent = (props) => {
               <div class="row">
                 <div class="col-md-4">
                   <CSelect
+                    key={`enum-units-${indexUnit}`}
+                    onChange={(val) =>
+                      handleAutoPopulateUnitModel(val, indexUnit)
+                    }
                     data={listUnit}
                     name={`${itemUnit}.id`}
                     label="Pilih Unit"
@@ -69,13 +75,15 @@ const ExternalServiceComponent = (props) => {
                 </div>
                 <div class="col-md-4">
                   <CSelect
-                    data={enumType}
+                    key={`enum-model-${indexUnit}`}
+                    data={selectedUnitModelList[indexUnit]}
                     name={`${itemUnit}.unitModelId`}
                     label="Model"
                   />
                 </div>
                 <div class="col-md-4">
                   <Field
+                    key={`serial-number-${indexUnit}`}
                     name={`${itemUnit}.unitModelSerialNumber`}
                     label="Serial Number"
                     placeholder="-"
@@ -88,7 +96,7 @@ const ExternalServiceComponent = (props) => {
             </div>
           );
         })}
-      </>
+      </Fragment>
     );
   };
 

@@ -4,7 +4,7 @@ import { Table, Input, Button, Space } from "antd";
 import Highlighter from "react-highlight-words";
 import { SearchOutlined } from "@ant-design/icons";
 
-const CTableAntd = ({ data, headers, renderActions }) => {
+const CTableAntd = ({ data, headers, renderActions, size }) => {
   const [searchText, setSearchText] = React.useState("");
   const [searchedColumn, setSearchedColumn] = React.useState("");
   const searchInput = React.useRef();
@@ -120,7 +120,7 @@ const CTableAntd = ({ data, headers, renderActions }) => {
     });
   }
 
-  return <Table columns={columns} dataSource={data} />;
+  return <Table columns={columns} dataSource={data} size={size ?? "middle"} />;
 };
 
 CTableAntd.propTypes = {

@@ -2,10 +2,10 @@ import React from "react";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import CTableAntd from "../../../components/CTable/CTableAntd";
 import { PlusOutlined } from "@ant-design/icons";
-import JobFormsModalContainer from "../Container/JobFormsModalContainer";
+import BranchModalContainer from "../Container/UnitsModalContainer";
 
-const JobFormsComponent = (props) => {
-  const { headers, listJobForms, renderActionTable, handlePressAddNew } = props;
+const UnitsComponent = (props) => {
+  const { headers, listRoles, renderActionTable, handlePressAddNew } = props;
   return (
     <div class="page-content">
       <div class="mt-5">
@@ -14,19 +14,19 @@ const JobFormsComponent = (props) => {
             <div class="card">
               <div class="card-body">
                 <div class="row d-flex justify-content-between mb-2">
-                  <h6 class="ml-3 card-title">Data Job Forms</h6>
+                  <h6 class="ml-3 card-title">Data Cabang</h6>
                   <CButtonAntd
                     onClick={handlePressAddNew}
                     type="primary"
                     icon={<PlusOutlined />}
                     size="middle"
                   >
-                    Tambah Job Forms
+                    Tambah Branch
                   </CButtonAntd>
                 </div>
                 <div class="table-responsive">
                   <CTableAntd
-                    data={listJobForms}
+                    data={listRoles}
                     headers={headers}
                     renderActions={renderActionTable}
                   />
@@ -36,9 +36,9 @@ const JobFormsComponent = (props) => {
           </div>
         </div>
       </div>
-      <JobFormsModalContainer />
+      <BranchModalContainer />
     </div>
   );
 };
 
-export default JobFormsComponent;
+export default UnitsComponent;

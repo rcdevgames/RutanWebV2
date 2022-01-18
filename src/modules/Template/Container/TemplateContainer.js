@@ -68,6 +68,9 @@ const TemplateContainer = (props) => {
       case "/monitoring_karyawan":
         return "monitor";
 
+      case "/identification":
+        return "list";
+
       default:
         return "command";
     }
@@ -95,7 +98,8 @@ const TemplateContainer = (props) => {
         item.path === "/machine" ||
         item.path === "/jobforms" ||
         item.path === "/category" ||
-        item.path === "/unit"
+        item.path === "/unit" ||
+        item.path === "/identification"
       ) {
         masterDataMenu.push(menu);
       } else if (

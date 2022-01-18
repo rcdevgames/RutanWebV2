@@ -5,14 +5,14 @@ import { toastr } from "react-redux-toastr";
 import { showToast } from "../../Roles/Store/RolesActions";
 import * as ComponentActions from "../../App/Store/ComponentAction";
 
-export const SET_JOB_FORMS_LIST_DATA = "SET_JOB_FORMS_LIST_DATA";
+export const SET_UNIT_LIST_DATA = "SET_UNIT_LIST_DATA";
 export const SET_FORM_STATUS = "SET_FORM_STATUS";
-export const SET_SELECTED_JOB_FORMS_ID = "SET_SELECTED_BRANCH_ID";
-export const SET_SELECTED_JOB_FORMS_DATA = "SET_SELECTED_JOB_FORMS_DATA";
+export const SET_SELECTED_UNIT_ID = "SET_SELECTED_UNIT_ID";
+export const SET_SELECTED_UNIT_DATA = "SET_SELECTED_UNIT_DATA";
 
-export const setJobFormsListData = (payload) => {
+export const setUnitListData = (payload) => {
   return {
-    type: SET_JOB_FORMS_LIST_DATA,
+    type: SET_UNIT_LIST_DATA,
     payload,
   };
 };
@@ -24,41 +24,41 @@ export const setFormStatus = (payload) => {
   };
 };
 
-export const setSelectedJobFormsId = (payload) => {
+export const setSelectedBranchId = (payload) => {
   return {
-    type: SET_SELECTED_JOB_FORMS_ID,
+    type: SET_SELECTED_UNIT_ID,
     payload,
   };
 };
 
-export const setSelectedJobFormsData = (payload) => {
+export const setSelectedBranchData = (payload) => {
   return {
-    type: SET_SELECTED_JOB_FORMS_DATA,
+    type: SET_SELECTED_UNIT_DATA,
     payload,
   };
 };
 
 // === INTERNAL FUNCTION ===
-const doDeleteBranchProcess = async (jobFormsId) => {
+const doDeleteBranchProcess = async (branchId) => {
   try {
-    await Invoke.deleteJobForms(jobFormsId);
+    await Invoke.deleteBranchById(branchId);
     showToast("Data berhasil dihapus", "success");
-    getJobFormsListDataRequested();
+    getUnitListDataRequested();
   } catch (error) {
     showToast("Internal Server Error!", "error");
     console.log("error : ", error);
   }
 };
 
-const doAddJobFormsProcess = async (values) => {
+const doAddBranchProcess = async (values) => {
   const { dispatch } = store;
   try {
     const payload = {};
     payload.name = values.description;
     payload.description = values.description;
-    await Invoke.addJobForms(payload);
+    await Invoke.addBranch(payload);
     showToast("Data Berhasil Disimpan", "success");
-    getJobFormsListDataRequested();
+    getUnitListDataRequested();
     dispatch(ComponentActions.setGlobalModal(false));
   } catch (error) {
     showToast("Internal Server Error!", "error");
@@ -67,16 +67,16 @@ const doAddJobFormsProcess = async (values) => {
   }
 };
 
-const doEditJobFormsProcess = async (values) => {
+const doEditBranchProcess = async (values) => {
   const { dispatch } = store;
   try {
     const payload = {};
     payload.id = values.id;
     payload.name = values.description;
     payload.description = values.description;
-    await Invoke.updateJobForms(payload);
+    await Invoke.updateBranch(payload);
     showToast("Data Berhasil Disimpan", "success");
-    getJobFormsListDataRequested();
+    getUnitListDataRequested();
     dispatch(ComponentActions.setGlobalModal(false));
   } catch (error) {
     showToast("Internal Server Error!", "error");
@@ -88,34 +88,33 @@ const doEditJobFormsProcess = async (values) => {
 
 export const resetForm = async () => {
   const { dispatch } = store;
-  dispatch(change("editJobForms", `id`, ""));
-  dispatch(change("editJobForms", `description`, ""));
+  dispatch(change("editBranchForm", `id`, ""));
+  dispatch(change("editBranchForm", `description`, ""));
 };
 
-export const mapDetailJobFormsToForm = async () => {
+export const mapDetailBranchToForm = async () => {
   const { dispatch, getState } = store;
-  const data = getState().jobForms.selectedJobFormsData;
-  dispatch(change("editJobForms", `id`, data.id ?? ""));
-  dispatch(change("editJobForms", `judul`, data.name ?? ""));
-  dispatch(change("editJobForms", `description`, data.description ?? ""));
+  const data = getState().branch.selectedBranchData;
+  dispatch(change("editBranchForm", `id`, data.id ?? ""));
+  dispatch(change("editBranchForm", `description`, data.name ?? ""));
 };
 
-export const getJobFormsListDataRequested = async () => {
+export const getUnitListDataRequested = async () => {
   try {
-    const { data } = await Invoke.getListJobForm(1, 100);
-    store.dispatch(setJobFormsListData(data.callback));
+    const { data } = await Invoke.getUnitList(1, 100);
+    store.dispatch(setUnitListData(data.callback));
   } catch (error) {
     console.log(error);
   }
 };
 
-export const saveJobFormsRequested = async (type, values) => {
+export const saveBranchRequested = async (type, values) => {
   const toastrConfirmOptions = {
     onOk: () => {
       if (type === "add") {
-        doAddJobFormsProcess(values);
+        doAddBranchProcess(values);
       } else {
-        doEditJobFormsProcess(values);
+        doEditBranchProcess(values);
       }
     },
     okText: "Ya",
@@ -128,7 +127,7 @@ export const saveJobFormsRequested = async (type, values) => {
   );
 };
 
-export const deleteJobFormsRequested = async (branchId) => {
+export const deleteBranchRequested = async (branchId) => {
   const toastrConfirmOptions = {
     onOk: () => {
       doDeleteBranchProcess(branchId);

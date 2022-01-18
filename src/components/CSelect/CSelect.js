@@ -16,6 +16,7 @@ const CSelect = (props) => {
         showSearch={props.showSearch ?? false}
         name={props.name}
         component={ASelect}
+        onChange={props.onChange}
         onBlur={(e) => {
           if (props.onBlur) {
             props.onBlur();
@@ -24,11 +25,16 @@ const CSelect = (props) => {
         }}
         {...props}
       >
-        <Option value="">{props.placeholder ?? "- Pilih -"}</Option>
+        <Option disabled={props.disabled ?? false} value="">
+          {props.placeholder ?? "- Pilih -"}
+        </Option>
         {props.data.length > 0 &&
           props.data.map((item, index) => {
             return (
-              <Option value={`${item.value}|${item.label}`}>
+              <Option
+                value={`${item.value}|${item.label}`}
+                key={`option-${index}`}
+              >
                 {item.label}
               </Option>
             );

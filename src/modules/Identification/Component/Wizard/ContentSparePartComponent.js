@@ -236,7 +236,7 @@ const ContentSparePartComponent = ({ onChangeServiced, isServiced }) => {
   return (
     <>
       <div class="row m-2 text-left">
-        <div class="col-md-6">
+        <div class="col-md-3">
           <CSelect
             onChange={(val) => onChangeServiced(val)}
             data={listServices}

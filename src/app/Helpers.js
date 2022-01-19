@@ -166,6 +166,19 @@ export const getCitiesEnum = (data) => {
   return SelectCities;
 };
 
+export const getMachineConf = (data) => {
+  const SelectMachines = [];
+  data.map((item, index) => {
+    SelectMachines.push({
+      id: item.id,
+      name: item.name.replace(/ /g, '_').toLowerCase(),
+      type: item.name,
+    });
+  });
+  return SelectMachines;
+};
+
+// This list not used
 export const machineConf = [
   {
     name: "dryer",

@@ -26,6 +26,7 @@ import BranchContainer from "../modules/Branch/Container/BranchContainer";
 import JobFormsContainer from "../modules/JobForms/Container/JobFormsContainer";
 import FormWizardIdentificationContainer from "../modules/Identification/Container/Wizard/FormWizardIdentificationContainer";
 import ListIdentificationContainer from "../modules/Identification/Container/ListIdentificationContainer";
+import MachineConfigurationContainer from "../modules/MachineConfiguration/Container/MachineConfigurationContainer";
 
 export default function Navigation() {
   const authenticatedPage = (component, footerImg, footer) => {
@@ -47,6 +48,10 @@ export default function Navigation() {
   const EmployeeList = authenticatedPage(EmployeesListContainer, true);
   const EditEmployee = authenticatedPage(EmployeeEditContainer, true);
   const Dashboard = authenticatedPage(DashboardContainer, true);
+  const MachineConfiguration = authenticatedPage(
+    MachineConfigurationContainer,
+    true
+  );
   const InternalService = authenticatedPage(InternalServiceContainer, true);
   const ExternalService = authenticatedPage(ExternalServiceContainer, true);
   const MonitoringEmployee = authenticatedPage(
@@ -88,6 +93,7 @@ export default function Navigation() {
         <Route exact path="/admin" component={Admin} />
         <Route exact path="/role" component={Roles} />
         <Route exact path="/cabang" component={Branches} />
+        <Route exact path="/machine" component={MachineConfiguration} />
         <Route exact path="/jobforms" component={JobForms} />
         <Route exact path="/employees" component={EmployeeList} />
         <Route exact path="/edit-employee" component={EditEmployee} />
@@ -105,11 +111,7 @@ export default function Navigation() {
           path="/form-identification"
           component={FormWizardIdentification}
         />
-        <Route
-          exact
-          path="/identification"
-          component={ListIdentification}
-        />
+        <Route exact path="/identification" component={ListIdentification} />
         <Route path={"*"} component={NotFound} />
       </Switch>
     </>

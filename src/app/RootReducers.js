@@ -18,6 +18,7 @@ import detailServiceTransactionReducer from "../modules/DetailServiceTransaction
 import unitModelReducer from "../modules/UnitsModel/Store/UnitModelReducer";
 import externalServiceReducer from "../modules/ExternalService/Store/ExternalServiceReducer";
 import identificationReducer from "../modules/Identification/Store/IdentificationReducer";
+import machineConfigurationReducer from "../modules/MachineConfiguration/Store/MachineConfigurationReducer";
 
 const rootReducers = combineReducers({
   router: connectRouter(history),
@@ -35,6 +36,7 @@ const rootReducers = combineReducers({
   identification: identificationReducer,
   masters: masterDataReducer,
   branch: branchReducer,
+  machineConfiguration: machineConfigurationReducer,
   detailService: detailServiceTransactionReducer,
   form: formReducer,
   toastr: toastrReducer,

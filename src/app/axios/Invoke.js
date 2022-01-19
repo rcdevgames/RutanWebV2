@@ -282,12 +282,30 @@ Invoke.deleteMenuByMenuRoleId = (menuRoleId) => {
 };
 // === End Menu - Roles API ===
 
+// === Master Engines API === :
+Invoke.getListEngine = (page, limit) => {
+  return ConfigAxios.get(`/engines?page=${page}&limit=${limit}`);
+};
+Invoke.addEngine = (payload) => {
+  return ConfigAxios.post(`/engines`, payload);
+};
+Invoke.updateEngine = (payload) => {
+  return ConfigAxios.put(`/engines`, payload);
+};
+Invoke.deleteEngine = (machineId) => {
+  return ConfigAxios.delete(`/engines/${machineId}`, headersConfigDelete);
+};
+// === End Engines API ===
+
 // === Master Identification API === :
 Invoke.getIdentificationList = (page, limit) => {
   return ConfigAxios.get(`/identifications?page=${page}&limit=${limit}`);
 };
 Invoke.addIdentification = (payload) => {
   return ConfigAxios.post(`/identifications`, payload);
+};
+Invoke.updateIdentificationMilling = (payload) => {
+  return ConfigAxios.post("/m_identifications/milling", payload);
 };
 
 export default Invoke;

@@ -93,7 +93,7 @@ const ContentMachineConfigurationComponent = ({ machineConf }) => {
           <p className="text-small ml-2">Tips : Maksimal hanya input 2 unit.</p>
         </div>
         <FieldArray
-          name={item.name}
+          name={`engine_confs.${item.name}`}
           component={(_props) => <RenderBodyHusker item={item} {..._props} />}
         />
         <hr />

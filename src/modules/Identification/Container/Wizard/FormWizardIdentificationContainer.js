@@ -4,6 +4,7 @@ import { reduxForm } from "redux-form";
 import Invoke from "../../../../app/axios/Invoke";
 import {
   getCitiesEnum,
+  getMachineConf,
   getProvinceEnum,
   machineConf,
   SelectInstanceType,
@@ -21,6 +22,7 @@ const FormWizardIdentificationContainer = (props) => {
   const {
     identification: { selectedIdentificationData },
     masters: { listProvince },
+    machineConfiguration: { listMachine },
   } = props;
 
   const onChangeProvince = async (provinceId) => {
@@ -37,7 +39,6 @@ const FormWizardIdentificationContainer = (props) => {
 
   const onChangeServiced = (val) => {
     const isServiced = val.split("|");
-    console.log("=== val : ", isServiced[0]);
     if (isServiced[0] === "true") {
       setServiced(true);
     } else {
@@ -64,7 +65,9 @@ const FormWizardIdentificationContainer = (props) => {
     steps.push({
       title: "Konfigurasi Mesin",
       content: (
-        <ContentMachineConfigurationComponent machineConf={machineConf} />
+        <ContentMachineConfigurationComponent
+          machineConf={getMachineConf(listMachine)}
+        />
       ),
     });
   } else {
@@ -97,6 +100,7 @@ const mapStateToProps = (state) => ({
   detailService: state.detailService,
   identification: state.identification,
   masters: state.masters,
+  machineConfiguration: state.machineConfiguration,
 });
 const mapDispatchToProps = (dispatch) => ({});
 

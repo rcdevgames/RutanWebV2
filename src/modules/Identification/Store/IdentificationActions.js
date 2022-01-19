@@ -104,20 +104,54 @@ const doAddIdentificationProcess = async (values) => {
   }
 };
 
-const doEditIdentificationProcess = async (values) => {
-  const { dispatch } = store;
+const doUpdateIdentificationMilling = async (values) => {
+  const { getState, dispatch } = store;
   try {
-    const payload = {};
-    payload.id = values.id;
-    payload.name = values.description;
-    payload.description = values.description;
-    await Invoke.updateBranch(payload);
+    const identificationId = getState().identification.selectedIdentificationId;
+    const splitInstanceType = values.instanceType.split("|");
+    const splitMillingStatus = values.millingStatus.split("|");
+    const splitCity = values.city.split("|");
+    const splitProvince = values.province.split("|");
+
+    const payload = {
+      identification_id: identificationId,
+      instance_type: splitInstanceType[0],
+      instance_name: values.instanceName ?? "",
+      name: values.customerName ?? "",
+      ktp_npwp: values.ktp_npwp ?? "",
+      status: splitMillingStatus[0],
+      city: splitCity[1],
+      province: splitProvince[1],
+      phone: values.phone ?? "",
+      milling_capacity: values.millingCapacity ?? "",
+      milling_work_capacity_perday: values.millingWorkCapacityPerDay ?? "",
+      rice_trademark: values.riceTrademark ?? "",
+      history_service_place: values.history_service_place ?? "",
+      history_service_type: values.history_service_type ?? "",
+      note: values.note ?? "",
+      engine_confs: [
+        {
+          engine_conf_id: "adb005be-8477-4a7b-8e0a-2a36e1ecfaf2",
+          buy_and_use_year: "2021",
+          serial_number: "SN1212",
+          qty: 10,
+        },
+        {
+          engine_conf_id: "41b4d09f-2253-4103-8a25-3f8cc655e500",
+          buy_and_use_year: "2021",
+          serial_number: "SN9827",
+          qty: 10,
+        },
+      ],
+      spare_part_needs: values.spare_part_needs ?? [],
+      spare_part_changing_histories: values.spare_part_changing_histories ?? [],
+      spare_part_selling_histories: values.spare_part_selling_histories ?? [],
+    };
+    await Invoke.updateIdentificationMilling(payload);
     showToast("Data Berhasil Disimpan", "success");
     getIdentificationListRequested();
-    dispatch(ComponentActions.setGlobalModal(false));
   } catch (error) {
     showToast("Internal Server Error!", "error");
-    dispatch(ComponentActions.setGlobalModal(false));
     console.log("error : ", error);
   }
 };
@@ -141,7 +175,7 @@ export const saveIdentificationRequested = async (type, values) => {
       if (type === "add") {
         doAddIdentificationProcess(values);
       } else {
-        doEditIdentificationProcess(values);
+        doUpdateIdentificationMilling(values);
       }
     },
     okText: "Ya",

@@ -37,6 +37,9 @@ const ContentSparePartComponent = ({ onChangeServiced, isServiced }) => {
             type="primary"
             icon={<PlusOutlined />}
             onClick={() => {
+              if (fields.length >= 5) {
+                return;
+              }
               fields.push({});
             }}
           >
@@ -100,6 +103,9 @@ const ContentSparePartComponent = ({ onChangeServiced, isServiced }) => {
             type="primary"
             icon={<PlusOutlined />}
             onClick={() => {
+              if (fields.length >= 5) {
+                return;
+              }
               fields.push({});
             }}
           >
@@ -163,6 +169,9 @@ const ContentSparePartComponent = ({ onChangeServiced, isServiced }) => {
             type="primary"
             icon={<PlusOutlined />}
             onClick={() => {
+              if (fields.length >= 5) {
+                return;
+              }
               fields.push({});
             }}
           >
@@ -251,7 +260,7 @@ const ContentSparePartComponent = ({ onChangeServiced, isServiced }) => {
             <Field
               name="history_service_place"
               label="Perbaikan Dilakukan Di"
-              placeholder="-"
+              placeholder="cth: Blitar"
               component={CInput}
               type="text"
             />
@@ -260,7 +269,7 @@ const ContentSparePartComponent = ({ onChangeServiced, isServiced }) => {
             <Field
               name="history_service_type"
               label="Jenis Perbaikan"
-              placeholder="-"
+              placeholder="cth: Service Sikring"
               component={CInput}
               type="text"
             />
@@ -272,7 +281,7 @@ const ContentSparePartComponent = ({ onChangeServiced, isServiced }) => {
         <div className="row text-left ml-1">
           <InfoCircleTwoTone />
           <p className="text-small ml-2">
-            Tips : Isi jika pernah dilakukan service.
+            Tips : Isi jika pernah dilakukan service, maksimal 5 unit.
           </p>
         </div>
         <FieldArray
@@ -291,7 +300,7 @@ const ContentSparePartComponent = ({ onChangeServiced, isServiced }) => {
         <div className="row text-left ml-1">
           <InfoCircleTwoTone />
           <p className="text-small ml-2">
-            Tips : Isi jika pernah dilakukan penjualan.
+            Tips : Isi jika pernah dilakukan penjualan, maksimal 5 unit
           </p>
         </div>
         <FieldArray
@@ -308,7 +317,7 @@ const ContentSparePartComponent = ({ onChangeServiced, isServiced }) => {
         <div className="row text-left ml-1">
           <InfoCircleTwoTone />
           <p className="text-small ml-2">
-            Tips : Isi jika pernah dilakukan penjualan.
+            Tips : Isi apabila terdapat kebutuhan spare part, maksimal 5 unit
           </p>
         </div>
         <FieldArray
@@ -322,7 +331,7 @@ const ContentSparePartComponent = ({ onChangeServiced, isServiced }) => {
           <Field
             name="note"
             label="Keterangan"
-            placeholder="-"
+            placeholder="cth: Pernah dilakukan service namun tidak rampung"
             component={CInput}
             typeComponent="textarea"
           />

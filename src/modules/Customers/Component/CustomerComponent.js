@@ -2,10 +2,9 @@ import React from "react";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import CTableAntd from "../../../components/CTable/CTableAntd";
 import { PlusOutlined } from "@ant-design/icons";
-import BranchModalContainer from "../Container/BranchModalContainer";
 
-const BranchComponent = (props) => {
-  const { headers, listRoles, renderActionTable, handlePressAddNew } = props;
+const CustomerComponent = (props) => {
+  const { headers, listCustomers, renderActionTable, handlePressAddNew } = props;
   return (
     <div class="page-content">
       <div class="mt-5">
@@ -13,20 +12,20 @@ const BranchComponent = (props) => {
           <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
               <div class="card-body">
-                <div class="row d-flex justify-content-between mb-2 align-items-center">
-                  <h6 class="ml-3 card-title">Data Cabang</h6>
+                <div class="row d-flex justify-content-between mb-2">
+                  <h6 class="ml-3 card-title">Data Customer</h6>
                   <CButtonAntd
                     onClick={handlePressAddNew}
                     type="primary"
                     icon={<PlusOutlined />}
                     size="middle"
                   >
-                    Tambah Branch
+                    Tambah Customer
                   </CButtonAntd>
                 </div>
                 <div class="table-responsive">
                   <CTableAntd
-                    data={listRoles}
+                    data={listCustomers}
                     headers={headers}
                     renderActions={renderActionTable}
                   />
@@ -36,9 +35,8 @@ const BranchComponent = (props) => {
           </div>
         </div>
       </div>
-      <BranchModalContainer />
     </div>
   );
 };
 
-export default BranchComponent;
+export default CustomerComponent;

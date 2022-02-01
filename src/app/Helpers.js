@@ -91,6 +91,29 @@ export const SelectStatusMilling = [
   },
 ];
 
+export const SelectInstanceTypeRegular = [
+  {
+    id: `status-1`,
+    value: "T1",
+    label: "Kepemilikan Pribadi",
+  },
+  {
+    id: `status-2`,
+    value: "T2",
+    label: "Perusahaan",
+  },
+  {
+    id: `status-3`,
+    value: "T3",
+    label: "Kelompok Tani",
+  },
+  {
+    id: `status-3`,
+    value: "T4",
+    label: "Dinas",
+  },
+];
+
 export const SelectStatusIdentification = [
   {
     id: `status-identification-1`,
@@ -164,6 +187,18 @@ export const getCitiesEnum = (data) => {
     });
   });
   return SelectCities;
+};
+
+export const getUnitModelEnum = (data) => {
+  const SelectUnitModel = [];
+  data.map((item, index) => {
+    SelectUnitModel.push({
+      id: `unit-model-${index}`,
+      value: item.id,
+      label: item.name,
+    });
+  });
+  return SelectUnitModel;
 };
 
 export const getMachineConf = (data) => {

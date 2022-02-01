@@ -2,6 +2,7 @@ import React from "react";
 
 const Navbar = (props) => {
   const { onLogout, userDetail } = props;
+  console.log("=== userDetail : ", userDetail);
   return (
     <nav class="navbar">
       <a href="#" class="sidebar-toggler">
@@ -207,7 +208,14 @@ const Navbar = (props) => {
                       ? userDetail.fullname.toUpperCase()
                       : "Anonym"}
                   </p>
-                  <p class="email text-muted mb-3">Administrator</p>
+                  <p class="email text-muted mb-3">
+                    {userDetail.roles.map((item) => {
+                      if (userDetail.roles.length > 1) {
+                        return `${item.name},`;
+                      }
+                      return item.name;
+                    })}
+                  </p>
                 </div>
               </div>
               <div class="dropdown-body">

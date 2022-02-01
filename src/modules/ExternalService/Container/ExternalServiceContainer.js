@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getFormValues, reduxForm, reset } from "redux-form";
+import { formValueSelector, getFormValues, reduxForm, reset } from "redux-form";
 import ExternalServiceComponent from "../Component/ExternalServiceComponent";
 import * as validateForm from "../../../app/validateForm";
 import * as CustomerActions from "../../Customers/Store/CustomersActions";
@@ -11,10 +11,11 @@ import * as UnitsActions from "../../Units/Store/UnitsActions";
 import * as JobFormsActions from "../../JobForms/Store/JobFormsActions";
 import { enumTypeExternalServices, enumWarranty } from "../../../app/Helpers";
 
+const selector = formValueSelector("externalServiceForm");
+
 const ExternalServiceContainer = (props) => {
   const [unitQty, setUnitQty] = React.useState(1);
   const [unitData, setUnitData] = React.useState([]);
-  const [selectedUnitModelList, setSelectedUnitModelList] = React.useState([]);
 
   const {
     valid,
@@ -23,13 +24,14 @@ const ExternalServiceContainer = (props) => {
     units: { listUnits },
     jobForms: { listJobForms },
     resetForm,
-    formValues,
     // form: { externalServiceForm },
   } = props;
 
   const submitForm = (values) => {
+    console.log("=== Test");
+    console.log("=== values : ", values);
+    ExternalServiceActions.handleSubmitForm(values);
     if (valid) {
-      // AuthActions.handleSubmitLogin(values);
       console.log("success");
     }
   };
@@ -48,30 +50,39 @@ const ExternalServiceContainer = (props) => {
     setUnitQty(unitQty - 1);
   };
 
-  const getData = () => {
-    console.log("=== formValues : ", formValues);
-    const units = formValues.units;
-    const unitModel = [];
+  // const getData = () => {
+  //   console.log("=== formValues : ", formValues);
+  //   const unitsItem = formValues.units;
+  //   const unitModel = [];
 
-    if (units.length > 0) {
-      units.map((item, indexUnit) => {
-        item.enumModel.map((item, indexEnumModel) => {
-          const subItem = {
-            id: `unit-model-${indexEnumModel}`,
-            value: item.id,
-            label: item.name,
-          };
-          unitModel.push(subItem);
-        });
-      });
-    }
+  //   if (unitsItem.length > 0) {
+  //     unitsItem.map((item, indexUnit) => {
+  //       item.enumModel.map((item, indexEnumModel) => {
+  //         const subItem = {
+  //           id: `unit-model-${indexEnumModel}`,
+  //           value: item.id,
+  //           label: item.name,
+  //         };
+  //         unitModel.push(subItem);
+  //       });
+  //     });
+  //   }
 
-    setSelectedUnitModelList(unitModel);
-  };
+  //   setSelectedUnitModelList(unitModel);
+  // };
 
-  React.useEffect(() => {
-    getData();
-  }, [formValues]);
+  // React.useEffect(() => {
+  //   getData();
+  // }, [formValues]);
+
+  const SelectUnit = [];
+  listUnits.map((item, index) => {
+    SelectUnit.push({
+      id: `unit-${index}`,
+      value: item.id,
+      label: item.name,
+    });
+  });
 
   React.useEffect(() => {
     CustomerActions.loadCustomerListData();
@@ -101,15 +112,6 @@ const ExternalServiceContainer = (props) => {
     });
   });
 
-  const SelectUnitData = [];
-  listUnits.map((item, index) => {
-    SelectUnitData.push({
-      id: `unit-${index}`,
-      value: item.id,
-      label: item.name,
-    });
-  });
-
   const SelectJobFormsData = [];
   listJobForms.map((item, index) => {
     SelectJobFormsData.push({
@@ -133,7 +135,7 @@ const ExternalServiceContainer = (props) => {
     <ExternalServiceComponent
       listCustomers={SelectCustomerData}
       listEmployee={SelectEmployeeData}
-      listUnit={SelectUnitData}
+      listUnit={SelectUnit}
       enumJobForms={SelectJobFormsData}
       enumType={enumTypeExternalServices}
       enumWarranty={enumWarranty}
@@ -141,7 +143,7 @@ const ExternalServiceContainer = (props) => {
       handleAddNewUnit={handleAddNewUnit}
       handleSubtractUnit={handleSubtractUnit}
       unitData={unitData}
-      selectedUnitModelList={selectedUnitModelList}
+      // selectedUnitModelList={selectedUnitModelList}
       {...props}
     />
   );
@@ -154,6 +156,7 @@ const mapStateToProps = (state) => ({
   units: state.units,
   jobForms: state.jobForms,
   formValues: getFormValues("externalServiceForm")(state),
+  externalValues: selector(state, "units"),
 });
 const mapDispatchToProps = (dispatch) => ({
   resetForm: () => {
@@ -171,6 +174,8 @@ const mapDispatchToProps = (dispatch) => ({
     const arrVal = unitId.split("|");
     ExternalServiceActions.setAutoPopulateUnitModel(arrVal[0], fieldIndex);
   },
+  onChangeUnitModel: (val, index, enumModel) =>
+    ExternalServiceActions.onChangeUnitModel(val, index, enumModel),
 });
 
 const EnhanceContainer = connect(

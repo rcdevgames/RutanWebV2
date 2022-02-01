@@ -1,28 +1,32 @@
 import React from "react";
 import { connect } from "react-redux";
-import { reduxForm } from "redux-form";
+import { change, getFormValues, reduxForm } from "redux-form";
 import Invoke from "../../../../app/axios/Invoke";
 import {
   getCitiesEnum,
   getMachineConf,
   getProvinceEnum,
-  machineConf,
   SelectInstanceType,
+  SelectInstanceTypeRegular,
   SelectStatusMilling,
 } from "../../../../app/Helpers";
 import ContentStepOneComponent from "../../Component/Wizard/ContentStepOneComponent";
-import ContentStepTwoComponent from "../../Component/Wizard/ContentStepTwoComponent";
+import ContentUnitComponent from "../../Component/Wizard/ContentUnitComponent";
 import ContentSparePartComponent from "../../Component/Wizard/ContentSparePartComponent";
 import FormWizardIdentificationComponent from "../../Component/Wizard/FormWizardIdentificationComponent";
 import ContentMachineConfigurationComponent from "../../Component/Wizard/ContentMachineConfigurationComponent";
+import { store } from "../../../../app/ConfigureStore";
+import ContentStepOneRegularComponent from "../../Component/Wizard/ContentStepOneRegularComponent";
+import * as IdentificationActions from "../../Store/IdentificationActions";
 
 const FormWizardIdentificationContainer = (props) => {
   const [cities, setCities] = React.useState([]);
   const [serviced, setServiced] = React.useState(false);
   const {
-    identification: { selectedIdentificationData },
+    identification: { selectedIdentificationData, formStatus },
     masters: { listProvince },
     machineConfiguration: { listMachine },
+    identificationFormValues,
   } = props;
 
   const onChangeProvince = async (provinceId) => {
@@ -46,34 +50,64 @@ const FormWizardIdentificationContainer = (props) => {
     }
   };
 
+  const onAddMachineConf = (item) => {
+    store.dispatch(
+      change(
+        "wizardIdentificationForm",
+        `engine_confs.${item.name}.id`,
+        item.id
+      )
+    );
+  };
+
+  const saveFormChanges = (isLastStep) => {
+    IdentificationActions.saveIdentificationRequested(
+      formStatus,
+      identificationFormValues,
+      isLastStep
+    );
+  };
+
   const steps = [];
 
-  steps.push({
-    title: "Customer",
-    content: (
-      <ContentStepOneComponent
-        provinces={getProvinceEnum(listProvince)}
-        cities={cities}
-        onChangeProvince={onChangeProvince}
-        enumInstanceType={SelectInstanceType}
-        enumStatusMilling={SelectStatusMilling}
-      />
-    ),
-  });
-
   if (selectedIdentificationData.milling) {
+    steps.push({
+      title: "Customer",
+      content: (
+        <ContentStepOneComponent
+          provinces={getProvinceEnum(listProvince)}
+          cities={cities}
+          onChangeProvince={onChangeProvince}
+          enumInstanceType={SelectInstanceType}
+          enumStatusMilling={SelectStatusMilling}
+        />
+      ),
+    });
     steps.push({
       title: "Konfigurasi Mesin",
       content: (
         <ContentMachineConfigurationComponent
           machineConf={getMachineConf(listMachine)}
+          onAddMachineConf={onAddMachineConf}
         />
       ),
     });
   } else {
     steps.push({
+      title: "Customer",
+      content: (
+        <ContentStepOneRegularComponent
+          provinces={getProvinceEnum(listProvince)}
+          cities={cities}
+          onChangeProvince={onChangeProvince}
+          enumInstanceType={SelectInstanceTypeRegular}
+          enumStatusMilling={SelectStatusMilling}
+        />
+      ),
+    });
+    steps.push({
       title: "Unit",
-      content: <ContentStepTwoComponent />,
+      content: <ContentUnitComponent />,
     });
   }
 
@@ -87,10 +121,13 @@ const FormWizardIdentificationContainer = (props) => {
     ),
   });
 
+  console.log("=== identifi : ", identificationFormValues);
+
   return (
     <FormWizardIdentificationComponent
       data={selectedIdentificationData}
       steps={steps}
+      saveFormChanges={saveFormChanges}
     />
   );
 };
@@ -101,6 +138,7 @@ const mapStateToProps = (state) => ({
   identification: state.identification,
   masters: state.masters,
   machineConfiguration: state.machineConfiguration,
+  identificationFormValues: getFormValues("wizardIdentificationForm")(state),
 });
 const mapDispatchToProps = (dispatch) => ({});
 

@@ -2,10 +2,10 @@ import React from "react";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import CTableAntd from "../../../components/CTable/CTableAntd";
 import { PlusOutlined } from "@ant-design/icons";
-import BranchModalContainer from "../Container/BranchModalContainer";
+import FormCategoryModalContainer from "../Container/FormCategoryModalContainer";
 
-const BranchComponent = (props) => {
-  const { headers, listRoles, renderActionTable, handlePressAddNew } = props;
+const FormCategoryComponent = (props) => {
+  const { headers, listFormCategory, renderActionTable, handlePressAddNew } = props;
   return (
     <div class="page-content">
       <div class="mt-5">
@@ -14,19 +14,19 @@ const BranchComponent = (props) => {
             <div class="card">
               <div class="card-body">
                 <div class="row d-flex justify-content-between mb-2 align-items-center">
-                  <h6 class="ml-3 card-title">Data Cabang</h6>
+                  <h6 class="ml-3 card-title">Data Kategori Form</h6>
                   <CButtonAntd
                     onClick={handlePressAddNew}
                     type="primary"
                     icon={<PlusOutlined />}
                     size="middle"
                   >
-                    Tambah Branch
+                    Tambah Kategori Form
                   </CButtonAntd>
                 </div>
                 <div class="table-responsive">
                   <CTableAntd
-                    data={listRoles}
+                    data={listFormCategory}
                     headers={headers}
                     renderActions={renderActionTable}
                   />
@@ -36,9 +36,9 @@ const BranchComponent = (props) => {
           </div>
         </div>
       </div>
-      <BranchModalContainer />
+      <FormCategoryModalContainer />
     </div>
   );
 };
 
-export default BranchComponent;
+export default FormCategoryComponent;

@@ -25,7 +25,7 @@ export const loadCustomerListData = async () => {
 export const getCustomerListDataByPaging = async (page, limit) => {
   try {
     const { data } = await Invoke.getCustomerList(page, limit);
-    store.dispatch(setCustomerListData(data));
+    store.dispatch(setCustomerListData(data.callback));
   } catch (error) {
     console.log(error);
   }

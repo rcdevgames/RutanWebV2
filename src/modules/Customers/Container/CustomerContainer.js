@@ -2,24 +2,24 @@ import { Space } from "antd";
 import React from "react";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
-import * as UnitsActions from "../Store/UnitsActions";
+import * as CustomerActions from "../Store/CustomersActions";
 import * as ComponentActions from "../../App/Store/ComponentAction";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
-import UnitsComponent from "../Component/UnitsComponent";
+import CustomerComponent from "../Component/CustomerComponent";
 
-const UnitsConatiner = (props) => {
+const CustomerContainer = (props) => {
   const {
-    getListUnit,
+    getListCustomer,
     handlePressEdit,
     handlePressDelete,
     handlePressAddNew,
-    units: { listUnits },
+    customers: { listCustomers },
   } = props;
 
-  if (listUnits.length > 0) {
-    listUnits.map((item, index) => {
-      listUnits[index] = { ...item, no: index + 1 };
+  if (listCustomers.length > 0) {
+    listCustomers.map((item, index) => {
+      listCustomers[index] = { ...item, no: index + 1 };
     });
   }
 
@@ -32,25 +32,32 @@ const UnitsConatiner = (props) => {
       sorter: (a, b) => a.no - b.no,
     },
     {
-      title: "Nama Unit",
+      title: "Nama Customer",
       dataIndex: "name",
       key: "name",
       width: "30%",
       sorter: (a, b) => a.name.length - b.name.length,
     },
     {
-      title: "Divisi",
-      dataIndex: "division",
-      key: "division",
-      width: "10%",
-      sorter: (a, b) => a.division.length - b.division.length,
+      title: "Cabang",
+      dataIndex: "branch_name",
+      key: "branch_name",
+      width: "20%",
+      sorter: (a, b) => a.branch_name.length - b.branch_name.length,
     },
     {
-      title: "Deskripsi",
-      dataIndex: "description",
-      key: "description",
-      width: "30%",
-      sorter: (a, b) => a.description.length - b.description.length,
+      title: "Telepon",
+      dataIndex: "phone",
+      key: "phone",
+      width: "20%",
+      sorter: (a, b) => a.phone.length - b.phone.length,
+    },
+    {
+      title: "PIC | Phone",
+      dataIndex: `phone`,
+      key: "phone",
+      width: "20%",
+      sorter: (a, b) => a.phone.length - b.phone.length,
     },
   ];
 
@@ -75,25 +82,25 @@ const UnitsConatiner = (props) => {
   );
 
   React.useEffect(() => {
-    getListUnit();
+    getListCustomer();
   }, []);
 
   return (
-    <UnitsComponent
+    <CustomerComponent
       headers={headers}
-      listUnits={listUnits}
+      listCustomers={listCustomers}
       renderActionTable={renderActionTable}
       handlePressAddNew={handlePressAddNew}
-      // {...props}
+      {...props}
     />
   );
 };
 
 const mapStateToProps = (state) => ({
-  units: state.units,
+  customers: state.customers,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getListUnit: () => UnitsActions.getUnitListDataRequested(),
+  getListCustomer: () => CustomerActions.getCustomerListDataByPaging(1, 100),
   // handlePressAddNew: async () => {
   //   await dispatch(BranchActions.setSelectedBranchData({}));
   //   await dispatch(BranchActions.setSelectedBranchId(""));
@@ -117,8 +124,8 @@ const mapDispatchToProps = (dispatch) => ({
 const EnhanceContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(UnitsConatiner);
+)(CustomerContainer);
 
 export default reduxForm({
-  form: "unitsForm",
+  form: "customerForm",
 })(EnhanceContainer);

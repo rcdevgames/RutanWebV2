@@ -5,14 +5,14 @@ import { toastr } from "react-redux-toastr";
 import { showToast } from "../../Roles/Store/RolesActions";
 import * as ComponentActions from "../../App/Store/ComponentAction";
 
-export const SET_UNIT_LIST_DATA = "SET_UNIT_LIST_DATA";
+export const SET_FORM_CATEGORY_LIST_DATA = "SET_FORM_CATEGORY_LIST_DATA";
 export const SET_FORM_STATUS = "SET_FORM_STATUS";
-export const SET_SELECTED_UNIT_ID = "SET_SELECTED_UNIT_ID";
-export const SET_SELECTED_UNIT_DATA = "SET_SELECTED_UNIT_DATA";
+export const SET_SELECTED_FORM_CATEGORY_ID = "SET_SELECTED_BRANCH_ID";
+export const SET_SELECTED_FORM_CATEGORY_DATA = "SET_SELECTED_BRANCH_DATA";
 
-export const setUnitListData = (payload) => {
+export const setFormCategoryListData = (payload) => {
   return {
-    type: SET_UNIT_LIST_DATA,
+    type: SET_FORM_CATEGORY_LIST_DATA,
     payload,
   };
 };
@@ -24,41 +24,41 @@ export const setFormStatus = (payload) => {
   };
 };
 
-export const setSelectedBranchId = (payload) => {
+export const setSelectedFormCategoryId = (payload) => {
   return {
-    type: SET_SELECTED_UNIT_ID,
+    type: SET_SELECTED_FORM_CATEGORY_ID,
     payload,
   };
 };
 
-export const setSelectedBranchData = (payload) => {
+export const setSelectedFormCategoryData = (payload) => {
   return {
-    type: SET_SELECTED_UNIT_DATA,
+    type: SET_SELECTED_FORM_CATEGORY_DATA,
     payload,
   };
 };
 
 // === INTERNAL FUNCTION ===
-const doDeleteBranchProcess = async (branchId) => {
+const doDeleteFormCategoryProcess = async (categoryFormId) => {
   try {
-    await Invoke.deleteBranchById(branchId);
+    await Invoke.deleteFormCategory(categoryFormId);
     showToast("Data berhasil dihapus", "success");
-    getUnitListDataRequested();
+    getFormCatgeoryListDataRequested();
   } catch (error) {
     showToast("Internal Server Error!", "error");
     console.log("error : ", error);
   }
 };
 
-const doAddBranchProcess = async (values) => {
+const doAddFormCategoryProcess = async (values) => {
   const { dispatch } = store;
   try {
     const payload = {};
-    payload.name = values.description;
-    payload.description = values.description;
-    await Invoke.addBranch(payload);
+    payload.name = values.name;
+    payload.description = "none";
+    await Invoke.addFormCategory(payload);
     showToast("Data Berhasil Disimpan", "success");
-    getUnitListDataRequested();
+    getFormCatgeoryListDataRequested();
     dispatch(ComponentActions.setGlobalModal(false));
   } catch (error) {
     showToast("Internal Server Error!", "error");
@@ -67,16 +67,16 @@ const doAddBranchProcess = async (values) => {
   }
 };
 
-const doEditBranchProcess = async (values) => {
+const doEditFormCategoryProcess = async (values) => {
   const { dispatch } = store;
   try {
     const payload = {};
     payload.id = values.id;
-    payload.name = values.description;
-    payload.description = values.description;
-    await Invoke.updateBranch(payload);
+    payload.name = values.name;
+    payload.description = values.description ?? "Nones";
+    await Invoke.updateFormCategory(payload);
     showToast("Data Berhasil Disimpan", "success");
-    getUnitListDataRequested();
+    getFormCatgeoryListDataRequested();
     dispatch(ComponentActions.setGlobalModal(false));
   } catch (error) {
     showToast("Internal Server Error!", "error");
@@ -88,33 +88,33 @@ const doEditBranchProcess = async (values) => {
 
 export const resetForm = async () => {
   const { dispatch } = store;
-  dispatch(change("editUnitForm", `id`, ""));
-  dispatch(change("editUnitForm", `description`, ""));
+  dispatch(change("editFormCategory", `id`, ""));
+  dispatch(change("editFormCategory", `description`, ""));
 };
 
-export const mapDetailBranchToForm = async () => {
+export const mapDetailCategoryToForm = async () => {
   const { dispatch, getState } = store;
-  const data = getState().branch.selectedBranchData;
-  dispatch(change("editUnitForm", `id`, data.id ?? ""));
-  dispatch(change("editUnitForm", `description`, data.name ?? ""));
+  const data = getState().formCategory.selectedFormCategoryData;
+  dispatch(change("editFormCategory", `id`, data.id ?? ""));
+  dispatch(change("editFormCategory", `name`, data.name ?? ""));
 };
 
-export const getUnitListDataRequested = async () => {
+export const getFormCatgeoryListDataRequested = async () => {
   try {
-    const { data } = await Invoke.getUnitList(1, 100);
-    store.dispatch(setUnitListData(data.callback));
+    const { data } = await Invoke.getFormCategory(1, 100);
+    store.dispatch(setFormCategoryListData(data.callback));
   } catch (error) {
     console.log(error);
   }
 };
 
-export const saveBranchRequested = async (type, values) => {
+export const saveFormCategoryRequested = async (type, values) => {
   const toastrConfirmOptions = {
     onOk: () => {
       if (type === "add") {
-        doAddBranchProcess(values);
+        doAddFormCategoryProcess(values);
       } else {
-        doEditBranchProcess(values);
+        doEditFormCategoryProcess(values);
       }
     },
     okText: "Ya",
@@ -127,10 +127,10 @@ export const saveBranchRequested = async (type, values) => {
   );
 };
 
-export const deleteBranchRequested = async (branchId) => {
+export const deleteFormCategoryRequested = async (formCategoryId) => {
   const toastrConfirmOptions = {
     onOk: () => {
-      doDeleteBranchProcess(branchId);
+      doDeleteFormCategoryProcess(formCategoryId);
     },
     okText: "Ya",
     cancelText: "Tidak",

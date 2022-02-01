@@ -24,15 +24,21 @@ const StepsAction = styled.div`
 const { Step } = Steps;
 
 const FormWizardIdentificationComponent = (props) => {
-  const { data, steps } = props;
+  const { data, steps, saveFormChanges } = props;
   const [current, setCurrent] = React.useState(0);
 
-  const next = () => {
+  const onClickNext = () => {
     setCurrent(current + 1);
+    saveFormChanges(false);
   };
 
-  const prev = () => {
+  const onClickPrevious = () => {
     setCurrent(current - 1);
+  };
+
+  const onFinished = () => {
+    message.success("Processing complete!");
+    saveFormChanges(true);
   };
 
   return (
@@ -75,20 +81,17 @@ const FormWizardIdentificationComponent = (props) => {
             <StepsContent>{steps[current].content}</StepsContent>
             <StepsAction>
               {current < steps.length - 1 && (
-                <Button type="primary" onClick={() => next()}>
+                <Button type="primary" onClick={onClickNext}>
                   Next
                 </Button>
               )}
               {current === steps.length - 1 && (
-                <Button
-                  type="primary"
-                  onClick={() => message.success("Processing complete!")}
-                >
+                <Button type="primary" onClick={onFinished}>
                   Done
                 </Button>
               )}
               {current > 0 && (
-                <Button style={{ margin: "0 8px" }} onClick={() => prev()}>
+                <Button style={{ margin: "0 8px" }} onClick={onClickPrevious}>
                   Previous
                 </Button>
               )}

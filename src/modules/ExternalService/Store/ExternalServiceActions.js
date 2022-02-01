@@ -1,6 +1,11 @@
-import { change } from "redux-form";
+import moment from "moment";
+import { change, reset } from "redux-form";
 import { store } from "../../../app/ConfigureStore";
+import { v4 as uuidv4 } from "uuid";
 import Invoke from "../../../app/axios/Invoke";
+import { setGlobalFormLoading } from "../../App/Store/ComponentAction";
+import { toast } from "react-toastify";
+import { SelectStatus } from "../../../app/Helpers";
 
 export const SET_ENUM_UNIT_MODEL = "SET_ENUM_UNIT_MODEL";
 
@@ -129,31 +134,90 @@ export const setAutoPopulateCustomer = async (customerId) => {
   }
 };
 
-const handleSubmitForm = (values) => {
+export const onChangeUnitModel = (val, index, enumUnit) => {
+  const { dispatch } = store;
+  const splitUnitModel = val.split("|");
+
+  const [selectedUnitModel] = enumUnit.filter(
+    (x) => x.id === splitUnitModel[0]
+  );
+
+  dispatch(
+    change(
+      "externalServiceForm",
+      `units[${index}].unitModelSerialNumber`,
+      selectedUnitModel.serial_number ?? ""
+    )
+  );
+};
+
+export const handleSubmitForm = async (values) => {
+  const { dispatch } = store;
+  dispatch(setGlobalFormLoading(true));
+  const splitCustomerId = values.customer.split("|");
+  const splitTypeId = values.typeService.split("|");
+  const splitWarranty = values.warranty.split("|");
+  let employees = [];
+
+  values.employees.map((item, index) => {
+    const splitEmployeeId = item.employee.split("|");
+    employees.push({
+      employee_id: splitEmployeeId[0],
+      active: "true",
+    });
+  });
+
+  const unitList = [];
+  values.units.map((item, index) => {
+    const splitUnitModel = item.unitModelId.split("|");
+    unitList.push({
+      unit_model_id: splitUnitModel[0],
+    });
+  });
+
   const payload = {
-    customer_id: "f9e37843-6bdc-4b6c-97a8-0df4c5a4e66f",
-    job_form_id: "b1546af9-9be8-4704-b935-294820d5e127",
+    customer_id: splitCustomerId[0],
+    job_form_id: uuidv4(),
     identification_id: null,
-    type: "T1",
-    status: "S1",
+    type: splitTypeId[0],
+    status: SelectStatus[0].value,
     is_external: "true",
-    location: "in the house",
-    start: "2021-03-02",
-    due: "2021-03-09",
-    job_perform: "job perform",
-    warranty: "true",
-    warranty_month: "10",
-    warranty_year: "2021",
-    units: [
-      {
-        unit_model_id: "ddfd2436-423f-46f6-b880-ed3fb11a89fb",
-      },
-    ],
-    employees: [
-      {
-        employee_id: "16836301-fe52-4627-90bd-198cc2f0d2ba",
-        active: "true",
-      },
-    ],
+    location: values.customerLocation,
+    start: moment(values.startDate).format("YYYY-MM-DD"),
+    due: moment(values.endDate).format("YYYY-MM-DD"),
+    job_perform: values.jobPerform,
+    warranty: splitWarranty[0],
+    warranty_month: "", // null because internal services
+    warranty_year: "", // null because internal services
+    units: unitList ?? [], // empty array because internal services
+    employees: employees,
   };
+
+  console.log("=== payload : ", payload);
+
+  try {
+    const functionThatReturnPromise = () =>
+      new Promise((resolve, reject) => {
+        Invoke.addInternalService(payload)
+          .then(() => {
+            setTimeout(() => {
+              dispatch(setGlobalFormLoading(false));
+              dispatch(reset("internalServiceForm"));
+              resolve();
+            }, 1000);
+          })
+          .catch(() => {
+            setTimeout(reject, 1000);
+            dispatch(setGlobalFormLoading(false));
+          });
+      });
+    toast.promise(functionThatReturnPromise, {
+      pending: "Proses menyimpan data...",
+      success: "Data berhasil disimpan 👌",
+      error: "Data gagal disimpan, harap coba lagi 🤯",
+    });
+  } catch (error) {
+    console.log(error);
+    dispatch(setGlobalFormLoading(false));
+  }
 };

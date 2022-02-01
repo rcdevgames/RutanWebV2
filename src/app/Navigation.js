@@ -27,6 +27,10 @@ import JobFormsContainer from "../modules/JobForms/Container/JobFormsContainer";
 import FormWizardIdentificationContainer from "../modules/Identification/Container/Wizard/FormWizardIdentificationContainer";
 import ListIdentificationContainer from "../modules/Identification/Container/ListIdentificationContainer";
 import MachineConfigurationContainer from "../modules/MachineConfiguration/Container/MachineConfigurationContainer";
+import UnitsContainer from "../modules/Units/Container/UnitsContainer";
+import CustomerContainer from "../modules/Customers/Container/CustomerContainer";
+import ToolsContainer from "../modules/Tools/Container/ToolsContainer";
+import FormCategoryContainer from "../modules/FormCategory/Container/FormCategoryContainer";
 
 export default function Navigation() {
   const authenticatedPage = (component, footerImg, footer) => {
@@ -48,6 +52,10 @@ export default function Navigation() {
   const EmployeeList = authenticatedPage(EmployeesListContainer, true);
   const EditEmployee = authenticatedPage(EmployeeEditContainer, true);
   const Dashboard = authenticatedPage(DashboardContainer, true);
+  const Units = authenticatedPage(UnitsContainer, true);
+  const Tools = authenticatedPage(ToolsContainer, true);
+  const Customers = authenticatedPage(CustomerContainer, true);
+  const FormCategory = authenticatedPage(FormCategoryContainer, true);
   const MachineConfiguration = authenticatedPage(
     MachineConfigurationContainer,
     true
@@ -95,6 +103,10 @@ export default function Navigation() {
         <Route exact path="/cabang" component={Branches} />
         <Route exact path="/machine" component={MachineConfiguration} />
         <Route exact path="/jobforms" component={JobForms} />
+        <Route exact path="/unit" component={Units} />
+        <Route exact path="/tools" component={Tools} />
+        <Route exact path="/customer" component={Customers} />
+        <Route exact path="/category" component={FormCategory} />
         <Route exact path="/employees" component={EmployeeList} />
         <Route exact path="/edit-employee" component={EditEmployee} />
         <Route exact path="/internal-service" component={InternalService} />

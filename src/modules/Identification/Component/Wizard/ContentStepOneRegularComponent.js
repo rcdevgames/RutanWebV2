@@ -4,14 +4,27 @@ import CInput from "../../../../components/CInput/CInput";
 import CDatePicker from "../../../../components/CDatePicker/CDatePicker";
 import CSelect from "../../../../components/CSelect/CSelect";
 
-const ContentStepOneRegularComponent = ({ provinces, cities, onChangeProvince }) => {
+const ContentStepOneRegularComponent = ({
+  provinces,
+  cities,
+  onChangeProvince,
+  enumInstanceType,
+  enumStatusMilling,
+}) => {
   return (
     <>
       <div class="row m-2 text-left">
         <div class="col-md-4">
+          <CSelect
+            data={enumInstanceType}
+            name="instanceType"
+            label="Tipe Instansi"
+          />
+        </div>
+        <div class="col-md-4">
           <Field
-            name="customerPhoneNumber"
-            label="Nama Customer"
+            name="instanceName"
+            label="Nama Instansi"
             placeholder="-"
             component={CInput}
             type="text"
@@ -19,23 +32,7 @@ const ContentStepOneRegularComponent = ({ provinces, cities, onChangeProvince })
         </div>
         <div class="col-md-4">
           <Field
-            name="picCustomer"
-            label="Kode Produk"
-            placeholder="-"
-            component={CInput}
-            type="text"
-          />
-        </div>
-        <div class="col-md-4">
-          <Field
-            name="customerAddress"
-            label="Nama Produk"
-            placeholder="-"
-            component={CInput}
-            type="text"
-          />
-          <Field
-            name="picCustomer"
+            name="ktp_npwp"
             label="NPWP/No.KTP"
             placeholder="-"
             component={CInput}
@@ -46,33 +43,58 @@ const ContentStepOneRegularComponent = ({ provinces, cities, onChangeProvince })
       <div class="row m-2 text-left">
         <div class="col-md-4">
           <Field
-            name="customerPhoneNumber"
-            label="Alamat"
+            name="customerName"
+            label="Nama Customer"
+            placeholder="-"
+            component={CInput}
+            type="text"
+          />
+          <Field
+            name="productName"
+            label="Nama Produk"
             placeholder="-"
             component={CInput}
             type="text"
           />
         </div>
         <div class="col-md-4">
-          <Field
-            name="picCustomer"
-            label="Awal Pemakaian"
-            placeholder="-"
-            component={CInput}
-            type="text"
+          <CSelect
+            data={enumStatusMilling}
+            name="millingStatus"
+            label="Status"
           />
         </div>
         <div class="col-md-4">
           <Field
-            name="customerAddress"
-            label="Qty"
+            name="riceTrademark"
+            label="No. Telepon"
             placeholder="-"
             component={CInput}
             type="text"
           />
         </div>
       </div>
-      <div class="row m-2 text-left">
+      <hr />
+      <div className="row ml-4">
+        <h5 className="card-title">Alamat Customer</h5>
+      </div>
+      <div class="row ml-2 mr-2 text-left">
+        <div class="col-md-4">
+          <Field
+            name="customerAddress"
+            label="Kelurahan"
+            placeholder="-"
+            component={CInput}
+            type="text"
+          />
+          <Field
+            name="customerAddress"
+            label="Kecamatan"
+            placeholder="-"
+            component={CInput}
+            type="text"
+          />
+        </div>
         <div class="col-md-4">
           <CSelect
             onChange={(val) => onChangeProvince(val)}
@@ -80,78 +102,8 @@ const ContentStepOneRegularComponent = ({ provinces, cities, onChangeProvince })
             name="province"
             label="Nama Provinsi"
           />
-        </div>
-        <div class="col-md-4">
           <Field
-            name="picCustomer"
-            label="NPWP/No.KTP"
-            placeholder="-"
-            component={CInput}
-            type="text"
-          />
-        </div>
-        <div class="col-md-4">
-          <Field
-            name="customerAddress"
-            label="Keterangan"
-            placeholder="-"
-            component={CInput}
-            type="text"
-          />
-        </div>
-      </div>
-      <div class="row m-2 text-left">
-        <div class="col-md-4">
-          <CSelect
-            data={cities}
-            name="city"
-            label="Kota/Kabupaten"
-            disabled={cities.length <= 0}
-          />
-        </div>
-        <div class="col-md-4">
-          <CDatePicker
-            name="startDate"
-            label="Tanggal Pemberian/Terima Bantuan"
-          />
-        </div>
-        <div class="col-md-4">
-          <CDatePicker name="startDate" label="Tanggal Konfirmasi" />
-        </div>
-      </div>
-      <div class="row m-2 text-left">
-        <div class="col-md-4">
-          <Field
-            name="customerPhoneNumber"
-            label="No. Telpon"
-            placeholder="-"
-            component={CInput}
-            type="text"
-          />
-        </div>
-        <div class="col-md-4">
-          <Field
-            name="picCustomer"
-            label="Status"
-            placeholder="-"
-            component={CInput}
-            type="text"
-          />
-        </div>
-        <div class="col-md-4">
-          <Field
-            name="customerAddress"
-            label="Operasional"
-            placeholder="-"
-            component={CInput}
-            type="text"
-          />
-        </div>
-      </div>
-      <div class="row m-2 text-left">
-        <div class="col-md-4">
-          <Field
-            name="customerPhoneNumber"
+            name="postalCode"
             label="Kode Pos"
             placeholder="-"
             component={CInput}
@@ -159,32 +111,11 @@ const ContentStepOneRegularComponent = ({ provinces, cities, onChangeProvince })
           />
         </div>
         <div class="col-md-4">
-          <Field
-            name="picCustomer"
-            label="Nama Perusahaan"
-            placeholder="-"
-            component={CInput}
-            type="text"
-          />
-        </div>
-        <div class="col-md-4">
-          <Field
-            name="instanceName"
-            label="Nama Kelompok Tani"
-            placeholder="-"
-            component={CInput}
-            type="text"
-          />
-        </div>
-      </div>
-      <div class="row m-2 text-left">
-        <div class="col-md-4">
-          <Field
-            name="customerPhoneNumber"
-            label="Tipe Pelanggan"
-            placeholder="-"
-            component={CInput}
-            type="text"
+          <CSelect
+            data={cities}
+            name="city"
+            label="Kota/Kabupaten"
+            disabled={cities.length <= 0}
           />
         </div>
       </div>

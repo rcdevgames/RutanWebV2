@@ -2,24 +2,24 @@ import { Space } from "antd";
 import React from "react";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
-import * as UnitsActions from "../Store/UnitsActions";
+import * as ToolsActions from "../Store/ToolsActions";
 import * as ComponentActions from "../../App/Store/ComponentAction";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
-import UnitsComponent from "../Component/UnitsComponent";
+import ToolsComponent from "../Component/ToolsComponent";
 
-const UnitsConatiner = (props) => {
+const ToolsContainer = (props) => {
   const {
-    getListUnit,
+    getListTools,
     handlePressEdit,
     handlePressDelete,
     handlePressAddNew,
-    units: { listUnits },
+    tools: { listTools },
   } = props;
 
-  if (listUnits.length > 0) {
-    listUnits.map((item, index) => {
-      listUnits[index] = { ...item, no: index + 1 };
+  if (listTools.length > 0) {
+    listTools.map((item, index) => {
+      listTools[index] = { ...item, no: index + 1 };
     });
   }
 
@@ -32,18 +32,11 @@ const UnitsConatiner = (props) => {
       sorter: (a, b) => a.no - b.no,
     },
     {
-      title: "Nama Unit",
+      title: "Nama Peralatan",
       dataIndex: "name",
       key: "name",
       width: "30%",
       sorter: (a, b) => a.name.length - b.name.length,
-    },
-    {
-      title: "Divisi",
-      dataIndex: "division",
-      key: "division",
-      width: "10%",
-      sorter: (a, b) => a.division.length - b.division.length,
     },
     {
       title: "Deskripsi",
@@ -51,6 +44,13 @@ const UnitsConatiner = (props) => {
       key: "description",
       width: "30%",
       sorter: (a, b) => a.description.length - b.description.length,
+    },
+    {
+      title: "Dibuat",
+      dataIndex: "created_date",
+      key: "created_date",
+      width: "15%",
+      sorter: (a, b) => a.created_date.length - b.created_date.length,
     },
   ];
 
@@ -75,13 +75,13 @@ const UnitsConatiner = (props) => {
   );
 
   React.useEffect(() => {
-    getListUnit();
+    getListTools();
   }, []);
 
   return (
-    <UnitsComponent
+    <ToolsComponent
       headers={headers}
-      listUnits={listUnits}
+      listTools={listTools}
       renderActionTable={renderActionTable}
       handlePressAddNew={handlePressAddNew}
       // {...props}
@@ -90,35 +90,35 @@ const UnitsConatiner = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  units: state.units,
+  tools: state.tools,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getListUnit: () => UnitsActions.getUnitListDataRequested(),
-  // handlePressAddNew: async () => {
-  //   await dispatch(BranchActions.setSelectedBranchData({}));
-  //   await dispatch(BranchActions.setSelectedBranchId(""));
-  //   dispatch(BranchActions.setFormStatus("add"));
-  //   dispatch(ComponentActions.setGlobalModal(true));
-  //   BranchActions.resetForm();
-  // },
-  // handlePressEdit: async (record) => {
-  //   await dispatch(BranchActions.setFormStatus("edit"));
-  //   await dispatch(BranchActions.setSelectedBranchId(record.id));
-  //   await dispatch(BranchActions.setSelectedBranchData(record));
-  //   await dispatch(ComponentActions.setGlobalModal(true));
-  //   await BranchActions.mapDetailBranchToForm();
-  // },
-  // handlePressDelete: async (branchId) => {
-  //   await dispatch(BranchActions.setSelectedBranchId(branchId));
-  //   BranchActions.deleteBranchRequested(branchId);
-  // },
+  getListTools: () => ToolsActions.getToolsListDataRequested(),
+  handlePressAddNew: async () => {
+    await dispatch(ToolsActions.setSelectedToolsData({}));
+    await dispatch(ToolsActions.setSelectedToolsId(""));
+    dispatch(ToolsActions.setFormStatus("add"));
+    dispatch(ComponentActions.setGlobalModal(true));
+    ToolsActions.resetForm();
+  },
+  handlePressEdit: async (record) => {
+    await dispatch(ToolsActions.setFormStatus("edit"));
+    await dispatch(ToolsActions.setSelectedToolsId(record.id));
+    await dispatch(ToolsActions.setSelectedToolsData(record));
+    await dispatch(ComponentActions.setGlobalModal(true));
+    await ToolsActions.mapDetailToolsToForm();
+  },
+  handlePressDelete: async (toolsId) => {
+    await dispatch(ToolsActions.setSelectedToolsId(toolsId));
+    ToolsActions.deleteToolsRequested(toolsId);
+  },
 });
 
 const EnhanceContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(UnitsConatiner);
+)(ToolsContainer);
 
 export default reduxForm({
-  form: "unitsForm",
+  form: "branchForm",
 })(EnhanceContainer);

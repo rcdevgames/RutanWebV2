@@ -1,6 +1,5 @@
 import React, { Fragment } from "react";
-import { Field, FieldArray } from "redux-form";
-import { Form } from "antd";
+import { Field, FieldArray, Form } from "redux-form";
 import CInput from "../../../components/CInput/CInput";
 import CSelect from "../../../components/CSelect/CSelect";
 import CDatePicker from "../../../components/CDatePicker/CDatePicker";
@@ -10,6 +9,8 @@ import {
   PlusOutlined,
   InfoCircleTwoTone,
 } from "@ant-design/icons";
+import CButton from "../../../components/CButton/CButton";
+import { getUnitModelEnum } from "../../../app/Helpers";
 
 const ExternalServiceComponent = (props) => {
   const {
@@ -24,8 +25,11 @@ const ExternalServiceComponent = (props) => {
     listUnit,
     enumJobForms,
     handleAutoPopulateUnitModel,
-    selectedUnitModelList,
+    externalValues,
+    onChangeUnitModel,
   } = props;
+
+  console.log("=== externalValues : ", externalValues);
 
   const renderUnits = ({ fields }) => {
     const handleRemoveField = (index) => {
@@ -76,8 +80,27 @@ const ExternalServiceComponent = (props) => {
                 <div class="col-md-4">
                   <CSelect
                     key={`enum-model-${indexUnit}`}
-                    data={selectedUnitModelList[indexUnit]}
+                    data={
+                      externalValues[indexUnit].enumUnitModel
+                        ? getUnitModelEnum(
+                            externalValues[indexUnit].enumUnitModel
+                          )
+                        : []
+                    }
                     name={`${itemUnit}.unitModelId`}
+                    onChange={(val) => {
+                      console.log(
+                        "=== externalValues[indexUnit].enumUnitModel : ",
+                        externalValues[indexUnit].enumUnitModel
+                      );
+                      if (externalValues[indexUnit].enumUnitModel.length > 0) {
+                        onChangeUnitModel(
+                          val,
+                          indexUnit,
+                          externalValues[indexUnit].enumUnitModel
+                        );
+                      }
+                    }}
                     label="Model"
                   />
                 </div>
@@ -361,11 +384,7 @@ const ExternalServiceComponent = (props) => {
                   </div>
                   <div class="mt-4 row">
                     <div class="col-md-12">
-                      <input
-                        class="btn btn-primary"
-                        type="submit"
-                        value="Simpan"
-                      />
+                      <CButton type="submit">Simpan</CButton>
                     </div>
                   </div>
                 </Form>

@@ -30,7 +30,7 @@ const RenderDailies = ({ dailies }) => {
   dailies.map((item, index) => {
     data.push({
       key: index,
-      karyawan: "Jim Green",
+      karyawan: item.employee_name,
       deskripsi: item.description,
       mulai: moment(item.daily_start).format("DD-MMM-YYYY"),
       selesai: moment(item.daily_end).format("DD-MMM-YYYY"),

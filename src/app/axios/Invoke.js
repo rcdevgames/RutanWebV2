@@ -297,6 +297,36 @@ Invoke.deleteEngine = (machineId) => {
 };
 // === End Engines API ===
 
+// === Master Tools API === :
+Invoke.getListTools = (page, limit) => {
+  return ConfigAxios.get(`/tools?page=${page}&limit=${limit}`);
+};
+Invoke.addTool = (payload) => {
+  return ConfigAxios.post(`/tools`, payload);
+};
+Invoke.updateTool = (payload) => {
+  return ConfigAxios.put(`/tools`, payload);
+};
+Invoke.deleteTool = (toolId) => {
+  return ConfigAxios.delete(`/tools/${toolId}`, headersConfigDelete);
+};
+// === End Tools API ===
+
+// === Master FormCategory API === :
+Invoke.getFormCategory = (page, limit) => {
+  return ConfigAxios.get(`/category_forms?page=${page}&limit=${limit}`);
+};
+Invoke.addFormCategory = (payload) => {
+  return ConfigAxios.post(`/category_forms`, payload);
+};
+Invoke.updateFormCategory = (payload) => {
+  return ConfigAxios.put(`/category_forms`, payload);
+};
+Invoke.deleteFormCategory = (categoryFormId) => {
+  return ConfigAxios.delete(`/category_forms/${categoryFormId}`, headersConfigDelete);
+};
+// === End FormCategory API ===
+
 // === Master Identification API === :
 Invoke.getIdentificationList = (page, limit) => {
   return ConfigAxios.get(`/identifications?page=${page}&limit=${limit}`);

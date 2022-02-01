@@ -42,27 +42,27 @@ export const validateFormInternalService = (values) => {
 
 export const validateFormExternalService = (values) => {
   const errors = {};
-  if (!values.typeService) {
-    errors.typeService = "Tipe service wajib diisi!";
-  }
-  if (!values.startDate) {
-    errors.startDate = "Tanggal Mulai wajib diisi!";
-  }
-  if (!values.endDate) {
-    errors.endDate = "Tanggal Akhir wajib diisi!";
-  }
-  if (!values.jobPerform) {
-    errors.jobPerform = "Job Perform wajib diisi!";
-  }
-  if (!values.employee) {
-    errors.employee = "Wajib pilih karyawan!";
-  }
-  if (!values.customer) {
-    errors.customer = "Wajib pilih customer";
-  }
-  if (!values.customerLocation) {
-    errors.customerLocation = "Lokasi wajib diisi!";
-  }
+  // if (!values.typeService) {
+  //   errors.typeService = "Tipe service wajib diisi!";
+  // }
+  // if (!values.startDate) {
+  //   errors.startDate = "Tanggal Mulai wajib diisi!";
+  // }
+  // if (!values.endDate) {
+  //   errors.endDate = "Tanggal Akhir wajib diisi!";
+  // }
+  // if (!values.jobPerform) {
+  //   errors.jobPerform = "Job Perform wajib diisi!";
+  // }
+  // if (!values.employee) {
+  //   errors.employee = "Wajib pilih karyawan!";
+  // }
+  // if (!values.customer) {
+  //   errors.customer = "Wajib pilih customer";
+  // }
+  // if (!values.customerLocation) {
+  //   errors.customerLocation = "Lokasi wajib diisi!";
+  // }
   return errors;
 };
 
@@ -70,6 +70,22 @@ export const validateFormRoles = (values) => {
   const errors = {};
   if (!values.description) {
     errors.description = "Deskripsi wajib diisi!";
+  }
+  return errors;
+};
+
+export const validateFormCategory = (values) => {
+  const errors = {};
+  if (!values.name) {
+    errors.name = "Judul wajib diisi!";
+  }
+  return errors;
+};
+
+export const validateFormTools = (values) => {
+  const errors = {};
+  if (!values.name) {
+    errors.name = "Nama peralatan wajib diisi!";
   }
   return errors;
 };

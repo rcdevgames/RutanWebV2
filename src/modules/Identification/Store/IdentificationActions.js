@@ -2,9 +2,10 @@ import { change, reset } from "redux-form";
 import Invoke from "../../../app/axios/Invoke";
 import { store } from "../../../app/ConfigureStore";
 import { toastr } from "react-redux-toastr";
+import { message } from "antd";
 import * as ComponentActions from "../../App/Store/ComponentAction";
 import { showToast } from "../../Roles/Store/RolesActions";
-import { SelectStatus } from "../../../app/Helpers";
+import { navigate, SelectStatus } from "../../../app/Helpers";
 
 export const SET_IDENTIFICATIONN_LIST_DATA = "SET_IDENTIFICATIONN_LIST_DATA";
 export const SET_FORM_STATUS = "SET_FORM_STATUS";
@@ -104,7 +105,69 @@ const doAddIdentificationProcess = async (values) => {
   }
 };
 
-const doUpdateIdentificationMilling = async (values) => {
+const doUpdateIdentificationMilling = async (values, isLastStep) => {
+  console.log("=== Values : ", values);
+  const { getState, dispatch } = store;
+  try {
+    const identificationId = getState().identification.selectedIdentificationId;
+    const splitInstanceType = !values.instanceType
+      ? ""
+      : values.instanceType.split("|");
+    const splitMillingStatus = !values.millingStatus
+      ? ""
+      : values.millingStatus.split("|");
+    const splitCity = !values.city ? "" : values.city.split("|") ?? [];
+    const splitProvince = !values.province
+      ? ""
+      : values.province.split("|") ?? [];
+
+    const engineConfs = [];
+    if (values.engine_confs && values.engine_confs.length > 0) {
+      values.engine_confs.map((item, index) => {
+        const subItem = item.list;
+        subItem.engine_conf_id = item.id;
+        engineConfs.push(subItem);
+      });
+    }
+
+    const payload = {
+      identification_id: identificationId,
+      instance_type: splitInstanceType[0],
+      instance_name: values.instanceName ?? "",
+      name: values.customerName ?? "",
+      ktp_npwp: values.ktp_npwp ?? "",
+      status: splitMillingStatus[0] ?? "",
+      city: splitCity[1] ?? "",
+      province: splitProvince[1] ?? "",
+      phone: values.phone ?? "",
+      milling_capacity: values.millingCapacity ?? "",
+      milling_work_capacity_perday: values.millingWorkCapacityPerDay ?? "",
+      rice_trademark: values.riceTrademark ?? "",
+      history_service_place: values.history_service_place ?? "",
+      history_service_type: values.history_service_type ?? "",
+      note: values.note ?? "",
+      engine_confs: engineConfs,
+      spare_part_needs: values.spare_part_needs ?? [],
+      spare_part_changing_histories: values.spare_part_changing_histories ?? [],
+      spare_part_selling_histories: values.spare_part_selling_histories ?? [],
+    };
+    console.log("=== Payload : ", payload);
+    if (isLastStep) {
+      showToast("Menyimpan perubahan", "success");
+      setTimeout(() => {
+        navigate("identification");
+      }, 1000);
+    }
+    return;
+    await Invoke.updateIdentificationMilling(payload);
+    showToast("Data Berhasil Disimpan", "success");
+    getIdentificationListRequested();
+  } catch (error) {
+    showToast("Internal Server Error!", "error");
+    console.log("error : ", error);
+  }
+};
+const doUpdateIdentificationRegular = async (values, isFinished) => {
   const { getState, dispatch } = store;
   try {
     const identificationId = getState().identification.selectedIdentificationId;
@@ -112,6 +175,15 @@ const doUpdateIdentificationMilling = async (values) => {
     const splitMillingStatus = values.millingStatus.split("|");
     const splitCity = values.city.split("|");
     const splitProvince = values.province.split("|");
+
+    const engineConfs = [];
+    if (values.engine_confs && values.engine_confs.length > 0) {
+      values.engine_confs.map((item, index) => {
+        const subItem = item.list;
+        subItem.engine_conf_id = item.id;
+        engineConfs.push(subItem);
+      });
+    }
 
     const payload = {
       identification_id: identificationId,
@@ -129,24 +201,13 @@ const doUpdateIdentificationMilling = async (values) => {
       history_service_place: values.history_service_place ?? "",
       history_service_type: values.history_service_type ?? "",
       note: values.note ?? "",
-      engine_confs: [
-        {
-          engine_conf_id: "adb005be-8477-4a7b-8e0a-2a36e1ecfaf2",
-          buy_and_use_year: "2021",
-          serial_number: "SN1212",
-          qty: 10,
-        },
-        {
-          engine_conf_id: "41b4d09f-2253-4103-8a25-3f8cc655e500",
-          buy_and_use_year: "2021",
-          serial_number: "SN9827",
-          qty: 10,
-        },
-      ],
+      engine_confs: engineConfs,
       spare_part_needs: values.spare_part_needs ?? [],
       spare_part_changing_histories: values.spare_part_changing_histories ?? [],
       spare_part_selling_histories: values.spare_part_selling_histories ?? [],
     };
+    console.log("=== Payload : ", payload);
+    return;
     await Invoke.updateIdentificationMilling(payload);
     showToast("Data Berhasil Disimpan", "success");
     getIdentificationListRequested();
@@ -155,7 +216,7 @@ const doUpdateIdentificationMilling = async (values) => {
     console.log("error : ", error);
   }
 };
-// === INTERNAL FUNCTION ===
+// === END INTERNAL FUNCTION ===
 
 export const resetForm = async () => {
   const { dispatch } = store;
@@ -169,21 +230,22 @@ export const mapDetailBranchToForm = async () => {
   dispatch(change("editIdentificationForm", `description`, data.name ?? ""));
 };
 
-export const saveIdentificationRequested = async (type, values) => {
-  const toastrConfirmOptions = {
-    onOk: () => {
-      if (type === "add") {
-        doAddIdentificationProcess(values);
-      } else {
-        doUpdateIdentificationMilling(values);
-      }
-    },
-    okText: "Ya",
-    cancelText: "Tidak",
-  };
+export const saveIdentificationRequested = async (
+  type,
+  values,
+  isLastStep = false
+) => {
+  const { getState } = store;
+  const isMilling =
+    getState().identification.selectedIdentificationData.milling;
 
-  toastr.confirm(
-    "Apakah Anda Yakin Ingin Menyimpan Data Ini?",
-    toastrConfirmOptions
-  );
+  if (type === "add") {
+    doAddIdentificationProcess(values);
+  } else {
+    if (isMilling) {
+      doUpdateIdentificationMilling(values, isLastStep);
+    } else {
+      doUpdateIdentificationRegular(values, isLastStep);
+    }
+  }
 };

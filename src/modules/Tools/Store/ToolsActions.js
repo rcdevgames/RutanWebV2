@@ -104,7 +104,7 @@ export const mapDetailToolsToForm = async () => {
 export const getToolsListDataRequested = async () => {
   try {
     const { data } = await Invoke.getListTools(1, 100);
-    store.dispatch(setToolsListData(data.callback));
+    store.dispatch(setToolsListData(data.callback.data));
   } catch (error) {
     console.log(error);
   }

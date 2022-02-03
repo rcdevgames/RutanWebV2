@@ -12,5 +12,5 @@ export const setListAdmin = (payload) => {
 
 export const getListAdminRequested = async () => {
   const { data } = await Invoke.getListAdmin(1, 10);
-  store.dispatch(setListAdmin(data.callback));
+  store.dispatch(setListAdmin(data.callback.data));
 };

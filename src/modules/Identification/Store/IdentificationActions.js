@@ -46,15 +46,14 @@ export const getIdentificationListRequested = async () => {
   try {
     const branches = getState().branch.listBranch;
     const { data } = await Invoke.getIdentificationList(1, 100);
-    const identificationList = data.callback;
+    const identificationList = data.callback.data;
 
     const newIdentificationList = [];
-
     if (identificationList.length > 0) {
       identificationList.map((item, index) => {
         const [defaultBranch] = branches.filter((x) => x.id === item.branch_id);
-
-        item.branch_name = defaultBranch.name;
+        console.log("=== test : ", identificationList);
+        item.branch_name = defaultBranch.name ?? "";
         newIdentificationList.push(item);
       });
     }

@@ -32,7 +32,7 @@ const RenderContent = ({ handleSubmit, submitForm, formName }) => {
             />
           </div>
         </div>
-        <div class="row">
+        {/* <div class="row">
           <div class="col-md-4">
             <Field
               name="serialNumber"
@@ -85,7 +85,7 @@ const RenderContent = ({ handleSubmit, submitForm, formName }) => {
               type="text"
             />
           </div>
-        </div>
+        </div> */}
       </Form>
     </div>
   );

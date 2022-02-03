@@ -95,7 +95,7 @@ export const showToast = (message, type) => {
 
 export const getListRolesRequested = async () => {
   const { data } = await Invoke.getListRole(1, 100);
-  store.dispatch(setListRoles(data.callback));
+  store.dispatch(setListRoles(data.callback.data));
 };
 
 export const mapDetailRoleToForm = async () => {

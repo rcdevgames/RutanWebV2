@@ -66,7 +66,9 @@ export const getUnitModelListDataRequested = async (
     paging.totalPage = data.callback.totalPage;
     store.dispatch(setUnitModelListData(data.callback.data));
     store.dispatch(setPagingUnitModel(paging));
+    await store.dispatch(ComponentActions.setGlobalLoading(false));
   } catch (error) {
+    await store.dispatch(ComponentActions.setGlobalLoading(false));
     console.log(error);
   }
 };

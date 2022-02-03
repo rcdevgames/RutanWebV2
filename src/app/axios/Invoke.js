@@ -252,6 +252,23 @@ Invoke.deleteUnitModelById = (unitModelId) => {
 };
 // === End Master Unit-Model API ===
 
+// === Master unit-fields API === :
+Invoke.getListUnitFields = (page, limit, unitId, keyword) => {
+  return ConfigAxios.get(
+    `/units/fields/${unitId}?page=${page}&limit=${limit}&q=${keyword}`
+  );
+};
+Invoke.addUnitFields = (payload) => {
+  return ConfigAxios.post(`/units/fields`, payload);
+};
+Invoke.updateUnitFields = (payload) => {
+  return ConfigAxios.put(`/units/fields`, payload);
+};
+Invoke.deleteUnitFieldsById = (unitfieldsId) => {
+  return ConfigAxios.delete(`units/fields/${unitfieldsId}`, headersConfigDelete);
+};
+// === End Master Unit-Model API ===
+
 // === Master Job-Form API === :
 Invoke.getListJobForm = (page, limit) => {
   return ConfigAxios.get(`job_forms?page=${page}&limit=${limit}`);

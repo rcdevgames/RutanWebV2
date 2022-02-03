@@ -22,6 +22,7 @@ const UnitsConatiner = (props) => {
     handlePressDelete,
     handlePressAddNew,
     handlePressUnitModel,
+    handlePressUnitFields,
     units: { listUnits, paging },
   } = props;
 
@@ -85,7 +86,7 @@ const UnitsConatiner = (props) => {
         />
       </Tooltip>
       <CButtonAntd
-        onClick={() => handlePressDelete(record.id)}
+        onClick={() => handlePressUnitFields(record)}
         type="primary"
         icon={<FileAddOutlined />}
         size="middle"
@@ -156,8 +157,19 @@ const mapDispatchToProps = (dispatch) => ({
     UnitsActions.deleteUnitRequested(unitId);
   },
   handlePressUnitModel: async (unitId) => {
+    await dispatch(ComponentActions.setGlobalLoading(true));
     await dispatch(UnitsActions.setSelectedUnitId(unitId));
-    navigate("unit-models");
+    setTimeout(() => {
+      navigate("unit-models");
+    }, 500);
+  },
+  handlePressUnitFields: async (record) => {
+    await dispatch(ComponentActions.setGlobalLoading(true));
+    await dispatch(UnitsActions.setSelectedUnitId(record.id));
+    await dispatch(UnitsActions.setSelectedUnitData(record));
+    setTimeout(() => {
+      navigate("unit-fields");
+    }, 500);
   },
 });
 

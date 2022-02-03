@@ -102,7 +102,7 @@ export const mapDetailCategoryToForm = async () => {
 export const getFormCatgeoryListDataRequested = async () => {
   try {
     const { data } = await Invoke.getFormCategory(1, 100);
-    store.dispatch(setFormCategoryListData(data.callback));
+    store.dispatch(setFormCategoryListData(data.callback.data));
   } catch (error) {
     console.log(error);
   }

@@ -103,7 +103,7 @@ export const mapDetailJobFormsToForm = async () => {
 export const getJobFormsListDataRequested = async () => {
   try {
     const { data } = await Invoke.getListJobForm(1, 100);
-    store.dispatch(setJobFormsListData(data.callback));
+    store.dispatch(setJobFormsListData(data.callback.data));
   } catch (error) {
     console.log(error);
   }

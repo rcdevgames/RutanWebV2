@@ -32,6 +32,7 @@ import CustomerContainer from "../modules/Customers/Container/CustomerContainer"
 import ToolsContainer from "../modules/Tools/Container/ToolsContainer";
 import FormCategoryContainer from "../modules/FormCategory/Container/FormCategoryContainer";
 import UnitModelsContainer from "../modules/Units/Container/UnitModelsContainer";
+import UnitFieldsContainer from "../modules/Units/Container/UnitFields/UnitFieldsContainer";
 
 export default function Navigation() {
   const authenticatedPage = (component, footerImg, footer) => {
@@ -55,6 +56,7 @@ export default function Navigation() {
   const Dashboard = authenticatedPage(DashboardContainer, true);
   const Units = authenticatedPage(UnitsContainer, true);
   const UnitModels = authenticatedPage(UnitModelsContainer, true);
+  const UnitFields = authenticatedPage(UnitFieldsContainer, true);
   const Tools = authenticatedPage(ToolsContainer, true);
   const Customers = authenticatedPage(CustomerContainer, true);
   const FormCategory = authenticatedPage(FormCategoryContainer, true);
@@ -107,6 +109,7 @@ export default function Navigation() {
         <Route exact path="/jobforms" component={JobForms} />
         <Route exact path="/unit" component={Units} />
         <Route exact path="/unit-models" component={UnitModels} />
+        <Route exact path="/unit-fields" component={UnitFields} />
         <Route exact path="/tools" component={Tools} />
         <Route exact path="/customer" component={Customers} />
         <Route exact path="/category" component={FormCategory} />

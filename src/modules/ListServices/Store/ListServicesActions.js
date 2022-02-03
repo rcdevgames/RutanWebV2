@@ -20,5 +20,5 @@ export const setSelectedJobService = (payload) => {
 
 export const getListServicesRequested = async () => {
   const { data } = await Invoke.getListServices(1, 10);
-  store.dispatch(setListServices(data.callback));
+  store.dispatch(setListServices(data.callback.data));
 };

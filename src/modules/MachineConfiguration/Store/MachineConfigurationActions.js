@@ -109,7 +109,7 @@ export const mapDetailMachineToForm = async () => {
 export const getMachineListDataRequested = async () => {
   try {
     const { data } = await Invoke.getListEngine(1, 100);
-    store.dispatch(setMachineListData(data.callback));
+    store.dispatch(setMachineListData(data.callback.data));
   } catch (error) {
     console.log(error);
   }

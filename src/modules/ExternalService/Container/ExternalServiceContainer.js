@@ -19,13 +19,15 @@ const ExternalServiceContainer = (props) => {
 
   const {
     valid,
-    customers: { listCustomers },
+    customers: { listCustomers, paging, keyword },
     employees: { listEmployees },
     units: { listUnits },
     jobForms: { listJobForms },
     resetForm,
     // form: { externalServiceForm },
   } = props;
+
+  const { page, limit } = paging;
 
   const submitForm = (values) => {
     console.log("=== Test");
@@ -50,31 +52,6 @@ const ExternalServiceContainer = (props) => {
     setUnitQty(unitQty - 1);
   };
 
-  // const getData = () => {
-  //   console.log("=== formValues : ", formValues);
-  //   const unitsItem = formValues.units;
-  //   const unitModel = [];
-
-  //   if (unitsItem.length > 0) {
-  //     unitsItem.map((item, indexUnit) => {
-  //       item.enumModel.map((item, indexEnumModel) => {
-  //         const subItem = {
-  //           id: `unit-model-${indexEnumModel}`,
-  //           value: item.id,
-  //           label: item.name,
-  //         };
-  //         unitModel.push(subItem);
-  //       });
-  //     });
-  //   }
-
-  //   setSelectedUnitModelList(unitModel);
-  // };
-
-  // React.useEffect(() => {
-  //   getData();
-  // }, [formValues]);
-
   const SelectUnit = [];
   listUnits.map((item, index) => {
     SelectUnit.push({
@@ -85,7 +62,7 @@ const ExternalServiceContainer = (props) => {
   });
 
   React.useEffect(() => {
-    CustomerActions.loadCustomerListData();
+    CustomerActions.getCustomerListDataByPaging(page, limit, keyword);
     EmployeeActions.loadEmployeeListData();
     MasterDataActions.loadProvinceListData();
     return () => {

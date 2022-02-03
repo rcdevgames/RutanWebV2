@@ -9,10 +9,18 @@ export const SET_UNIT_LIST_DATA = "SET_UNIT_LIST_DATA";
 export const SET_FORM_STATUS = "SET_FORM_STATUS";
 export const SET_SELECTED_UNIT_ID = "SET_SELECTED_UNIT_ID";
 export const SET_SELECTED_UNIT_DATA = "SET_SELECTED_UNIT_DATA";
+export const SET_PAGING_UNIT = "SET_PAGING_UNIT";
 
 export const setUnitListData = (payload) => {
   return {
     type: SET_UNIT_LIST_DATA,
+    payload,
+  };
+};
+
+export const setPagingUnit = (payload) => {
+  return {
+    type: SET_PAGING_UNIT,
     payload,
   };
 };
@@ -24,14 +32,14 @@ export const setFormStatus = (payload) => {
   };
 };
 
-export const setSelectedBranchId = (payload) => {
+export const setSelectedUnitId = (payload) => {
   return {
     type: SET_SELECTED_UNIT_ID,
     payload,
   };
 };
 
-export const setSelectedBranchData = (payload) => {
+export const setSelectedUnitData = (payload) => {
   return {
     type: SET_SELECTED_UNIT_DATA,
     payload,
@@ -39,26 +47,32 @@ export const setSelectedBranchData = (payload) => {
 };
 
 // === INTERNAL FUNCTION ===
-const doDeleteBranchProcess = async (branchId) => {
+const doDeleteUnitProcess = async (unitId) => {
+  const { getState } = store;
+  const paging = getState().units.paging;
+  const { page, limit } = paging;
   try {
-    await Invoke.deleteBranchById(branchId);
+    await Invoke.deleteUnitById(unitId);
     showToast("Data berhasil dihapus", "success");
-    getUnitListDataRequested();
+    getUnitListDataRequested(page, limit);
   } catch (error) {
     showToast("Internal Server Error!", "error");
     console.log("error : ", error);
   }
 };
 
-const doAddBranchProcess = async (values) => {
-  const { dispatch } = store;
+const doAddUnitProcess = async (values) => {
+  const { dispatch, getState } = store;
+  const paging = getState().units.paging;
+  const { page, limit } = paging;
   try {
     const payload = {};
-    payload.name = values.description;
+    payload.name = values.name;
     payload.description = values.description;
-    await Invoke.addBranch(payload);
+    payload.photo = values.imageUrl;
+    await Invoke.addUnit(payload);
     showToast("Data Berhasil Disimpan", "success");
-    getUnitListDataRequested();
+    getUnitListDataRequested(page, limit);
     dispatch(ComponentActions.setGlobalModal(false));
   } catch (error) {
     showToast("Internal Server Error!", "error");
@@ -67,19 +81,25 @@ const doAddBranchProcess = async (values) => {
   }
 };
 
-const doEditBranchProcess = async (values) => {
-  const { dispatch } = store;
+const doEditUnitProcess = async (values) => {
+  store.dispatch(ComponentActions.setGlobalLoading(true));
+  const { dispatch, getState } = store;
+  const paging = getState().units.paging;
+  const { page, limit } = paging;
   try {
     const payload = {};
     payload.id = values.id;
-    payload.name = values.description;
+    payload.name = values.name;
+    payload.photo = values.imageUrl;
     payload.description = values.description;
-    await Invoke.updateBranch(payload);
+    await Invoke.updateUnit(payload);
     showToast("Data Berhasil Disimpan", "success");
-    getUnitListDataRequested();
+    getUnitListDataRequested(page, limit);
+    store.dispatch(ComponentActions.setGlobalLoading(false));
     dispatch(ComponentActions.setGlobalModal(false));
   } catch (error) {
     showToast("Internal Server Error!", "error");
+    store.dispatch(ComponentActions.setGlobalLoading(false));
     dispatch(ComponentActions.setGlobalModal(false));
     console.log("error : ", error);
   }
@@ -89,32 +109,42 @@ const doEditBranchProcess = async (values) => {
 export const resetForm = async () => {
   const { dispatch } = store;
   dispatch(change("editUnitForm", `id`, ""));
+  dispatch(change("editUnitForm", `name`, ""));
   dispatch(change("editUnitForm", `description`, ""));
+  dispatch(change("editUnitForm", `imageUrl`, ""));
 };
 
-export const mapDetailBranchToForm = async () => {
+export const mapDetailUnitToForm = async () => {
   const { dispatch, getState } = store;
-  const data = getState().branch.selectedBranchData;
+  const data = getState().units.selectedUnitsData;
+
   dispatch(change("editUnitForm", `id`, data.id ?? ""));
-  dispatch(change("editUnitForm", `description`, data.name ?? ""));
+  dispatch(change("editUnitForm", `name`, data.name ?? ""));
+  dispatch(change("editUnitForm", `description`, data.description ?? ""));
+  dispatch(change("editUnitForm", `imageUrl`, data.photo ?? ""));
 };
 
-export const getUnitListDataRequested = async () => {
+export const getUnitListDataRequested = async (page, limit, keyword = "") => {
   try {
-    const { data } = await Invoke.getUnitList(1, 100);
-    store.dispatch(setUnitListData(data.callback));
+    const { data } = await Invoke.getUnitList(page, limit, keyword);
+    const paging = {};
+    paging.page = data.callback.page;
+    paging.limit = data.callback.limit;
+    paging.totalPage = data.callback.totalPage;
+    store.dispatch(setUnitListData(data.callback.data));
+    store.dispatch(setPagingUnit(paging));
   } catch (error) {
     console.log(error);
   }
 };
 
-export const saveBranchRequested = async (type, values) => {
+export const saveUnitRequested = async (type, values) => {
   const toastrConfirmOptions = {
     onOk: () => {
       if (type === "add") {
-        doAddBranchProcess(values);
+        doAddUnitProcess(values);
       } else {
-        doEditBranchProcess(values);
+        doEditUnitProcess(values);
       }
     },
     okText: "Ya",
@@ -127,10 +157,10 @@ export const saveBranchRequested = async (type, values) => {
   );
 };
 
-export const deleteBranchRequested = async (branchId) => {
+export const deleteUnitRequested = async (unitId) => {
   const toastrConfirmOptions = {
     onOk: () => {
-      doDeleteBranchProcess(branchId);
+      doDeleteUnitProcess(unitId);
     },
     okText: "Ya",
     cancelText: "Tidak",
@@ -141,3 +171,5 @@ export const deleteBranchRequested = async (branchId) => {
     toastrConfirmOptions
   );
 };
+
+

@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Table, Input, Button, Space } from "antd";
+import { Table } from "antd";
 import Highlighter from "react-highlight-words";
 import { SearchOutlined } from "@ant-design/icons";
 
 const CTableAntd = (props) => {
-  const { data, headers, renderActions, size } = props;
+  const { data, headers, renderActions, size, pagination } = props;
 
   const [searchText, setSearchText] = React.useState("");
   const [searchedColumn, setSearchedColumn] = React.useState("");
@@ -79,7 +79,13 @@ const CTableAntd = (props) => {
       columns={columns}
       dataSource={data}
       size={size ?? "middle"}
-      {...props}
+      pagination={{
+        size: 3,
+        pageSizeOptions: ["10", "20", "50"],
+        showSizeChanger: true,
+        ...pagination,
+      }}
+      // {...props}
     />
   );
 };

@@ -1,29 +1,32 @@
-import { Space } from "antd";
+import { Space, Tooltip } from "antd";
 import React from "react";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
-import * as BranchActions from "../Store/BranchActions";
+import * as UnitModelActions from "../Store/UnitModelActions";
 import * as ComponentActions from "../../App/Store/ComponentAction";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import {
+  EditOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
-import BranchComponent from "../Component/BranchComponent";
-import { store } from "../../../app/ConfigureStore";
 import { getIndex } from "../../../app/Helpers";
+import { store } from "../../../app/ConfigureStore";
+import UnitModelsComponent from "../Component/UnitModelsComponent";
 
-const BranchContainer = (props) => {
+const UnitModelsContainer = (props) => {
   const {
-    getListBranch,
+    getListUnitModels,
     handlePressEdit,
     handlePressDelete,
     handlePressAddNew,
-    branch: { listBranch, paging },
+    unitModels: { listUnitModels, paging },
   } = props;
 
   const { page, limit, totalPage } = paging;
 
-  if (listBranch.length > 0) {
-    listBranch.map((item, index) => {
-      listBranch[index] = { ...item, no: getIndex(page, limit)[index] };
+  if (listUnitModels.length > 0) {
+    listUnitModels.map((item, index) => {
+      listUnitModels[index] = { ...item, no: getIndex(page, limit)[index] };
     });
   }
 
@@ -36,11 +39,18 @@ const BranchContainer = (props) => {
       sorter: (a, b) => a.no - b.no,
     },
     {
-      title: "Nama Cabang",
+      title: "Nama Model",
       dataIndex: "name",
       key: "name",
       width: "30%",
       sorter: (a, b) => a.name.length - b.name.length,
+    },
+    {
+      title: "Dibuat",
+      dataIndex: "created_at",
+      key: "created_at",
+      width: "30%",
+      sorter: (a, b) => a.created_at.length - b.created_at.length,
     },
   ];
 
@@ -65,7 +75,7 @@ const BranchContainer = (props) => {
   );
 
   React.useEffect(() => {
-    getListBranch(page, limit);
+    getListUnitModels(page, limit);
   }, []);
 
   const onChangePagination = async (nextPage, pageSize) => {
@@ -73,60 +83,60 @@ const BranchContainer = (props) => {
     paging.page = nextPage;
     paging.limit = pageSize;
     paging.totalPage = totalPage;
-    await store.dispatch(BranchActions.setPagingBranch(paging));
-    getListBranch(nextPage, pageSize);
+    await store.dispatch(UnitModelActions.setPagingUnitModel(paging));
+    getListUnitModels(nextPage, pageSize);
   };
 
   const onSearch = (val) => {
-    getListBranch(page, limit, val);
+    getListUnitModels(page, limit, val);
   };
 
   return (
-    <BranchComponent
+    <UnitModelsComponent
       headers={headers}
-      listRoles={listBranch}
+      listUnits={listUnitModels}
       renderActionTable={renderActionTable}
       handlePressAddNew={handlePressAddNew}
       onChangePagination={onChangePagination}
-      paging={paging}
       onSearch={onSearch}
-      // onShowSizeChange={onShowSizeChange}
-      {...props}
+      paging={paging}
+      // {...props}
     />
   );
 };
 
 const mapStateToProps = (state) => ({
-  branch: state.branch,
+  units: state.units,
+  unitModels: state.unitModels,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getListBranch: (page, limit, keyword) =>
-    BranchActions.getBranchListDataRequested(page, limit, keyword),
+  getListUnitModels: (page, limit, keyword) =>
+  UnitModelActions.getUnitModelListDataRequested(page, limit, keyword),
   handlePressAddNew: async () => {
-    await dispatch(BranchActions.setSelectedBranchData({}));
-    await dispatch(BranchActions.setSelectedBranchId(""));
-    dispatch(BranchActions.setFormStatus("add"));
+    await dispatch(UnitModelActions.setSelectedUnitModelData({}));
+    await dispatch(UnitModelActions.setSelectedUnitModelId(""));
+    dispatch(UnitModelActions.setFormStatus("add"));
     dispatch(ComponentActions.setGlobalModal(true));
-    BranchActions.resetForm();
+    UnitModelActions.resetForm();
   },
   handlePressEdit: async (record) => {
-    await dispatch(BranchActions.setFormStatus("edit"));
-    await dispatch(BranchActions.setSelectedBranchId(record.id));
-    await dispatch(BranchActions.setSelectedBranchData(record));
+    await dispatch(UnitModelActions.setFormStatus("edit"));
+    await dispatch(UnitModelActions.setSelectedUnitModelId(record.id));
+    await dispatch(UnitModelActions.setSelectedUnitModelData(record));
     await dispatch(ComponentActions.setGlobalModal(true));
-    await BranchActions.mapDetailBranchToForm();
+    await UnitModelActions.mapDetailUnitModelToForm();
   },
-  handlePressDelete: async (branchId) => {
-    await dispatch(BranchActions.setSelectedBranchId(branchId));
-    BranchActions.deleteBranchRequested(branchId);
+  handlePressDelete: async (unitModelId) => {
+    await dispatch(UnitModelActions.setSelectedUnitModelId(unitModelId));
+    UnitModelActions.deleteUnitModelRequested(unitModelId);
   },
 });
 
 const EnhanceContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(BranchContainer);
+)(UnitModelsContainer);
 
 export default reduxForm({
-  form: "branchForm",
+  form: "unitsModelsForm",
 })(EnhanceContainer);

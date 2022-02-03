@@ -3,6 +3,7 @@ import {
   SET_FORM_STATUS,
   SET_SELECTED_UNIT_ID,
   SET_SELECTED_UNIT_DATA,
+  SET_PAGING_UNIT
 } from "./UnitsActions";
 
 export const initialState = {
@@ -10,6 +11,11 @@ export const initialState = {
   selectedUnitsId: "",
   selectedUnitsData: {},
   formStatus: "add",
+  paging: {
+    page: 1,
+    limit: 10,
+    totalPage: 0,
+  },
 };
 
 export default function unitsReducer(state = initialState, action) {
@@ -30,6 +36,9 @@ export default function unitsReducer(state = initialState, action) {
 
     case SET_SELECTED_UNIT_DATA:
       newState.selectedUnitsData = action.payload;
+      return { ...newState };
+    case SET_PAGING_UNIT:
+      newState.paging = { ...state.paging, ...action.payload };
       return { ...newState };
   }
 

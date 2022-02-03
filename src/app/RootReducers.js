@@ -15,7 +15,7 @@ import unitReducer from "../modules/Units/Store/UnitsReducer";
 import jobFormsReducer from "../modules/JobForms/Store/JobFormsReducer";
 import branchReducer from "../modules/Branch/Store/BranchReducer";
 import detailServiceTransactionReducer from "../modules/DetailServiceTransaction/Store/DetailServiceTransactionReducer";
-import unitModelReducer from "../modules/UnitsModel/Store/UnitModelReducer";
+import unitModelReducer from "../modules/Units/Store/UnitModelReducer";
 import externalServiceReducer from "../modules/ExternalService/Store/ExternalServiceReducer";
 import identificationReducer from "../modules/Identification/Store/IdentificationReducer";
 import machineConfigurationReducer from "../modules/MachineConfiguration/Store/MachineConfigurationReducer";

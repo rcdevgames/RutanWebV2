@@ -1,9 +1,34 @@
-import { loadCityListData } from "../modules/MasterData/Store/MasterDataActions";
 import history from "./History";
 
 export const navigate = (path) => {
   history.push(path);
   window.location.reload();
+};
+
+export const getIndex = (currentpage, limit) => {
+  const pageNumbers = [];
+  const startIndex = currentpage * limit - limit;
+  const endIndex = startIndex + limit;
+  for (let i = startIndex === 0 ? 1 : startIndex; i <= endIndex; i++) {
+    pageNumbers.push(i);
+  }
+  return pageNumbers;
+};
+
+export const getBase64 = (img, callback) => {
+  const reader = new FileReader();
+  reader.addEventListener("load", () => callback(reader.result));
+  reader.readAsDataURL(img);
+};
+
+export const getBase64Image = (imgUrl) => {
+  var canvas = document.createElement("canvas");
+  canvas.width = imgUrl.width;
+  canvas.height = imgUrl.height;
+  var ctx = canvas.getContext("2d");
+  ctx.drawImage(imgUrl, 0, 0);
+  var dataURL = canvas.toDataURL("image/png");
+  return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
 };
 
 export const SelectLocation = [
@@ -206,7 +231,7 @@ export const getMachineConf = (data) => {
   data.map((item, index) => {
     SelectMachines.push({
       id: item.id,
-      name: item.name.replace(/ /g, '_').toLowerCase(),
+      name: item.name.replace(/ /g, "_").toLowerCase(),
       type: item.name,
     });
   });

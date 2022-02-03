@@ -9,10 +9,18 @@ export const SET_BRANCH_LIST_DATA = "SET_BRANCH_LIST_DATA";
 export const SET_FORM_STATUS = "SET_FORM_STATUS";
 export const SET_SELECTED_BRANCH_ID = "SET_SELECTED_BRANCH_ID";
 export const SET_SELECTED_BRANCH_DATA = "SET_SELECTED_BRANCH_DATA";
+export const SET_PAGING_BRANCH = "SET_PAGING_BRANCH";
 
 export const setBranchListData = (payload) => {
   return {
     type: SET_BRANCH_LIST_DATA,
+    payload,
+  };
+};
+
+export const setPagingBranch = (payload) => {
+  return {
+    type: SET_PAGING_BRANCH,
     payload,
   };
 };
@@ -40,10 +48,14 @@ export const setSelectedBranchData = (payload) => {
 
 // === INTERNAL FUNCTION ===
 const doDeleteBranchProcess = async (branchId) => {
+  const { getState } = store;
+  const paging = getState().branch.paging;
+  const { page, limit } = paging;
+
   try {
     await Invoke.deleteBranchById(branchId);
     showToast("Data berhasil dihapus", "success");
-    getBranchListDataRequested();
+    getBranchListDataRequested(page, limit);
   } catch (error) {
     showToast("Internal Server Error!", "error");
     console.log("error : ", error);
@@ -51,14 +63,16 @@ const doDeleteBranchProcess = async (branchId) => {
 };
 
 const doAddBranchProcess = async (values) => {
-  const { dispatch } = store;
+  const { dispatch, getState } = store;
+  const paging = getState().branch.paging;
+  const { page, limit } = paging;
   try {
     const payload = {};
     payload.name = values.description;
     payload.description = values.description;
     await Invoke.addBranch(payload);
     showToast("Data Berhasil Disimpan", "success");
-    getBranchListDataRequested();
+    getBranchListDataRequested(page, limit);
     dispatch(ComponentActions.setGlobalModal(false));
   } catch (error) {
     showToast("Internal Server Error!", "error");
@@ -68,7 +82,10 @@ const doAddBranchProcess = async (values) => {
 };
 
 const doEditBranchProcess = async (values) => {
-  const { dispatch } = store;
+  const { dispatch, getState } = store;
+  const paging = getState().branch.paging;
+  const { page, limit } = paging;
+
   try {
     const payload = {};
     payload.id = values.id;
@@ -76,7 +93,7 @@ const doEditBranchProcess = async (values) => {
     payload.description = values.description;
     await Invoke.updateBranch(payload);
     showToast("Data Berhasil Disimpan", "success");
-    getBranchListDataRequested();
+    getBranchListDataRequested(page, limit);
     dispatch(ComponentActions.setGlobalModal(false));
   } catch (error) {
     showToast("Internal Server Error!", "error");
@@ -99,10 +116,15 @@ export const mapDetailBranchToForm = async () => {
   dispatch(change("editBranchForm", `description`, data.name ?? ""));
 };
 
-export const getBranchListDataRequested = async () => {
+export const getBranchListDataRequested = async (page, limit, keyword = "") => {
   try {
-    const { data } = await Invoke.getListBranch(1, 100);
-    store.dispatch(setBranchListData(data.callback));
+    const { data } = await Invoke.getListBranch(page, limit, keyword);
+    const paging = {};
+    paging.page = data.callback.page;
+    paging.limit = data.callback.limit;
+    paging.totalPage = data.callback.totalPage;
+    store.dispatch(setBranchListData(data.callback.data));
+    store.dispatch(setPagingBranch(paging));
   } catch (error) {
     console.log(error);
   }

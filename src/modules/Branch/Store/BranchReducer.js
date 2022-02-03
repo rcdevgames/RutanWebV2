@@ -1,6 +1,7 @@
 import {
   SET_BRANCH_LIST_DATA,
   SET_FORM_STATUS,
+  SET_PAGING_BRANCH,
   SET_SELECTED_BRANCH_ID,
   SET_SELECTED_BRANCH_DATA,
 } from "./BranchActions";
@@ -10,6 +11,11 @@ export const initialState = {
   selectedBranchId: "",
   selectedBranchData: {},
   formStatus: "add",
+  paging: {
+    page: 1,
+    limit: 10,
+    totalPage: 0,
+  },
 };
 
 export default function branchReducer(state = initialState, action) {
@@ -30,6 +36,9 @@ export default function branchReducer(state = initialState, action) {
 
     case SET_SELECTED_BRANCH_DATA:
       newState.selectedBranchData = action.payload;
+      return { ...newState };
+    case SET_PAGING_BRANCH:
+      newState.paging = { ...state.paging, ...action.payload };
       return { ...newState };
   }
 

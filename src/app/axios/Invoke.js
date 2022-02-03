@@ -21,8 +21,8 @@ Invoke.getListServices = (page, limit) => {
 };
 
 // === Admin API : ===
-Invoke.getListAdmin = (page, limit) => {
-  return ConfigAxios.get(`/admins?page=${page}&limit=${limit}`);
+Invoke.getListAdmin = (page, limit, keyword = "") => {
+  return ConfigAxios.get(`/admins?page=${page}&limit=${limit}&q=${keyword}`);
 };
 
 Invoke.getAdminById = (adminId) => {
@@ -83,8 +83,8 @@ Invoke.deleteEmployeeRole = (id) => {
 // === End Employee - Roles API ===
 
 // === Customers API ===
-Invoke.getCustomerList = (page, limit) => {
-  return ConfigAxios.get(`/customers?page=${page}&limit=${limit}`);
+Invoke.getCustomerList = (page, limit, keyword = "") => {
+  return ConfigAxios.get(`/customers?page=${page}&limit=${limit}&q=${keyword}`);
 };
 Invoke.getCustomerById = (customerId) => {
   return ConfigAxios.get(`/customers/${customerId}`);
@@ -104,8 +104,8 @@ Invoke.deleteCustomerById = (customerId) => {
 // === End Customers API ===
 
 // === Employee API === :
-Invoke.getEmployeeList = (page, limit) => {
-  return ConfigAxios.get(`/employees?page=${page}&limit=${limit}`);
+Invoke.getEmployeeList = (page, limit, keyword = "") => {
+  return ConfigAxios.get(`/employees?page=${page}&limit=${limit}&q=${keyword}`);
 };
 
 Invoke.getEmployeeById = (employeeId) => {
@@ -221,14 +221,34 @@ Invoke.getJobServiceDailies = (jobId) => {
 // === End Service Views ===
 
 // === Master Unit API === :
-Invoke.getUnitList = (page, limit) => {
-  return ConfigAxios.get(`/units?page=${page}&limit=${limit}`);
+Invoke.getUnitList = (page, limit, keyword) => {
+  return ConfigAxios.get(`/units?page=${page}&limit=${limit}&q=${keyword}`);
+};
+Invoke.addUnit = (payload) => {
+  return ConfigAxios.post(`/units`, payload);
+};
+Invoke.updateUnit = (payload) => {
+  return ConfigAxios.put(`/units`, payload);
+};
+Invoke.deleteUnitById = (unitId) => {
+  return ConfigAxios.delete(`units/${unitId}`, headersConfigDelete);
 };
 // === End Master Unit API ===
 
 // === Master unit-model API === :
-Invoke.getListUnitModel = (page, limit, unitId) => {
-  return ConfigAxios.get(`/units/models/${unitId}?page=${page}&limit=${limit}`);
+Invoke.getListUnitModel = (page, limit, unitId, keyword) => {
+  return ConfigAxios.get(
+    `/units/models/${unitId}?page=${page}&limit=${limit}&q=${keyword}`
+  );
+};
+Invoke.addUnitModel = (payload) => {
+  return ConfigAxios.post(`/units/models`, payload);
+};
+Invoke.updateUnitModel = (payload) => {
+  return ConfigAxios.put(`/units/models`, payload);
+};
+Invoke.deleteUnitModelById = (unitModelId) => {
+  return ConfigAxios.delete(`units/models/${unitModelId}`, headersConfigDelete);
 };
 // === End Master Unit-Model API ===
 
@@ -248,8 +268,8 @@ Invoke.deleteJobForms = (jobFormsId) => {
 // === End Job-Form API ===
 
 // === Master Branch API === :
-Invoke.getListBranch = (page, limit) => {
-  return ConfigAxios.get(`/branches?page=${page}&limit=${limit}`);
+Invoke.getListBranch = (page, limit, keyword) => {
+  return ConfigAxios.get(`/branches?page=${page}&limit=${limit}&q=${keyword}`);
 };
 Invoke.deleteBranchById = (branchId) => {
   return ConfigAxios.delete(`/branches/${branchId}`, headersConfigDelete);
@@ -323,7 +343,10 @@ Invoke.updateFormCategory = (payload) => {
   return ConfigAxios.put(`/category_forms`, payload);
 };
 Invoke.deleteFormCategory = (categoryFormId) => {
-  return ConfigAxios.delete(`/category_forms/${categoryFormId}`, headersConfigDelete);
+  return ConfigAxios.delete(
+    `/category_forms/${categoryFormId}`,
+    headersConfigDelete
+  );
 };
 // === End FormCategory API ===
 

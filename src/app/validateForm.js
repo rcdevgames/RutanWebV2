@@ -82,6 +82,22 @@ export const validateFormCategory = (values) => {
   return errors;
 };
 
+export const validateFormUnit = (values) => {
+  const errors = {};
+  if (!values.name) {
+    errors.name = "Nama Unit wajib diisi!";
+  }
+  return errors;
+};
+
+export const validateFormUnitModel = (values) => {
+  const errors = {};
+  if (!values.name) {
+    errors.name = "Nama Model wajib diisi!";
+  }
+  return errors;
+};
+
 export const validateFormTools = (values) => {
   const errors = {};
   if (!values.name) {

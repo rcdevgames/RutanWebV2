@@ -4,7 +4,7 @@ import CTableAntd from "../../../components/CTable/CTableAntd";
 import { PlusOutlined } from "@ant-design/icons";
 
 const EmployeesListComponent = (props) => {
-  const { headers, listRoles, renderActionTable, handlePressAddNew } = props;
+  const { headers, listEmployees, renderActionTable, handlePressAddNew } = props;
   return (
     <div class="page-content">
       <div class="mt-5">
@@ -25,7 +25,7 @@ const EmployeesListComponent = (props) => {
                 </div>
                 <div class="table-responsive">
                   <CTableAntd
-                    data={listRoles}
+                    data={listEmployees}
                     headers={headers}
                     renderActions={renderActionTable}
                   />

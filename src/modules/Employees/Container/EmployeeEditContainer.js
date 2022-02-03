@@ -14,12 +14,8 @@ const EmployeeEditContainer = (props) => {
     handleCancel,
     component: { isModalVisible },
     roles: { listRoles },
-    branch: { listBranch },
-    employees: {
-      formStatus,
-      selectedEmployeeData,
-      selectedRoleEmployee,
-    },
+    branch: { listBranch, paging, keyword },
+    employees: { formStatus, selectedEmployeeData, selectedRoleEmployee },
     masters: { listProvince, listCity },
     setAutoPopulateEmployee,
     handleClearSelectedEmployeeRole,
@@ -27,9 +23,11 @@ const EmployeeEditContainer = (props) => {
   const [listCityState, setListCityState] = React.useState([]);
   const [roleSelected, setRoleSelected] = React.useState([]);
 
+  const { page, limit } = paging;
+
   React.useEffect(() => {
     setAutoPopulateEmployee();
-    BranchActions.getBranchListDataRequested();
+    BranchActions.getBranchListDataRequested(page, limit, keyword);
     MasterDataActions.loadProvinceListData();
   }, []);
 

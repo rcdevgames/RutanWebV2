@@ -7,6 +7,8 @@ import * as ComponentActions from "../../App/Store/ComponentAction";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import CustomerComponent from "../Component/CustomerComponent";
+import { store } from "../../../app/ConfigureStore";
+import { getIndex } from "../../../app/Helpers";
 
 const CustomerContainer = (props) => {
   const {
@@ -14,12 +16,14 @@ const CustomerContainer = (props) => {
     handlePressEdit,
     handlePressDelete,
     handlePressAddNew,
-    customers: { listCustomers },
+    customers: { listCustomers, paging, keyword },
   } = props;
+
+  const { page, totalPage, limit } = paging;
 
   if (listCustomers.length > 0) {
     listCustomers.map((item, index) => {
-      listCustomers[index] = { ...item, no: index + 1 };
+      listCustomers[index] = { ...item, no: getIndex(page, limit)[index] };
     });
   }
 
@@ -82,15 +86,26 @@ const CustomerContainer = (props) => {
   );
 
   React.useEffect(() => {
-    getListCustomer();
+    getListCustomer(page, limit, keyword);
   }, []);
+
+  const onChangePagination = async (nextPage) => {
+    const paging = {};
+    paging.page = nextPage;
+    paging.limit = limit;
+    paging.totalPage = totalPage;
+    await store.dispatch(CustomerActions.setPagingCustomer(paging));
+    getListCustomer(nextPage, limit, keyword);
+  };
 
   return (
     <CustomerComponent
       headers={headers}
+      paging={paging}
       listCustomers={listCustomers}
       renderActionTable={renderActionTable}
       handlePressAddNew={handlePressAddNew}
+      onChangePagination={onChangePagination}
       {...props}
     />
   );
@@ -100,7 +115,8 @@ const mapStateToProps = (state) => ({
   customers: state.customers,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getListCustomer: () => CustomerActions.getCustomerListDataByPaging(1, 100),
+  getListCustomer: (page, limit, keyword) =>
+    CustomerActions.getCustomerListDataByPaging(page, limit, keyword),
   // handlePressAddNew: async () => {
   //   await dispatch(BranchActions.setSelectedBranchData({}));
   //   await dispatch(BranchActions.setSelectedBranchId(""));

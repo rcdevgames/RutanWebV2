@@ -80,7 +80,7 @@ const EmployeesListContainer = (props) => {
   return (
     <EmployeesListComponent
       headers={headers}
-      listRoles={listEmployees}
+      listEmployees={listEmployees}
       renderActionTable={renderActionTable}
       {...props}
     />

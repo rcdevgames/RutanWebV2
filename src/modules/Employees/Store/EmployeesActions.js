@@ -52,7 +52,7 @@ export const setFormStatus = (payload) => {
 export const loadEmployeeListData = async () => {
   try {
     const { data } = await Invoke.getEmployeeList(1, 100);
-    store.dispatch(setEmployeeListData(data.callback));
+    store.dispatch(setEmployeeListData(data.callback.data));
     store.dispatch(setGlobalLoading(false));
   } catch (error) {
     store.dispatch(setGlobalLoading(false));

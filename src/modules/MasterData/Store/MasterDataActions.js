@@ -29,7 +29,7 @@ export const setCityListData = (payload) => {
 export const loadProvinceListData = async () => {
   try {
     const { data } = await Invoke.getProvinceList(1, 100);
-    store.dispatch(setProvinceListData(data.callback));
+    store.dispatch(setProvinceListData(data.callback.data));
   } catch (error) {
     console.log(error);
   }
@@ -38,7 +38,7 @@ export const loadProvinceListData = async () => {
 export const loadCityListData = async (provinceId) => {
   try {
     const { data } = await Invoke.getCityList(1, 100, provinceId);
-    store.dispatch(setCityListData(data.callback));
+    store.dispatch(setCityListData(data.callback.data));
   } catch (error) {
     console.log(error);
   }
@@ -47,7 +47,7 @@ export const loadCityListData = async (provinceId) => {
 export const loadMenuListData = async () => {
   try {
     const { data } = await Invoke.getListMenu(1, 100);
-    store.dispatch(setMenuListData(data.callback));
+    store.dispatch(setMenuListData(data.callback.data));
   } catch (error) {
     console.log(error);
   }

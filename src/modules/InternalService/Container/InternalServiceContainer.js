@@ -13,10 +13,12 @@ import { enumTypeInternalServices } from "../../../app/Helpers";
 const InternalServiceContainer = (props) => {
   const {
     valid,
-    customers: { listCustomers },
+    customers: { listCustomers, paging, keyowrd },
     employees: { listEmployees },
     component: { isLoadingFormGlobal },
   } = props;
+
+  const { page, limit } = paging;
 
   const submitForm = (values) => {
     if (valid) {
@@ -29,8 +31,7 @@ const InternalServiceContainer = (props) => {
     // Reset all form data and loading when first load data
     ComponentAction.resetAllGlobalLoadingProcess();
     // resetForm();
-
-    CustomerActions.loadCustomerListData();
+    CustomerActions.getCustomerListDataByPaging(page, limit, keyowrd);
     EmployeeActions.loadEmployeeListData();
     MasterDataActions.loadProvinceListData();
   }, []);

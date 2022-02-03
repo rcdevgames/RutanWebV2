@@ -1,15 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { change, formValueSelector, reduxForm } from "redux-form";
-import { validateFormUnit } from "../../../app/validateForm";
+import { change, reduxForm } from "redux-form";
+import { validateFormUnit, validateFormUnitModel } from "../../../app/validateForm";
 import * as ComponentActions from "../../App/Store/ComponentAction";
-import * as UnitsActions from "../Store/UnitsActions";
-import UnitsModalComponent from "../Component/UnitsModalComponent";
+import * as UnitModelActions from "../Store/UnitModelActions";
 import { store } from "../../../app/ConfigureStore";
+import UnitsModelsModalComponent from "../Component/UnitsModelsModalComponent";
 
-const selector = formValueSelector("editUnitForm");
-
-const BranchModalContainer = (props) => {
+const UnitModelsModalContainer = (props) => {
   const {
     valid,
     handleCancel,
@@ -36,18 +34,12 @@ const BranchModalContainer = (props) => {
     });
   });
 
-  React.useEffect(() => {
-    if (isModalVisible === false) {
-      // handleClearModalContent();
-    }
-  }, [isModalVisible]);
-
   const handleUploadPhoto = (base64) => {
     store.dispatch(change("editUnitForm", `imageUrl`, base64 ?? ""));
   };
 
   return (
-    <UnitsModalComponent
+    <UnitsModelsModalComponent
       isModalVisible={isModalVisible}
       handleCancel={handleCancel}
       submitForm={submitForm}
@@ -68,19 +60,16 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
   handleCancel: () => dispatch(ComponentActions.setGlobalModal(false)),
-  handleClearModalContent: () => {
-    UnitsActions.resetForm();
-  },
   handleSubmitForm: (type, values) =>
-    UnitsActions.saveUnitRequested(type, values),
+    UnitModelActions.saveUnitModelsRequested(type, values),
 });
 
 const EnhanceContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(BranchModalContainer);
+)(UnitModelsModalContainer);
 
 export default reduxForm({
-  form: "editUnitForm",
-  validate: validateFormUnit,
+  form: "editUnitModelForm",
+  validate: validateFormUnitModel,
 })(EnhanceContainer);

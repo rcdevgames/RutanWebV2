@@ -3,6 +3,7 @@ import {
   SET_FORM_STATUS,
   SET_SELECTED_TOOLS_ID,
   SET_SELECTED_TOOLS_DATA,
+  SET_PAGING_TOOLS,
 } from "./ToolsActions";
 
 export const initialState = {
@@ -10,6 +11,11 @@ export const initialState = {
   selectedToolsId: "",
   selectedToolsData: {},
   formStatus: "add",
+  paging: {
+    page: 1,
+    limit: 10,
+    totalPage: 0,
+  },
 };
 
 export default function toolsReducer(state = initialState, action) {
@@ -30,6 +36,10 @@ export default function toolsReducer(state = initialState, action) {
 
     case SET_SELECTED_TOOLS_DATA:
       newState.selectedToolsData = action.payload;
+      return { ...newState };
+
+    case SET_PAGING_TOOLS:
+      newState.paging = { ...state.paging, ...action.payload };
       return { ...newState };
   }
 

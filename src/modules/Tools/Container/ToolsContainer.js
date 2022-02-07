@@ -7,6 +7,8 @@ import * as ComponentActions from "../../App/Store/ComponentAction";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import ToolsComponent from "../Component/ToolsComponent";
+import { getIndex } from "../../../app/Helpers";
+import { store } from "../../../app/ConfigureStore";
 
 const ToolsContainer = (props) => {
   const {
@@ -14,12 +16,14 @@ const ToolsContainer = (props) => {
     handlePressEdit,
     handlePressDelete,
     handlePressAddNew,
-    tools: { listTools },
+    tools: { listTools, paging },
   } = props;
+
+  const { page, limit, totalPage } = paging;
 
   if (listTools.length > 0) {
     listTools.map((item, index) => {
-      listTools[index] = { ...item, no: index + 1 };
+      listTools[index] = { ...item, no: getIndex(page, limit)[index] };
     });
   }
 
@@ -75,8 +79,21 @@ const ToolsContainer = (props) => {
   );
 
   React.useEffect(() => {
-    getListTools();
+    getListTools(page, limit);
   }, []);
+
+  const onChangePagination = async (nextPage, pageSize) => {
+    const paging = {};
+    paging.page = nextPage;
+    paging.limit = pageSize;
+    paging.totalPage = totalPage;
+    await store.dispatch(ToolsActions.setPagingTools(paging));
+    getListTools(nextPage, pageSize);
+  };
+
+  const onSearch = (val) => {
+    getListTools(page, limit, val);
+  };
 
   return (
     <ToolsComponent
@@ -84,6 +101,9 @@ const ToolsContainer = (props) => {
       listTools={listTools}
       renderActionTable={renderActionTable}
       handlePressAddNew={handlePressAddNew}
+      onChangePagination={onChangePagination}
+      paging={paging}
+      onSearch={onSearch}
       // {...props}
     />
   );
@@ -93,7 +113,8 @@ const mapStateToProps = (state) => ({
   tools: state.tools,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getListTools: () => ToolsActions.getToolsListDataRequested(),
+  getListTools: (page, limit, keyword) =>
+    ToolsActions.getToolsListDataRequested(page, limit, keyword),
   handlePressAddNew: async () => {
     await dispatch(ToolsActions.setSelectedToolsData({}));
     await dispatch(ToolsActions.setSelectedToolsId(""));
@@ -120,5 +141,5 @@ const EnhanceContainer = connect(
 )(ToolsContainer);
 
 export default reduxForm({
-  form: "branchForm",
+  form: "toolsForm",
 })(EnhanceContainer);

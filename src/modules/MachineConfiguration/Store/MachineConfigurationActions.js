@@ -9,10 +9,18 @@ export const SET_MACHINE_LIST_DATA = "SET_MACHINE_LIST_DATA";
 export const SET_FORM_STATUS = "SET_FORM_STATUS";
 export const SET_SELECTED_MACHINE_ID = "SET_SELECTED_MACHINE_ID";
 export const SET_SELECTED_MACHINE_DATA = "SET_SELECTED_MACHINE_DATA";
+export const SET_PAGING_MACHINE_CONF = "SET_PAGING_MACHINE_CONF";
 
 export const setMachineListData = (payload) => {
   return {
     type: SET_MACHINE_LIST_DATA,
+    payload,
+  };
+};
+
+export const setPagingMachineConf = (payload) => {
+  return {
+    type: SET_PAGING_MACHINE_CONF,
     payload,
   };
 };
@@ -40,10 +48,13 @@ export const setSelectedMachineData = (payload) => {
 
 // === INTERNAL FUNCTION ===
 const doDeleteMachineProcess = async (machineId) => {
+  const { getState } = store;
+  const paging = getState().branch.paging;
+  const { page, limit } = paging;
   try {
     await Invoke.deleteEngine(machineId);
     showToast("Data berhasil dihapus", "success");
-    getMachineListDataRequested();
+    getMachineListDataRequested(page, limit);
   } catch (error) {
     showToast("Internal Server Error!", "error");
     console.log("error : ", error);
@@ -51,14 +62,16 @@ const doDeleteMachineProcess = async (machineId) => {
 };
 
 const doAddMachineProcess = async (values) => {
-  const { dispatch } = store;
+  const { getState, dispatch } = store;
+  const paging = getState().branch.paging;
+  const { page, limit } = paging;
   try {
     const payload = {};
     payload.name = values.name;
     payload.description = values.description;
     await Invoke.addEngine(payload);
     showToast("Data Berhasil Disimpan", "success");
-    getMachineListDataRequested();
+    getMachineListDataRequested(page, limit);
     dispatch(ComponentActions.setGlobalModal(false));
   } catch (error) {
     showToast("Internal Server Error!", "error");
@@ -68,7 +81,9 @@ const doAddMachineProcess = async (values) => {
 };
 
 const doEditMachineProcess = async (values) => {
-  const { dispatch } = store;
+  const { getState, dispatch } = store;
+  const paging = getState().branch.paging;
+  const { page, limit } = paging;
   try {
     const payload = {};
     payload.id = values.id;
@@ -76,7 +91,7 @@ const doEditMachineProcess = async (values) => {
     payload.description = values.description;
     await Invoke.updateEngine(payload);
     showToast("Data Berhasil Disimpan", "success");
-    getMachineListDataRequested();
+    getMachineListDataRequested(page, limit);
     dispatch(ComponentActions.setGlobalModal(false));
   } catch (error) {
     showToast("Internal Server Error!", "error");
@@ -106,10 +121,19 @@ export const mapDetailMachineToForm = async () => {
   );
 };
 
-export const getMachineListDataRequested = async () => {
+export const getMachineListDataRequested = async (
+  page,
+  limit,
+  keyword = ""
+) => {
   try {
-    const { data } = await Invoke.getListEngine(1, 100);
+    const { data } = await Invoke.getListEngine(page, limit, keyword);
+    const paging = {};
+    paging.page = data.callback.page;
+    paging.limit = data.callback.limit;
+    paging.totalPage = data.callback.totalPage;
     store.dispatch(setMachineListData(data.callback.data));
+    store.dispatch(setPagingMachineConf(paging));
   } catch (error) {
     console.log(error);
   }

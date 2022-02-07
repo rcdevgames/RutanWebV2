@@ -7,6 +7,8 @@ import * as ComponentActions from "../../App/Store/ComponentAction";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import MachineConfigurationComponent from "../Component/MachineConfigurationComponent";
+import { store } from "../../../app/ConfigureStore";
+import { getIndex } from "../../../app/Helpers";
 
 const MachineConfigurationContainer = (props) => {
   const {
@@ -14,12 +16,14 @@ const MachineConfigurationContainer = (props) => {
     handlePressEdit,
     handlePressDelete,
     handlePressAddNew,
-    machineConfiguration: { listMachine },
+    machineConfiguration: { listMachine, paging },
   } = props;
+
+  const { page, limit, totalPage } = paging;
 
   if (listMachine.length > 0) {
     listMachine.map((item, index) => {
-      listMachine[index] = { ...item, no: index + 1 };
+      listMachine[index] = { ...item, no: getIndex(page, limit)[index] };
     });
   }
 
@@ -68,8 +72,21 @@ const MachineConfigurationContainer = (props) => {
   );
 
   React.useEffect(() => {
-    getListMachine();
+    getListMachine(page, limit);
   }, []);
+
+  const onChangePagination = async (nextPage, pageSize) => {
+    const paging = {};
+    paging.page = nextPage;
+    paging.limit = pageSize;
+    paging.totalPage = totalPage;
+    await store.dispatch(MachineActions.setPagingMachineConf(paging));
+    getListMachine(nextPage, pageSize);
+  };
+
+  const onSearch = (val) => {
+    getListMachine(page, limit, val);
+  };
 
   return (
     <MachineConfigurationComponent
@@ -77,6 +94,9 @@ const MachineConfigurationContainer = (props) => {
       listMachine={listMachine}
       renderActionTable={renderActionTable}
       handlePressAddNew={handlePressAddNew}
+      onChangePagination={onChangePagination}
+      onSearch={onSearch}
+      paging={paging}
       // {...props}
     />
   );
@@ -87,7 +107,8 @@ const mapStateToProps = (state) => ({
   machineConfiguration: state.machineConfiguration,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getListMachine: () => MachineActions.getMachineListDataRequested(),
+  getListMachine: (page, limit, keyword) =>
+    MachineActions.getMachineListDataRequested(page, limit, keyword),
   handlePressAddNew: async () => {
     await dispatch(MachineActions.setSelectedMachineData({}));
     await dispatch(MachineActions.setSelectedMachineId(""));

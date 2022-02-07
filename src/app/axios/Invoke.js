@@ -265,13 +265,16 @@ Invoke.updateUnitFields = (payload) => {
   return ConfigAxios.put(`/units/fields`, payload);
 };
 Invoke.deleteUnitFieldsById = (unitfieldsId) => {
-  return ConfigAxios.delete(`units/fields/${unitfieldsId}`, headersConfigDelete);
+  return ConfigAxios.delete(
+    `units/fields/${unitfieldsId}`,
+    headersConfigDelete
+  );
 };
 // === End Master Unit-Model API ===
 
 // === Master Job-Form API === :
-Invoke.getListJobForm = (page, limit) => {
-  return ConfigAxios.get(`job_forms?page=${page}&limit=${limit}`);
+Invoke.getListJobForm = (page, limit, keyowrd) => {
+  return ConfigAxios.get(`job_forms?page=${page}&limit=${limit}&q=${keyowrd}`);
 };
 Invoke.addJobForms = (payload) => {
   return ConfigAxios.post(`job_forms`, payload);
@@ -320,8 +323,8 @@ Invoke.deleteMenuByMenuRoleId = (menuRoleId) => {
 // === End Menu - Roles API ===
 
 // === Master Engines API === :
-Invoke.getListEngine = (page, limit) => {
-  return ConfigAxios.get(`/engines?page=${page}&limit=${limit}`);
+Invoke.getListEngine = (page, limit, keyword) => {
+  return ConfigAxios.get(`/engines?page=${page}&limit=${limit}&q=${keyword}`);
 };
 Invoke.addEngine = (payload) => {
   return ConfigAxios.post(`/engines`, payload);
@@ -335,8 +338,8 @@ Invoke.deleteEngine = (machineId) => {
 // === End Engines API ===
 
 // === Master Tools API === :
-Invoke.getListTools = (page, limit) => {
-  return ConfigAxios.get(`/tools?page=${page}&limit=${limit}`);
+Invoke.getListTools = (page, limit, keyword) => {
+  return ConfigAxios.get(`/tools?page=${page}&limit=${limit}&q=${keyword}`);
 };
 Invoke.addTool = (payload) => {
   return ConfigAxios.post(`/tools`, payload);
@@ -350,8 +353,10 @@ Invoke.deleteTool = (toolId) => {
 // === End Tools API ===
 
 // === Master FormCategory API === :
-Invoke.getFormCategory = (page, limit) => {
-  return ConfigAxios.get(`/category_forms?page=${page}&limit=${limit}`);
+Invoke.getFormCategory = (page, limit, keyword) => {
+  return ConfigAxios.get(
+    `/category_forms?page=${page}&limit=${limit}&q=${keyword}`
+  );
 };
 Invoke.addFormCategory = (payload) => {
   return ConfigAxios.post(`/category_forms`, payload);

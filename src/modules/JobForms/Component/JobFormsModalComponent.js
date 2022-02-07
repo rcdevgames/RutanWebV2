@@ -23,22 +23,7 @@ const RenderContent = ({ handleSubmit, submitForm, formName }) => {
       <h6 class="card-title text-center">{formName}</h6>
       <Form onSubmit={handleSubmit(submitForm)}>
         <div class="col-md-12">
-          <Field
-            name="id"
-            label="ID Job Forms"
-            placeholder="-"
-            component={CInput}
-            type="text"
-            disabled
-          />
-        </div>
-        <div class="col-md-12">
-          <Field
-            name="judul"
-            label="Judul"
-            component={CInput}
-            type="text"
-          />
+          <Field name="name" label="Judul" component={CInput} type="text" />
         </div>
         <div class="col-md-12">
           <Field

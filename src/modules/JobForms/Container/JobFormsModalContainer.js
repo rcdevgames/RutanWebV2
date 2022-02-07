@@ -4,7 +4,6 @@ import { reduxForm } from "redux-form";
 import { validateFormRoles } from "../../../app/validateForm";
 import * as ComponentActions from "../../App/Store/ComponentAction";
 import * as JobFormsActions from "../Store/JobFormsActions";
-import BranchModalComponent from "../Component/JobFormsModalComponent";
 import JobFormsModalComponent from "../Component/JobFormsModalComponent";
 
 const JobFormsModalContainer = (props) => {
@@ -55,7 +54,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   handleCancel: () => dispatch(ComponentActions.setGlobalModal(false)),
   handleSubmitForm: (type, values) =>
-  JobFormsActions.saveJobFormsRequested(type, values),
+    JobFormsActions.saveJobFormsRequested(type, values),
 });
 
 const EnhanceContainer = connect(

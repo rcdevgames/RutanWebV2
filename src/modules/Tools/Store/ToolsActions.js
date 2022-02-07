@@ -9,10 +9,18 @@ export const SET_TOOLS_LIST_DATA = "SET_TOOLS_LIST_DATA";
 export const SET_FORM_STATUS = "SET_FORM_STATUS";
 export const SET_SELECTED_TOOLS_ID = "SET_SELECTED_TOOLS_ID";
 export const SET_SELECTED_TOOLS_DATA = "SET_SELECTED_TOOLS_DATA";
+export const SET_PAGING_TOOLS = "SET_PAGING_TOOLS";
 
 export const setToolsListData = (payload) => {
   return {
     type: SET_TOOLS_LIST_DATA,
+    payload,
+  };
+};
+
+export const setPagingTools = (payload) => {
+  return {
+    type: SET_PAGING_TOOLS,
     payload,
   };
 };
@@ -40,10 +48,13 @@ export const setSelectedToolsData = (payload) => {
 
 // === INTERNAL FUNCTION ===
 const doDeleteToolsProcess = async (toolsId) => {
+  const { getState } = store;
+  const paging = getState().tools.paging;
+  const { page, limit } = paging;
   try {
     await Invoke.deleteTool(toolsId);
     showToast("Data berhasil dihapus", "success");
-    getToolsListDataRequested();
+    getToolsListDataRequested(page, limit);
   } catch (error) {
     showToast("Internal Server Error!", "error");
     console.log("error : ", error);
@@ -51,14 +62,16 @@ const doDeleteToolsProcess = async (toolsId) => {
 };
 
 const doAddToolsProcess = async (values) => {
-  const { dispatch } = store;
+  const { dispatch, getState } = store;
+  const paging = getState().tools.paging;
+  const { page, limit } = paging;
   try {
     const payload = {};
     payload.name = values.name;
     payload.description = values.description ?? "None";
     await Invoke.addTool(payload);
     showToast("Data Berhasil Disimpan", "success");
-    getToolsListDataRequested();
+    getToolsListDataRequested(page, limit);
     dispatch(ComponentActions.setGlobalModal(false));
   } catch (error) {
     showToast("Internal Server Error!", "error");
@@ -68,7 +81,9 @@ const doAddToolsProcess = async (values) => {
 };
 
 const doEditToolsProcess = async (values) => {
-  const { dispatch } = store;
+  const { dispatch, getState } = store;
+  const paging = getState().tools.paging;
+  const { page, limit } = paging;
   try {
     const payload = {};
     payload.id = values.id;
@@ -76,7 +91,7 @@ const doEditToolsProcess = async (values) => {
     payload.description = values.description ?? "None";
     await Invoke.updateTool(payload);
     showToast("Data Berhasil Disimpan", "success");
-    getToolsListDataRequested();
+    getToolsListDataRequested(page, limit);
     dispatch(ComponentActions.setGlobalModal(false));
   } catch (error) {
     showToast("Internal Server Error!", "error");
@@ -101,10 +116,15 @@ export const mapDetailToolsToForm = async () => {
   dispatch(change("editToolsForm", `description`, data.description ?? ""));
 };
 
-export const getToolsListDataRequested = async () => {
+export const getToolsListDataRequested = async (page, limit, keyword = "") => {
   try {
-    const { data } = await Invoke.getListTools(1, 100);
+    const { data } = await Invoke.getListTools(page, limit, keyword);
+    const paging = {};
+    paging.page = data.callback.page;
+    paging.limit = data.callback.limit;
+    paging.totalPage = data.callback.totalPage;
     store.dispatch(setToolsListData(data.callback.data));
+    store.dispatch(setPagingTools(paging));
   } catch (error) {
     console.log(error);
   }

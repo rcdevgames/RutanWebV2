@@ -7,6 +7,8 @@ import * as ComponentActions from "../../App/Store/ComponentAction";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import JobFormsComponent from "../Component/JobFormsComponent";
+import { store } from "../../../app/ConfigureStore";
+import { getIndex } from "../../../app/Helpers";
 
 const JobFormsContainer = (props) => {
   const {
@@ -14,12 +16,14 @@ const JobFormsContainer = (props) => {
     handlePressEdit,
     handlePressDelete,
     handlePressAddNew,
-    jobForms: { listJobForms },
+    jobForms: { listJobForms, paging },
   } = props;
+
+  const { page, limit, totalPage } = paging;
 
   if (listJobForms.length > 0) {
     listJobForms.map((item, index) => {
-      listJobForms[index] = { ...item, no: index + 1 };
+      listJobForms[index] = { ...item, no: getIndex(page, limit)[index] };
     });
   }
 
@@ -61,8 +65,21 @@ const JobFormsContainer = (props) => {
   );
 
   React.useEffect(() => {
-    getListJobForms();
+    getListJobForms(page, limit);
   }, []);
+
+  const onSearch = (val) => {
+    getListJobForms(page, limit, val);
+  };
+
+  const onChangePagination = async (nextPage, pageSize) => {
+    const paging = {};
+    paging.page = nextPage;
+    paging.limit = pageSize;
+    paging.totalPage = totalPage;
+    await store.dispatch(JobFormsActions.setPagingJobForm(paging));
+    getListJobForms(nextPage, pageSize);
+  };
 
   return (
     <JobFormsComponent
@@ -70,6 +87,9 @@ const JobFormsContainer = (props) => {
       listJobForms={listJobForms}
       renderActionTable={renderActionTable}
       handlePressAddNew={handlePressAddNew}
+      onSearch={onSearch}
+      onChangePagination={onChangePagination}
+      paging={paging}
       // {...props}
     />
   );
@@ -79,7 +99,8 @@ const mapStateToProps = (state) => ({
   jobForms: state.jobForms,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getListJobForms: () => JobFormsActions.getJobFormsListDataRequested(),
+  getListJobForms: (page, limit, val) =>
+    JobFormsActions.getJobFormsListDataRequested(page, limit, val),
   handlePressAddNew: async () => {
     await dispatch(JobFormsActions.setSelectedJobFormsData({}));
     await dispatch(JobFormsActions.setSelectedJobFormsId(""));

@@ -3,6 +3,7 @@ import {
   SET_FORM_STATUS,
   SET_SELECTED_FORM_CATEGORY_ID,
   SET_SELECTED_FORM_CATEGORY_DATA,
+  SET_PAGING_FORM_CATEGORY
 } from "./FormCategoryActions";
 
 export const initialState = {
@@ -10,6 +11,11 @@ export const initialState = {
   selectedFormCategoryId: "",
   selectedFormCategoryData: {},
   formStatus: "add",
+  paging: {
+    page: 1,
+    limit: 10,
+    totalPage: 0,
+  },
 };
 
 export default function formCategoryReducer(state = initialState, action) {
@@ -30,6 +36,10 @@ export default function formCategoryReducer(state = initialState, action) {
 
     case SET_SELECTED_FORM_CATEGORY_DATA:
       newState.selectedFormCategoryData = action.payload;
+      return { ...newState };
+
+    case SET_PAGING_FORM_CATEGORY:
+      newState.paging = { ...state.paging, ...action.payload };
       return { ...newState };
   }
 

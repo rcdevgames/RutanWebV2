@@ -7,19 +7,23 @@ import * as ComponentActions from "../../App/Store/ComponentAction";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import FormCategoryComponent from "../Component/FormCategoryComponent";
+import { getIndex } from "../../../app/Helpers";
+import { store } from "../../../app/ConfigureStore";
 
 const FormCategoryContainer = (props) => {
   const {
-    getListBranch,
+    getListFormCategory,
     handlePressEdit,
     handlePressDelete,
     handlePressAddNew,
-    formCategory: { listFormCategory },
+    formCategory: { listFormCategory, paging, keyword },
   } = props;
+
+  const { page, limit, totalPage } = paging;
 
   if (listFormCategory.length > 0) {
     listFormCategory.map((item, index) => {
-      listFormCategory[index] = { ...item, no: index + 1 };
+      listFormCategory[index] = { ...item, no: getIndex(page, limit)[index] };
     });
   }
 
@@ -61,8 +65,21 @@ const FormCategoryContainer = (props) => {
   );
 
   React.useEffect(() => {
-    getListBranch();
+    getListFormCategory(page, limit, keyword);
   }, []);
+
+  const onChangePagination = async (nextPage, pageSize) => {
+    const paging = {};
+    paging.page = nextPage;
+    paging.limit = pageSize;
+    paging.totalPage = totalPage;
+    await store.dispatch(FormCategoryActions.setPagingFormCategory(paging));
+    getListFormCategory(nextPage, pageSize);
+  };
+
+  const onSearch = (val) => {
+    getListFormCategory(page, limit, val);
+  };
 
   return (
     <FormCategoryComponent
@@ -70,6 +87,9 @@ const FormCategoryContainer = (props) => {
       listFormCategory={listFormCategory}
       renderActionTable={renderActionTable}
       handlePressAddNew={handlePressAddNew}
+      onChangePagination={onChangePagination}
+      onSearch={onSearch}
+      paging={paging}
       {...props}
     />
   );
@@ -79,7 +99,8 @@ const mapStateToProps = (state) => ({
   formCategory: state.formCategory,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getListBranch: () => FormCategoryActions.getFormCatgeoryListDataRequested(),
+  getListFormCategory: (page, limit, keyword) =>
+    FormCategoryActions.getFormCatgeoryListDataRequested(page, limit, keyword),
   handlePressAddNew: async () => {
     await dispatch(FormCategoryActions.setSelectedFormCategoryData({}));
     await dispatch(FormCategoryActions.setSelectedFormCategoryId(""));
@@ -95,7 +116,9 @@ const mapDispatchToProps = (dispatch) => ({
     await FormCategoryActions.mapDetailCategoryToForm();
   },
   handlePressDelete: async (formCategoryId) => {
-    await dispatch(FormCategoryActions.setSelectedFormCategoryId(formCategoryId));
+    await dispatch(
+      FormCategoryActions.setSelectedFormCategoryId(formCategoryId)
+    );
     FormCategoryActions.deleteFormCategoryRequested(formCategoryId);
   },
 });

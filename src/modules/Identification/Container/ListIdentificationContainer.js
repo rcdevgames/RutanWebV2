@@ -7,7 +7,8 @@ import * as ComponentActions from "../../App/Store/ComponentAction";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import ListIdentificationComponent from "../Component/ListIdentificationComponent";
-import { navigate } from "../../../app/Helpers";
+import { getIndex, navigate } from "../../../app/Helpers";
+import { store } from "../../../app/ConfigureStore";
 
 const ListIdentificationContainer = (props) => {
   const {
@@ -15,12 +16,14 @@ const ListIdentificationContainer = (props) => {
     handlePressEdit,
     handlePressDelete,
     handlePressAddNew,
-    identification: { listIdentification },
+    identification: { listIdentification, paging },
   } = props;
+
+  const { page, limit, totalPage } = paging;
 
   if (listIdentification.length > 0) {
     listIdentification.map((item, index) => {
-      listIdentification[index] = { ...item, no: index + 1 };
+      listIdentification[index] = { ...item, no: getIndex(page, limit)[index] };
     });
   }
 
@@ -90,15 +93,31 @@ const ListIdentificationContainer = (props) => {
   );
 
   React.useEffect(() => {
-    getListIdentification();
+    getListIdentification(page, limit);
   }, []);
+
+  const onChangePagination = async (nextPage, pageSize) => {
+    const paging = {};
+    paging.page = nextPage;
+    paging.limit = pageSize;
+    paging.totalPage = totalPage;
+    await store.dispatch(IdentificationActions.setPagingIdentification(paging));
+    getListIdentification(nextPage, pageSize);
+  };
+
+  const onSearch = (val) => {
+    getListIdentification(page, limit, val);
+  };
 
   return (
     <ListIdentificationComponent
       headers={headers}
-      listRoles={listIdentification}
+      listIdentification={listIdentification}
       renderActionTable={renderActionTable}
       handlePressAddNew={handlePressAddNew}
+      onChangePagination={onChangePagination}
+      onSearch={onSearch}
+      paging={paging}
       {...props}
     />
   );
@@ -108,8 +127,8 @@ const mapStateToProps = (state) => ({
   identification: state.identification,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getListIdentification: () =>
-    IdentificationActions.getIdentificationListRequested(),
+  getListIdentification: (page, limit, keyword) =>
+    IdentificationActions.getIdentificationListRequested(page, limit, keyword),
   handlePressAddNew: async () => {
     await dispatch(IdentificationActions.setSelectedIdentificationData({}));
     await dispatch(IdentificationActions.setSelectedIdentificationId(""));

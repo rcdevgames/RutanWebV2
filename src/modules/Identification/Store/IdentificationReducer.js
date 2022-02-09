@@ -2,7 +2,8 @@ import {
   SET_IDENTIFICATIONN_LIST_DATA,
   SET_SELECTED_IDENTIFICATION_DATA,
   SET_SELECTED_IDENTIFICATION_ID,
-  SET_FORM_STATUS
+  SET_FORM_STATUS,
+  SET_PAGING_IDENTIFICATION
 } from "./IdentificationActions";
 
 export const initialState = {
@@ -10,6 +11,11 @@ export const initialState = {
   selectedIdentificationId: "",
   selectedIdentificationData: {},
   formStatus: "add",
+  paging: {
+    page: 1,
+    limit: 10,
+    totalPage: 0,
+  },
 };
 
 export default function identificationReducer(state = initialState, action) {
@@ -28,8 +34,12 @@ export default function identificationReducer(state = initialState, action) {
       newState.selectedIdentificationData = action.payload;
       return { ...newState };
 
-      case SET_FORM_STATUS:
+    case SET_FORM_STATUS:
       newState.formStatus = action.payload;
+      return { ...newState };
+
+    case SET_PAGING_IDENTIFICATION:
+      newState.paging = { ...state.paging, ...action.payload };
       return { ...newState };
   }
 

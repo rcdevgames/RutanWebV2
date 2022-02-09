@@ -30,11 +30,17 @@ const FormWizardIdentificationContainer = (props) => {
   } = props;
 
   const onChangeProvince = async (provinceId) => {
+    setCities([]);
     try {
-      const splitProvince = provinceId.split("|");
-      const { data } = await Invoke.getCityList(1, 100, splitProvince[0]);
-      const provinceMapping = getCitiesEnum(data.callback);
-      setCities(provinceMapping);
+      if (provinceId) {
+        const splitProvince = provinceId.split("|");
+        const { data } = await Invoke.getCityList(1, 100, splitProvince[0]);
+        const provinceMapping = getCitiesEnum(data.callback.data);
+        setCities(provinceMapping);
+      } else {
+        store.dispatch(change("wizardIdentificationForm", `city`, ""));
+        setCities([]);
+      }
     } catch (error) {
       setCities([]);
       console.log("Error : ", error);
@@ -120,8 +126,6 @@ const FormWizardIdentificationContainer = (props) => {
       />
     ),
   });
-
-  console.log("=== identifi : ", identificationFormValues);
 
   return (
     <FormWizardIdentificationComponent

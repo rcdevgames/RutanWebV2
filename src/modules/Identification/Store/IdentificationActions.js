@@ -10,12 +10,20 @@ import { navigate, SelectStatus } from "../../../app/Helpers";
 export const SET_IDENTIFICATIONN_LIST_DATA = "SET_IDENTIFICATIONN_LIST_DATA";
 export const SET_FORM_STATUS = "SET_FORM_STATUS";
 export const SET_SELECTED_IDENTIFICATION_ID = "SET_SELECTED_IDENTIFICATION_ID";
+export const SET_PAGING_IDENTIFICATION = "SET_PAGING_IDENTIFICATION";
 export const SET_SELECTED_IDENTIFICATION_DATA =
   "SET_SELECTED_IDENTIFICATION_DATA";
 
 export const setIdentificationListData = (payload) => {
   return {
     type: SET_IDENTIFICATIONN_LIST_DATA,
+    payload,
+  };
+};
+
+export const setPagingIdentification = (payload) => {
+  return {
+    type: SET_PAGING_IDENTIFICATION,
     payload,
   };
 };
@@ -41,19 +49,23 @@ export const setSelectedIdentificationData = (payload) => {
   };
 };
 
-export const getIdentificationListRequested = async () => {
+export const getIdentificationListRequested = async (
+  page,
+  limit,
+  keyword = ""
+) => {
   const { getState, dispatch } = store;
   try {
     const branches = getState().branch.listBranch;
-    const { data } = await Invoke.getIdentificationList(1, 100);
+    const { data } = await Invoke.getIdentificationList(page, limit, keyword);
     const identificationList = data.callback.data;
 
     const newIdentificationList = [];
     if (identificationList.length > 0) {
       identificationList.map((item, index) => {
         const [defaultBranch] = branches.filter((x) => x.id === item.branch_id);
-        console.log("=== test : ", identificationList);
-        item.branch_name = defaultBranch.name ?? "";
+        item.branch_name = defaultBranch ? defaultBranch.name : "-";
+
         newIdentificationList.push(item);
       });
     }
@@ -77,7 +89,9 @@ const doDeleteIdentificationProcess = async (branchId) => {
 };
 
 const doAddIdentificationProcess = async (values) => {
-  const { dispatch } = store;
+  const { dispatch, getState } = store;
+  const paging = getState().identification.paging;
+  const { page, limit } = paging;
   try {
     const splitCustomer = values.customer.split("|");
     const splitBranch = values.branch.split("|");
@@ -95,7 +109,7 @@ const doAddIdentificationProcess = async (values) => {
 
     await Invoke.addIdentification(payload);
     showToast("Data Berhasil Disimpan", "success");
-    getIdentificationListRequested();
+    getIdentificationListRequested(page, limit);
     dispatch(ComponentActions.setGlobalModal(false));
   } catch (error) {
     showToast("Internal Server Error!", "error");
@@ -106,7 +120,9 @@ const doAddIdentificationProcess = async (values) => {
 
 const doUpdateIdentificationMilling = async (values, isLastStep) => {
   console.log("=== Values : ", values);
-  const { getState, dispatch } = store;
+  const { dispatch, getState } = store;
+  const paging = getState().identification.paging;
+  const { page, limit } = paging;
   try {
     const identificationId = getState().identification.selectedIdentificationId;
     const splitInstanceType = !values.instanceType
@@ -157,17 +173,20 @@ const doUpdateIdentificationMilling = async (values, isLastStep) => {
         navigate("identification");
       }, 1000);
     }
-    return;
+    // return;
     await Invoke.updateIdentificationMilling(payload);
-    showToast("Data Berhasil Disimpan", "success");
-    getIdentificationListRequested();
+    // showToast("Pembaruan Berhasil Disimpan", "success");
+    getIdentificationListRequested(page, limit);
   } catch (error) {
     showToast("Internal Server Error!", "error");
     console.log("error : ", error);
   }
 };
+
 const doUpdateIdentificationRegular = async (values, isFinished) => {
-  const { getState, dispatch } = store;
+  const { dispatch, getState } = store;
+  const paging = getState().identification.paging;
+  const { page, limit } = paging;
   try {
     const identificationId = getState().identification.selectedIdentificationId;
     const splitInstanceType = values.instanceType.split("|");
@@ -209,7 +228,7 @@ const doUpdateIdentificationRegular = async (values, isFinished) => {
     return;
     await Invoke.updateIdentificationMilling(payload);
     showToast("Data Berhasil Disimpan", "success");
-    getIdentificationListRequested();
+    getIdentificationListRequested(page, limit);
   } catch (error) {
     showToast("Internal Server Error!", "error");
     console.log("error : ", error);

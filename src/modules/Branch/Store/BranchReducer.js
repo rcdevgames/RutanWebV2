@@ -16,6 +16,7 @@ export const initialState = {
     limit: 10,
     totalPage: 0,
   },
+  keyword: "",
 };
 
 export default function branchReducer(state = initialState, action) {

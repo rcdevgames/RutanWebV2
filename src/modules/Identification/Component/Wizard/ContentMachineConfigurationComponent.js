@@ -112,11 +112,13 @@ const ContentMachineConfigurationComponent = ({
 
   return machineConf.map((item, index) => {
     return (
-      <div className="col m-2 text-left">
+      <div key={`machine-conf-${index}`} className="col m-2 text-left">
         <h5 className="card-title">{item.type}</h5>
         <div className="row text-left ml-1">
           <InfoCircleTwoTone />
-          <p className="text-small ml-2">Tips : Maksimal hanya input 2 field.</p>
+          <p className="text-small ml-2">
+            Tips : Maksimal hanya input 2 field.
+          </p>
         </div>
         <FieldArray
           name={`engine_confs.${item.name}.list`}

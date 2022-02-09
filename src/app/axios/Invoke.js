@@ -373,14 +373,16 @@ Invoke.deleteFormCategory = (categoryFormId) => {
 // === End FormCategory API ===
 
 // === Master Identification API === :
-Invoke.getIdentificationList = (page, limit) => {
-  return ConfigAxios.get(`/identifications?page=${page}&limit=${limit}`);
+Invoke.getIdentificationList = (page, limit, keyword) => {
+  return ConfigAxios.get(
+    `/identifications?page=${page}&limit=${limit}&q=${keyword}`
+  );
 };
 Invoke.addIdentification = (payload) => {
   return ConfigAxios.post(`/identifications`, payload);
 };
 Invoke.updateIdentificationMilling = (payload) => {
-  return ConfigAxios.post("/m_identifications/milling", payload);
+  return ConfigAxios.put("/m_identifications/milling", payload);
 };
 
 export default Invoke;

@@ -1,11 +1,17 @@
 import {
   SET_LIST_SERVICES,
   SET_SELECTED_JOB_SERVICE,
+  SET_PAGING_LIST_SERVICE
 } from "./ListServicesActions";
 
 export const initialState = {
   listServices: [],
   selectedJobService: {},
+  paging: {
+    page: 1,
+    limit: 10,
+    totalPage: 0,
+  },
 };
 
 export default function listServiceReducer(state = initialState, action) {
@@ -18,6 +24,10 @@ export default function listServiceReducer(state = initialState, action) {
 
     case SET_SELECTED_JOB_SERVICE:
       newState.selectedJobService = action.payload;
+      return { ...newState };
+
+    case SET_PAGING_LIST_SERVICE:
+      newState.paging = { ...state.paging, ...action.payload };
       return { ...newState };
   }
 

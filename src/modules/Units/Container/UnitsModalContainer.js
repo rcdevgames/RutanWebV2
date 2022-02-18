@@ -1,15 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { change, formValueSelector, reduxForm } from "redux-form";
+import { change, reduxForm } from "redux-form";
 import { validateFormUnit } from "../../../app/validateForm";
 import * as ComponentActions from "../../App/Store/ComponentAction";
 import * as UnitsActions from "../Store/UnitsActions";
 import UnitsModalComponent from "../Component/UnitsModalComponent";
 import { store } from "../../../app/ConfigureStore";
 
-const selector = formValueSelector("editUnitForm");
-
-const BranchModalContainer = (props) => {
+const UnitsModalContainer = (props) => {
   const {
     valid,
     handleCancel,
@@ -35,12 +33,6 @@ const BranchModalContainer = (props) => {
       label: item.menu,
     });
   });
-
-  React.useEffect(() => {
-    if (isModalVisible === false) {
-      // handleClearModalContent();
-    }
-  }, [isModalVisible]);
 
   const handleUploadPhoto = (base64) => {
     store.dispatch(change("editUnitForm", `imageUrl`, base64 ?? ""));
@@ -78,7 +70,7 @@ const mapDispatchToProps = (dispatch) => ({
 const EnhanceContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(BranchModalContainer);
+)(UnitsModalContainer);
 
 export default reduxForm({
   form: "editUnitForm",

@@ -4,6 +4,13 @@ import { Typography } from "antd";
 import CBadgeText from "../../../components/CBadgeText/CBadgeText";
 import moment from "moment";
 import AddEmployeeModalContainer from "../Container/AddEmployeeModalContainer";
+import CButtonAntd from "../../../components/CButton/CButtonAntd";
+import {
+  ArrowLeftOutlined,
+  FilePdfOutlined,
+  EditOutlined,
+} from "@ant-design/icons";
+import { navigate } from "../../../app/Helpers";
 
 const { Text } = Typography;
 const { TabPane } = Tabs;
@@ -16,15 +23,45 @@ const DetailServiceTransactionComponent = (props) => {
         <div class="col-md-12 grid-margin stretch-card">
           <div class="card">
             <div class="card-body">
-              <h6 class="card-title">Detail Transaksi</h6>
+              <div class="row align-items-center justify-content-between">
+                <div>
+                  <h6 class="card-title">Detail Transaksi</h6>
+                </div>
+                <div class="row mb-3">
+                  <CButtonAntd
+                    onClick={() => navigate("list_service")}
+                    type="primary"
+                    icon={<ArrowLeftOutlined />}
+                    size="middle"
+                    danger
+                  >
+                    Kembali
+                  </CButtonAntd>
+                  <div class="ml-3" />
+                  <CButtonAntd
+                    // onClick={handlePressAddNew}
+                    type="primary"
+                    icon={<EditOutlined />}
+                    size="middle"
+                  >
+                    Ubah
+                  </CButtonAntd>
+                  <div class="ml-3" />
+                  <CButtonAntd
+                    // onClick={handlePressAddNew}
+                    type="primary"
+                    icon={<FilePdfOutlined />}
+                    size="middle"
+                  >
+                    Cetak Formulir
+                  </CButtonAntd>
+                  <div class="mr-3" />
+                </div>
+              </div>
               <div class="d-flex justify-content-between align-items-baseline">
                 <div class="col-md-6">
                   <Text>Tipe : </Text>
-                  <CBadgeText
-                    type={
-                      data.type.toLowerCase() === "repair" ? "info" : "success"
-                    }
-                  >
+                  <CBadgeText type={data.is_external ? "success" : "info"}>
                     {data.type ?? "-"}
                   </CBadgeText>
                   <br />
@@ -35,7 +72,7 @@ const DetailServiceTransactionComponent = (props) => {
                   <Text>{data.model ?? "-"}</Text>
                   <br />
                   <Text>Job Forms : </Text>
-                  <Text>{data.job_forms ?? "-"}</Text>
+                  <Text>{data.job_form_name ?? "-"}</Text>
                   <br />
                   <Text>Customer : </Text>
                   <Text strong>{data.customer_name}</Text>
@@ -44,6 +81,9 @@ const DetailServiceTransactionComponent = (props) => {
                   <Text strong>
                     {data.warranty ? "Warranty" : "No Warranty"}
                   </Text>
+                  <br />
+                  <Text>PIC : </Text>
+                  <Text strong>{data.customer_pic_name ?? "()"}</Text>
                 </div>
                 <div class="col-md-6">
                   <Text>Status Transaksi : </Text>

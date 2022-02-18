@@ -65,7 +65,7 @@ const TemplateContainer = (props) => {
       case "/list_service":
         return "list";
 
-      case "/monitoring_karyawan":
+      case "/monitoring-employee":
         return "monitor";
 
       case "/identification":
@@ -108,7 +108,7 @@ const TemplateContainer = (props) => {
         item.path === "/list_service"
       ) {
         serviceRepairMenu.push(menu);
-      } else if (item.path === "/monitoring_karyawan") {
+      } else if (item.path === "/monitoring-employee") {
         reportMenu.push(menu);
       } else {
         mainMenu.push(menu);

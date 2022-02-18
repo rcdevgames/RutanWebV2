@@ -16,8 +16,12 @@ Invoke.submitLoginEmployee = (data) => {
   return ConfigAxios.post("/m_auth", data);
 };
 
-Invoke.getListServices = (page, limit) => {
-  return ConfigAxios.get(`/services?page=${page}&limit=${limit}`);
+Invoke.getListServices = (page, limit, keyword) => {
+  return ConfigAxios.get(`/services?page=${page}&limit=${limit}&q=${keyword}`);
+};
+
+Invoke.getOneServices = (jobId) => {
+  return ConfigAxios.get(`/services/${jobId}`);
 };
 
 // === Admin API : ===
@@ -218,6 +222,12 @@ Invoke.getJobServiceMedia = (jobId) => {
 Invoke.getJobServiceDailies = (jobId) => {
   return ConfigAxios.get(`/services/dailies/${jobId}`);
 };
+Invoke.getJobServiceHistories = (jobId, page, limit, keyword) => {
+  return ConfigAxios.get(
+    `/services/logs/${jobId}?page=${page}&limit=${limit}&q=${keyword}`
+  );
+};
+
 // === End Service Views ===
 
 // === Master Unit API === :

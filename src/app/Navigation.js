@@ -33,6 +33,7 @@ import ToolsContainer from "../modules/Tools/Container/ToolsContainer";
 import FormCategoryContainer from "../modules/FormCategory/Container/FormCategoryContainer";
 import UnitModelsContainer from "../modules/Units/Container/UnitModelsContainer";
 import UnitFieldsContainer from "../modules/Units/Container/UnitFields/UnitFieldsContainer";
+import DetailTransactionPreviewPdfContainer from "../modules/DocumentPreviewPdf/Container/DetailTransactionPreviewPdfContainer";
 
 export default function Navigation() {
   const authenticatedPage = (component, footerImg, footer) => {
@@ -47,6 +48,7 @@ export default function Navigation() {
 
   const Login = templating(LoginContainer, false);
   const NotFound = templating(NotFoundPage, false);
+  const PreviewPdf = templating(DetailTransactionPreviewPdfContainer, false);
   const Admin = authenticatedPage(AdminContainer, true);
   const Roles = authenticatedPage(RolesContainer, true);
   const JobForms = authenticatedPage(JobFormsContainer, true);
@@ -117,6 +119,7 @@ export default function Navigation() {
         <Route exact path="/edit-employee" component={EditEmployee} />
         <Route exact path="/internal-service" component={InternalService} />
         <Route exact path="/external-service" component={ExternalService} />
+        <Route exact path="/preview-pdf" component={PreviewPdf} />
         <Route
           exact
           path="/monitoring-employee"

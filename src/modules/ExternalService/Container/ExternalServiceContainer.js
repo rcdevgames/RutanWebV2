@@ -1,6 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import { formValueSelector, getFormValues, reduxForm, reset } from "redux-form";
+import {
+  change,
+  formValueSelector,
+  getFormValues,
+  reduxForm,
+  reset,
+} from "redux-form";
 import ExternalServiceComponent from "../Component/ExternalServiceComponent";
 import * as validateForm from "../../../app/validateForm";
 import * as CustomerActions from "../../Customers/Store/CustomersActions";
@@ -16,6 +22,7 @@ const selector = formValueSelector("externalServiceForm");
 const ExternalServiceContainer = (props) => {
   const [unitQty, setUnitQty] = React.useState(1);
   const [unitData, setUnitData] = React.useState([]);
+  const [isTroubleShoot, setIsTroubleShoot] = React.useState(false);
 
   const {
     valid,
@@ -30,8 +37,6 @@ const ExternalServiceContainer = (props) => {
   const { page, limit } = paging;
 
   const submitForm = (values) => {
-    console.log("=== Test");
-    console.log("=== values : ", values);
     ExternalServiceActions.handleSubmitForm(values);
     if (valid) {
       console.log("success");
@@ -98,9 +103,19 @@ const ExternalServiceContainer = (props) => {
     });
   });
 
+  const handleChangeType = (val) => {
+    console.log("=== setIsTroubleShoot : ", val);
+    const type = val.split("|");
+    if (type[0] === "T2") {
+      setIsTroubleShoot(true);
+    } else {
+      setIsTroubleShoot(false);
+    }
+  };
+
   React.useEffect(() => {
-    UnitsActions.getUnitListDataRequested();
-    JobFormsActions.getJobFormsListDataRequested();
+    UnitsActions.getUnitListDataRequested(1, 100);
+    JobFormsActions.getJobFormsListDataRequested(1, 100);
     let totalUnit = [];
     for (let i = 0; i < unitQty; i++) {
       totalUnit.push(i);
@@ -120,6 +135,8 @@ const ExternalServiceContainer = (props) => {
       handleAddNewUnit={handleAddNewUnit}
       handleSubtractUnit={handleSubtractUnit}
       unitData={unitData}
+      handleChangeType={handleChangeType}
+      isTroubleShoot={isTroubleShoot}
       // selectedUnitModelList={selectedUnitModelList}
       {...props}
     />
@@ -148,11 +165,22 @@ const mapDispatchToProps = (dispatch) => ({
     ExternalServiceActions.setAutoPopulateCustomer(arrVal[0]);
   },
   handleAutoPopulateUnitModel: (unitId, fieldIndex) => {
-    const arrVal = unitId.split("|");
-    ExternalServiceActions.setAutoPopulateUnitModel(arrVal[0], fieldIndex);
+    dispatch(
+      change("externalServiceForm", `units[${fieldIndex}].enumUnitModel`, [])
+    );
+    dispatch(
+      change("externalServiceForm", `units[${fieldIndex}].unitModelId`, "")
+    );
+    if (unitId) {
+      const arrVal = unitId.split("|");
+      ExternalServiceActions.setAutoPopulateUnitModel(arrVal[0], fieldIndex);
+    }
   },
-  onChangeUnitModel: (val, index, enumModel) =>
-    ExternalServiceActions.onChangeUnitModel(val, index, enumModel),
+  onChangeUnitModel: (val, index, enumModel) => {
+    if (val) {
+      ExternalServiceActions.onChangeUnitModel(val, index, enumModel);
+    }
+  },
 });
 
 const EnhanceContainer = connect(

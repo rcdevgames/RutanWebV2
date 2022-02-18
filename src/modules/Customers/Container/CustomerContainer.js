@@ -117,23 +117,23 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getListCustomer: (page, limit, keyword) =>
     CustomerActions.getCustomerListDataByPaging(page, limit, keyword),
-  // handlePressAddNew: async () => {
-  //   await dispatch(BranchActions.setSelectedBranchData({}));
-  //   await dispatch(BranchActions.setSelectedBranchId(""));
-  //   dispatch(BranchActions.setFormStatus("add"));
-  //   dispatch(ComponentActions.setGlobalModal(true));
-  //   BranchActions.resetForm();
-  // },
-  // handlePressEdit: async (record) => {
-  //   await dispatch(BranchActions.setFormStatus("edit"));
-  //   await dispatch(BranchActions.setSelectedBranchId(record.id));
-  //   await dispatch(BranchActions.setSelectedBranchData(record));
-  //   await dispatch(ComponentActions.setGlobalModal(true));
-  //   await BranchActions.mapDetailBranchToForm();
-  // },
+  handlePressAddNew: async () => {
+    await dispatch(CustomerActions.setSelectedCustomerData({}));
+    await dispatch(CustomerActions.setSelectedCustomerId(""));
+    dispatch(CustomerActions.setFormStatus("add"));
+    dispatch(ComponentActions.setGlobalModal(true));
+    CustomerActions.resetForm();
+  },
+  handlePressEdit: async (record) => {
+    await dispatch(CustomerActions.setFormStatus("edit"));
+    await dispatch(CustomerActions.setSelectedCustomerId(record.id));
+    await dispatch(CustomerActions.setSelectedCustomerData(record));
+    await dispatch(ComponentActions.setGlobalModal(true));
+    await CustomerActions.mapDetailCustomerToForm();
+  },
   // handlePressDelete: async (branchId) => {
-  //   await dispatch(BranchActions.setSelectedBranchId(branchId));
-  //   BranchActions.deleteBranchRequested(branchId);
+  //   await dispatch(CustomerActions.setSelectedBranchId(branchId));
+  //   CustomerActions.deleteBranchRequested(branchId);
   // },
 });
 

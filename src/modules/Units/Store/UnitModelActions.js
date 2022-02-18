@@ -75,6 +75,7 @@ export const getUnitModelListDataRequested = async (
 
 const doAddUnitModelsProcess = async (values) => {
   const { dispatch, getState } = store;
+  dispatch(ComponentActions.setGlobalLoading(true));
   const paging = getState().unitModels.paging;
   const unitId = getState().units.selectedUnitsId;
   const { page, limit } = paging;
@@ -94,9 +95,12 @@ const doAddUnitModelsProcess = async (values) => {
     showToast("Data Berhasil Disimpan", "success");
     getUnitModelListDataRequested(page, limit);
     dispatch(ComponentActions.setGlobalModal(false));
+    dispatch(ComponentActions.setGlobalLoading(false));
   } catch (error) {
     showToast("Internal Server Error!", "error");
     dispatch(ComponentActions.setGlobalModal(false));
+    dispatch(ComponentActions.setGlobalLoading(false));
+
     console.log("error : ", error);
   }
 };

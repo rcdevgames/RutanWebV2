@@ -36,9 +36,16 @@ const JobFormsContainer = (props) => {
       sorter: (a, b) => a.no - b.no,
     },
     {
-      title: "Nama Roles",
+      title: "Judul",
       dataIndex: "name",
       key: "name",
+      width: "30%",
+      sorter: (a, b) => a.name.length - b.name.length,
+    },
+    {
+      title: "Deskripsi",
+      dataIndex: "description",
+      key: "description",
       width: "30%",
       sorter: (a, b) => a.description.length - b.description.length,
     },

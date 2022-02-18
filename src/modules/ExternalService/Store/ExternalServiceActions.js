@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import Invoke from "../../../app/axios/Invoke";
 import { setGlobalFormLoading } from "../../App/Store/ComponentAction";
 import { toast } from "react-toastify";
-import { SelectStatus } from "../../../app/Helpers";
+import { navigate, SelectStatus } from "../../../app/Helpers";
 
 export const SET_ENUM_UNIT_MODEL = "SET_ENUM_UNIT_MODEL";
 
@@ -38,13 +38,13 @@ const getProvinceByIdFromReducer = async (provinceId) => {
 
 export const setAutoPopulateUnitModel = async (unitId, fieldIndex) => {
   const { dispatch } = store;
-  const { data } = await Invoke.getListUnitModel(1, 100, unitId);
+  const { data } = await Invoke.getListUnitModel(1, 100, unitId, "");
 
   dispatch(
     change(
       "externalServiceForm",
       `units[${fieldIndex}].enumUnitModel`,
-      data.callback ?? []
+      data.callback.data ?? []
     )
   );
 };
@@ -136,6 +136,7 @@ export const setAutoPopulateCustomer = async (customerId) => {
 
 export const onChangeUnitModel = (val, index, enumUnit) => {
   const { dispatch } = store;
+
   const splitUnitModel = val.split("|");
 
   const [selectedUnitModel] = enumUnit.filter(
@@ -205,6 +206,9 @@ export const handleSubmitForm = async (values) => {
               dispatch(reset("internalServiceForm"));
               resolve();
             }, 1000);
+            setTimeout(() => {
+              navigate("list_service");
+            }, 1500);
           })
           .catch(() => {
             setTimeout(reject, 1000);

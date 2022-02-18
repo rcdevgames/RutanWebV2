@@ -66,7 +66,7 @@ const doAddJobFormsProcess = async (values) => {
     payload.description = values.description;
     await Invoke.addJobForms(payload);
     showToast("Data Berhasil Disimpan", "success");
-    getJobFormsListDataRequested();
+    getJobFormsListDataRequested(1, 10);
     dispatch(ComponentActions.setGlobalModal(false));
   } catch (error) {
     showToast("Internal Server Error!", "error");
@@ -84,7 +84,7 @@ const doEditJobFormsProcess = async (values) => {
     payload.description = values.description;
     await Invoke.updateJobForms(payload);
     showToast("Data Berhasil Disimpan", "success");
-    getJobFormsListDataRequested();
+    getJobFormsListDataRequested(1, 10);
     dispatch(ComponentActions.setGlobalModal(false));
   } catch (error) {
     showToast("Internal Server Error!", "error");

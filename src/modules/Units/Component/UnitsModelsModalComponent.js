@@ -32,60 +32,6 @@ const RenderContent = ({ handleSubmit, submitForm, formName }) => {
             />
           </div>
         </div>
-        {/* <div class="row">
-          <div class="col-md-4">
-            <Field
-              name="serialNumber"
-              label="Serial Number"
-              component={CInput}
-              type="text"
-            />
-          </div>
-          <div class="col-md-4">
-            <Field
-              name="engineModel"
-              label="Model Mesin"
-              component={CInput}
-              type="text"
-            />
-          </div>
-          <div class="col-md-4">
-            <Field
-              name="machineNo"
-              label="Nomor Mesin"
-              component={CInput}
-              type="text"
-            />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <Field
-              name="chasisNo"
-              label="Nomor Chasis"
-              component={CInput}
-              type="text"
-            />
-          </div>
-          <div class="col-md-6">
-            <Field
-              name="transmissionNo"
-              label="Nomor Transmisi"
-              component={CInput}
-              type="text"
-            />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <Field
-              name="description"
-              label="Deskripsi"
-              component={CInput}
-              type="text"
-            />
-          </div>
-        </div> */}
       </Form>
     </div>
   );

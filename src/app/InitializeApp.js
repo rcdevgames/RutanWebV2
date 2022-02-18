@@ -12,5 +12,5 @@ export const initializeApp = async () => {
   await MasterDataActions.loadProvinceListData();
   await BranchActions.getBranchListDataRequested(1, 10);
   await UnitsActions.getUnitListDataRequested(1, 10);
-  await MachineConfigurationActions.getMachineListDataRequested();
+  await MachineConfigurationActions.getMachineListDataRequested(1, 10);
 };

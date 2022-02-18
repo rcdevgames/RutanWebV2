@@ -17,6 +17,7 @@ import * as EmployeesActions from "../../Employees/Store/EmployeesActions";
 import TabPanelSummaryContainer from "./TabPanel/TabPanelSummaryContainer";
 import TabPanelImagesContainer from "./TabPanel/TabPanelImagesContainer";
 import TabPanelDailiesContainer from "./TabPanel/TabPanelDailiesContainer";
+import TabPanelHistoriesContainer from "./TabPanel/TabPanelHistoriesContainer";
 
 const Panel1 = ({ title }) => {
   return (
@@ -34,6 +35,7 @@ const DetailServiceTransactionContainer = (props) => {
       selectedServiceSummary,
       selectedServiceMedia,
       selectedServiceDailies,
+      selectedServiceHistories,
     },
   } = props;
 
@@ -71,10 +73,15 @@ const DetailServiceTransactionContainer = (props) => {
       component: <Panel1 title="Alasan Reject" />,
     },
     {
-      key: "panel-8",
+      key: "panel-histories",
       title: "History",
       icon: <HistoryOutlined />,
-      component: <Panel1 title="History" />,
+      component: (
+        <TabPanelHistoriesContainer
+          title="History"
+          histories={selectedServiceHistories}
+        />
+      ),
     },
   ];
 
@@ -100,8 +107,13 @@ const DetailServiceTransactionContainer = (props) => {
       case "panel-gambar":
         DetailServiceActions.getJobServiceMedia(selectedJobService.id);
         break;
+
       case "panel-dailies":
         DetailServiceActions.getJobServiceDailies(selectedJobService.id);
+        break;
+
+      case "panel-histories":
+        DetailServiceActions.getJobServiceHistories(selectedJobService.id);
         break;
 
       default:

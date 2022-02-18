@@ -15,6 +15,9 @@ export const SET_SELECTED_SERVICES_MEDIA_DATA =
 export const SET_SELECTED_SERVICES_DAILIES_DATA =
   "SET_SELECTED_SERVICES_DAILIES_DATA";
 
+export const SET_SELECTED_SERVICES_HISTORIES_DATA =
+  "SET_SELECTED_SERVICES_HISTORIES_DATA";
+
 export const setSelectedServicesEmployeeListData = (payload) => {
   return {
     type: SET_SELECTED_SERVICES_EMPLOYEE_LIST_DATA,
@@ -43,10 +46,17 @@ export const setSelectedServiceDailiesData = (payload) => {
   };
 };
 
+export const setSelectedServiceHistoriesData = (payload) => {
+  return {
+    type: SET_SELECTED_SERVICES_HISTORIES_DATA,
+    payload,
+  };
+};
+
 export const getJobServiceEmployeeList = async (jobId) => {
   const { dispatch } = store;
   const { data } = await Invoke.getServicesEmployee(jobId, 1, 100);
-  const serviceEmployeeList = data.callback;
+  const serviceEmployeeList = data.callback.data;
 
   const results = Promise.all(
     serviceEmployeeList.map(async (item, index) => {
@@ -70,13 +80,19 @@ export const getJobServiceSummary = async (jobId) => {
 export const getJobServiceMedia = async (jobId) => {
   const { dispatch } = store;
   const { data } = await Invoke.getJobServiceMedia(jobId);
-  dispatch(setSelectedServiceMediaData(data.callback));
+  dispatch(setSelectedServiceMediaData(data.callback.data));
 };
 
 export const getJobServiceDailies = async (jobId) => {
   const { dispatch } = store;
   const { data } = await Invoke.getJobServiceDailies(jobId);
-  dispatch(setSelectedServiceDailiesData(data.callback));
+  dispatch(setSelectedServiceDailiesData(data.callback.data));
+};
+
+export const getJobServiceHistories = async (jobId, keyword = "") => {
+  const { dispatch } = store;
+  const { data } = await Invoke.getJobServiceHistories(jobId, 1, 100, keyword);
+  dispatch(setSelectedServiceHistoriesData(data.callback.logs));
 };
 
 export const handleAddNewEmployeeService = async (jobId, employeeId) => {

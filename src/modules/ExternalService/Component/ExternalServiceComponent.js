@@ -27,9 +27,9 @@ const ExternalServiceComponent = (props) => {
     handleAutoPopulateUnitModel,
     externalValues,
     onChangeUnitModel,
+    handleChangeType,
+    isTroubleShoot,
   } = props;
-
-  console.log("=== externalValues : ", externalValues);
 
   const renderUnits = ({ fields }) => {
     const handleRemoveField = (index) => {
@@ -240,6 +240,7 @@ const ExternalServiceComponent = (props) => {
                         data={enumType}
                         name="typeService"
                         label="Tipe"
+                        onChange={handleChangeType}
                       />
                     </div>
                     <div class="col-md-3">
@@ -249,11 +250,13 @@ const ExternalServiceComponent = (props) => {
                       <CDatePicker name="endDate" label="Tanggal Akhir" />
                     </div>
                     <div class="col-md-2">
-                      <CSelect
-                        data={enumJobForms}
-                        name="jobForm"
-                        label="Job Form"
-                      />
+                      {!isTroubleShoot && (
+                        <CSelect
+                          data={enumJobForms}
+                          name="jobForm"
+                          label="Job Form"
+                        />
+                      )}
                     </div>
                     <div class="col-md-2">
                       <CSelect

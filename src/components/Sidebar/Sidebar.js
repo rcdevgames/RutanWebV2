@@ -1,6 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import history from "../../app/History";
 
 const Sidebar = ({
   role,
@@ -8,6 +6,7 @@ const Sidebar = ({
   masterDataMenu,
   reportMenu,
   serviceRepairMenu,
+  reportData,
 }) => {
   return (
     <div>
@@ -24,8 +23,8 @@ const Sidebar = ({
         </div>
         <div class="sidebar-body">
           <ul class="nav">
-            {mainMenu.length > 0 && <li class="nav-item nav-category">Main</li>}
-            {mainMenu.length > 0 &&
+            {mainMenu?.length > 0 && <li class="nav-item nav-category">Main</li>}
+            {mainMenu?.length > 0 &&
               mainMenu.map((item, index) => (
                 <li key={`sidebar-main-menu-${index}`} class="nav-item">
                   <a href={item.path} class="nav-link">
@@ -34,10 +33,10 @@ const Sidebar = ({
                   </a>
                 </li>
               ))}
-            {masterDataMenu.length > 0 && (
+            {masterDataMenu?.length > 0 && (
               <li class="nav-item nav-category">Master Data</li>
             )}
-            {masterDataMenu.length > 0 &&
+            {masterDataMenu?.length > 0 &&
               masterDataMenu.map((item, index) => (
                 <li key={`sidebar-master-data-${index}`} class="nav-item">
                   <a class="nav-link" href={item.path}>
@@ -46,8 +45,10 @@ const Sidebar = ({
                   </a>
                 </li>
               ))}
-            <li class="nav-item nav-category">Service Repair</li>
-            {serviceRepairMenu.length > 0 &&
+            {serviceRepairMenu?.length > 0 && (
+              <li class="nav-item nav-category">Service Repair</li>
+            )}
+            {serviceRepairMenu?.length > 0 &&
               serviceRepairMenu.map((item, index) => (
                 <li key={`sidebar-master-data-${index}`} class="nav-item">
                   <a class="nav-link" href={item.path}>
@@ -56,9 +57,23 @@ const Sidebar = ({
                   </a>
                 </li>
               ))}
-            <li class="nav-item nav-category">Monitoring</li>
-            {reportMenu.length > 0 &&
+            {reportMenu?.length > 0 && (
+              <li class="nav-item nav-category">Monitoring</li>
+            )}
+            {reportMenu?.length > 0 &&
               reportMenu.map((item, index) => (
+                <li key={`sidebar-master-data-${index}`} class="nav-item">
+                  <a class="nav-link" href={item.path}>
+                    <i class="link-icon" data-feather={item.icon}></i>
+                    <span class="link-title">{item.name}</span>
+                  </a>
+                </li>
+              ))}
+            {reportData?.length > 0 && (
+              <li class="nav-item nav-category">Laporan</li>
+            )}
+            {reportData?.length > 0 &&
+              reportData.map((item, index) => (
                 <li key={`sidebar-master-data-${index}`} class="nav-item">
                   <a class="nav-link" href={item.path}>
                     <i class="link-icon" data-feather={item.icon}></i>

@@ -6,6 +6,7 @@ interface IProps {
   content: any;
   footer: any;
   onCancel: any;
+  width: any;
 }
 
 const CModal: React.FC<IProps> = (props) => {
@@ -27,6 +28,7 @@ const CModal: React.FC<IProps> = (props) => {
       footer={props.footer}
       destroyOnClose
       onCancel={props.onCancel}
+      width={props.width ? props.width : 600}
     >
       {props.content}
     </Modal>

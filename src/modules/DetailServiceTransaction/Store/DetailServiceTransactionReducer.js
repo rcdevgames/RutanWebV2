@@ -3,6 +3,7 @@ import {
   SET_SELECTED_SERVICES_SUMMARY_DATA,
   SET_SELECTED_SERVICES_MEDIA_DATA,
   SET_SELECTED_SERVICES_DAILIES_DATA,
+  SET_SELECTED_SERVICES_HISTORIES_DATA,
 } from "./DetailServiceTransactionAction";
 
 export const initialState = {
@@ -10,6 +11,7 @@ export const initialState = {
   selectedServiceSummary: {},
   selectedServiceMedia: [],
   selectedServiceDailies: [],
+  selectedServiceHistories: [],
 };
 
 export default function detailServiceTransactionReducer(
@@ -30,6 +32,9 @@ export default function detailServiceTransactionReducer(
       return { ...newState };
     case SET_SELECTED_SERVICES_DAILIES_DATA:
       newState.selectedServiceDailies = action.payload;
+      return { ...newState };
+    case SET_SELECTED_SERVICES_HISTORIES_DATA:
+      newState.selectedServiceHistories = action.payload;
       return { ...newState };
   }
 

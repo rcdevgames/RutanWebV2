@@ -42,7 +42,7 @@ const RenderContent = ({
   handleUploadPhoto,
   selectedUnitsData,
 }) => {
-  const [imageUrl, setImageUrl] = useState(selectedUnitsData.photo ?? "");
+  const [imageUrl, setImageUrl] = useState("");
   const [loading, setLoading] = useState("");
 
   const handleChange = (info) => {
@@ -52,7 +52,6 @@ const RenderContent = ({
     }
     if (info.file.status === "done") {
       // Get this url from response in real world.
-      console.log("=== info.file.originFileObj : ", info.file.originFileObj);
       getBase64(info.file.originFileObj, (imageUrl) => {
         setImageUrl(imageUrl);
         setLoading(false);

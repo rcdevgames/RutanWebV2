@@ -15,7 +15,7 @@ import UnitsComponent from "../Component/UnitsComponent";
 import { getIndex, navigate } from "../../../app/Helpers";
 import { store } from "../../../app/ConfigureStore";
 
-const UnitsConatiner = (props) => {
+const UnitsContainer = (props) => {
   const {
     getListUnit,
     handlePressEdit,
@@ -176,7 +176,7 @@ const mapDispatchToProps = (dispatch) => ({
 const EnhanceContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(UnitsConatiner);
+)(UnitsContainer);
 
 export default reduxForm({
   form: "unitsForm",

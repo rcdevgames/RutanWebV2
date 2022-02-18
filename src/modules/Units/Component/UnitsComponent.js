@@ -3,7 +3,7 @@ import { Input } from "antd";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import CTableAntd from "../../../components/CTable/CTableAntd";
 import { PlusOutlined } from "@ant-design/icons";
-import BranchModalContainer from "../Container/UnitsModalContainer";
+import UnitsModalContainer from "../Container/UnitsModalContainer";
 
 const { Search } = Input;
 
@@ -66,7 +66,7 @@ const UnitsComponent = (props) => {
           </div>
         </div>
       </div>
-      <BranchModalContainer />
+      <UnitsModalContainer />
     </div>
   );
 };

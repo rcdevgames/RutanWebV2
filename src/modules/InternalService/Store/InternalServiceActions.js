@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import Invoke from "../../../app/axios/Invoke";
 import { setGlobalFormLoading } from "../../App/Store/ComponentAction";
 import { toast } from "react-toastify";
-import { SelectStatus } from "../../../app/Helpers";
+import { navigate, SelectStatus } from "../../../app/Helpers";
 
 const getEmployeeByIdFromReducer = async (employeeId, type) => {
   const { getState } = store;
@@ -151,6 +151,7 @@ export const handleSubmitForm = async (values) => {
             setTimeout(() => {
               dispatch(setGlobalFormLoading(false));
               dispatch(reset("internalServiceForm"));
+              navigate("list_service");
               resolve();
             }, 1000);
           })

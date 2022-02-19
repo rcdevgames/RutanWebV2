@@ -16,7 +16,7 @@ const { Text } = Typography;
 const { TabPane } = Tabs;
 
 const DetailServiceTransactionComponent = (props) => {
-  const { data, TabPanel, onChangeTab } = props;
+  const { data, TabPanel, onChangeTab, handlePressGeneratePdf } = props;
   return (
     <div class="page-content">
       <div class="mt-5">
@@ -48,7 +48,7 @@ const DetailServiceTransactionComponent = (props) => {
                   </CButtonAntd>
                   <div class="ml-3" />
                   <CButtonAntd
-                    // onClick={handlePressAddNew}
+                    onClick={handlePressGeneratePdf}
                     type="primary"
                     icon={<FilePdfOutlined />}
                     size="middle"
@@ -58,7 +58,10 @@ const DetailServiceTransactionComponent = (props) => {
                   <div class="mr-3" />
                 </div>
               </div>
-              <div class="d-flex justify-content-between align-items-baseline">
+              <div
+                id="header-detail-transaction"
+                class="d-flex justify-content-between align-items-baseline"
+              >
                 <div class="col-md-6">
                   <Text>Tipe : </Text>
                   <CBadgeText type={data.is_external ? "success" : "info"}>
@@ -134,6 +137,16 @@ const DetailServiceTransactionComponent = (props) => {
         </div>
       </div>
       <AddEmployeeModalContainer />
+      <div id="test-print-2" class="mt-3 col-md-6">
+        <div class="row justify-content-between">
+          <div>
+            <Text>Name : </Text>
+          </div>
+          <div>
+            <Text>Warranty :</Text>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

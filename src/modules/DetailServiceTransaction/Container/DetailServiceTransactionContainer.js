@@ -18,6 +18,7 @@ import TabPanelSummaryContainer from "./TabPanel/TabPanelSummaryContainer";
 import TabPanelImagesContainer from "./TabPanel/TabPanelImagesContainer";
 import TabPanelDailiesContainer from "./TabPanel/TabPanelDailiesContainer";
 import TabPanelHistoriesContainer from "./TabPanel/TabPanelHistoriesContainer";
+import { exportDetailServicePdf } from "../Store/DetailServiceTransactionReport";
 
 const Panel1 = ({ title }) => {
   return (
@@ -38,6 +39,15 @@ const DetailServiceTransactionContainer = (props) => {
       selectedServiceHistories,
     },
   } = props;
+
+  const printedData = {
+    selectedJobService,
+    selectedServiceEmployeeList,
+    selectedServiceSummary,
+    selectedServiceMedia,
+    selectedServiceDailies,
+    selectedServiceHistories,
+  };
 
   const TabPanel = [
     {
@@ -126,11 +136,16 @@ const DetailServiceTransactionContainer = (props) => {
     EmployeesActions.loadEmployeeListData();
   }, []);
 
+  const handlePressGeneratePdf = () => {
+    exportDetailServicePdf(printedData);
+  };
+
   return (
     <DetailServiceTransactionComponent
       data={selectedJobService}
       TabPanel={TabPanel}
       onChangeTab={onChangeTab}
+      handlePressGeneratePdf={handlePressGeneratePdf}
     />
   );
 };

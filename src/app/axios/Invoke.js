@@ -42,7 +42,7 @@ Invoke.updateAdmin = (data) => {
 };
 
 Invoke.deleteAdminById = (adminId) => {
-  return ConfigAxios.delete(`/admins/${adminId}`);
+  return ConfigAxios.delete(`/admins/${adminId}`, headersConfigDelete);
 };
 // === End Admin API ===
 
@@ -393,6 +393,13 @@ Invoke.addIdentification = (payload) => {
 };
 Invoke.updateIdentificationMilling = (payload) => {
   return ConfigAxios.put("/m_identifications/milling", payload);
+};
+
+Invoke.deleteIdentificationById = (identificationId) => {
+  return ConfigAxios.delete(
+    `/identifications/${identificationId}`,
+    headersConfigDelete
+  );
 };
 
 export default Invoke;

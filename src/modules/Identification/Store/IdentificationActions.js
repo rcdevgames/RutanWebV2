@@ -78,10 +78,13 @@ export const getIdentificationListRequested = async (
 
 // === INTERNAL FUNCTION ===
 const doDeleteIdentificationProcess = async (branchId) => {
+  const { getState } = store;
+  const paging = getState().identification.paging;
+  const { page, limit } = paging;
   try {
-    await Invoke.deleteBranchById(branchId);
+    await Invoke.deleteIdentificationById(branchId);
     showToast("Data berhasil dihapus", "success");
-    getIdentificationListRequested();
+    getIdentificationListRequested(page, limit);
   } catch (error) {
     showToast("Internal Server Error!", "error");
     console.log("error : ", error);
@@ -266,4 +269,19 @@ export const saveIdentificationRequested = async (
       doUpdateIdentificationRegular(values, isLastStep);
     }
   }
+};
+
+export const deleteIdentificationRequested = async (identificationId) => {
+  const toastrConfirmOptions = {
+    onOk: () => {
+      doDeleteIdentificationProcess(identificationId);
+    },
+    okText: "Ya",
+    cancelText: "Tidak",
+  };
+
+  toastr.confirm(
+    "Apakah Anda Yakin Ingin Menghapus Data Ini?",
+    toastrConfirmOptions
+  );
 };

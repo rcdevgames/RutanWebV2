@@ -1,7 +1,7 @@
 import { Space } from "antd";
 import React from "react";
 import { connect } from "react-redux";
-import { reduxForm, reset } from "redux-form";
+import { reduxForm } from "redux-form";
 import * as IdentificationActions from "../Store/IdentificationActions";
 import * as ComponentActions from "../../App/Store/ComponentAction";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
@@ -146,10 +146,10 @@ const mapDispatchToProps = (dispatch) => ({
       navigate("form-identification");
     }, 500);
   },
-  //   handlePressDelete: async (branchId) => {
-  //     await dispatch(IdentificationActions.setSelectedBranchId(branchId));
-  //     IdentificationActions.deleteBranchRequested(branchId);
-  //   },
+  handlePressDelete: async (branchId) => {
+    await dispatch(IdentificationActions.setSelectedIdentificationId(branchId));
+    IdentificationActions.deleteIdentificationRequested(branchId);
+  },
 });
 
 const EnhanceContainer = connect(

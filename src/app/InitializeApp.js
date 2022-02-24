@@ -6,7 +6,7 @@ import * as UnitsActions from "../modules/Units/Store/UnitsActions";
 import * as MachineConfigurationActions from "../modules/MachineConfiguration/Store/MachineConfigurationActions";
 
 export const initializeApp = async () => {
-  await AdminActions.getListAdminRequested();
+  await AdminActions.getListAdminRequested(1, 10);
   await RoleActions.getListRolesRequested();
   await MasterDataActions.loadMenuListData();
   await MasterDataActions.loadProvinceListData();

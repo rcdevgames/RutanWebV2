@@ -25,11 +25,11 @@ const EmployeeEditContainer = (props) => {
 
   const { page, limit } = paging;
 
-  React.useEffect(() => {
-    setAutoPopulateEmployee();
-    BranchActions.getBranchListDataRequested(page, limit, keyword);
-    MasterDataActions.loadProvinceListData();
-  }, []);
+  // React.useEffect(() => {
+  //   setAutoPopulateEmployee();
+  //   BranchActions.getBranchListDataRequested(page, limit, keyword);
+  //   MasterDataActions.loadProvinceListData();
+  // }, []);
 
   const submitForm = (values) => {
     if (valid) {

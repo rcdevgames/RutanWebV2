@@ -4,6 +4,7 @@ import { reduxForm } from "redux-form";
 import { validateFormRoles } from "../../../app/validateForm";
 import * as ComponentActions from "../../App/Store/ComponentAction";
 import * as IdentificationActions from "../Store/IdentificationActions";
+import * as CustomersActions from "../../Customers/Store/CustomersActions";
 import IdentificationModalComponent from "../Component/IdentificationModalComponent";
 import {
   SelectLocation,
@@ -47,6 +48,10 @@ const IdentificationModalContainer = (props) => {
       label: item.name,
     });
   });
+
+  React.useEffect(() => {
+    CustomersActions.getCustomerListDataByPaging(1, 300);
+  }, []);
 
   return (
     <IdentificationModalComponent

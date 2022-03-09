@@ -1,24 +1,36 @@
-import { Space } from "antd";
 import React from "react";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
 import * as MonitoringEmployeeActions from "../Store/MonitoringEmployeeActions";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import { store } from "../../../app/ConfigureStore";
 import { getIndex } from "../../../app/Helpers";
 import MonitoringEmployeeComponent from "../Component/MonitoringEmployeeComponent";
+import Text from "antd/lib/typography/Text";
+import { Tag } from "antd";
 
 const MonitoringEmployeeContainer = (props) => {
   const {
     getListMonitoringEmployee,
-    handlePressEdit,
-    handlePressDelete,
     handlePressAddNew,
     monitoringEmployee: { listMonitoringEmployee, paging },
   } = props;
 
   const { page, limit, totalPage } = paging;
+
+  const switchColorType = (isExternal, isWarranty) => {
+    if (isWarranty) {
+      return "#ffc018";
+    }
+    switch (isExternal) {
+      case true:
+        return "#87d068";
+        break;
+
+      default:
+        return "#108ee9";
+        break;
+    }
+  };
 
   const headers = [
     {
@@ -34,6 +46,13 @@ const MonitoringEmployeeContainer = (props) => {
       key: "jd_date",
       width: "20%",
       sorter: (a, b) => a.jd_date.length - b.jd_date.length,
+    },
+    {
+      title: "Nik",
+      dataIndex: "employee_nik",
+      key: "employee_nik",
+      width: "20%",
+      sorter: (a, b) => a.employee_nik.length - b.employee_nik.length,
     },
     {
       title: "Nama Karyawan",
@@ -53,6 +72,14 @@ const MonitoringEmployeeContainer = (props) => {
       title: "Tipe",
       dataIndex: "job_type",
       key: "job_type",
+      render: (jobType) => {
+        let color = jobType === "loss" ? "#f50" : "#f50";
+        return (
+          <Tag style={{ width: 115, textAlign: "center" }} color={color}>
+            {jobType.toUpperCase()}
+          </Tag>
+        );
+      },
       width: "30%",
       sorter: (a, b) => a.job_type.length - b.job_type.length,
     },
@@ -66,14 +93,27 @@ const MonitoringEmployeeContainer = (props) => {
     {
       title: "Unit",
       dataIndex: "units",
-      key: "units",
+      render: (units) =>
+        units.map((unit) => (
+          <Text>
+            {unit.unit_name}
+            {units.length <= 1 ? "" : ", "}
+          </Text>
+        )),
+      key: "unit_models",
       width: "30%",
-      sorter: (a, b) => a.units.length - b.units.length,
     },
     {
       title: "Model",
-      dataIndex: "models",
-      key: "models",
+      dataIndex: "units",
+      render: (units) =>
+        units.map((unit) => (
+          <Text>
+            {unit.unit_model_name}
+            {units.length <= 1 ? "" : ", "}
+          </Text>
+        )),
+      key: "unit_models",
       width: "30%",
       sorter: (a, b) => a.models.length - b.models.length,
     },

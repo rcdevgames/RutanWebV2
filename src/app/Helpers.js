@@ -313,15 +313,34 @@ export const monitoringType = {
 
 export const categoryServices = [
   {
-    name: 'Internal Service',
-    status: 'processing'
+    name: "Internal Service",
+    status: "processing",
   },
   {
-    name: 'External Service',
-    status: 'success'
+    name: "External Service",
+    status: "success",
   },
   {
-    name: 'Service With Warranty',
-    status: 'warning'
-  }
-]
+    name: "Service With Warranty",
+    status: "warning",
+  },
+];
+
+export const categoryMonitoringServices = [
+  {
+    name: "Internal Service",
+    status: "processing",
+  },
+  {
+    name: "External Service",
+    status: "success",
+  },
+  {
+    name: "Service With Warranty",
+    status: "warning",
+  },
+  {
+    name: "Loss",
+    status: "error",
+  },
+];

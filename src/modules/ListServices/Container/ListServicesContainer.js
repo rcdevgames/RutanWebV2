@@ -26,76 +26,6 @@ const ListServicesContainer = (props) => {
     });
   }
 
-  // const headers = [
-  //   "No",
-  //   "Tanggal",
-  //   "Tipe",
-  //   "Customer",
-  //   "Teknisi",
-  //   "Unit",
-  //   "Model (SN)",
-  //   "Status",
-  //   "Dibuat",
-  //   "Aksi",
-  // ];
-
-  const headers = [
-    {
-      title: "No",
-      dataIndex: "no",
-      key: "no",
-      width: "5%",
-      sorter: (a, b) => a.no - b.no,
-    },
-    {
-      title: "Tipe",
-      dataIndex: "type",
-      key: "type",
-      width: "15%",
-      render: (text) => {
-        console.log("=== types : ", text);
-        let color = text === "Repair" ? "geekblue" : "green";
-        return (
-          <Tag color={color} key={text}>
-            {text.toUpperCase()}
-          </Tag>
-        );
-      },
-      sorter: (a, b) => a.type.length - b.type.length,
-    },
-    {
-      title: "Customer",
-      dataIndex: "customer_name",
-      key: "customer_name",
-      width: "15%",
-      sorter: (a, b) => a.customer_name.length - b.customer_name.length,
-    },
-    {
-      title: "Unit",
-      width: "15%",
-      sorter: (a, b) => a.customer_name.length - b.customer_name.length,
-    },
-    {
-      title: "Model",
-      width: "15%",
-      sorter: (a, b) => a.customer_name.length - b.customer_name.length,
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      width: "15%",
-      sorter: (a, b) => a.status.length - b.status.length,
-    },
-    {
-      title: "Dibuat",
-      dataIndex: "created_date",
-      key: "created_date",
-      width: "15%",
-      sorter: (a, b) => a.created_date.length - b.created_date.length,
-    },
-  ];
-
   const renderActionTable = (text, record) => (
     <Space size="middle">
       <CButtonAntd
@@ -115,6 +45,117 @@ const ListServicesContainer = (props) => {
       />
     </Space>
   );
+
+  const switchColorType = (isExternal, isWarranty) => {
+    if (isWarranty) {
+      return "#ffc018";
+    }
+    switch (isExternal) {
+      case true:
+        return "#87d068";
+        break;
+
+      default:
+        return "#108ee9";
+        break;
+    }
+  };
+
+  const headers = [
+    {
+      title: "No",
+      dataIndex: "no",
+      key: "no",
+      width: "5%",
+      sorter: (a, b) => a.no - b.no,
+    },
+    {
+      title: "Tipe",
+      dataIndex: "type",
+      key: "type",
+      width: "15%",
+      render: (type, items) => {
+        let color = switchColorType(items.is_external, items.warranty);
+        return (
+          <Tag
+            style={{ borderRadius: 10, width: 115, textAlign: "center" }}
+            color={color}
+            key={type}
+          >
+            {type.toUpperCase()}
+          </Tag>
+        );
+      },
+      sorter: (a, b) => a.type.length - b.type.length,
+    },
+    {
+      title: "Customer",
+      dataIndex: "customer_name",
+      key: "customer_name",
+      width: "15%",
+      sorter: (a, b) => a.customer_name.length - b.customer_name.length,
+    },
+    {
+      title: "Unit",
+      dataIndex: "unit_models",
+      render: (units) =>
+        units.map((unit) => (
+          <Text>
+            {unit.unit_name}
+            {units.length <= 1 ? "" : ", "}
+          </Text>
+        )),
+      key: "unit_models",
+      width: "15%",
+    },
+    {
+      title: "Model",
+      dataIndex: "unit_models",
+      render: (units) =>
+        units.map((unit) => (
+          <Text>
+            {unit.unit_model_name}
+            {units.length <= 1 ? "" : ", "}
+          </Text>
+        )),
+      key: "unit_models",
+      width: "15%",
+      sorter: (a, b) => a.customer_name.length - b.customer_name.length,
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (status) => {
+        let color = status === "Progress" ? "#108ee9" : "#f50";
+        return (
+          <Tag
+            style={{ width: 80, textAlign: "center" }}
+            color={color}
+            key={status}
+          >
+            {status.toUpperCase()}
+          </Tag>
+        );
+      },
+      width: "15%",
+      sorter: (a, b) => a.status.length - b.status.length,
+    },
+    {
+      title: "Dibuat",
+      dataIndex: "created_date",
+      key: "created_date",
+      width: "15%",
+      sorter: (a, b) => a.created_date.length - b.created_date.length,
+    },
+    {
+      align: "center",
+      title: "Aksi",
+      key: "action",
+      width: "30%",
+      render: renderActionTable,
+    },
+  ];
 
   React.useEffect(() => {
     getListServices(page, limit);

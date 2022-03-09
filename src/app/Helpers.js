@@ -303,3 +303,25 @@ export const machineConf = [
     type: "scale",
   },
 ];
+
+export const monitoringType = {
+  all: "all",
+  external: "T1",
+  internal: "T2",
+  loss: "T3",
+};
+
+export const categoryServices = [
+  {
+    name: 'Internal Service',
+    status: 'processing'
+  },
+  {
+    name: 'External Service',
+    status: 'success'
+  },
+  {
+    name: 'Service With Warranty',
+    status: 'warning'
+  }
+]

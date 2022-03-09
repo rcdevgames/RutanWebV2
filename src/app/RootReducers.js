@@ -22,6 +22,7 @@ import machineConfigurationReducer from "../modules/MachineConfiguration/Store/M
 import toolsReducer from "../modules/Tools/Store/ToolsReducer";
 import formCategoryReducer from "../modules/FormCategory/Store/FormCategoryReducer";
 import unitFieldsReducer from "../modules/Units/Store/UnitFieldsReducer";
+import monitoringEmployeeReducer from "../modules/MonitoringEmployee/Store/MonitoringEmployeeReducer";
 
 const rootReducers = combineReducers({
   router: connectRouter(history),
@@ -44,6 +45,7 @@ const rootReducers = combineReducers({
   tools: toolsReducer,
   machineConfiguration: machineConfigurationReducer,
   detailService: detailServiceTransactionReducer,
+  monitoringEmployee: monitoringEmployeeReducer,
   form: formReducer,
   toastr: toastrReducer,
 });

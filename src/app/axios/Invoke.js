@@ -388,9 +388,11 @@ Invoke.getIdentificationList = (page, limit, keyword) => {
     `/identifications?page=${page}&limit=${limit}&q=${keyword}`
   );
 };
+
 Invoke.addIdentification = (payload) => {
   return ConfigAxios.post(`/identifications`, payload);
 };
+
 Invoke.updateIdentificationMilling = (payload) => {
   return ConfigAxios.put("/m_identifications/milling", payload);
 };
@@ -399,6 +401,20 @@ Invoke.deleteIdentificationById = (identificationId) => {
   return ConfigAxios.delete(
     `/identifications/${identificationId}`,
     headersConfigDelete
+  );
+};
+
+// Monitoring Employee
+Invoke.getReportMonitoringEmployee = (
+  page,
+  limit,
+  from,
+  until,
+  type = "all",
+  keyword
+) => {
+  return ConfigAxios.get(
+    `/report/monitoring?from=${from}&until=${until}&page=${page}&limit=${limit}&type=${type}&q=${keyword}`
   );
 };
 

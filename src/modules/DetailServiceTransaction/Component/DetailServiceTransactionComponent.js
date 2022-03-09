@@ -137,16 +137,6 @@ const DetailServiceTransactionComponent = (props) => {
         </div>
       </div>
       <AddEmployeeModalContainer />
-      <div id="test-print-2" class="mt-3 col-md-6">
-        <div class="row justify-content-between">
-          <div>
-            <Text>Name : </Text>
-          </div>
-          <div>
-            <Text>Warranty :</Text>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

@@ -133,7 +133,8 @@ const DetailServiceTransactionContainer = (props) => {
   };
 
   React.useEffect(() => {
-    EmployeesActions.loadEmployeeListData();
+    // EmployeesActions.loadEmployeeListData();
+    DetailServiceActions.getJobServiceEmployeeList(selectedJobService.id);
   }, []);
 
   const handlePressGeneratePdf = () => {

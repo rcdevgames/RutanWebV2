@@ -59,6 +59,7 @@ const CTableAntd = (props) => {
       key: item.dataIndex,
       width: item.width ?? "30%",
       sorter: item.sorter,
+      render: item.render,
       sortDirections: ["descend", "ascend"],
       ...getColumnSearchProps(item.dataIndex),
     });

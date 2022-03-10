@@ -71,6 +71,15 @@ const TemplateContainer = (props) => {
       case "/identification":
         return "list";
 
+      case "/report_trans":
+        return "list";
+
+      case "/report_identification":
+        return "list";
+
+      case "/report_employee":
+        return "list";
+
       default:
         return "command";
     }
@@ -80,6 +89,8 @@ const TemplateContainer = (props) => {
   const masterDataMenu = [];
   const reportMenu = [];
   const serviceRepairMenu = [];
+  const reportDataMenu = [];
+
   if (userDetail) {
     userDetail.menus.map((item, index) => {
       let menu = {};
@@ -110,6 +121,12 @@ const TemplateContainer = (props) => {
         serviceRepairMenu.push(menu);
       } else if (item.path === "/monitoring-employee") {
         reportMenu.push(menu);
+      } else if (
+        item.path === "/report_trans" ||
+        item.path === "/report_employee" ||
+        item.path === "/report_identification"
+      ) {
+        reportDataMenu.push(menu);
       } else {
         mainMenu.push(menu);
       }
@@ -123,6 +140,7 @@ const TemplateContainer = (props) => {
       masterDataMenu={masterDataMenu}
       reportMenu={reportMenu}
       serviceRepairMenu={serviceRepairMenu}
+      reportDataMenu={reportDataMenu}
       {...props}
     />
   );

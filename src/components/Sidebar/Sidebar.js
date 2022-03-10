@@ -6,7 +6,7 @@ const Sidebar = ({
   masterDataMenu,
   reportMenu,
   serviceRepairMenu,
-  reportData,
+  reportDataMenu,
 }) => {
   return (
     <div>
@@ -23,7 +23,9 @@ const Sidebar = ({
         </div>
         <div class="sidebar-body">
           <ul class="nav">
-            {mainMenu?.length > 0 && <li class="nav-item nav-category">Main</li>}
+            {mainMenu?.length > 0 && (
+              <li class="nav-item nav-category">Main</li>
+            )}
             {mainMenu?.length > 0 &&
               mainMenu.map((item, index) => (
                 <li key={`sidebar-main-menu-${index}`} class="nav-item">
@@ -69,11 +71,11 @@ const Sidebar = ({
                   </a>
                 </li>
               ))}
-            {reportData?.length > 0 && (
+            {reportDataMenu?.length > 0 && (
               <li class="nav-item nav-category">Laporan</li>
             )}
-            {reportData?.length > 0 &&
-              reportData.map((item, index) => (
+            {reportDataMenu?.length > 0 &&
+              reportDataMenu.map((item, index) => (
                 <li key={`sidebar-master-data-${index}`} class="nav-item">
                   <a class="nav-link" href={item.path}>
                     <i class="link-icon" data-feather={item.icon}></i>

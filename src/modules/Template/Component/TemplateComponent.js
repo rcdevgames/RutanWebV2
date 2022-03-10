@@ -16,6 +16,7 @@ const TemplateComponent = (props) => {
     masterDataMenu,
     reportMenu,
     serviceRepairMenu,
+    reportDataMenu,
   } = props;
 
   return (
@@ -28,6 +29,7 @@ const TemplateComponent = (props) => {
           mainMenu={mainMenu}
           reportMenu={reportMenu}
           serviceRepairMenu={serviceRepairMenu}
+          reportDataMenu={reportDataMenu}
         />
       )}
       <div className={`page-wrapper ${!isLandingPage ? "full-page" : ""}`}>

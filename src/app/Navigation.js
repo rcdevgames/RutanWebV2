@@ -15,6 +15,7 @@ import InternalServiceContainer from "../modules/InternalService/Container/Inter
 import ExternalServiceContainer from "../modules/ExternalService/Container/ExternalServiceContainer";
 import MonitoringEmployeeContainer from "../modules/MonitoringEmployee/Container/MonitoringEmployeeContainer";
 import ReportServiceRepairContainer from "../modules/ReportServiceRepair/Container/ReportServiceRepairContainer";
+import ReportEmployeeContainer from "../modules/ReportEmployee/Container/ReportEmployeeContainer";
 import ListServicesContainer from "../modules/ListServices/Container/ListServicesContainer";
 import AdminContainer from "../modules/Admin/Container/AdminContainer";
 import NotFoundPage from "../components/NotFound/NotFound";
@@ -75,6 +76,7 @@ export default function Navigation() {
     ReportServiceRepairContainer,
     true
   );
+  const ReportEmployee = authenticatedPage(ReportEmployeeContainer, true);
   const ListServices = authenticatedPage(ListServicesContainer, true);
   const DetailService = authenticatedPage(
     DetailServiceTransactionContainer,
@@ -127,13 +129,10 @@ export default function Navigation() {
           path="/monitoring-employee"
           component={MonitoringEmployee}
         />
-        <Route
-          exact
-          path="/report_trans"
-          component={ReportServiceRepair}
-        />
+        <Route exact path="/report_trans" component={ReportServiceRepair} />
         <Route exact path="/list_service" component={ListServices} />
         <Route exact path="/detail-services" component={DetailService} />
+        <Route exact path="/report_employee" component={ReportEmployee} />
         <Route
           exact
           path="/form-identification"

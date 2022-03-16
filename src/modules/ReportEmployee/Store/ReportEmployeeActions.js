@@ -2,20 +2,20 @@ import Invoke from "../../../app/axios/Invoke";
 import { store } from "../../../app/ConfigureStore";
 import moment from "moment";
 
-export const SET_SERVICE_REPAIR_LIST_DATA = "SET_MONITORING_EMPLOYEE_LIST_DATA";
-export const SET_PAGING_SERVICE_REPAIR = "SET_PAGING_MONITORING_EMPLOYEE";
+export const SET_REPORT_EMPLOYEE_LIST_DATA = "SET_REPORT_EMPLOYEE_LIST_DATA";
+export const SET_PAGING_REPORT_EMPLOYEE = "SET_PAGING_REPORT_EMPLOYEE";
 export const SET_FORM_STATUS = "SET_FORM_STATUS";
 
-export const setMonitoringEmployeeListData = (payload) => {
+export const setReportEmployeeListData = (payload) => {
   return {
-    type: SET_SERVICE_REPAIR_LIST_DATA,
+    type: SET_REPORT_EMPLOYEE_LIST_DATA,
     payload,
   };
 };
 
-export const setPagingServiceRepair = (payload) => {
+export const setPagingReportEmployee = (payload) => {
   return {
-    type: SET_PAGING_SERVICE_REPAIR,
+    type: SET_PAGING_REPORT_EMPLOYEE,
     payload,
   };
 };
@@ -27,7 +27,7 @@ export const setFormStatus = (payload) => {
   };
 };
 
-export const getServiceRepairListDataRequested = async (
+export const getReportEmployeeDataRequested = async (
   page = 1,
   limit = 999999,
   keyword = "",
@@ -37,10 +37,10 @@ export const getServiceRepairListDataRequested = async (
   until = moment().format("YYYY-MM-DD").toString()
 ) => {
   const { getState } = store;
-  const paging = getState().monitoringEmployee.paging;
+  const paging = getState().reportEmployee.paging;
   const { totalPage } = paging;
   try {
-    const { data } = await Invoke.getReportServiceRepair(
+    const { data } = await Invoke.getReportEmployee(
       page,
       limit,
       from,
@@ -53,22 +53,20 @@ export const getServiceRepairListDataRequested = async (
     paging.limit = limit;
     paging.totalPage = totalPage;
 
-    const newListMonitoringEmployee = [];
+    const newReportEmployee = [];
 
     if (data.message.length > 0) {
       data.message.map((item, index) => {
         item.data.map((itemData, indexData) => {
-          newListMonitoringEmployee.push({
+          newReportEmployee.push({
             ...itemData,
           });
         });
       });
     }
 
-    store.dispatch(
-      setMonitoringEmployeeListData(newListMonitoringEmployee ?? [])
-    );
-    store.dispatch(setPagingServiceRepair(paging));
+    store.dispatch(setReportEmployeeListData(newReportEmployee ?? []));
+    store.dispatch(setPagingReportEmployee(paging));
   } catch (error) {
     console.log(error);
   }
@@ -76,10 +74,10 @@ export const getServiceRepairListDataRequested = async (
 
 export const handleSearch = async (values) => {
   const { getState } = store;
-  const { page, limit } = getState().monitoringEmployee;
+  const { page, limit } = getState().reportEmployee;
 
   if (!values) {
-    await getServiceRepairListDataRequested(page, limit);
+    await getReportEmployeeDataRequested(page, limit);
     return;
   }
 
@@ -91,7 +89,7 @@ export const handleSearch = async (values) => {
   const branch = values.branch ? splitBranch[0] : "";
 
   try {
-    await getServiceRepairListDataRequested(
+    await getReportEmployeeDataRequested(
       page,
       limit,
       keyword,

@@ -419,7 +419,7 @@ Invoke.getReportMonitoringEmployee = (
   );
 };
 
-// Monitoring Employee
+// Report Service Repair
 Invoke.getReportServiceRepair = (
   page,
   limit,
@@ -430,6 +430,20 @@ Invoke.getReportServiceRepair = (
 ) => {
   return ConfigAxios.get(
     `/report/report_services?from=${from}&until=${until}&page=${page}&limit=${limit}&branchId=${branchId}&q=${keyword}`
+  );
+};
+
+// Report Employee
+Invoke.getReportEmployee = (
+  page,
+  limit,
+  from,
+  until,
+  keyword,
+  branchId
+) => {
+  return ConfigAxios.get(
+    `/report/report_employee?from=${from}&until=${until}&page=${page}&limit=${limit}&branchId=${branchId}&q=${keyword}`
   );
 };
 

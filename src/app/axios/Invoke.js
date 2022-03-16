@@ -419,4 +419,18 @@ Invoke.getReportMonitoringEmployee = (
   );
 };
 
+// Monitoring Employee
+Invoke.getReportServiceRepair = (
+  page,
+  limit,
+  from,
+  until,
+  keyword,
+  branchId
+) => {
+  return ConfigAxios.get(
+    `/report/report_services?from=${from}&until=${until}&page=${page}&limit=${limit}&branchId=${branchId}&q=${keyword}`
+  );
+};
+
 export default Invoke;

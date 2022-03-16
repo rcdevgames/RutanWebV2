@@ -1,28 +1,29 @@
 import React from "react";
-import { Space, Tag } from "antd";
 import { connect } from "react-redux";
-import { reduxForm } from "redux-form";
-import { store } from "../../../app/ConfigureStore";
-import { getIndex } from "../../../app/Helpers";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import CButtonAntd from "../../../components/CButton/CButtonAntd";
-import ListServicesComponent from "../Component/ListServicesComponent";
-import * as ListServiceActions from "../Store/ListServicesActions";
+import { getFormValues, reduxForm } from "redux-form";
+import { EditOutlined } from "@ant-design/icons";
+import { enumTypeMonitoringEmployee } from "../../../app/Helpers";
+import * as ReportServiceRepairActions from "../Store/ReportServiceRepairActions";
 import Text from "antd/lib/typography/Text";
+import { Space, Tag } from "antd";
+import ReportServiceRepairComponent from "../Component/ReportServiceRepairComponent";
+import CButtonAntd from "../../../components/CButton/CButtonAntd";
 
-const ListServicesContainer = (props) => {
+const ReportServiceRepairContainer = (props) => {
   const {
-    getListServices,
+    handlePressAddNew,
+    serviceRepair: { listServiceRepair, paging },
+    branch: { listBranch },
+    monitoringEmployeeFormValues,
+    getListServiceRepair,
     handlePressEdit,
-    handlePressDelete,
-    services: { listServices, paging },
   } = props;
 
-  const { page, limit, totalPage } = paging;
+  const { page, limit } = paging;
 
-  if (listServices.length > 0) {
-    listServices.map((item, index) => {
-      listServices[index] = { ...item, no: getIndex(page, limit)[index] };
+  if (listServiceRepair.length > 0) {
+    listServiceRepair.map((item, index) => {
+      listServiceRepair[index] = { ...item, no: index + 1 };
     });
   }
 
@@ -35,13 +36,6 @@ const ListServicesContainer = (props) => {
         type="primary"
         icon={<EditOutlined />}
         size="middle"
-      />
-      <CButtonAntd
-        onClick={() => handlePressDelete(record.id)}
-        type="primary"
-        icon={<DeleteOutlined />}
-        size="middle"
-        danger
       />
     </Space>
   );
@@ -66,14 +60,14 @@ const ListServicesContainer = (props) => {
       title: "No",
       dataIndex: "no",
       key: "no",
-      width: "5%",
+      width: "10%",
       sorter: (a, b) => a.no - b.no,
     },
     {
       title: "Tipe",
       dataIndex: "type",
       key: "type",
-      width: "15%",
+      width: "20%",
       render: (type, items) => {
         let color = switchColorType(items.is_external, items.warranty);
         return (
@@ -92,7 +86,7 @@ const ListServicesContainer = (props) => {
       title: "Customer",
       dataIndex: "customer_name",
       key: "customer_name",
-      width: "15%",
+      width: "20%",
       sorter: (a, b) => a.customer_name.length - b.customer_name.length,
     },
     {
@@ -123,6 +117,13 @@ const ListServicesContainer = (props) => {
       sorter: (a, b) => a.customer_name.length - b.customer_name.length,
     },
     {
+      title: "Due date",
+      dataIndex: "due_date",
+      key: "due_date",
+      width: "15%",
+      sorter: (a, b) => a.due_date.length - b.due_date.length,
+    },
+    {
       title: "Status",
       dataIndex: "status",
       key: "status",
@@ -138,8 +139,6 @@ const ListServicesContainer = (props) => {
           </Tag>
         );
       },
-      width: "15%",
-      sorter: (a, b) => a.status.length - b.status.length,
     },
     {
       title: "Dibuat",
@@ -157,50 +156,58 @@ const ListServicesContainer = (props) => {
     },
   ];
 
+  const SelectBranch = [];
+  listBranch.map((item, index) => {
+    SelectBranch.push({
+      id: `branch-${index}`,
+      value: item.id,
+      label: item.name,
+    });
+  });
+
   React.useEffect(() => {
-    getListServices(page, limit);
+    getListServiceRepair(page, limit);
   }, []);
 
-  const onChangePagination = async (nextPage, pageSize) => {
-    const paging = {};
-    paging.page = nextPage;
-    paging.limit = pageSize;
-    paging.totalPage = totalPage;
-    await store.dispatch(ListServiceActions.setPagingListService(paging));
-    getListServices(nextPage, pageSize);
-  };
-
-  const onSearch = (val) => {
-    getListServices(page, limit, val);
+  const onSearch = () => {
+    ReportServiceRepairActions.handleSearch(monitoringEmployeeFormValues);
   };
 
   return (
-    <ListServicesComponent
+    <ReportServiceRepairComponent
       headers={headers}
-      listServices={listServices}
-      renderActionTable={renderActionTable}
-      handlePressEdit={handlePressEdit}
-      onChangePagination={onChangePagination}
-      onSearch={onSearch}
+      listServiceRepair={listServiceRepair}
+      handlePressAddNew={handlePressAddNew}
       paging={paging}
+      enumTypeReport={enumTypeMonitoringEmployee}
+      enumBranch={SelectBranch}
+      onSearch={onSearch}
+      {...props}
     />
   );
 };
 
 const mapStateToProps = (state) => ({
-  services: state.services,
+  serviceRepair: state.serviceRepair,
+  branch: state.branch,
+  monitoringEmployeeFormValues: getFormValues("monitoringEmployeeForm")(state),
 });
 const mapDispatchToProps = (dispatch) => ({
-  getListServices: (page, limit, keyword) =>
-    ListServiceActions.getListServicesRequested(page, limit, keyword),
-  handlePressEdit: async (value) => ListServiceActions.handlePressEdit(value),
+  getListServiceRepair: (page, limit, keyword, from, until) =>
+    ReportServiceRepairActions.getServiceRepairListDataRequested(
+      page,
+      limit,
+      keyword,
+      from,
+      until
+    ),
 });
 
 const EnhanceContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(ListServicesContainer);
+)(ReportServiceRepairContainer);
 
 export default reduxForm({
-  form: "listServices",
+  form: "serviceRepairForm",
 })(EnhanceContainer);

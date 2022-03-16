@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { getFormValues, reduxForm } from "redux-form";
 import * as MonitoringEmployeeActions from "../Store/MonitoringEmployeeActions";
 import { store } from "../../../app/ConfigureStore";
-import { enumTypeMonitoringEmployee, getIndex } from "../../../app/Helpers";
+import { enumTypeMonitoringEmployee } from "../../../app/Helpers";
 import MonitoringEmployeeComponent from "../Component/MonitoringEmployeeComponent";
 import Text from "antd/lib/typography/Text";
 import { Tag } from "antd";
@@ -19,26 +19,14 @@ const MonitoringEmployeeContainer = (props) => {
 
   const { page, limit, totalPage } = paging;
 
-  if (listBranch.length > 0) {
-    listBranch.map((item, index) => {
-      listBranch[index] = { ...item, no: getIndex(page, limit)[index] };
+  if (listMonitoringEmployee.length > 0) {
+    listMonitoringEmployee.map((item, index) => {
+      listMonitoringEmployee[index] = {
+        ...item,
+        no: index + 1,
+      };
     });
   }
-
-  const switchColorType = (isExternal, isWarranty) => {
-    if (isWarranty) {
-      return "#ffc018";
-    }
-    switch (isExternal) {
-      case true:
-        return "#87d068";
-        break;
-
-      default:
-        return "#108ee9";
-        break;
-    }
-  };
 
   const headers = [
     {

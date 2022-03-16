@@ -14,6 +14,7 @@ import LoginContainer from "../modules/Auth/Container/LoginContainer";
 import InternalServiceContainer from "../modules/InternalService/Container/InternalServiceContainer";
 import ExternalServiceContainer from "../modules/ExternalService/Container/ExternalServiceContainer";
 import MonitoringEmployeeContainer from "../modules/MonitoringEmployee/Container/MonitoringEmployeeContainer";
+import ReportServiceRepairContainer from "../modules/ReportServiceRepair/Container/ReportServiceRepairContainer";
 import ListServicesContainer from "../modules/ListServices/Container/ListServicesContainer";
 import AdminContainer from "../modules/Admin/Container/AdminContainer";
 import NotFoundPage from "../components/NotFound/NotFound";
@@ -70,6 +71,10 @@ export default function Navigation() {
     MonitoringEmployeeContainer,
     true
   );
+  const ReportServiceRepair = authenticatedPage(
+    ReportServiceRepairContainer,
+    true
+  );
   const ListServices = authenticatedPage(ListServicesContainer, true);
   const DetailService = authenticatedPage(
     DetailServiceTransactionContainer,
@@ -121,6 +126,11 @@ export default function Navigation() {
           exact
           path="/monitoring-employee"
           component={MonitoringEmployee}
+        />
+        <Route
+          exact
+          path="/report_trans"
+          component={ReportServiceRepair}
         />
         <Route exact path="/list_service" component={ListServices} />
         <Route exact path="/detail-services" component={DetailService} />

@@ -82,6 +82,21 @@ export const getCustomerListDataByPaging = async (
   }
 };
 
+const doDeleteCustomerProcess = async (customerId) => {
+  const { getState } = store;
+  const paging = getState().branch.paging;
+  const { page, limit } = paging;
+
+  try {
+    await Invoke.deleteCustomerById(customerId);
+    showToast("Data berhasil dihapus", "success");
+    getCustomerListDataByPaging(page, limit);
+  } catch (error) {
+    showToast("Internal Server Error!", "error");
+    console.log("error : ", error);
+  }
+};
+
 const doAddCustomerProcess = async (values) => {
   const { dispatch, getState } = store;
   const paging = getState().customers.paging;
@@ -139,4 +154,19 @@ export const mapDetailCustomerToForm = async () => {
   const data = getState().customers.selectedCustomerData;
   dispatch(change("editCustomerForm", `id`, data.id ?? ""));
   dispatch(change("editCustomerForm", `description`, data.name ?? ""));
+};
+
+export const deleteCustomerRequested = async (customerId) => {
+  const toastrConfirmOptions = {
+    onOk: () => {
+      doDeleteCustomerProcess(customerId);
+    },
+    okText: "Ya",
+    cancelText: "Tidak",
+  };
+
+  toastr.confirm(
+    "Apakah Anda Yakin Ingin Menghapus Data Ini?",
+    toastrConfirmOptions
+  );
 };

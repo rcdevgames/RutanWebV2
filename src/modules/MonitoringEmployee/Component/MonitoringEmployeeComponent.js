@@ -4,9 +4,11 @@ import { categoryMonitoringServices } from "../../../app/Helpers";
 import CDatePicker from "../../../components/CDatePicker/CDatePicker";
 import CSelect from "../../../components/CSelect/CSelect";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
-import { PrinterOutlined } from "@ant-design/icons";
+import { PrinterOutlined, SearchOutlined } from "@ant-design/icons";
+import CInput from "../../../components/CInput/CInput";
+import { Field } from "redux-form";
 
-const { Search } = Input;
+// const { Search } = Input;
 
 const MonitoringEmployeeComponent = (props) => {
   const {
@@ -16,6 +18,7 @@ const MonitoringEmployeeComponent = (props) => {
     paging,
     onSearch,
     enumBranch,
+    enumTypeReport,
   } = props;
 
   const pagination = {
@@ -44,6 +47,16 @@ const MonitoringEmployeeComponent = (props) => {
                   ))}
                 </div>
                 <Divider orientation="left">Filter Data</Divider>
+                <div class="row align-items-center">
+                  <div class="col-md-3">
+                    <CSelect
+                      // onChange={(val) => onChangeProvince(val)}
+                      data={enumTypeReport ?? []}
+                      name="type"
+                      label="Tipe"
+                    />
+                  </div>
+                </div>
                 <div class="row mb-4 align-items-center">
                   <div class="col-md-2">
                     <CDatePicker name="startDate" label="Dari" />
@@ -59,22 +72,34 @@ const MonitoringEmployeeComponent = (props) => {
                       label="Cabang"
                     />
                   </div>
-                  <div class="col-md-3 mt-4">
-                    <Search
-                      placeholder="Cari Karyawan"
-                      onSearch={onSearch}
-                      enterButton
+                  <div class="col-md-2 mt-3">
+                    <Field
+                      name="keyword"
+                      label="Karyawan"
+                      component={CInput}
+                      type="text"
                     />
                   </div>
-                  <div class="col-md-2 mt-4">
-                    <CButtonAntd
-                      // onClick={handlePressGeneratePdf}
-                      type="primary"
-                      icon={<PrinterOutlined />}
-                      size="middle"
-                    >
-                      Print
-                    </CButtonAntd>
+                  <div class="col-md-3 mt-4">
+                    <div class="row d-flex">
+                      <CButtonAntd
+                        onClick={onSearch}
+                        type="primary"
+                        icon={<SearchOutlined />}
+                        size="middle"
+                      >
+                        Cari
+                      </CButtonAntd>
+                      <div class="ml-2" />
+                      <CButtonAntd
+                        // onClick={handlePressGeneratePdf}
+                        type="primary"
+                        icon={<PrinterOutlined />}
+                        size="middle"
+                      >
+                        Print
+                      </CButtonAntd>
+                    </div>
                   </div>
                 </div>
                 <div class="table-responsive">
@@ -82,12 +107,6 @@ const MonitoringEmployeeComponent = (props) => {
                     columns={headers}
                     dataSource={listMonitoringEmployee}
                     size={"small"}
-                    pagination={{
-                      size: 3,
-                      pageSizeOptions: ["10", "20", "50"],
-                      showSizeChanger: true,
-                      ...pagination,
-                    }}
                   />
                 </div>
               </div>

@@ -1,9 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import { reduxForm } from "redux-form";
+import { getFormValues, reduxForm } from "redux-form";
 import * as MonitoringEmployeeActions from "../Store/MonitoringEmployeeActions";
 import { store } from "../../../app/ConfigureStore";
-import { getIndex } from "../../../app/Helpers";
+import { enumTypeMonitoringEmployee, getIndex } from "../../../app/Helpers";
 import MonitoringEmployeeComponent from "../Component/MonitoringEmployeeComponent";
 import Text from "antd/lib/typography/Text";
 import { Tag } from "antd";
@@ -13,9 +13,17 @@ const MonitoringEmployeeContainer = (props) => {
     getListMonitoringEmployee,
     handlePressAddNew,
     monitoringEmployee: { listMonitoringEmployee, paging },
+    branch: { listBranch },
+    monitoringEmployeeFormValues,
   } = props;
 
   const { page, limit, totalPage } = paging;
+
+  if (listBranch.length > 0) {
+    listBranch.map((item, index) => {
+      listBranch[index] = { ...item, no: getIndex(page, limit)[index] };
+    });
+  }
 
   const switchColorType = (isExternal, isWarranty) => {
     if (isWarranty) {
@@ -126,6 +134,15 @@ const MonitoringEmployeeContainer = (props) => {
     },
   ];
 
+  const SelectBranch = [];
+  listBranch.map((item, index) => {
+    SelectBranch.push({
+      id: `branch-${index}`,
+      value: item.id,
+      label: item.name,
+    });
+  });
+
   React.useEffect(() => {
     getListMonitoringEmployee(page, limit);
   }, []);
@@ -141,8 +158,8 @@ const MonitoringEmployeeContainer = (props) => {
     getListMonitoringEmployee(nextPage, pageSize);
   };
 
-  const onSearch = (val) => {
-    getListMonitoringEmployee(page, limit, val);
+  const onSearch = () => {
+    MonitoringEmployeeActions.handleSearch(monitoringEmployeeFormValues);
   };
 
   return (
@@ -152,6 +169,8 @@ const MonitoringEmployeeContainer = (props) => {
       handlePressAddNew={handlePressAddNew}
       onChangePagination={onChangePagination}
       paging={paging}
+      enumTypeReport={enumTypeMonitoringEmployee}
+      enumBranch={SelectBranch}
       onSearch={onSearch}
       // onShowSizeChange={onShowSizeChange}
       {...props}
@@ -161,6 +180,8 @@ const MonitoringEmployeeContainer = (props) => {
 
 const mapStateToProps = (state) => ({
   monitoringEmployee: state.monitoringEmployee,
+  branch: state.branch,
+  monitoringEmployeeFormValues: getFormValues("monitoringEmployeeForm")(state),
 });
 const mapDispatchToProps = (dispatch) => ({
   getListMonitoringEmployee: (page, limit, keyword, type, from, until) =>

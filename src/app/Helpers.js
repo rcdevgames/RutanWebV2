@@ -344,3 +344,12 @@ export const categoryMonitoringServices = [
     status: "error",
   },
 ];
+
+export const enumTypeMonitoringEmployee = [
+  { id: `enum-type-1`, value: "T1", label: "Repair" },
+  { id: `enum-type-2`, value: "T2", label: "TroubleShoot" },
+  { id: `enum-type-3`, value: "T3", label: "Identification" },
+  { id: `enum-type-4`, value: "T4", label: "Pelatihan" },
+  { id: `enum-type-5`, value: "T5", label: "Demo" },
+  { id: `enum-type-6`, value: "T6", label: "Modifikasi" },
+];

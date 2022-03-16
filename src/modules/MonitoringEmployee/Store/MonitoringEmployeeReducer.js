@@ -9,7 +9,7 @@ export const initialState = {
   formStatus: "add",
   paging: {
     page: 1,
-    limit: 10,
+    limit: 999999999,
     totalPage: 1,
   },
 };

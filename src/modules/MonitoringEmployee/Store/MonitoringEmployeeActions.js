@@ -1,9 +1,5 @@
-import { change } from "redux-form";
 import Invoke from "../../../app/axios/Invoke";
 import { store } from "../../../app/ConfigureStore";
-import { toastr } from "react-redux-toastr";
-import { showToast } from "../../Roles/Store/RolesActions";
-import * as ComponentActions from "../../App/Store/ComponentAction";
 import moment from "moment";
 import { getIndex } from "../../../app/Helpers";
 
@@ -34,10 +30,11 @@ export const setFormStatus = (payload) => {
 };
 
 export const getMonitoringEmployeeListDataRequested = async (
-  page,
-  limit,
+  page = 1,
+  limit = 999999,
   keyword = "",
   type = "all",
+  branchId = "",
   from = moment().format("YYYY-MM-DD").toString(),
   until = moment().format("YYYY-MM-DD").toString()
 ) => {
@@ -51,7 +48,8 @@ export const getMonitoringEmployeeListDataRequested = async (
       from,
       until,
       type,
-      keyword
+      keyword,
+      branchId
     );
     const paging = {};
     paging.page = page;
@@ -65,7 +63,6 @@ export const getMonitoringEmployeeListDataRequested = async (
         item.data.map((itemData, indexData) => {
           newListMonitoringEmployee.push({
             ...itemData,
-            no: getIndex(page, limit)[indexData],
           });
         });
       });
@@ -75,6 +72,38 @@ export const getMonitoringEmployeeListDataRequested = async (
       setMonitoringEmployeeListData(newListMonitoringEmployee ?? [])
     );
     store.dispatch(setPagingMonitoringEmployee(paging));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const handleSearch = async (values) => {
+  const { getState } = store;
+  const { page, limit } = getState().monitoringEmployee;
+
+  if (!values) {
+    await getMonitoringEmployeeListDataRequested(page, limit);
+    return;
+  }
+  const splitType = values.type ? values.type.split("|") : "";
+  const keyword = values.keyword ?? "";
+  const splitBranch = values.branch ? values.branch.split("|") : "";
+  const startDate = moment(values.startDate).format("YYYY-MM-DD") ?? "";
+  const endDate = moment(values.endDate).format("YYYY-MM-DD") ?? "";
+
+  const type = values.type ? splitType[0] : "all";
+  const branch = values.branch ? splitBranch[0] : "";
+
+  try {
+    await getMonitoringEmployeeListDataRequested(
+      page,
+      limit,
+      keyword,
+      type,
+      branch,
+      startDate,
+      endDate
+    );
   } catch (error) {
     console.log(error);
   }

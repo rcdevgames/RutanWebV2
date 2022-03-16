@@ -3,6 +3,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
 import * as CustomerActions from "../Store/CustomersActions";
+import * as BranchActions from "../../Branch/Store/BranchActions";
+import * as MasterDataActions from "../../MasterData/Store/MasterDataActions";
 import * as ComponentActions from "../../App/Store/ComponentAction";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
@@ -13,6 +15,8 @@ import { getIndex } from "../../../app/Helpers";
 const CustomerContainer = (props) => {
   const {
     getListCustomer,
+    getListBranch,
+    getListProvince,
     handlePressEdit,
     handlePressDelete,
     handlePressAddNew,
@@ -87,6 +91,8 @@ const CustomerContainer = (props) => {
 
   React.useEffect(() => {
     getListCustomer(page, limit, keyword);
+    getListBranch();
+    getListProvince();
   }, []);
 
   const onChangePagination = async (nextPage) => {
@@ -117,6 +123,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getListCustomer: (page, limit, keyword) =>
     CustomerActions.getCustomerListDataByPaging(page, limit, keyword),
+  getListBranch: () => BranchActions.getBranchListDataRequested(1, 250),
+  getListProvince: () => MasterDataActions.loadProvinceListData(),
   handlePressAddNew: async () => {
     await dispatch(CustomerActions.setSelectedCustomerData({}));
     await dispatch(CustomerActions.setSelectedCustomerId(""));
@@ -131,10 +139,10 @@ const mapDispatchToProps = (dispatch) => ({
     await dispatch(ComponentActions.setGlobalModal(true));
     await CustomerActions.mapDetailCustomerToForm();
   },
-  // handlePressDelete: async (branchId) => {
-  //   await dispatch(CustomerActions.setSelectedBranchId(branchId));
-  //   CustomerActions.deleteBranchRequested(branchId);
-  // },
+  handlePressDelete: async (customerId) => {
+    await dispatch(CustomerActions.setSelectedCustomerId(customerId));
+    CustomerActions.deleteCustomerRequested(customerId);
+  },
 });
 
 const EnhanceContainer = connect(

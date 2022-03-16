@@ -103,7 +103,7 @@ Invoke.updateCustomer = (data) => {
 };
 
 Invoke.deleteCustomerById = (customerId) => {
-  return ConfigAxios.delete(`/customers/${customerId}`);
+  return ConfigAxios.delete(`/customers/${customerId}`, headersConfigDelete);
 };
 // === End Customers API ===
 
@@ -411,10 +411,11 @@ Invoke.getReportMonitoringEmployee = (
   from,
   until,
   type = "all",
-  keyword
+  keyword,
+  branchId
 ) => {
   return ConfigAxios.get(
-    `/report/monitoring?from=${from}&until=${until}&page=${page}&limit=${limit}&type=${type}&q=${keyword}`
+    `/report/monitoring?from=${from}&until=${until}&page=${page}&limit=${limit}&branchId=${branchId}&type=${type}&q=${keyword}`
   );
 };
 

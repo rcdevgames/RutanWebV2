@@ -194,8 +194,6 @@ export const handleSubmitForm = async (values) => {
     employees: employees,
   };
 
-  console.log("=== payload : ", payload);
-
   try {
     const functionThatReturnPromise = () =>
       new Promise((resolve, reject) => {

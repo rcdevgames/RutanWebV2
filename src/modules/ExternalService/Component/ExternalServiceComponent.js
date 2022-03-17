@@ -89,10 +89,6 @@ const ExternalServiceComponent = (props) => {
                     }
                     name={`${itemUnit}.unitModelId`}
                     onChange={(val) => {
-                      console.log(
-                        "=== externalValues[indexUnit].enumUnitModel : ",
-                        externalValues[indexUnit].enumUnitModel
-                      );
                       if (externalValues[indexUnit].enumUnitModel.length > 0) {
                         onChangeUnitModel(
                           val,

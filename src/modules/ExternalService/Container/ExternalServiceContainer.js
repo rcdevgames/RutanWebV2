@@ -71,7 +71,6 @@ const ExternalServiceContainer = (props) => {
     EmployeeActions.loadEmployeeListData();
     MasterDataActions.loadProvinceListData();
     return () => {
-      console.log("=== reset Form");
       resetForm();
     };
   }, []);
@@ -104,7 +103,6 @@ const ExternalServiceContainer = (props) => {
   });
 
   const handleChangeType = (val) => {
-    console.log("=== setIsTroubleShoot : ", val);
     const type = val.split("|");
     if (type[0] === "T2") {
       setIsTroubleShoot(true);

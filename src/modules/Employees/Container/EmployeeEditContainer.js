@@ -51,7 +51,6 @@ const EmployeeEditContainer = (props) => {
       reader.readAsDataURL(file.originFileObj);
     });
     // this.setState({ fileList });
-    console.log("=== file : ", fileList[0]);
   };
 
   const SelectEmployeeRole = [];
@@ -97,7 +96,6 @@ const EmployeeEditContainer = (props) => {
   }, []);
 
   const onChangeRoleEmployee = (menus) => {
-    console.log("== menu : ", menus);
     setRoleSelected(menus);
   };
 

@@ -7,7 +7,6 @@ const { RangePicker } = DatePicker;
 
 const CRangePicker = (props) => {
   const { input, onChange, name } = props;
-  console.log("=== input : ", input.value);
 
   return (
     <RangePicker

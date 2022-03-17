@@ -122,7 +122,6 @@ const doAddIdentificationProcess = async (values) => {
 };
 
 const doUpdateIdentificationMilling = async (values, isLastStep) => {
-  console.log("=== Values : ", values);
   const { dispatch, getState } = store;
   const paging = getState().identification.paging;
   const { page, limit } = paging;
@@ -169,7 +168,7 @@ const doUpdateIdentificationMilling = async (values, isLastStep) => {
       spare_part_changing_histories: values.spare_part_changing_histories ?? [],
       spare_part_selling_histories: values.spare_part_selling_histories ?? [],
     };
-    console.log("=== Payload : ", payload);
+
     if (isLastStep) {
       showToast("Menyimpan perubahan", "success");
       setTimeout(() => {
@@ -227,7 +226,7 @@ const doUpdateIdentificationRegular = async (values, isFinished) => {
       spare_part_changing_histories: values.spare_part_changing_histories ?? [],
       spare_part_selling_histories: values.spare_part_selling_histories ?? [],
     };
-    console.log("=== Payload : ", payload);
+
     return;
     await Invoke.updateIdentificationMilling(payload);
     showToast("Data Berhasil Disimpan", "success");

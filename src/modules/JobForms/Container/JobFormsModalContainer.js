@@ -18,7 +18,6 @@ const JobFormsModalContainer = (props) => {
 
   const submitForm = (values) => {
     if (valid) {
-      console.log("valid");
       handleSubmitForm(formStatus, values);
     } else {
     }

@@ -1,7 +1,6 @@
 import Invoke from "../../../app/axios/Invoke";
 import { store } from "../../../app/ConfigureStore";
 import moment from "moment";
-import { getIndex } from "../../../app/Helpers";
 
 export const SET_MONITORING_EMPLOYEE_LIST_DATA =
   "SET_MONITORING_EMPLOYEE_LIST_DATA";

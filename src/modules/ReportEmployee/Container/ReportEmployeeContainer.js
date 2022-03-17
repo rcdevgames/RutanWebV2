@@ -137,7 +137,7 @@ const ReportEmployeeContainer = (props) => {
       sorter: (a, b) => a.customer_name.length - b.customer_name.length,
     },
     {
-      title: "Status",
+      title: "Progress",
       dataIndex: "status",
       key: "status",
       render: (status) => {

@@ -2,7 +2,6 @@ import React from "react";
 
 const Navbar = (props) => {
   const { onLogout, userDetail } = props;
-  console.log("=== userDetail : ", userDetail);
   return (
     <nav class="navbar">
       <a href="#" class="sidebar-toggler">

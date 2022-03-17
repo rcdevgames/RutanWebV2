@@ -50,7 +50,16 @@ export const setSelectedCustomerId = (payload) => {
 export const resetForm = async () => {
   const { dispatch } = store;
   dispatch(change("editCustomerForm", `id`, ""));
-  dispatch(change("editCustomerForm", `description`, ""));
+  dispatch(change("editCustomerForm", `name`, ""));
+  dispatch(change("editCustomerForm", `username`, ""));
+  dispatch(change("editCustomerForm", `picPhone`, ""));
+  dispatch(change("editCustomerForm", `pic`, ""));
+  dispatch(change("editCustomerForm", `phone`, ""));
+  dispatch(change("editCustomerForm", `address`, ""));
+  dispatch(change("editCustomerForm", `workHour`, ""));
+  dispatch(change("editCustomerForm", `province`, ""));
+  dispatch(change("editCustomerForm", `city`, ""));
+  dispatch(change("editCustomerForm", `branch`, ""));
 };
 
 export const loadCustomerListData = async () => {
@@ -130,13 +139,46 @@ const doAddCustomerProcess = async (values) => {
   }
 };
 
+const doEditBranchProcess = async (values) => {
+  const { dispatch, getState } = store;
+  const paging = getState().customers.paging;
+  const { page, limit } = paging;
+  const provinceId = values.province.split("|");
+  const cityId = values.city.split("|");
+  const branchId = values.branch.split("|");
+
+  try {
+    const payload = {};
+    payload.id = values.id;
+    payload.username = values.username;
+    payload.password = values.password;
+    payload.name = values.name;
+    payload.branch_id = branchId[0] ?? "";
+    payload.province_id = provinceId[0] ?? "";
+    payload.city_id = cityId[0] ?? "";
+    payload.phone = values.phone ?? "";
+    payload.work_hour = values.workHour ?? "";
+    payload.pic = values.pic;
+    payload.pic_phone = values.picPhone;
+    payload.address = values.address;
+    await Invoke.updateCustomer(payload);
+    showToast("Data Berhasil Disimpan", "success");
+    getCustomerListDataByPaging(page, limit);
+    dispatch(ComponentActions.setGlobalModal(false));
+  } catch (error) {
+    showToast("Internal Server Error!", "error");
+    dispatch(ComponentActions.setGlobalModal(false));
+    console.log("error : ", error);
+  }
+};
+
 export const saveCustomerRequested = async (type, values) => {
   const toastrConfirmOptions = {
     onOk: () => {
       if (type === "add") {
         doAddCustomerProcess(values);
       } else {
-        // doEditBranchProcess(values);
+        doEditBranchProcess(values);
       }
     },
     okText: "Ya",
@@ -152,8 +194,21 @@ export const saveCustomerRequested = async (type, values) => {
 export const mapDetailCustomerToForm = async () => {
   const { dispatch, getState } = store;
   const data = getState().customers.selectedCustomerData;
+  const provinceId = data.province_id + "|" + data.province_name;
+  const cityId = data.city_id + "|" + data.city_name;
+  const branchId = data.branch_id + "|" + data.branch_name;
+
   dispatch(change("editCustomerForm", `id`, data.id ?? ""));
-  dispatch(change("editCustomerForm", `description`, data.name ?? ""));
+  dispatch(change("editCustomerForm", `name`, data.name ?? ""));
+  dispatch(change("editCustomerForm", `username`, data.username ?? ""));
+  dispatch(change("editCustomerForm", `picPhone`, data.pic_phone ?? ""));
+  dispatch(change("editCustomerForm", `pic`, data.pic ?? ""));
+  dispatch(change("editCustomerForm", `phone`, data.phone ?? ""));
+  dispatch(change("editCustomerForm", `address`, data.address ?? ""));
+  dispatch(change("editCustomerForm", `workHour`, data.work_hour ?? ""));
+  dispatch(change("editCustomerForm", `province`, provinceId ?? ""));
+  dispatch(change("editCustomerForm", `city`, cityId ?? ""));
+  dispatch(change("editCustomerForm", `branch`, branchId ?? ""));
 };
 
 export const deleteCustomerRequested = async (customerId) => {

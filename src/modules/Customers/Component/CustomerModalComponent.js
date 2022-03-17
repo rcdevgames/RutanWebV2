@@ -35,7 +35,7 @@ const RenderContent = ({
           <div class="col-md-6">
             <Field
               name="name"
-              label="Nama Customer *"
+              label="Nama Customer"
               placeholder="Nama.."
               component={CInput}
               type="text"
@@ -44,7 +44,7 @@ const RenderContent = ({
           <div class="col-md-6">
             <Field
               name="picPhone"
-              label="Telepon PIC *"
+              label="Telepon PIC"
               component={CInput}
               type="text"
             />
@@ -54,7 +54,7 @@ const RenderContent = ({
           <div class="col-md-6">
             <Field
               name="username"
-              label="Username *"
+              label="Username"
               placeholder="Username.."
               component={CInput}
               type="text"
@@ -73,7 +73,7 @@ const RenderContent = ({
           <div class="col-md-6">
             <Field
               name="password"
-              label="Password *"
+              label="Password"
               placeholder="Password.."
               component={CInput}
               type="password"
@@ -92,7 +92,7 @@ const RenderContent = ({
           <div class="col-md-6">
             <Field
               name="phone"
-              label="Telepon *"
+              label="Telepon"
               placeholder="cth: 0821xxx"
               component={CInput}
               type="text"
@@ -106,7 +106,7 @@ const RenderContent = ({
           <div class="col-md-6">
             <Field
               name="workHour"
-              label="Jam Kerja *"
+              label="Jam Kerja"
               placeholder="cth : 08:00 - 15:20"
               component={CInput}
               type="text"
@@ -115,7 +115,7 @@ const RenderContent = ({
           <div class="col-md-6">
             <Field
               name="pic"
-              label="PIC *"
+              label="PIC"
               placeholder="PIC"
               component={CInput}
               type="text"
@@ -126,7 +126,7 @@ const RenderContent = ({
           <div class="col-md-6">
             <Field
               name="address"
-              label="Alamat *"
+              label="Alamat"
               component={CInput}
               type="textarea"
             />

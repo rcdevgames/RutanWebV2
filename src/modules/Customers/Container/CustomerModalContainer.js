@@ -14,8 +14,9 @@ const CustomerModalContainer = (props) => {
     valid,
     handleCancel,
     component: { isModalVisible },
-    branch: { formStatus, listBranch },
+    branch: { listBranch },
     masters: { listMenu, listProvince },
+    customers: { selectedCustomerData, formStatus },
     handleSubmitForm,
   } = props;
   const [cities, setCities] = React.useState([]);
@@ -55,6 +56,23 @@ const CustomerModalContainer = (props) => {
     });
   });
 
+  React.useEffect(() => {
+    setCities([]);
+    if (formStatus === "edit" && selectedCustomerData.province_id) {
+      const provinceId =
+        selectedCustomerData.province_id +
+        "|" +
+        selectedCustomerData.province_name;
+      onChangeProvince(provinceId);
+    }
+  }, [formStatus, selectedCustomerData.province_id]);
+
+  React.useEffect(() => {
+    return () => {
+      CustomersActions.setFormStatus("add");
+    };
+  });
+
   const onChangeProvince = async (provinceId) => {
     setCities([]);
     try {
@@ -92,6 +110,7 @@ const CustomerModalContainer = (props) => {
 const mapStateToProps = (state) => ({
   admins: state.admins,
   branch: state.branch,
+  customers: state.customers,
   component: state.component,
   masters: state.masters,
 });

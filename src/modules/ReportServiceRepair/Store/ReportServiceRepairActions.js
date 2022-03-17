@@ -6,7 +6,7 @@ export const SET_SERVICE_REPAIR_LIST_DATA = "SET_MONITORING_EMPLOYEE_LIST_DATA";
 export const SET_PAGING_SERVICE_REPAIR = "SET_PAGING_MONITORING_EMPLOYEE";
 export const SET_FORM_STATUS = "SET_FORM_STATUS";
 
-export const setMonitoringEmployeeListData = (payload) => {
+export const setServiceRepairListData = (payload) => {
   return {
     type: SET_SERVICE_REPAIR_LIST_DATA,
     payload,
@@ -37,7 +37,7 @@ export const getServiceRepairListDataRequested = async (
   until = moment().format("YYYY-MM-DD").toString()
 ) => {
   const { getState } = store;
-  const paging = getState().monitoringEmployee.paging;
+  const paging = getState().serviceRepair.paging;
   const { totalPage } = paging;
   try {
     const { data } = await Invoke.getReportServiceRepair(
@@ -53,21 +53,19 @@ export const getServiceRepairListDataRequested = async (
     paging.limit = limit;
     paging.totalPage = totalPage;
 
-    const newListMonitoringEmployee = [];
+    const newListServiceRepair = [];
 
     if (data.message.length > 0) {
       data.message.map((item, index) => {
         item.data.map((itemData, indexData) => {
-          newListMonitoringEmployee.push({
+          newListServiceRepair.push({
             ...itemData,
           });
         });
       });
     }
 
-    store.dispatch(
-      setMonitoringEmployeeListData(newListMonitoringEmployee ?? [])
-    );
+    store.dispatch(setServiceRepairListData(newListServiceRepair ?? []));
     store.dispatch(setPagingServiceRepair(paging));
   } catch (error) {
     console.log(error);
@@ -76,7 +74,7 @@ export const getServiceRepairListDataRequested = async (
 
 export const handleSearch = async (values) => {
   const { getState } = store;
-  const { page, limit } = getState().monitoringEmployee;
+  const { page, limit } = getState().serviceRepair;
 
   if (!values) {
     await getServiceRepairListDataRequested(page, limit);

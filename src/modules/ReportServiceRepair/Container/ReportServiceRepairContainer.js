@@ -14,7 +14,7 @@ const ReportServiceRepairContainer = (props) => {
     handlePressAddNew,
     serviceRepair: { listServiceRepair, paging },
     branch: { listBranch },
-    monitoringEmployeeFormValues,
+    serviceRepairFormValues,
     getListServiceRepair,
     handlePressEdit,
   } = props;
@@ -76,7 +76,7 @@ const ReportServiceRepairContainer = (props) => {
             color={color}
             key={type}
           >
-            {type.toUpperCase()}
+            {type ? type.toUpperCase() : "-"}
           </Tag>
         );
       },
@@ -92,26 +92,34 @@ const ReportServiceRepairContainer = (props) => {
     {
       title: "Unit",
       dataIndex: "unit_models",
-      render: (units) =>
-        units.map((unit) => (
-          <Text>
-            {unit.unit_name}
-            {units.length <= 1 ? "" : ", "}
-          </Text>
-        )),
+      render: (units) => {
+        if (units) {
+          return units.map((unit) => (
+            <Text>
+              {unit.unit_name}
+              {units.length <= 1 ? "" : ", "}
+            </Text>
+          ));
+        }
+        return <Text>{"-"}</Text>;
+      },
       key: "unit_models",
       width: "15%",
     },
     {
       title: "Model",
       dataIndex: "unit_models",
-      render: (units) =>
-        units.map((unit) => (
-          <Text>
-            {unit.unit_model_name}
-            {units.length <= 1 ? "" : ", "}
-          </Text>
-        )),
+      render: (units) => {
+        if (units) {
+          return units.map((unit) => (
+            <Text>
+              {unit.unit_model_name}
+              {units.length <= 1 ? "" : ", "}
+            </Text>
+          ));
+        }
+        return <Text>{"-"}</Text>;
+      },
       key: "unit_models",
       width: "15%",
       sorter: (a, b) => a.customer_name.length - b.customer_name.length,
@@ -135,7 +143,7 @@ const ReportServiceRepairContainer = (props) => {
             color={color}
             key={status}
           >
-            {status.toUpperCase()}
+            {status ? status.toUpperCase() : "-"}
           </Tag>
         );
       },
@@ -170,7 +178,7 @@ const ReportServiceRepairContainer = (props) => {
   }, []);
 
   const onSearch = () => {
-    ReportServiceRepairActions.handleSearch(monitoringEmployeeFormValues);
+    ReportServiceRepairActions.handleSearch(serviceRepairFormValues);
   };
 
   return (
@@ -190,7 +198,7 @@ const ReportServiceRepairContainer = (props) => {
 const mapStateToProps = (state) => ({
   serviceRepair: state.serviceRepair,
   branch: state.branch,
-  monitoringEmployeeFormValues: getFormValues("monitoringEmployeeForm")(state),
+  serviceRepairFormValues: getFormValues("serviceRepairForm")(state),
 });
 const mapDispatchToProps = (dispatch) => ({
   getListServiceRepair: (page, limit, keyword, from, until) =>

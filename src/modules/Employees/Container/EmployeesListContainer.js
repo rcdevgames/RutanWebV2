@@ -5,6 +5,7 @@ import { reduxForm } from "redux-form";
 import * as EmployeeActions from "../Store/EmployeesActions";
 import * as ComponentActions from "../../App/Store/ComponentAction";
 import * as EmployeesActions from "../../Employees/Store/EmployeesActions";
+import * as MasterDataActions from "../../MasterData/Store/MasterDataActions";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import EmployeesListComponent from "../Component/EmployeesListComponent";
@@ -58,7 +59,7 @@ const EmployeesListContainer = (props) => {
   const renderActionTable = (text, record) => (
     <Space size="middle">
       <CButtonAntd
-        onClick={() => handlePressEdit(record.id)}
+        onClick={() => handlePressEdit(record)}
         type="primary"
         icon={<EditOutlined />}
         size="middle"
@@ -92,13 +93,16 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
   getListEmployees: () => EmployeeActions.loadEmployeeListData(),
-  handlePressEdit: async (employeeId) => {
+  handlePressEdit: async (employee) => {
+    dispatch(ComponentActions.setGlobalLoading(true));
     dispatch(EmployeeActions.setFormStatus("edit"));
-    await EmployeesActions.getRolesByEmployeeId(employeeId);
-    await dispatch(EmployeeActions.setSelectedEmployeeId(employeeId));
-    await EmployeesActions.getEmployeeDataByIdRequested(employeeId);
+    await EmployeesActions.getRolesByEmployeeId(employee.id);
+    await MasterDataActions.loadCityListData(employee.province_id);
+    await dispatch(EmployeeActions.setSelectedEmployeeId(employee.id));
+    await EmployeesActions.getEmployeeDataByIdRequested(employee.id);
     setTimeout(() => {
       navigate("/edit-employee");
+      dispatch(ComponentActions.setGlobalLoading(false));
     }, 500);
   },
   handlePressAddNew: async () => {

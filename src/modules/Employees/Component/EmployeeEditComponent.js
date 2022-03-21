@@ -3,18 +3,17 @@ import { Field, Form } from "redux-form";
 import CInput from "../../../components/CInput/CInput";
 import CSelect from "../../../components/CSelect/CSelect";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
-import { UploadOutlined } from "@ant-design/icons";
-import { Checkbox, Col, Image, Row, Upload } from "antd";
+import {
+  LoadingOutlined,
+  PlusOutlined,
+  ArrowLeftOutlined,
+  EditOutlined,
+} from "@ant-design/icons";
+import { Checkbox, Col, message, Row, Typography, Upload } from "antd";
+import { getBase64, navigate } from "../../../app/Helpers";
 
 const SelectRole = (props) => {
-  const {
-    data,
-    defaultValues,
-    onChangeRoleEmployee,
-    // options,
-    // plainOptions,
-    // optionsWithDisabled,
-  } = props;
+  const { data, defaultValues, onChangeRoleEmployee } = props;
 
   const Item = ({ item }) => {
     return (
@@ -55,15 +54,57 @@ const EmployeeEditComponent = (props) => {
     handleSubmit,
     submitForm,
     enumBranch,
-    detailEmployee,
     enumRole,
     enumProvince,
     enumCity,
-    isLoadingFormGlobal,
-    handleUploadPhoto,
     selectedRoleEmployee,
     onChangeRoleEmployee,
+    handleUploadPhoto,
+    defaultImage,
   } = props;
+
+  const [loading, setLoading] = React.useState(false);
+  const [imageUrl, setImageUrl] = React.useState("");
+
+  React.useEffect(() => {
+    if (defaultImage) {
+      setImageUrl(defaultImage);
+    }
+  }, [defaultImage]);
+
+  const beforeUpload = (file) => {
+    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+    if (!isJpgOrPng) {
+      message.error("You can only upload JPG/PNG file!");
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error("Image must smaller than 2MB!");
+    }
+    return isJpgOrPng && isLt2M;
+  };
+
+  const handleChange = (info) => {
+    if (info.file.status === "uploading") {
+      setLoading(true);
+      info.file.status = "done";
+    }
+    if (info.file.status === "done") {
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj, (imageUrl) => {
+        setImageUrl(imageUrl);
+        setLoading(false);
+        handleUploadPhoto(imageUrl);
+      });
+    }
+  };
+
+  const uploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </div>
+  );
 
   return (
     <div class="page-content">
@@ -137,36 +178,86 @@ const EmployeeEditComponent = (props) => {
                       <br />
                     </div>
                     <div class="col-md-6">
-                      <div class="card-body">
-                        <Image
-                          width={400}
-                          height={300}
-                          src={
-                            detailEmployee.photo ??
-                            `https://cdn3.vectorstock.com/i/1000x1000/50/32/user-icon-male-person-symbol-profile-avatar-vector-20715032.jpg`
-                          }
-                        />
-                        <br />
+                      <Typography style={{ textAlign: "left" }}>
+                        Foto Profil
+                      </Typography>
+                      <div
+                        class="card-body"
+                        style={{ marginLeft: -22, marginTop: -20 }}
+                      >
                         <Upload
-                          name="profilePicture"
-                          listType="picture"
-                          onChange={handleUploadPhoto}
+                          name="avatar"
+                          listType="picture-card"
+                          className="avatar-uploader overflow-hidden"
+                          showUploadList={false}
+                          beforeUpload={beforeUpload}
+                          onChange={handleChange}
                         >
-                          <CButtonAntd icon={<UploadOutlined />}>
-                            Ubah Foto
-                          </CButtonAntd>
+                          {imageUrl || defaultImage ? (
+                            <>
+                              <img
+                                src={imageUrl}
+                                alt="avatar"
+                                style={{
+                                  width: "100%",
+                                  height: "100%",
+                                  resizeMode: "stretch",
+                                  borderRadius: 5,
+                                }}
+                              />
+                              <div
+                                class="row"
+                                style={{
+                                  backgroundColor: "#F3F3F3",
+                                  position: "absolute",
+                                  width: 80,
+                                  heigh: 30,
+                                  borderRadius: 50,
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  opacity: 0.7,
+                                }}
+                              >
+                                <Typography style={{ fontSize: 10 }}>
+                                  Ubah
+                                </Typography>
+                                <EditOutlined
+                                  style={{
+                                    color: "#020202",
+                                    fontSize: 10,
+                                    marginLeft: 5,
+                                  }}
+                                />
+                              </div>
+                            </>
+                          ) : (
+                            uploadButton
+                          )}
                         </Upload>
                       </div>
                     </div>
                   </div>
-                  <CButtonAntd
-                    key="submit"
-                    type="primary"
-                    loading={false}
-                    onClick={handleSubmit(submitForm)}
-                  >
-                    Simpan
-                  </CButtonAntd>
+                  <div class="row ml-2">
+                    <CButtonAntd
+                      key="submit"
+                      type="primary"
+                      loading={false}
+                      onClick={() => navigate("employees")}
+                      danger
+                      icon={<ArrowLeftOutlined />}
+                    >
+                      Kembali
+                    </CButtonAntd>
+                    <div class="ml-3" />
+                    <CButtonAntd
+                      key="submit"
+                      type="primary"
+                      loading={false}
+                      onClick={handleSubmit(submitForm)}
+                    >
+                      Simpan
+                    </CButtonAntd>
+                  </div>
                 </Form>
               </div>
             </div>

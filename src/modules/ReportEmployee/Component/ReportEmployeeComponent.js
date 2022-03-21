@@ -21,7 +21,7 @@ const ReportEmployeeComponent = (props) => {
             <div class="card">
               <div class="card-body">
                 <div class="row d-flex justify-content-between mb-2 align-items-center">
-                  <h6 class="ml-3 card-title">Laporan Service Repair</h6>
+                  <h6 class="ml-3 card-title">Laporan Karyawan</h6>
                 </div>
                 <Divider orientation="left">Keterangan</Divider>
                 <div class="row">
@@ -46,7 +46,7 @@ const ReportEmployeeComponent = (props) => {
                       label="Cabang"
                     />
                   </div>
-                  <div class="col-md-2 mt-3">
+                  <div class="col-md-3 mt-3">
                     <Field
                       name="keyword"
                       label="Karyawan"
@@ -54,7 +54,7 @@ const ReportEmployeeComponent = (props) => {
                       type="text"
                     />
                   </div>
-                  <div class="col-md-3 mt-4">
+                  <div class="col-md-2 mt-4">
                     <div class="row d-flex">
                       <CButtonAntd
                         onClick={onSearch}
@@ -63,15 +63,6 @@ const ReportEmployeeComponent = (props) => {
                         size="middle"
                       >
                         Cari
-                      </CButtonAntd>
-                      <div class="ml-2" />
-                      <CButtonAntd
-                        // onClick={handlePressGeneratePdf}
-                        type="primary"
-                        icon={<PrinterOutlined />}
-                        size="middle"
-                      >
-                        Print
                       </CButtonAntd>
                     </div>
                   </div>

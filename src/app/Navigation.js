@@ -35,6 +35,7 @@ import ToolsContainer from "../modules/Tools/Container/ToolsContainer";
 import FormCategoryContainer from "../modules/FormCategory/Container/FormCategoryContainer";
 import UnitModelsContainer from "../modules/Units/Container/UnitModelsContainer";
 import UnitFieldsContainer from "../modules/Units/Container/UnitFields/UnitFieldsContainer";
+import ReportIdentificationContainer from "../modules/ReportIdentification/Container/ReportIdentificationContainer";
 
 export default function Navigation() {
   const authenticatedPage = (component, footerImg, footer) => {
@@ -78,6 +79,10 @@ export default function Navigation() {
   );
   const ReportEmployee = authenticatedPage(ReportEmployeeContainer, true);
   const ListServices = authenticatedPage(ListServicesContainer, true);
+  const ReportIdentification = authenticatedPage(
+    ReportIdentificationContainer,
+    true
+  );
   const DetailService = authenticatedPage(
     DetailServiceTransactionContainer,
     true
@@ -133,6 +138,11 @@ export default function Navigation() {
         <Route exact path="/list_service" component={ListServices} />
         <Route exact path="/detail-services" component={DetailService} />
         <Route exact path="/report_employee" component={ReportEmployee} />
+        <Route
+          exact
+          path="/report_identification"
+          component={ReportIdentification}
+        />
         <Route
           exact
           path="/form-identification"

@@ -37,7 +37,7 @@ export const loadProvinceListData = async () => {
 
 export const loadCityListData = async (provinceId) => {
   try {
-    const { data } = await Invoke.getCityList(1, 100, provinceId);
+    const { data } = await Invoke.getCityList(1, 200, provinceId);
     store.dispatch(setCityListData(data.callback.data));
   } catch (error) {
     console.log(error);

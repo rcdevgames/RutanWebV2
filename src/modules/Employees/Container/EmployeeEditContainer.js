@@ -1,12 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import { reduxForm } from "redux-form";
+import { change, reduxForm } from "redux-form";
 import * as ComponentActions from "../../App/Store/ComponentAction";
 import * as EmployeesActions from "../../Employees/Store/EmployeesActions";
-import * as BranchActions from "../../Branch/Store/BranchActions";
 import * as MasterDataActions from "../../MasterData/Store/MasterDataActions";
 import EmployeeEditComponent from "../Component/EmployeeEditComponent";
 import { validateFormEmployee } from "../../../app/validateForm";
+import { store } from "../../../app/ConfigureStore";
 
 const EmployeeEditContainer = (props) => {
   const {
@@ -22,7 +22,7 @@ const EmployeeEditContainer = (props) => {
   } = props;
   const [listCityState, setListCityState] = React.useState([]);
   const [roleSelected, setRoleSelected] = React.useState([]);
-
+  const [defaultImage, setDefaultImage] = React.useState("");
   const { page, limit } = paging;
 
   // React.useEffect(() => {
@@ -39,18 +39,8 @@ const EmployeeEditContainer = (props) => {
     }
   };
 
-  const handleUploadPhoto = (info) => {
-    let fileList = [...info.fileList];
-    // Accept 5 files only
-    fileList = fileList.slice(-5);
-    fileList.forEach(function (file, index) {
-      let reader = new FileReader();
-      reader.onload = (e) => {
-        file.base64 = e.target.result;
-      };
-      reader.readAsDataURL(file.originFileObj);
-    });
-    // this.setState({ fileList });
+  const handleUploadPhoto = (base64) => {
+    store.dispatch(change("editEmployeeForm", `imageUrl`, base64 ?? ""));
   };
 
   const SelectEmployeeRole = [];
@@ -90,6 +80,13 @@ const EmployeeEditContainer = (props) => {
       });
     });
     setListCityState(subItem);
+    // Mapping detail data employee when edit
+    if (formStatus === "edit") {
+      MasterDataActions.loadCityListData(selectedEmployeeData.province_id);
+      EmployeesActions.mapDetailEmployeeToForm();
+      // convert image url to base64
+      setDefaultImage(selectedEmployeeData.photo);
+    }
     return () => {
       handleClearSelectedEmployeeRole();
     };
@@ -113,6 +110,7 @@ const EmployeeEditContainer = (props) => {
       formStatus={formStatus}
       selectedRoleEmployee={selectedRoleEmployee}
       onChangeRoleEmployee={onChangeRoleEmployee}
+      defaultImage={defaultImage}
       {...props}
     />
   );

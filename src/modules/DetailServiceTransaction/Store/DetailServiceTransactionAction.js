@@ -128,3 +128,7 @@ export const setStatusEmployee = async (
     getJobServiceEmployeeList(jobId);
   }, 500);
 };
+
+export const generatePDF = () => {
+  
+}

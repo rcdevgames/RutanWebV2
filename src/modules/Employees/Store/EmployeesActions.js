@@ -70,9 +70,9 @@ export const getEmployeeDataByIdRequested = async (employeeId) => {
 };
 
 export const getRolesByEmployeeId = async (employeeId) => {
-  const { data } = await Invoke.getEmployeeRoles(employeeId);
+  const { data } = await Invoke.getEmployeeRoles(employeeId, 1, 100);
   let subItem = [];
-  data.callback.map((item, index) => {
+  data.callback.data.map((item, index) => {
     subItem.push(item.role_id);
   });
   store.dispatch(setSelectedRoleEmployee(subItem));
@@ -203,4 +203,20 @@ export const saveEmployeeRequested = async (
     "Apakah Anda Yakin Ingin Menyimpan Data Ini?",
     toastrConfirmOptions
   );
+};
+
+export const mapDetailEmployeeToForm = async () => {
+  const { dispatch, getState } = store;
+  const data = getState().employees.selectedEmployeeData;
+  const branch = `${data.branch_id}|${data.branch_name}`;
+  const province = `${data.province_id}|${data.province_name}`;
+  const city = `${data.city_id}|${data.city_name}`;
+
+  dispatch(change("editEmployeeForm", `id`, data.id ?? ""));
+  dispatch(change("editEmployeeForm", `name`, data.name ?? ""));
+  dispatch(change("editEmployeeForm", `phone`, data.phone ?? ""));
+  dispatch(change("editEmployeeForm", `address`, data.address ?? ""));
+  dispatch(change("editEmployeeForm", `branch`, branch ?? ""));
+  dispatch(change("editEmployeeForm", `province`, province ?? ""));
+  dispatch(change("editEmployeeForm", `city`, city ?? ""));
 };

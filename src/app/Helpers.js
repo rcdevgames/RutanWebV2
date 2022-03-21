@@ -22,13 +22,21 @@ export const getBase64 = (img, callback) => {
 };
 
 export const getBase64Image = (imgUrl) => {
-  var canvas = document.createElement("canvas");
-  canvas.width = imgUrl.width;
-  canvas.height = imgUrl.height;
-  var ctx = canvas.getContext("2d");
-  ctx.drawImage(imgUrl, 0, 0);
-  var dataURL = canvas.toDataURL("image/png");
-  return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+  var img = new Image();
+  let base64converted = "";
+  img.crossOrigin = "Anonymous";
+  img.src = imgUrl + "?not-from-cache-please";
+  img.onload = () => {
+    var canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+    var dataURL = canvas.toDataURL("image/png");
+    base64converted = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+    console.log("=== dataURL : ", dataURL);
+  };
+  return base64converted;
 };
 
 export const SelectLocation = [

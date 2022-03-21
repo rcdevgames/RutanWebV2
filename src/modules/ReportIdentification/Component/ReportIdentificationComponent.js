@@ -4,14 +4,14 @@ import { categoryServices } from "../../../app/Helpers";
 import CDatePicker from "../../../components/CDatePicker/CDatePicker";
 import CSelect from "../../../components/CSelect/CSelect";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
-import { PrinterOutlined, SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined } from "@ant-design/icons";
 import CInput from "../../../components/CInput/CInput";
 import { Field } from "redux-form";
 
 // const { Search } = Input;
 
-const ReportServiceRepairComponent = (props) => {
-  const { headers, listServiceRepair, onSearch, enumBranch } = props;
+const ReportIdentificationComponent = (props) => {
+  const { headers, listReportEmployee, onSearch, enumBranch } = props;
 
   return (
     <div class="page-content">
@@ -21,7 +21,7 @@ const ReportServiceRepairComponent = (props) => {
             <div class="card">
               <div class="card-body">
                 <div class="row d-flex justify-content-between mb-2 align-items-center">
-                  <h6 class="ml-3 card-title">Laporan Service Repair</h6>
+                  <h6 class="ml-3 card-title">Laporan Identifikasi</h6>
                 </div>
                 <Divider orientation="left">Keterangan</Divider>
                 <div class="row">
@@ -70,7 +70,7 @@ const ReportServiceRepairComponent = (props) => {
                 <div class="table-responsive">
                   <Table
                     columns={headers}
-                    dataSource={listServiceRepair}
+                    dataSource={listReportEmployee}
                     size={"small"}
                   />
                 </div>
@@ -83,4 +83,4 @@ const ReportServiceRepairComponent = (props) => {
   );
 };
 
-export default ReportServiceRepairComponent;
+export default ReportIdentificationComponent;

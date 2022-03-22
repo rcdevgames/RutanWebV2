@@ -12,6 +12,11 @@ export const initialState = {
   selectedEmployeeData: {},
   selectedRoleEmployee: [],
   formStatus: "add",
+  paging: {
+    page: 1,
+    limit: 10,
+    totalPage: 0,
+  },
 };
 
 export default function employeesReducer(state = initialState, action) {

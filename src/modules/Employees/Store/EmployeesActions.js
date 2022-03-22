@@ -49,9 +49,9 @@ export const setFormStatus = (payload) => {
   };
 };
 
-export const loadEmployeeListData = async () => {
+export const loadEmployeeListData = async (page, limit, keyword = "") => {
   try {
-    const { data } = await Invoke.getEmployeeList(1, 100);
+    const { data } = await Invoke.getEmployeeList(page, limit, keyword);
     store.dispatch(setEmployeeListData(data.callback.data));
     store.dispatch(setGlobalLoading(false));
   } catch (error) {
@@ -118,20 +118,35 @@ export const setAutoPopulateEmployee = async () => {
   );
 };
 
-const doAddEmployeeProcess = async (values, menuSelected) => {
-  const { dispatch } = store;
+const doAddEmployeeProcess = async (values, selectedRoles) => {
+  const { dispatch, getState } = store;
+  dispatch(ComponentActions.setGlobalModal(true));
+  const { page, limit } = getState().employees.paging;
+  const branchId = values.branch.split("|");
+  const provinceId = values.province.split("|");
+  const cityId = values.city.split("|");
+
   try {
-    // const splitDescription = values.description.split(" ");
-    // const payload = {};
-    // payload.name =
-    //   splitDescription.length > 0
-    //     ? values.description.replaceAll(" ", "_")
-    //     : values.description;
-    // payload.description = values.description;
-    // await Invoke.addRole(payload);
-    // showToast("Data Berhasil Disimpan", "success");
-    // getListRolesRequested();
-    // dispatch(ComponentActions.setGlobalModal(false));
+    const payload = {};
+    payload.nik = values.nik;
+    payload.password = values.password;
+    payload.name = values.name;
+    payload.branch_id = branchId[0] ?? "";
+    payload.province_id = provinceId[0] ?? "";
+    payload.city_id = cityId[0] ?? "";
+    payload.phone = values.phone;
+    payload.address = values.address;
+    payload.photo = values.imageUrl;
+
+    await Invoke.addEmployee(payload);
+    // await doSaveEmployeeRole(selectedRoles, "add");
+
+    showToast("Data Berhasil Disimpan", "success");
+    loadEmployeeListData(page, limit);
+    dispatch(ComponentActions.setGlobalModal(false));
+    setTimeout(() => {
+      navigate("/employees");
+    }, 500);
   } catch (error) {
     showToast("Internal Server Error!", "error");
     dispatch(ComponentActions.setGlobalModal(false));
@@ -139,11 +154,39 @@ const doAddEmployeeProcess = async (values, menuSelected) => {
 };
 
 const doEditEmployeeProcess = async (values, roleSelected) => {
-  await doSaveEmployeeRole(roleSelected);
-  showToast("Data Berhasil Disimpan", "success");
-  setTimeout(() => {
-    navigate("/employees");
-  }, 1000);
+  const { dispatch } = store;
+  dispatch(ComponentActions.setGlobalLoading(true));
+  const branchId = values.branch.split("|");
+  const provinceId = values.province.split("|");
+  const cityId = values.city.split("|");
+
+  try {
+    const payload = {};
+    payload.id = values.id;
+    payload.nik = values.nik;
+    payload.password = values.password;
+    payload.name = values.name;
+    payload.branch_id = branchId[0] ?? "";
+    payload.province_id = provinceId[0] ?? "";
+    payload.city_id = cityId[0] ?? "";
+    payload.phone = values.phone;
+    payload.address = values.address;
+    payload.photo = values.imageUrl ?? "";
+    // Save Employee - roles actions
+    if (values.selectedRoles.length > 0) {
+      await doSaveEmployeeRole(values.selectedRoles, "delete-and-add");
+    } else {
+      await doSaveEmployeeRole(values.selectedRoles, "delete-all");
+    }
+    // Save Employee data actions
+    await Invoke.updateEmployee(payload);
+    showToast("Data Berhasil Disimpan", "success");
+    setTimeout(() => {
+      navigate("/employees");
+    }, 1000);
+  } catch (error) {
+    dispatch(ComponentActions.setGlobalLoading(false));
+  }
 };
 
 const doAddEmployeeRoleProcess = async (newRoleId, employeeId) => {
@@ -154,31 +197,58 @@ const doAddEmployeeRoleProcess = async (newRoleId, employeeId) => {
   await Invoke.addEmployeeRole(payload);
 };
 
-const doDeleteEmployeeRoleProcess = async (roleId, roleListApi) => {
-  const [employeeRole] = roleListApi.filter((x) => x.role_id === roleId);
-  await Invoke.deleteEmployeeRole(employeeRole.id);
+const doDeleteAllEmployeeRoleProcess = async (roleListApi) => {
+  roleListApi.data.map(async (item, index) => {
+    await Invoke.deleteEmployeeRole(item.id);
+  });
 };
 
-const doSaveEmployeeRole = async (newRoleSelected) => {
+const doDeleteEmployeeProcess = async (employeeId) => {
   const { getState } = store;
-  const currentRoleSelected = getState().employees.selectedRoleEmployee;
-  const selectedEmployeeId = getState().employees.selectedEmployeeId;
-  const { data } = await Invoke.getEmployeeRoles(selectedEmployeeId, 1, 100);
-  const roleListApi = data.callback;
+  const paging = getState().employees.paging;
+  const { page, limit } = paging;
 
-  if (currentRoleSelected.length > 0) {
-    currentRoleSelected.map(async (item, index) => {
-      await doDeleteEmployeeRoleProcess(item, roleListApi);
-    });
-    setTimeout(() => {
-      newRoleSelected.map(async (newRole, index) => {
-        await doAddEmployeeRoleProcess(newRole, selectedEmployeeId);
+  try {
+    await Invoke.deleteEmployeeById(employeeId);
+    showToast("Data berhasil dihapus", "success");
+    loadEmployeeListData(page, limit);
+  } catch (error) {
+    showToast("Internal Server Error!", "error");
+    console.log("error : ", error);
+  }
+};
+
+const doSaveEmployeeRole = async (newRoleSelected, type) => {
+  const { getState } = store;
+  try {
+    const currentRoleSelected = getState().employees.selectedRoleEmployee;
+    const selectedEmployeeId = getState().employees.selectedEmployeeId;
+    const { data } = await Invoke.getEmployeeRoles(selectedEmployeeId, 1, 100);
+    const roleListApi = data.callback;
+
+    if (type === "delete-all") {
+      await currentRoleSelected.map(async (item, index) => {
+        await doDeleteAllEmployeeRoleProcess(roleListApi);
       });
-    }, 1000);
-  } else {
-    newRoleSelected.map(async (item, index) => {
-      await doAddEmployeeRoleProcess(item, selectedEmployeeId);
-    });
+    } else if (type === "add") {
+      await newRoleSelected.map(async (item, index) => {
+        await doAddEmployeeRoleProcess(item, selectedEmployeeId);
+      });
+    } else {
+      // Check if the user is has been have roles or not
+      if (currentRoleSelected.length > 0) {
+        await doDeleteAllEmployeeRoleProcess(roleListApi);
+        await newRoleSelected.map(async (item, index) => {
+          await doAddEmployeeRoleProcess(item, selectedEmployeeId);
+        });
+      } else {
+        await newRoleSelected.map(async (item, index) => {
+          await doAddEmployeeRoleProcess(item, selectedEmployeeId);
+        });
+      }
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -213,10 +283,38 @@ export const mapDetailEmployeeToForm = async () => {
   const city = `${data.city_id}|${data.city_name}`;
 
   dispatch(change("editEmployeeForm", `id`, data.id ?? ""));
+  dispatch(change("editEmployeeForm", `nik`, data.nik ?? ""));
   dispatch(change("editEmployeeForm", `name`, data.name ?? ""));
   dispatch(change("editEmployeeForm", `phone`, data.phone ?? ""));
   dispatch(change("editEmployeeForm", `address`, data.address ?? ""));
   dispatch(change("editEmployeeForm", `branch`, branch ?? ""));
   dispatch(change("editEmployeeForm", `province`, province ?? ""));
   dispatch(change("editEmployeeForm", `city`, city ?? ""));
+};
+
+export const resetForm = () => {
+  const { dispatch } = store;
+  dispatch(MasterDataActions.setCityListData([]));
+  dispatch(change("editEmployeeForm", `id`, ""));
+  dispatch(change("editEmployeeForm", `name`, ""));
+  dispatch(change("editEmployeeForm", `phone`, ""));
+  dispatch(change("editEmployeeForm", `address`, ""));
+  dispatch(change("editEmployeeForm", `branch`, ""));
+  dispatch(change("editEmployeeForm", `province`, ""));
+  dispatch(change("editEmployeeForm", `city`, ""));
+};
+
+export const deleteEmployeeRequested = async (employeeId) => {
+  const toastrConfirmOptions = {
+    onOk: () => {
+      doDeleteEmployeeProcess(employeeId);
+    },
+    okText: "Ya",
+    cancelText: "Tidak",
+  };
+
+  toastr.confirm(
+    "Apakah Anda Yakin Ingin Menghapus Data Ini?",
+    toastrConfirmOptions
+  );
 };

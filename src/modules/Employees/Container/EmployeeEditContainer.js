@@ -7,6 +7,8 @@ import * as MasterDataActions from "../../MasterData/Store/MasterDataActions";
 import EmployeeEditComponent from "../Component/EmployeeEditComponent";
 import { validateFormEmployee } from "../../../app/validateForm";
 import { store } from "../../../app/ConfigureStore";
+import { getCitiesEnum, navigate } from "../../../app/Helpers";
+import Invoke from "../../../app/axios/Invoke";
 
 const EmployeeEditContainer = (props) => {
   const {
@@ -17,19 +19,13 @@ const EmployeeEditContainer = (props) => {
     branch: { listBranch, paging, keyword },
     employees: { formStatus, selectedEmployeeData, selectedRoleEmployee },
     masters: { listProvince, listCity },
-    setAutoPopulateEmployee,
     handleClearSelectedEmployeeRole,
   } = props;
   const [listCityState, setListCityState] = React.useState([]);
   const [roleSelected, setRoleSelected] = React.useState([]);
   const [defaultImage, setDefaultImage] = React.useState("");
-  const { page, limit } = paging;
 
-  // React.useEffect(() => {
-  //   setAutoPopulateEmployee();
-  //   BranchActions.getBranchListDataRequested(page, limit, keyword);
-  //   MasterDataActions.loadProvinceListData();
-  // }, []);
+  const { page, limit } = paging;
 
   const submitForm = (values) => {
     if (valid) {
@@ -48,7 +44,7 @@ const EmployeeEditContainer = (props) => {
     SelectEmployeeRole.push({
       id: `role-${index}`,
       value: item.id,
-      label: item.description,
+      label: item.name,
     });
   });
 
@@ -86,14 +82,56 @@ const EmployeeEditContainer = (props) => {
       EmployeesActions.mapDetailEmployeeToForm();
       // convert image url to base64
       setDefaultImage(selectedEmployeeData.photo);
+      // set selected roles to redux-form
+      store.dispatch(
+        change("editEmployeeForm", "selectedRoles", selectedRoleEmployee)
+      );
     }
     return () => {
       handleClearSelectedEmployeeRole();
     };
   }, []);
 
-  const onChangeRoleEmployee = (menus) => {
-    setRoleSelected(menus);
+  React.useEffect(() => {
+    setListCityState([]);
+    if (formStatus === "edit" && selectedEmployeeData.province_id) {
+      const provinceId =
+        selectedEmployeeData.province_id +
+        "|" +
+        selectedEmployeeData.province_name;
+      onChangeProvince(provinceId);
+    }
+  }, [formStatus, selectedEmployeeData.province_id]);
+
+  const onChangeRoleEmployee = (roles) => {
+    console.log("=== roles : ", roles);
+    setRoleSelected(roles);
+    store.dispatch(change("editEmployeeForm", "selectedRoles", roles));
+  };
+
+  const onChangeProvince = async (provinceId) => {
+    setListCityState([]);
+    try {
+      if (provinceId) {
+        const splitProvince = provinceId.split("|");
+        const { data } = await Invoke.getCityList(1, 100, splitProvince[0]);
+        const provinceMapping = getCitiesEnum(data.callback.data);
+        setListCityState(provinceMapping);
+      } else {
+        store.dispatch(change("editEmployeeForm", `city`, ""));
+        setListCityState([]);
+      }
+    } catch (error) {
+      setListCityState([]);
+      console.log("Error : ", error);
+    }
+  };
+
+  const onBackAction = async () => {
+    await handleClearSelectedEmployeeRole();
+    setTimeout(() => {
+      navigate("employees");
+    }, 500);
   };
 
   return (
@@ -111,6 +149,8 @@ const EmployeeEditContainer = (props) => {
       selectedRoleEmployee={selectedRoleEmployee}
       onChangeRoleEmployee={onChangeRoleEmployee}
       defaultImage={defaultImage}
+      onChangeProvince={onChangeProvince}
+      onBackAction={onBackAction}
       {...props}
     />
   );

@@ -109,14 +109,15 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(EmployeesActions.setFormStatus("add"));
     await dispatch(EmployeesActions.setSelectedEmployeeId(""));
     await dispatch(EmployeesActions.setSelectedEmployeeData({}));
+    EmployeesActions.resetForm();
     setTimeout(() => {
       navigate("/edit-employee");
     }, 500);
   },
-  //   handlePressDelete: async (roleId) => {
-  //     await dispatch(RolesActions.setSelectedRoleId(roleId));
-  //     RolesActions.deleteRoleRequested(roleId);
-  //   },
+  handlePressDelete: async (employeeId) => {
+    await dispatch(EmployeesActions.setSelectedEmployeeId(employeeId));
+    EmployeesActions.deleteEmployeeRequested(employeeId);
+  },
 });
 
 const EnhanceContainer = connect(

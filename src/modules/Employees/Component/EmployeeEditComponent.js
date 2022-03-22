@@ -10,7 +10,7 @@ import {
   EditOutlined,
 } from "@ant-design/icons";
 import { Checkbox, Col, message, Row, Typography, Upload } from "antd";
-import { getBase64, navigate } from "../../../app/Helpers";
+import { getBase64 } from "../../../app/Helpers";
 
 const SelectRole = (props) => {
   const { data, defaultValues, onChangeRoleEmployee } = props;
@@ -61,6 +61,8 @@ const EmployeeEditComponent = (props) => {
     onChangeRoleEmployee,
     handleUploadPhoto,
     defaultImage,
+    onChangeProvince,
+    onBackAction,
   } = props;
 
   const [loading, setLoading] = React.useState(false);
@@ -122,8 +124,8 @@ const EmployeeEditComponent = (props) => {
                   <div class="row">
                     <div class="col-md-6">
                       <Field
-                        name={"name"}
-                        label="Nama Karyawan"
+                        name="nik"
+                        label="NIK"
                         placeholder="-"
                         component={CInput}
                         type="text"
@@ -134,6 +136,26 @@ const EmployeeEditComponent = (props) => {
                         data={enumProvince}
                         name="province"
                         label="Nama Provinsi"
+                        onChange={(val) => onChangeProvince(val)}
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <Field
+                        name={"name"}
+                        label="Nama Karyawan"
+                        placeholder="-"
+                        component={CInput}
+                        type="text"
+                      />
+                    </div>
+                    <div class="col-md-6">
+                      <CSelect
+                        name="city"
+                        data={enumCity}
+                        label="Kota/Kabupaten"
+                        disabled={enumCity.length <= 0}
                       />
                     </div>
                   </div>
@@ -145,13 +167,6 @@ const EmployeeEditComponent = (props) => {
                         placeholder="-"
                         component={CInput}
                         type="text"
-                      />
-                    </div>
-                    <div class="col-md-6">
-                      <CSelect
-                        name="city"
-                        data={enumCity}
-                        label="Kota/Kabupaten"
                       />
                     </div>
                   </div>
@@ -183,7 +198,10 @@ const EmployeeEditComponent = (props) => {
                       </Typography>
                       <div
                         class="card-body"
-                        style={{ marginLeft: -22, marginTop: -20 }}
+                        style={{
+                          marginLeft: -22,
+                          marginTop: -20,
+                        }}
                       >
                         <Upload
                           name="avatar"
@@ -242,7 +260,7 @@ const EmployeeEditComponent = (props) => {
                       key="submit"
                       type="primary"
                       loading={false}
-                      onClick={() => navigate("employees")}
+                      onClick={onBackAction}
                       danger
                       icon={<ArrowLeftOutlined />}
                     >

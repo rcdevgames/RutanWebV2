@@ -68,7 +68,7 @@ const doAddFormCategoryProcess = async (values) => {
   try {
     const payload = {};
     payload.name = values.name;
-    payload.description = "none";
+    payload.description = values.description ?? "none";
     await Invoke.addFormCategory(payload);
     showToast("Data Berhasil Disimpan", "success");
     getFormCatgeoryListDataRequested(page, limit);
@@ -104,6 +104,7 @@ const doEditFormCategoryProcess = async (values) => {
 export const resetForm = async () => {
   const { dispatch } = store;
   dispatch(change("editFormCategory", `id`, ""));
+  dispatch(change("editFormCategory", `name`, ""));
   dispatch(change("editFormCategory", `description`, ""));
 };
 
@@ -112,6 +113,7 @@ export const mapDetailCategoryToForm = async () => {
   const data = getState().formCategory.selectedFormCategoryData;
   dispatch(change("editFormCategory", `id`, data.id ?? ""));
   dispatch(change("editFormCategory", `name`, data.name ?? ""));
+  dispatch(change("editFormCategory", `description`, data.description ?? ""));
 };
 
 export const getFormCatgeoryListDataRequested = async (

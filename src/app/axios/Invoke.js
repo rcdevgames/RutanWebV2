@@ -108,7 +108,7 @@ Invoke.deleteCustomerById = (customerId) => {
 // === End Customers API ===
 
 // === Employee API === :
-Invoke.getEmployeeList = (page, limit, keyword = "") => {
+Invoke.getEmployeeList = (page, limit, keyword) => {
   return ConfigAxios.get(`/employees?page=${page}&limit=${limit}&q=${keyword}`);
 };
 
@@ -125,7 +125,7 @@ Invoke.updateEmployee = (data) => {
 };
 
 Invoke.deleteEmployeeById = (employeeId) => {
-  return ConfigAxios.delete(`/employees/${employeeId}`);
+  return ConfigAxios.delete(`/employees/${employeeId}`, headersConfigDelete);
 };
 // === End employee API ===
 
@@ -434,14 +434,7 @@ Invoke.getReportServiceRepair = (
 };
 
 // Report Employee
-Invoke.getReportEmployee = (
-  page,
-  limit,
-  from,
-  until,
-  keyword,
-  branchId
-) => {
+Invoke.getReportEmployee = (page, limit, from, until, keyword, branchId) => {
   return ConfigAxios.get(
     `/report/report_employee?from=${from}&until=${until}&page=${page}&limit=${limit}&branchId=${branchId}&q=${keyword}`
   );

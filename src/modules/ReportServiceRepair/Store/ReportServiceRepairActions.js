@@ -31,7 +31,6 @@ export const getServiceRepairListDataRequested = async (
   page = 1,
   limit = 999999,
   keyword = "",
-  type = "all",
   branchId = "",
   from = moment().format("YYYY-MM-DD").toString(),
   until = moment().format("YYYY-MM-DD").toString()
@@ -55,12 +54,10 @@ export const getServiceRepairListDataRequested = async (
 
     const newListServiceRepair = [];
 
-    if (data.message.length > 0) {
-      data.message.map((item, index) => {
-        item.data.map((itemData, indexData) => {
-          newListServiceRepair.push({
-            ...itemData,
-          });
+    if (data.callback.length > 0) {
+      data.callback.map((item, index) => {
+        newListServiceRepair.push({
+          ...item,
         });
       });
     }

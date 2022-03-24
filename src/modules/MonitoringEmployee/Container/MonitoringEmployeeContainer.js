@@ -72,7 +72,7 @@ const MonitoringEmployeeContainer = (props) => {
         let color = jobType === "loss" ? "#f50" : "#f50";
         return (
           <Tag style={{ width: 115, textAlign: "center" }} color={color}>
-            {jobType.toUpperCase()}
+            {jobType ? jobType.toUpperCase() : "-"}
           </Tag>
         );
       },

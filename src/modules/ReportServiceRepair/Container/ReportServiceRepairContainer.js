@@ -201,11 +201,12 @@ const mapStateToProps = (state) => ({
   serviceRepairFormValues: getFormValues("serviceRepairForm")(state),
 });
 const mapDispatchToProps = (dispatch) => ({
-  getListServiceRepair: (page, limit, keyword, from, until) =>
+  getListServiceRepair: (page, limit, keyword, branch, from, until) =>
     ReportServiceRepairActions.getServiceRepairListDataRequested(
       page,
       limit,
       keyword,
+      branch,
       from,
       until
     ),

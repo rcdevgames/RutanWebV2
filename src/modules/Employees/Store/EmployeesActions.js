@@ -13,6 +13,7 @@ export const SET_SELECTED_EMPLOYEE_ID = "SET_SELECTED_EMPLOYEE_ID";
 export const SET_SELECTED_EMPLOYEE_DATA = "SET_SELECTED_EMPLOYEE_DATA";
 export const SET_FORM_STATUS = "SET_FORM_STATUS";
 export const SET_SELECTED_ROLE_EMPLOYEE = "SET_SELECTED_ROLE_EMPLOYEE";
+export const SET_PAGING_EMPLOYEES = "SET_PAGING_EMPLOYEES";
 
 export const setEmployeeListData = (payload) => {
   return {
@@ -49,10 +50,22 @@ export const setFormStatus = (payload) => {
   };
 };
 
+export const setPagingEmployees = (payload) => {
+  return {
+    type: SET_PAGING_EMPLOYEES,
+    payload,
+  };
+};
+
 export const loadEmployeeListData = async (page, limit, keyword = "") => {
   try {
     const { data } = await Invoke.getEmployeeList(page, limit, keyword);
+    const paging = {};
+    paging.page = data.callback.page;
+    paging.limit = data.callback.limit;
+    paging.totalPage = data.callback.totalPage;
     store.dispatch(setEmployeeListData(data.callback.data));
+    store.dispatch(setPagingEmployees(paging));
     store.dispatch(setGlobalLoading(false));
   } catch (error) {
     store.dispatch(setGlobalLoading(false));

@@ -63,6 +63,7 @@ const EmployeeEditComponent = (props) => {
     defaultImage,
     onChangeProvince,
     onBackAction,
+    formStatus,
   } = props;
 
   const [loading, setLoading] = React.useState(false);
@@ -180,16 +181,18 @@ const EmployeeEditComponent = (props) => {
                         typeComponent="textarea"
                       />
                       <hr />
-                      <div class="card">
-                        <div class="card-body">
-                          <h6 class="card-title text-center">Pilih Role</h6>
-                          <SelectRole
-                            data={enumRole}
-                            defaultValues={selectedRoleEmployee}
-                            onChangeRoleEmployee={onChangeRoleEmployee}
-                          />
+                      {formStatus === "edit" && (
+                        <div class="card">
+                          <div class="card-body">
+                            <h6 class="card-title text-center">Pilih Role</h6>
+                            <SelectRole
+                              data={enumRole}
+                              defaultValues={selectedRoleEmployee}
+                              onChangeRoleEmployee={onChangeRoleEmployee}
+                            />
+                          </div>
                         </div>
-                      </div>
+                      )}
                       <br />
                     </div>
                     <div class="col-md-6">

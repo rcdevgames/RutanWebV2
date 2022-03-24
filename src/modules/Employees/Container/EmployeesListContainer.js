@@ -9,19 +9,21 @@ import * as MasterDataActions from "../../MasterData/Store/MasterDataActions";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import EmployeesListComponent from "../Component/EmployeesListComponent";
-import { navigate } from "../../../app/Helpers";
+import { getIndex, navigate } from "../../../app/Helpers";
+import { store } from "../../../app/ConfigureStore";
 
 const EmployeesListContainer = (props) => {
   const {
     getListEmployees,
     handlePressEdit,
     handlePressDelete,
-    employees: { listEmployees },
+    employees: { listEmployees, paging },
   } = props;
+  const { page, limit, totalPage } = paging;
 
   if (listEmployees.length > 0) {
     listEmployees.map((item, index) => {
-      listEmployees[index] = { ...item, no: index + 1 };
+      listEmployees[index] = { ...item, no: getIndex(page, limit)[index] };
     });
   }
 
@@ -75,14 +77,30 @@ const EmployeesListContainer = (props) => {
   );
 
   React.useEffect(() => {
-    getListEmployees();
+    getListEmployees(page, limit);
   }, []);
+
+  const onChangePagination = async (nextPage, pageSize) => {
+    const paging = {};
+    paging.page = nextPage;
+    paging.limit = pageSize;
+    paging.totalPage = totalPage;
+    await store.dispatch(EmployeeActions.setPagingEmployees(paging));
+    getListEmployees(nextPage, pageSize);
+  };
+
+  const onSearch = (val) => {
+    getListEmployees(page, limit, val);
+  };
 
   return (
     <EmployeesListComponent
       headers={headers}
       listEmployees={listEmployees}
       renderActionTable={renderActionTable}
+      paging={paging}
+      onChangePagination={onChangePagination}
+      onSearch={onSearch}
       {...props}
     />
   );
@@ -92,7 +110,8 @@ const mapStateToProps = (state) => ({
   employees: state.employees,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getListEmployees: () => EmployeeActions.loadEmployeeListData(),
+  getListEmployees: (page, limit, keyword) =>
+    EmployeeActions.loadEmployeeListData(page, limit, keyword),
   handlePressEdit: async (employee) => {
     dispatch(ComponentActions.setGlobalLoading(true));
     dispatch(EmployeeActions.setFormStatus("edit"));

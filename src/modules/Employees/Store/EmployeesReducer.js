@@ -4,6 +4,7 @@ import {
   SET_SELECTED_EMPLOYEE_DATA,
   SET_FORM_STATUS,
   SET_SELECTED_ROLE_EMPLOYEE,
+  SET_PAGING_EMPLOYEES,
 } from "./EmployeesActions";
 
 export const initialState = {
@@ -41,6 +42,10 @@ export default function employeesReducer(state = initialState, action) {
 
     case SET_FORM_STATUS:
       newState.formStatus = action.payload;
+      return { ...newState };
+
+    case SET_PAGING_EMPLOYEES:
+      newState.paging = { ...state.paging, ...action.payload };
       return { ...newState };
   }
 

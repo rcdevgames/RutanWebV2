@@ -7,7 +7,7 @@ export const navigate = (path) => {
 
 export const getIndex = (currentpage, limit) => {
   const pageNumbers = [];
-  const startIndex = currentpage * limit - limit;
+  const startIndex = currentpage * limit - limit + 1;
   const endIndex = startIndex + limit;
   for (let i = startIndex === 0 ? 1 : startIndex; i <= endIndex; i++) {
     pageNumbers.push(i);

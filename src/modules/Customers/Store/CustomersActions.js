@@ -76,10 +76,16 @@ export const loadCustomerListData = async () => {
 export const getCustomerListDataByPaging = async (
   page,
   limit,
-  keyword = ""
+  keyword = "",
+  branchId = ""
 ) => {
   try {
-    const { data } = await Invoke.getCustomerList(page, limit, keyword);
+    const { data } = await Invoke.getCustomerList(
+      page,
+      limit,
+      keyword,
+      branchId
+    );
     const paging = {};
     paging.page = data.callback.page;
     paging.limit = data.callback.limit;

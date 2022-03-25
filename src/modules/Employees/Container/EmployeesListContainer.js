@@ -40,14 +40,14 @@ const EmployeesListContainer = (props) => {
       dataIndex: "nik",
       key: "nik",
       width: "20%",
-      sorter: (a, b) => a.no - b.no,
+      sorter: (a, b) => a.nik - b.nik,
     },
     {
       title: "Nama Karyawan",
       dataIndex: "name",
       key: "name",
       width: "30%",
-      sorter: (a, b) => a.description.length - b.description.length,
+      sorter: (a, b) => a.name - b.name,
     },
     {
       title: "Nomor Telepon",
@@ -83,7 +83,7 @@ const EmployeesListContainer = (props) => {
   const onChangePagination = async (nextPage, pageSize) => {
     const paging = {};
     paging.page = nextPage;
-    paging.limit = pageSize;
+    paging.limit = pageSize ;
     paging.totalPage = totalPage;
     await store.dispatch(EmployeeActions.setPagingEmployees(paging));
     getListEmployees(nextPage, pageSize);

@@ -87,8 +87,10 @@ Invoke.deleteEmployeeRole = (id) => {
 // === End Employee - Roles API ===
 
 // === Customers API ===
-Invoke.getCustomerList = (page, limit, keyword = "") => {
-  return ConfigAxios.get(`/customers?page=${page}&limit=${limit}&q=${keyword}`);
+Invoke.getCustomerList = (page, limit, keyword, branchId) => {
+  return ConfigAxios.get(
+    `/customers?page=${page}&limit=${limit}&q=${keyword}&branchId=${branchId}`
+  );
 };
 Invoke.getCustomerById = (customerId) => {
   return ConfigAxios.get(`/customers/${customerId}`);

@@ -4,6 +4,7 @@ import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import CTableAntd from "../../../components/CTable/CTableAntd";
 import { PlusOutlined } from "@ant-design/icons";
 import CustomerModalContainer from "../Container/CustomerModalContainer";
+import CSelect from "../../../components/CSelect/CSelect";
 
 const { Search } = Input;
 
@@ -16,6 +17,7 @@ const CustomerComponent = (props) => {
     onChangePagination,
     paging,
     onSearch,
+    enumBranch,
   } = props;
 
   const pagination = {
@@ -34,6 +36,15 @@ const CustomerComponent = (props) => {
               <div class="card-body">
                 <div class="row d-flex justify-content-between mb-2 align-items-center">
                   <h6 class="ml-3 card-title">Data Customer</h6>
+                </div>
+                <div class="row align-items-center">
+                  <div class="col-md-3">
+                    <CSelect
+                      data={enumBranch ?? []}
+                      name="branch"
+                      label="Cabang"
+                    />
+                  </div>
                 </div>
                 <div class="row d-flex justify-content-between mb-2">
                   <div class="col-md-7">

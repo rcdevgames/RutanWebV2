@@ -1,7 +1,7 @@
 import { Space } from "antd";
 import React from "react";
 import { connect } from "react-redux";
-import { reduxForm } from "redux-form";
+import { formValueSelector, reduxForm } from "redux-form";
 import * as CustomerActions from "../Store/CustomersActions";
 import * as BranchActions from "../../Branch/Store/BranchActions";
 import * as MasterDataActions from "../../MasterData/Store/MasterDataActions";
@@ -12,6 +12,8 @@ import CustomerComponent from "../Component/CustomerComponent";
 import { store } from "../../../app/ConfigureStore";
 import { getIndex } from "../../../app/Helpers";
 
+const selector = formValueSelector("customerForm");
+
 const CustomerContainer = (props) => {
   const {
     getListCustomer,
@@ -20,10 +22,21 @@ const CustomerContainer = (props) => {
     handlePressEdit,
     handlePressDelete,
     handlePressAddNew,
+    customerBranchValue,
     customers: { listCustomers, paging, keyword },
+    branch: { listBranch },
   } = props;
 
   const { page, totalPage, limit } = paging;
+
+  const SelectBranch = [];
+  listBranch.map((item, index) => {
+    SelectBranch.push({
+      id: `branch-${index}`,
+      value: item.id,
+      label: item.name,
+    });
+  });
 
   if (listCustomers.length > 0) {
     listCustomers.map((item, index) => {
@@ -104,6 +117,10 @@ const CustomerContainer = (props) => {
     getListCustomer(nextPage, limit, keyword);
   };
 
+  const onSearch = (val) => {
+    getListCustomer(page, limit, val, customerBranchValue);
+  };
+
   return (
     <CustomerComponent
       headers={headers}
@@ -112,6 +129,8 @@ const CustomerContainer = (props) => {
       renderActionTable={renderActionTable}
       handlePressAddNew={handlePressAddNew}
       onChangePagination={onChangePagination}
+      enumBranch={SelectBranch}
+      onSearch={onSearch}
       {...props}
     />
   );
@@ -119,10 +138,19 @@ const CustomerContainer = (props) => {
 
 const mapStateToProps = (state) => ({
   customers: state.customers,
+  branch: state.branch,
+  customerBranchValue: selector(state, "branch"),
 });
 const mapDispatchToProps = (dispatch) => ({
-  getListCustomer: (page, limit, keyword) =>
-    CustomerActions.getCustomerListDataByPaging(page, limit, keyword),
+  getListCustomer: (page, limit, keyword, branchId) => {
+    const splitBranch = branchId ? branchId.split("|") : [""];
+    CustomerActions.getCustomerListDataByPaging(
+      page,
+      limit,
+      keyword,
+      splitBranch[0]
+    );
+  },
   getListBranch: () => BranchActions.getBranchListDataRequested(1, 250),
   getListProvince: () => MasterDataActions.loadProvinceListData(),
   handlePressAddNew: async () => {

@@ -18,9 +18,19 @@ export const SET_SELECTED_SERVICES_DAILIES_DATA =
 export const SET_SELECTED_SERVICES_HISTORIES_DATA =
   "SET_SELECTED_SERVICES_HISTORIES_DATA";
 
+export const SET_SELECTED_SERVICES_CHECKLIST_DATA =
+  "SET_SELECTED_SERVICES_CHECKLIST_DATA";
+
 export const setSelectedServicesEmployeeListData = (payload) => {
   return {
     type: SET_SELECTED_SERVICES_EMPLOYEE_LIST_DATA,
+    payload,
+  };
+};
+
+export const setSelectedServicesChecklisttData = (payload) => {
+  return {
+    type: SET_SELECTED_SERVICES_CHECKLIST_DATA,
     payload,
   };
 };
@@ -95,6 +105,12 @@ export const getJobServiceHistories = async (jobId, keyword = "") => {
   dispatch(setSelectedServiceHistoriesData(data.callback.logs));
 };
 
+export const getChecklistData = async (jobId) => {
+  const { dispatch } = store;
+  const { data } = await Invoke.getChecklistData(jobId);
+  dispatch(setSelectedServicesChecklisttData(data.callback.data));
+};
+
 export const handleAddNewEmployeeService = async (jobId, employeeId) => {
   const { dispatch } = store;
   try {
@@ -129,6 +145,4 @@ export const setStatusEmployee = async (
   }, 500);
 };
 
-export const generatePDF = () => {
-  
-}
+export const generatePDF = () => {};

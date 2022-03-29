@@ -16,11 +16,13 @@ export const exportDetailServicePdf = (data) => {
     selectedServiceMedia,
     selectedServiceDailies,
     selectedServiceHistories,
+    selectedServiceChecklist,
   } = data;
   const startDate = moment(selectedJobService.start).format("YYYY-MM-DD");
   const dueDate = moment(selectedJobService.due).format("YYYY-MM-DD");
   const employeeList = [];
   const dailyList = [];
+  const checklistData = [];
 
   selectedServiceEmployeeList.map((item, index) => {
     employeeList.push({
@@ -31,6 +33,10 @@ export const exportDetailServicePdf = (data) => {
       address: item.address,
       startDate: item.created_date,
     });
+  });
+
+  selectedServiceChecklist.map((item, index) => {
+    checklistData.push({});
   });
 
   selectedServiceDailies.map((item, index) => {
@@ -106,23 +112,27 @@ export const exportDetailServicePdf = (data) => {
       { header: "Tanggal Mulai", dataKey: "startDate" },
     ],
   });
+  const employeeDistance = employeeList.length ? employeeList.length * 10 : 10;
 
   // === Checklist ===
   if (selectedJobService.is_external) {
     doc.setFontSize(16);
     doc.setFont("Times-Roman", "regular");
-    const employeeDistance = employeeList.length * 10;
-    doc.text("Checklist", 20, 110 + employeeDistance);
-    doc.line(20, 117 + employeeDistance, 200, 117 + employeeDistance);
-    doc.addPage();
+    console.log(" ==== employeeDistance : ", employeeDistance);
+    doc.text("Checklist", 20, 130 + employeeDistance);
+    doc.line(20, 137 + employeeDistance, 200, 137 + employeeDistance);
+    // doc.addPage();
   }
 
   // Gambar - Gambar
   doc.setFontSize(16);
   doc.setFont("Times-Roman", "regular");
-  const employeeDistance = employeeList.length * 10;
-  doc.text("Gambar - Gambar", 20, 110 + employeeDistance);
-  doc.line(20, 117 + employeeDistance, 200, 117 + employeeDistance);
+  const checklistDistance = checklistData.length
+    ? checklistData.length * 10
+    : 10;
+  const totalImageDistance = checklistDistance + employeeDistance;
+  doc.text("Gambar - Gambar", 20, 137 + totalImageDistance);
+  doc.line(20, 144 + totalImageDistance, 200, 144 + totalImageDistance);
 
   // Catatan Teknisi
   doc.addPage();

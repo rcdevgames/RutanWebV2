@@ -37,6 +37,7 @@ const DetailServiceTransactionContainer = (props) => {
       selectedServiceMedia,
       selectedServiceDailies,
       selectedServiceHistories,
+      selectedServiceChecklist,
     },
   } = props;
 
@@ -47,6 +48,7 @@ const DetailServiceTransactionContainer = (props) => {
     selectedServiceMedia,
     selectedServiceDailies,
     selectedServiceHistories,
+    selectedServiceChecklist,
   };
 
   const TabPanel = [
@@ -97,7 +99,7 @@ const DetailServiceTransactionContainer = (props) => {
 
   if (selectedJobService.is_external) {
     TabPanel.push({
-      key: "panel-1",
+      key: "panel-checklist",
       title: "Checklist",
       icon: <CheckCircleOutlined />,
       component: <Panel1 title="Checklist" />,
@@ -124,6 +126,10 @@ const DetailServiceTransactionContainer = (props) => {
 
       case "panel-histories":
         DetailServiceActions.getJobServiceHistories(selectedJobService.id);
+        break;
+
+      case "panel-checklist":
+        DetailServiceActions.getChecklistData(selectedJobService.id);
         break;
 
       default:

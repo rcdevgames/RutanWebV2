@@ -224,6 +224,9 @@ Invoke.getJobServiceMedia = (jobId) => {
 Invoke.getJobServiceDailies = (jobId) => {
   return ConfigAxios.get(`/services/dailies/${jobId}`);
 };
+Invoke.getChecklistData = (jobId) => {
+  return ConfigAxios.get(`/services/checklists/${jobId}`);
+};
 Invoke.getJobServiceHistories = (jobId, page, limit, keyword) => {
   return ConfigAxios.get(
     `/services/logs/${jobId}?page=${page}&limit=${limit}&q=${keyword}`

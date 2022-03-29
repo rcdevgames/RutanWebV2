@@ -1,13 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 import { getFormValues, reduxForm } from "redux-form";
-import { EditOutlined } from "@ant-design/icons";
-import { enumTypeMonitoringEmployee } from "../../../app/Helpers";
+import { EditOutlined, BookOutlined } from "@ant-design/icons";
+import { enumTypeMonitoringEmployee, getStatus } from "../../../app/Helpers";
 import * as ReportServiceRepairActions from "../Store/ReportServiceRepairActions";
 import Text from "antd/lib/typography/Text";
 import { Space, Tag } from "antd";
 import ReportServiceRepairComponent from "../Component/ReportServiceRepairComponent";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
+import moment from "moment";
 
 const ReportServiceRepairContainer = (props) => {
   const {
@@ -34,7 +35,7 @@ const ReportServiceRepairContainer = (props) => {
           handlePressEdit(record);
         }}
         type="primary"
-        icon={<EditOutlined />}
+        icon={<BookOutlined />}
         size="middle"
       />
     </Space>
@@ -126,41 +127,48 @@ const ReportServiceRepairContainer = (props) => {
     },
     {
       title: "Due date",
-      dataIndex: "due_date",
-      key: "due_date",
+      dataIndex: "due",
+      key: "due",
       width: "15%",
-      sorter: (a, b) => a.due_date.length - b.due_date.length,
+      sorter: (a, b) => a.due.length - b.due.length,
+      render: (due) => (
+        <Text>{due ? moment(due).format("YYYY-MM-DD") : "0000-00-00"}</Text>
+      ),
     },
     {
       title: "Status",
       dataIndex: "status",
       key: "status",
       render: (status) => {
-        let color = status === "Progress" ? "#108ee9" : "#f50";
+        let color = getStatus(status).color;
         return (
           <Tag
             style={{ width: 80, textAlign: "center" }}
             color={color}
             key={status}
           >
-            {status ? status.toUpperCase() : "-"}
+            {status ? getStatus(status).value : "-"}
           </Tag>
         );
       },
     },
     {
       title: "Dibuat",
-      dataIndex: "created_date",
-      key: "created_date",
-      width: "15%",
+      dataIndex: "start",
+      key: "start",
+      width: 500,
+      render: (start) => (
+        <Text>{start ? moment(start).format("YYYY-MM-DD") : "0000-00-00"}</Text>
+      ),
       sorter: (a, b) => a.created_date.length - b.created_date.length,
     },
     {
       align: "center",
       title: "Aksi",
       key: "action",
-      width: "30%",
+      width: 200,
       render: renderActionTable,
+      fixed: "right",
     },
   ];
 

@@ -4,6 +4,7 @@ import {
   SET_SELECTED_SERVICES_MEDIA_DATA,
   SET_SELECTED_SERVICES_DAILIES_DATA,
   SET_SELECTED_SERVICES_HISTORIES_DATA,
+  SET_SELECTED_SERVICES_CHECKLIST_DATA,
 } from "./DetailServiceTransactionAction";
 
 export const initialState = {
@@ -12,6 +13,7 @@ export const initialState = {
   selectedServiceMedia: [],
   selectedServiceDailies: [],
   selectedServiceHistories: [],
+  selectedServiceChecklist: [],
 };
 
 export default function detailServiceTransactionReducer(
@@ -35,6 +37,9 @@ export default function detailServiceTransactionReducer(
       return { ...newState };
     case SET_SELECTED_SERVICES_HISTORIES_DATA:
       newState.selectedServiceHistories = action.payload;
+      return { ...newState };
+    case SET_SELECTED_SERVICES_CHECKLIST_DATA:
+      newState.selectedServiceChecklist = action.payload;
       return { ...newState };
   }
 

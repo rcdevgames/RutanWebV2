@@ -77,6 +77,13 @@ Invoke.getEmployeeRoles = (employeeId, page, limit) => {
   );
 };
 
+// === Employee - Tools API : ===
+Invoke.getEmployeeTools = (employeeId, page, limit) => {
+  return ConfigAxios.get(
+    `/employees/tools/${employeeId}?page=${page}&limit=${limit}`
+  );
+};
+
 Invoke.addEmployeeRole = (data) => {
   return ConfigAxios.post(`/employees/roles`, data);
 };

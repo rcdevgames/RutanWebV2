@@ -1,12 +1,6 @@
-import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import moment from "moment";
-
-const columns = [
-  { header: "Europe", dataKey: "europe" },
-  { header: "Asia", dataKey: "asia" },
-];
 
 export const exportDetailServicePdf = (data) => {
   const {
@@ -118,7 +112,6 @@ export const exportDetailServicePdf = (data) => {
   if (selectedJobService.is_external) {
     doc.setFontSize(16);
     doc.setFont("Times-Roman", "regular");
-    console.log(" ==== employeeDistance : ", employeeDistance);
     doc.text("Checklist", 20, 130 + employeeDistance);
     doc.line(20, 137 + employeeDistance, 200, 137 + employeeDistance);
     // doc.addPage();
@@ -133,6 +126,9 @@ export const exportDetailServicePdf = (data) => {
   const totalImageDistance = checklistDistance + employeeDistance;
   doc.text("Gambar - Gambar", 20, 137 + totalImageDistance);
   doc.line(20, 144 + totalImageDistance, 200, 144 + totalImageDistance);
+  selectedServiceMedia.map((item, index) => {
+    doc.addImage(item.path, "JPEG", 10, 30, 150, 76);
+  });
 
   // Catatan Teknisi
   doc.addPage();

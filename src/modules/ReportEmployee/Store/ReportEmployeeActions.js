@@ -31,7 +31,6 @@ export const getReportEmployeeDataRequested = async (
   page = 1,
   limit = 999999,
   keyword = "",
-  type = "all",
   branchId = "",
   from = moment().format("YYYY-MM-DD").toString(),
   until = moment().format("YYYY-MM-DD").toString()
@@ -55,8 +54,8 @@ export const getReportEmployeeDataRequested = async (
 
     const newReportEmployee = [];
 
-    if (data.message.length > 0) {
-      data.message.map((item, index) => {
+    if (data.callback.length > 0) {
+      data.callback.map((item, index) => {
         item.data.map((itemData, indexData) => {
           newReportEmployee.push({
             ...itemData,

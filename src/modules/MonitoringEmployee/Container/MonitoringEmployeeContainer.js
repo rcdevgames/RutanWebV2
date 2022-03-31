@@ -7,6 +7,8 @@ import { enumTypeMonitoringEmployee } from "../../../app/Helpers";
 import MonitoringEmployeeComponent from "../Component/MonitoringEmployeeComponent";
 import Text from "antd/lib/typography/Text";
 import { Tag } from "antd";
+import { exportMonitoringEmployeePdf } from "../Store/MonitoringEmployeeReport";
+import moment from "moment";
 
 const MonitoringEmployeeContainer = (props) => {
   const {
@@ -19,6 +21,11 @@ const MonitoringEmployeeContainer = (props) => {
 
   const { page, limit, totalPage } = paging;
 
+  console.log(
+    "=== monitoringEmployeeFormValues : ",
+    monitoringEmployeeFormValues
+  );
+
   if (listMonitoringEmployee.length > 0) {
     listMonitoringEmployee.map((item, index) => {
       listMonitoringEmployee[index] = {
@@ -27,6 +34,12 @@ const MonitoringEmployeeContainer = (props) => {
       };
     });
   }
+
+  const printedData = {
+    listMonitoringEmployee,
+    from: moment(),
+    until: moment(),
+  };
 
   const headers = [
     {
@@ -150,6 +163,10 @@ const MonitoringEmployeeContainer = (props) => {
     MonitoringEmployeeActions.handleSearch(monitoringEmployeeFormValues);
   };
 
+  const handlePressGeneratePdf = () => {
+    exportMonitoringEmployeePdf(printedData);
+  };
+
   return (
     <MonitoringEmployeeComponent
       headers={headers}
@@ -160,6 +177,7 @@ const MonitoringEmployeeContainer = (props) => {
       enumTypeReport={enumTypeMonitoringEmployee}
       enumBranch={SelectBranch}
       onSearch={onSearch}
+      handlePressGeneratePdf={handlePressGeneratePdf}
       // onShowSizeChange={onShowSizeChange}
       {...props}
     />

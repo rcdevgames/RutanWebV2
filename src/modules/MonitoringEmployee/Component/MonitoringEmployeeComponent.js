@@ -19,6 +19,7 @@ const MonitoringEmployeeComponent = (props) => {
     onSearch,
     enumBranch,
     enumTypeReport,
+    handlePressGeneratePdf,
   } = props;
 
   const pagination = {
@@ -92,7 +93,7 @@ const MonitoringEmployeeComponent = (props) => {
                       </CButtonAntd>
                       <div class="ml-2" />
                       <CButtonAntd
-                        // onClick={handlePressGeneratePdf}
+                        onClick={handlePressGeneratePdf}
                         type="primary"
                         icon={<PrinterOutlined />}
                         size="middle"

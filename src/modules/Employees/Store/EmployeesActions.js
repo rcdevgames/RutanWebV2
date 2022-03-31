@@ -73,6 +73,19 @@ export const loadEmployeeListData = async (page, limit, keyword = "") => {
   }
 };
 
+export const getEmployeeToolsRequested = (employeeId, page, limit) => {
+  try {
+    const { data } = Invoke.getEmployeeTools(employeeId, page, limit);
+    const paging = {};
+    paging.page = data.callback.page;
+    paging.limit = data.callback.limit;
+    paging.totalPage = data.callback.totalPage;
+    store.dispatch(setPagingEmployees(paging));
+  } catch (error) {
+    console.log("error : ", error);
+  }
+};
+
 export const getEmployeeDataByIdRequested = async (employeeId) => {
   try {
     const { data } = await Invoke.getEmployeeById(employeeId);

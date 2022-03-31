@@ -130,7 +130,7 @@ const ListServicesContainer = (props) => {
         let color = status === "Progress" ? "#108ee9" : "#f50";
         return (
           <Tag
-            style={{ width: 80, textAlign: "center" }}
+            style={{ width: 90, textAlign: "center" }}
             color={color}
             key={status}
           >

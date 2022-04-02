@@ -117,8 +117,17 @@ Invoke.deleteCustomerById = (customerId) => {
 // === End Customers API ===
 
 // === Employee API === :
-Invoke.getEmployeeList = (page, limit, keyword) => {
-  return ConfigAxios.get(`/employees?page=${page}&limit=${limit}&q=${keyword}`);
+Invoke.getEmployeeList = (
+  page,
+  limit,
+  keyword,
+  roleId,
+  branchId,
+  divisionId
+) => {
+  return ConfigAxios.get(
+    `/employees?page=${page}&limit=${limit}&q=${keyword}&role_id=${roleId}&branch_id=${branchId}&division_id=${divisionId}`
+  );
 };
 
 Invoke.getEmployeeById = (employeeId) => {
@@ -414,6 +423,11 @@ Invoke.deleteIdentificationById = (identificationId) => {
     `/identifications/${identificationId}`,
     headersConfigDelete
   );
+};
+
+// === Master Dvision API === :
+Invoke.getDivisionList = (page, limit, keyword) => {
+  return ConfigAxios.get(`divisions?page=${page}&limit=${limit}&q=${keyword}`);
 };
 
 // Monitoring Employee

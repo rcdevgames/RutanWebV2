@@ -78,7 +78,7 @@ export const getMonitoringEmployeeListDataRequested = async (
 
 export const handleSearch = async (values) => {
   const { getState } = store;
-  const { page, limit } = getState().monitoringEmployee;
+  const { page, limit } = getState().monitoringEmployee.paging;
 
   if (!values) {
     await getMonitoringEmployeeListDataRequested(page, limit);

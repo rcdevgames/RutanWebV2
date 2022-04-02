@@ -71,7 +71,7 @@ export const getServiceRepairListDataRequested = async (
 
 export const handleSearch = async (values) => {
   const { getState } = store;
-  const { page, limit } = getState().serviceRepair;
+  const { page, limit } = getState().serviceRepair.paging;
 
   if (!values) {
     await getServiceRepairListDataRequested(page, limit);

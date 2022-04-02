@@ -1,7 +1,7 @@
 import { Space } from "antd";
 import React from "react";
 import { connect } from "react-redux";
-import { reduxForm } from "redux-form";
+import { getFormValues, reduxForm } from "redux-form";
 import * as EmployeeActions from "../Store/EmployeesActions";
 import * as ComponentActions from "../../App/Store/ComponentAction";
 import * as EmployeesActions from "../../Employees/Store/EmployeesActions";
@@ -9,8 +9,14 @@ import * as MasterDataActions from "../../MasterData/Store/MasterDataActions";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import EmployeesListComponent from "../Component/EmployeesListComponent";
-import { getIndex, navigate } from "../../../app/Helpers";
+import {
+  enumSelectGenerator,
+  getIndex,
+  getRolesEnum,
+  navigate,
+} from "../../../app/Helpers";
 import { store } from "../../../app/ConfigureStore";
+import { getDivisionListDataRequested } from "../../Division/Store/DivisionActions";
 
 const EmployeesListContainer = (props) => {
   const {
@@ -18,6 +24,10 @@ const EmployeesListContainer = (props) => {
     handlePressEdit,
     handlePressDelete,
     employees: { listEmployees, paging },
+    roles: { listRoles },
+    branch: { listBranch },
+    division: { listDivision },
+    employeesFormValues,
   } = props;
   const { page, limit, totalPage } = paging;
 
@@ -78,20 +88,29 @@ const EmployeesListContainer = (props) => {
 
   React.useEffect(() => {
     getListEmployees(page, limit);
+    getDivisionListDataRequested(1, 100);
   }, []);
 
   const onChangePagination = async (nextPage, pageSize) => {
     const paging = {};
-    paging.page = nextPage;
-    paging.limit = pageSize ;
+    paging.page = nextPage ?? 1;
+    paging.limit = pageSize ?? 10;
     paging.totalPage = totalPage;
     await store.dispatch(EmployeeActions.setPagingEmployees(paging));
     getListEmployees(nextPage, pageSize);
   };
 
-  const onSearch = (val) => {
-    getListEmployees(page, limit, val);
+  const onSearch = (keyword) => {
+    EmployeeActions.handleSearch(keyword, employeesFormValues);
   };
+
+  const SelectRoles = listRoles.length > 0 ? getRolesEnum(listRoles) : [];
+  const SelectBranch =
+    listBranch.length > 0 ? enumSelectGenerator(listBranch, "branch") : [];
+  const SelectDivision =
+    listDivision.length > 0
+      ? enumSelectGenerator(listDivision, "division")
+      : [];
 
   return (
     <EmployeesListComponent
@@ -101,6 +120,9 @@ const EmployeesListContainer = (props) => {
       paging={paging}
       onChangePagination={onChangePagination}
       onSearch={onSearch}
+      enumRoles={SelectRoles}
+      enumDivision={SelectDivision}
+      enumBranch={SelectBranch}
       {...props}
     />
   );
@@ -108,6 +130,10 @@ const EmployeesListContainer = (props) => {
 
 const mapStateToProps = (state) => ({
   employees: state.employees,
+  roles: state.roles,
+  branch: state.branch,
+  division: state.division,
+  employeesFormValues: getFormValues("employeesForm")(state),
 });
 const mapDispatchToProps = (dispatch) => ({
   getListEmployees: (page, limit, keyword) =>

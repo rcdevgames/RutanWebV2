@@ -3,23 +3,19 @@ import { Input } from "antd";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import CTableAntd from "../../../components/CTable/CTableAntd";
 import { PlusOutlined } from "@ant-design/icons";
-import CSelect from "../../../components/CSelect/CSelect";
+import UnitsModalContainer from "../Container/UnitsModalContainer";
 
 const { Search } = Input;
 
-const EmployeeListComponent = (props) => {
+const UnitsComponent = (props) => {
   const {
     headers,
-    listEmployees,
+    listUnits,
     renderActionTable,
     handlePressAddNew,
     onChangePagination,
     paging,
     onSearch,
-    enumBranch,
-    enumRoles,
-    enumDivision,
-    employeeFormValues,
   } = props;
 
   const pagination = {
@@ -28,7 +24,6 @@ const EmployeeListComponent = (props) => {
     pageSize: paging.limit,
     onChange: onChangePagination,
   };
-
   return (
     <div class="page-content">
       <div class="mt-5">
@@ -36,10 +31,10 @@ const EmployeeListComponent = (props) => {
           <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
               <div class="card-body">
-                <div class="row d-flex justify-content-between mb-2 align-items-center">
-                  <h6 class="ml-3 card-title">Data Karyawan</h6>
+                <div class="row d-flex justify-content-between mb-2">
+                  <h6 class="ml-3 card-title">Data Unit</h6>
                 </div>
-                <div class="row mb-4 align-items-center">
+                <div class="row d-flex justify-content-between mb-2">
                   <div class="col-md-7">
                     <CButtonAntd
                       onClick={handlePressAddNew}
@@ -47,34 +42,10 @@ const EmployeeListComponent = (props) => {
                       icon={<PlusOutlined />}
                       size="middle"
                     >
-                      Tambah Karyawan
+                      Tambah Unit
                     </CButtonAntd>
                   </div>
-                </div>
-                <div class="row d-flex mb-2">
-                  {/* This Filter */}
-                  <div class="col-md-3">
-                    <CSelect
-                      data={enumRoles ?? []}
-                      name="role"
-                      label="Filter Role"
-                    />
-                  </div>
-                  <div class="col-md-3">
-                    <CSelect
-                      data={enumBranch ?? []}
-                      name="branch"
-                      label="Filter Cabang"
-                    />
-                  </div>
-                  <div class="col-md-3">
-                    <CSelect
-                      data={enumDivision ?? []}
-                      name="division"
-                      label="Filter Divisi"
-                    />
-                  </div>
-                  <div class="col-md-3 mt-4">
+                  <div class="col-md-4">
                     <Search
                       placeholder="Cari"
                       onSearch={onSearch}
@@ -84,7 +55,7 @@ const EmployeeListComponent = (props) => {
                 </div>
                 <div class="table-responsive">
                   <CTableAntd
-                    data={listEmployees}
+                    data={listUnits}
                     headers={headers}
                     renderActions={renderActionTable}
                     pagination={pagination}
@@ -95,8 +66,9 @@ const EmployeeListComponent = (props) => {
           </div>
         </div>
       </div>
+      <UnitsModalContainer />
     </div>
   );
 };
 
-export default EmployeeListComponent;
+export default UnitsComponent;

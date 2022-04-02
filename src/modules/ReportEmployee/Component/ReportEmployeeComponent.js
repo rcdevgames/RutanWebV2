@@ -4,7 +4,7 @@ import { categoryServices } from "../../../app/Helpers";
 import CDatePicker from "../../../components/CDatePicker/CDatePicker";
 import CSelect from "../../../components/CSelect/CSelect";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
-import { PrinterOutlined, SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined } from "@ant-design/icons";
 import CInput from "../../../components/CInput/CInput";
 import { Field } from "redux-form";
 

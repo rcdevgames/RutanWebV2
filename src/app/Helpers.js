@@ -222,6 +222,30 @@ export const getCitiesEnum = (data) => {
   return SelectCities;
 };
 
+export const getRolesEnum = (data) => {
+  const SelectRoles = [];
+  data.map((item, index) => {
+    SelectRoles.push({
+      id: `role-${index}`,
+      value: item.id,
+      label: item.name,
+    });
+  });
+  return SelectRoles;
+};
+
+export const enumSelectGenerator = (data, enumName) => {
+  const SelectEnum = [];
+  data.map((item, index) => {
+    SelectEnum.push({
+      id: `${enumName}-${index}`,
+      value: item.id,
+      label: item.name,
+    });
+  });
+  return SelectEnum;
+};
+
 export const getUnitModelEnum = (data) => {
   const SelectUnitModel = [];
   data.map((item, index) => {

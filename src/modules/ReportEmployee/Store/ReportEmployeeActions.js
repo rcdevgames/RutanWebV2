@@ -73,7 +73,7 @@ export const getReportEmployeeDataRequested = async (
 
 export const handleSearch = async (values) => {
   const { getState } = store;
-  const { page, limit } = getState().reportEmployee;
+  const { page, limit } = getState().reportEmployee.paging;
 
   if (!values) {
     await getReportEmployeeDataRequested(page, limit);

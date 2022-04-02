@@ -21,11 +21,6 @@ const MonitoringEmployeeContainer = (props) => {
 
   const { page, limit, totalPage } = paging;
 
-  console.log(
-    "=== monitoringEmployeeFormValues : ",
-    monitoringEmployeeFormValues
-  );
-
   if (listMonitoringEmployee.length > 0) {
     listMonitoringEmployee.map((item, index) => {
       listMonitoringEmployee[index] = {

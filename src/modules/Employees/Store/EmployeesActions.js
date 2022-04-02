@@ -57,9 +57,23 @@ export const setPagingEmployees = (payload) => {
   };
 };
 
-export const loadEmployeeListData = async (page, limit, keyword = "") => {
+export const loadEmployeeListData = async (
+  page,
+  limit,
+  keyword = "",
+  roleId = "",
+  branchId = "",
+  divisionId = ""
+) => {
   try {
-    const { data } = await Invoke.getEmployeeList(page, limit, keyword);
+    const { data } = await Invoke.getEmployeeList(
+      page,
+      limit,
+      keyword,
+      roleId,
+      branchId,
+      divisionId
+    );
     const paging = {};
     paging.page = data.callback.page;
     paging.limit = data.callback.limit;
@@ -343,4 +357,35 @@ export const deleteEmployeeRequested = async (employeeId) => {
     "Apakah Anda Yakin Ingin Menghapus Data Ini?",
     toastrConfirmOptions
   );
+};
+
+export const handleSearch = async (keyword, values) => {
+  const { getState } = store;
+  const { page, limit } = getState().employees.paging;
+
+  if (!values) {
+    await loadEmployeeListData(page, limit, keyword);
+    return;
+  }
+
+  const splitRole = values.role ? values.role.split("|") : "";
+  const splitBranch = values.branch ? values.branch.split("|") : "";
+  const splitDivision = values.division ? values.division.split("|") : "";
+
+  const roleId = values.role ? splitRole[0] : "";
+  const branchId = values.branch ? splitBranch[0] : "";
+  const divisionId = values.division ? splitDivision[0] : "";
+
+  try {
+    await loadEmployeeListData(
+      page,
+      limit,
+      keyword,
+      roleId,
+      branchId,
+      divisionId
+    );
+  } catch (error) {
+    console.log(error);
+  }
 };

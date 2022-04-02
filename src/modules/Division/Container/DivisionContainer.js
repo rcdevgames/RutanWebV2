@@ -53,7 +53,7 @@ const UnitsContainer = (props) => {
       title: "Kepala Divisi",
       dataIndex: "headDivision",
       key: "headDivision",
-      width: "10%",
+      width: "20%",
       sorter: (a, b) => a.headDivision.length - b.headDivision.length,
     },
     {

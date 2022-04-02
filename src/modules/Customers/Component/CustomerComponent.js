@@ -1,5 +1,5 @@
 import React from "react";
-import { Input } from "antd";
+import { Divider, Input } from "antd";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import CTableAntd from "../../../components/CTable/CTableAntd";
 import { PlusOutlined } from "@ant-design/icons";
@@ -38,28 +38,28 @@ const CustomerComponent = (props) => {
                   <h6 class="ml-3 card-title">Data Customer</h6>
                 </div>
                 <div class="row align-items-center">
-                  <div class="col-md-3">
+                  <CButtonAntd
+                    onClick={handlePressAddNew}
+                    type="primary"
+                    icon={<PlusOutlined />}
+                    size="middle"
+                  >
+                    Tambah Customers
+                  </CButtonAntd>
+                </div>
+                <Divider orientation="left">Filter Data</Divider>
+                <div class="row d-flex mb-2 mt-3">
+                  <div class="col-md-4">
                     <CSelect
                       data={enumBranch ?? []}
                       name="branch"
                       label="Cabang"
                     />
                   </div>
-                </div>
-                <div class="row d-flex justify-content-between mb-2">
-                  <div class="col-md-7">
-                    <CButtonAntd
-                      onClick={handlePressAddNew}
-                      type="primary"
-                      icon={<PlusOutlined />}
-                      size="middle"
-                    >
-                      Tambah Customers
-                    </CButtonAntd>
-                  </div>
-                  <div class="col-md-4">
+                  <div class="col-md-4 mt-4">
+                    <div class="mt-2" />
                     <Search
-                      placeholder="Cari"
+                      placeholder="Cari Karyawan"
                       onSearch={onSearch}
                       enterButton
                     />

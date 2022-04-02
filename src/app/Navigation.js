@@ -37,6 +37,7 @@ import UnitModelsContainer from "../modules/Units/Container/UnitModelsContainer"
 import UnitFieldsContainer from "../modules/Units/Container/UnitFields/UnitFieldsContainer";
 import ReportIdentificationContainer from "../modules/ReportIdentification/Container/ReportIdentificationContainer";
 import DivisionContainer from "../modules/Division/Container/DivisionContainer";
+import EmployeeToolsContainer from "../modules/Employees/Container/EmployeeTools/EmployeeToolsContainer";
 
 export default function Navigation() {
   const authenticatedPage = (component, footerImg, footer) => {
@@ -56,6 +57,7 @@ export default function Navigation() {
   const JobForms = authenticatedPage(JobFormsContainer, true);
   const Branches = authenticatedPage(BranchContainer, true);
   const EmployeeList = authenticatedPage(EmployeesListContainer, true);
+  const EmployeeTools = authenticatedPage(EmployeeToolsContainer, true);
   const Division = authenticatedPage(DivisionContainer, true);
   const EditEmployee = authenticatedPage(EmployeeEditContainer, true);
   const Dashboard = authenticatedPage(DashboardContainer, true);
@@ -132,6 +134,7 @@ export default function Navigation() {
         <Route exact path="/edit-employee" component={EditEmployee} />
         <Route exact path="/internal-service" component={InternalService} />
         <Route exact path="/external-service" component={ExternalService} />
+        <Route exact path="/employee-tools" component={EmployeeTools} />
         <Route
           exact
           path="/monitoring-employee"

@@ -6,7 +6,11 @@ import * as EmployeeActions from "../Store/EmployeesActions";
 import * as ComponentActions from "../../App/Store/ComponentAction";
 import * as EmployeesActions from "../../Employees/Store/EmployeesActions";
 import * as MasterDataActions from "../../MasterData/Store/MasterDataActions";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import EmployeesListComponent from "../Component/EmployeesListComponent";
 import {
@@ -23,6 +27,7 @@ const EmployeesListContainer = (props) => {
     getListEmployees,
     handlePressEdit,
     handlePressDelete,
+    handlePressEmployeeTools,
     employees: { listEmployees, paging },
     roles: { listRoles },
     branch: { listBranch },
@@ -74,6 +79,12 @@ const EmployeesListContainer = (props) => {
         onClick={() => handlePressEdit(record)}
         type="primary"
         icon={<EditOutlined />}
+        size="middle"
+      />
+      <CButtonAntd
+        onClick={() => handlePressEmployeeTools(record)}
+        type="primary"
+        icon={<SettingOutlined />}
         size="middle"
       />
       <CButtonAntd
@@ -162,6 +173,14 @@ const mapDispatchToProps = (dispatch) => ({
   handlePressDelete: async (employeeId) => {
     await dispatch(EmployeesActions.setSelectedEmployeeId(employeeId));
     EmployeesActions.deleteEmployeeRequested(employeeId);
+  },
+  handlePressEmployeeTools: async (record) => {
+    await dispatch(ComponentActions.setGlobalLoading(true));
+    await dispatch(EmployeeActions.setSelectedEmployeeId(record.id));
+    await dispatch(EmployeeActions.setSelectedEmployeeData(record));
+    setTimeout(() => {
+      navigate("employee-tools");
+    }, 500);
   },
 });
 

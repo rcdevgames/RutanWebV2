@@ -3,11 +3,11 @@ import { Input } from "antd";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import CTableAntd from "../../../components/CTable/CTableAntd";
 import { PlusOutlined } from "@ant-design/icons";
-import UnitsModalContainer from "../Container/UnitsModalContainer";
+import DivisionModalContainer from "../Container/DivisionModalContainer";
 
 const { Search } = Input;
 
-const UnitsComponent = (props) => {
+const DivisionComponent = (props) => {
   const {
     headers,
     listUnits,
@@ -32,7 +32,7 @@ const UnitsComponent = (props) => {
             <div class="card">
               <div class="card-body">
                 <div class="row d-flex justify-content-between mb-2">
-                  <h6 class="ml-3 card-title">Data Unit</h6>
+                  <h6 class="ml-3 card-title">Data Divisi</h6>
                 </div>
                 <div class="row d-flex justify-content-between mb-2">
                   <div class="col-md-7">
@@ -42,7 +42,7 @@ const UnitsComponent = (props) => {
                       icon={<PlusOutlined />}
                       size="middle"
                     >
-                      Tambah Unit
+                      Tambah Divisi
                     </CButtonAntd>
                   </div>
                   <div class="col-md-4">
@@ -66,9 +66,9 @@ const UnitsComponent = (props) => {
           </div>
         </div>
       </div>
-      <UnitsModalContainer />
+      <DivisionModalContainer />
     </div>
   );
 };
 
-export default UnitsComponent;
+export default DivisionComponent;

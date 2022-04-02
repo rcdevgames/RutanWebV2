@@ -109,7 +109,7 @@ const RenderContent = ({
   );
 };
 
-const UnitsModalComponent = (props) => {
+const DivisionModalComponent = (props) => {
   const {
     isModalVisible,
     handleSubmit,
@@ -144,4 +144,4 @@ const UnitsModalComponent = (props) => {
   );
 };
 
-export default UnitsModalComponent;
+export default DivisionModalComponent;

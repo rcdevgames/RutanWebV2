@@ -127,7 +127,7 @@ const ListServicesContainer = (props) => {
       dataIndex: "status",
       key: "status",
       render: (status) => {
-        let color = status === "Progress" ? "#108ee9" : "#f50";
+        let color = status === "Progress" ? "#108ee9" : "#54BAB9";
         return (
           <Tag
             style={{ width: 90, textAlign: "center" }}

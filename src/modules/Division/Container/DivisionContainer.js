@@ -2,12 +2,11 @@ import { Space, Tooltip } from "antd";
 import React from "react";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
-import * as UnitsActions from "../Store/DivisionActions";
+import * as DivisionActions from "../Store/DivisionActions";
 import * as ComponentActions from "../../App/Store/ComponentAction";
 import {
   EditOutlined,
   DeleteOutlined,
-  BoxPlotOutlined,
   FileAddOutlined,
 } from "@ant-design/icons";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
@@ -21,18 +20,17 @@ const UnitsContainer = (props) => {
     handlePressEdit,
     handlePressDelete,
     handlePressAddNew,
-    handlePressUnitModel,
     handlePressUnitFields,
-    units: { listUnits, paging },
+    division: { listDivision, paging },
   } = props;
 
   const { page, limit, totalPage } = paging;
 
   const tooltipText = <span>Unit Model</span>;
 
-  if (listUnits.length > 0) {
-    listUnits.map((item, index) => {
-      listUnits[index] = { ...item, no: getIndex(page, limit)[index] };
+  if (listDivision.length > 0) {
+    listDivision.map((item, index) => {
+      listDivision[index] = { ...item, no: getIndex(page, limit)[index] };
     });
   }
 
@@ -45,18 +43,18 @@ const UnitsContainer = (props) => {
       sorter: (a, b) => a.no - b.no,
     },
     {
-      title: "Nama Unit",
-      dataIndex: "name",
-      key: "name",
+      title: "Judul",
+      dataIndex: "title",
+      key: "title",
       width: "30%",
-      sorter: (a, b) => a.name.length - b.name.length,
+      sorter: (a, b) => a.title.length - b.title.length,
     },
     {
-      title: "Divisi",
-      dataIndex: "division",
-      key: "division",
+      title: "Kepala Divisi",
+      dataIndex: "headDivision",
+      key: "headDivision",
       width: "10%",
-      sorter: (a, b) => a.division.length - b.division.length,
+      sorter: (a, b) => a.headDivision.length - b.headDivision.length,
     },
     {
       title: "Deskripsi",
@@ -64,6 +62,13 @@ const UnitsContainer = (props) => {
       key: "description",
       width: "30%",
       sorter: (a, b) => a.description.length - b.description.length,
+    },
+    {
+      title: "Dibuat",
+      dataIndex: "created_date",
+      key: "created_date",
+      width: "15%",
+      sorter: (a, b) => a.created_date.length - b.created_date.length,
     },
   ];
 
@@ -77,14 +82,6 @@ const UnitsContainer = (props) => {
         icon={<EditOutlined />}
         size="middle"
       />
-      <Tooltip placement="top" title={tooltipText}>
-        <CButtonAntd
-          onClick={() => handlePressUnitModel(record.id)}
-          type="primary"
-          icon={<BoxPlotOutlined />}
-          size="middle"
-        />
-      </Tooltip>
       <CButtonAntd
         onClick={() => handlePressUnitFields(record)}
         type="primary"
@@ -110,7 +107,7 @@ const UnitsContainer = (props) => {
     paging.page = nextPage;
     paging.limit = pageSize;
     paging.totalPage = totalPage;
-    await store.dispatch(UnitsActions.setPagingUnit(paging));
+    await store.dispatch(DivisionActions.setPagingDivision(paging));
     getListUnit(nextPage, pageSize);
   };
 
@@ -121,7 +118,7 @@ const UnitsContainer = (props) => {
   return (
     <UnitsComponent
       headers={headers}
-      listUnits={listUnits}
+      listUnits={listDivision}
       renderActionTable={renderActionTable}
       handlePressAddNew={handlePressAddNew}
       onChangePagination={onChangePagination}
@@ -133,42 +130,35 @@ const UnitsContainer = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  units: state.units,
+  division: state.division,
 });
 const mapDispatchToProps = (dispatch) => ({
   getListUnit: (page, limit, keyword) =>
-    UnitsActions.getUnitListDataRequested(page, limit, keyword),
+    DivisionActions.getDivisionListDataRequested(page, limit, keyword),
   handlePressAddNew: async () => {
-    await dispatch(UnitsActions.setSelectedUnitData({}));
-    await dispatch(UnitsActions.setSelectedUnitId(""));
-    dispatch(UnitsActions.setFormStatus("add"));
+    await dispatch(DivisionActions.setSelectedDivisionData({}));
+    await dispatch(DivisionActions.setSelectedDivisionId(""));
+    dispatch(DivisionActions.setFormStatus("add"));
     dispatch(ComponentActions.setGlobalModal(true));
-    UnitsActions.resetForm();
+    DivisionActions.resetForm();
   },
   handlePressEdit: async (record) => {
-    await dispatch(UnitsActions.setFormStatus("edit"));
-    await dispatch(UnitsActions.setSelectedUnitId(record.id));
-    await dispatch(UnitsActions.setSelectedUnitData(record));
+    await dispatch(DivisionActions.setFormStatus("edit"));
+    await dispatch(DivisionActions.setSelectedDivisionId(record.id));
+    await dispatch(DivisionActions.setSelectedDivisionData(record));
     await dispatch(ComponentActions.setGlobalModal(true));
-    await UnitsActions.mapDetailUnitToForm();
+    await DivisionActions.mapDetailUnitToForm();
   },
   handlePressDelete: async (unitId) => {
-    await dispatch(UnitsActions.setSelectedUnitId(unitId));
-    UnitsActions.deleteUnitRequested(unitId);
-  },
-  handlePressUnitModel: async (unitId) => {
-    await dispatch(ComponentActions.setGlobalLoading(true));
-    await dispatch(UnitsActions.setSelectedUnitId(unitId));
-    setTimeout(() => {
-      navigate("unit-models");
-    }, 500);
+    await dispatch(DivisionActions.setSelectedDivisionId(unitId));
+    DivisionActions.deleteUnitRequested(unitId);
   },
   handlePressUnitFields: async (record) => {
     await dispatch(ComponentActions.setGlobalLoading(true));
-    await dispatch(UnitsActions.setSelectedUnitId(record.id));
-    await dispatch(UnitsActions.setSelectedUnitData(record));
+    await dispatch(DivisionActions.setSelectedDivisionId(record.id));
+    await dispatch(DivisionActions.setSelectedDivisionData(record));
     setTimeout(() => {
-      navigate("unit-fields");
+      navigate("division-unit");
     }, 500);
   },
 });

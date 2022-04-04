@@ -51,10 +51,10 @@ const UnitsContainer = (props) => {
     },
     {
       title: "Kepala Divisi",
-      dataIndex: "headDivision",
-      key: "headDivision",
+      dataIndex: "employee_name",
+      key: "employee_name",
       width: "20%",
-      sorter: (a, b) => a.headDivision.length - b.headDivision.length,
+      sorter: (a, b) => a.employee_name.length - b.employee_name.length,
     },
     {
       title: "Deskripsi",
@@ -147,11 +147,11 @@ const mapDispatchToProps = (dispatch) => ({
     await dispatch(DivisionActions.setSelectedDivisionId(record.id));
     await dispatch(DivisionActions.setSelectedDivisionData(record));
     await dispatch(ComponentActions.setGlobalModal(true));
-    await DivisionActions.mapDetailUnitToForm();
+    await DivisionActions.mapDetailDivisionToForm();
   },
-  handlePressDelete: async (unitId) => {
-    await dispatch(DivisionActions.setSelectedDivisionId(unitId));
-    DivisionActions.deleteUnitRequested(unitId);
+  handlePressDelete: async (divisionId) => {
+    await dispatch(DivisionActions.setSelectedDivisionId(divisionId));
+    DivisionActions.deleteDivisionRequested(divisionId);
   },
   handlePressUnitFields: async (record) => {
     await dispatch(ComponentActions.setGlobalLoading(true));
@@ -169,5 +169,5 @@ const EnhanceContainer = connect(
 )(UnitsContainer);
 
 export default reduxForm({
-  form: "unitsForm",
+  form: "divisionForm",
 })(EnhanceContainer);

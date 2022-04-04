@@ -1,42 +1,31 @@
 import React from "react";
 import { connect } from "react-redux";
-import { change, reduxForm } from "redux-form";
-import { validateFormUnit } from "../../../app/validateForm";
+import { reduxForm } from "redux-form";
+import { validateDivisionForm } from "../../../app/validateForm";
 import * as ComponentActions from "../../App/Store/ComponentAction";
 import * as DivisionActions from "../Store/DivisionActions";
-import { store } from "../../../app/ConfigureStore";
 import DivisionModalComponent from "../Component/DivisionModalComponent";
+import { enumSelectGenerator } from "../../../app/Helpers";
 
 const DivisionModalContainer = (props) => {
   const {
     valid,
     handleCancel,
     component: { isModalVisible },
-    units: { formStatus, selectedUnitsData },
+    division: { formStatus },
     masters: { listMenu },
+    employees: { listEmployees },
     handleSubmitForm,
   } = props;
 
   const submitForm = (values) => {
     if (valid) {
-      console.log("valid");
       handleSubmitForm(formStatus, values);
     } else {
     }
   };
 
-  const SelectMenu = [];
-  listMenu.map((item, index) => {
-    SelectMenu.push({
-      id: `role-${index}`,
-      value: item.id,
-      label: item.menu,
-    });
-  });
-
-  const handleUploadPhoto = (base64) => {
-    store.dispatch(change("editUnitForm", `imageUrl`, base64 ?? ""));
-  };
+  const SelectEmployees = enumSelectGenerator(listEmployees, "employee");
 
   return (
     <DivisionModalComponent
@@ -45,16 +34,15 @@ const DivisionModalContainer = (props) => {
       submitForm={submitForm}
       formStatus={formStatus}
       formName={formStatus === "add" ? "Tambah Data" : "Ubah Data"}
-      handleUploadPhoto={handleUploadPhoto}
-      selectedUnitsData={selectedUnitsData}
+      enumHeadDivision={SelectEmployees}
       {...props}
     />
   );
 };
 
 const mapStateToProps = (state) => ({
-  admins: state.admins,
-  units: state.units,
+  employees: state.employees,
+  division: state.division,
   component: state.component,
   masters: state.masters,
 });
@@ -64,7 +52,7 @@ const mapDispatchToProps = (dispatch) => ({
     DivisionActions.resetForm();
   },
   handleSubmitForm: (type, values) =>
-    DivisionActions.saveUnitRequested(type, values),
+    DivisionActions.saveDivisionRequested(type, values),
 });
 
 const EnhanceContainer = connect(
@@ -73,6 +61,6 @@ const EnhanceContainer = connect(
 )(DivisionModalContainer);
 
 export default reduxForm({
-  form: "editUnitForm",
-  validate: validateFormUnit,
+  form: "editDivisionForm",
+  validate: validateDivisionForm,
 })(EnhanceContainer);

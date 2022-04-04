@@ -47,12 +47,12 @@ export const setSelectedDivisionData = (payload) => {
 };
 
 // === INTERNAL FUNCTION ===
-const doDeleteUnitProcess = async (unitId) => {
+const doDeleteDivisionProcess = async (divisionId) => {
   const { getState } = store;
-  const paging = getState().units.paging;
+  const paging = getState().division.paging;
   const { page, limit } = paging;
   try {
-    await Invoke.deleteUnitById(unitId);
+    await Invoke.deleteDivision(divisionId);
     showToast("Data berhasil dihapus", "success");
     getDivisionListDataRequested(page, limit);
   } catch (error) {
@@ -61,16 +61,18 @@ const doDeleteUnitProcess = async (unitId) => {
   }
 };
 
-const doAddUnitProcess = async (values) => {
+const doAddDivisionProcess = async (values) => {
   const { dispatch, getState } = store;
-  const paging = getState().units.paging;
+  const paging = getState().division.paging;
   const { page, limit } = paging;
+  const headDivision = values.headDivision.split("|");
+
   try {
     const payload = {};
-    payload.name = values.name;
-    payload.description = values.description;
-    payload.photo = values.imageUrl;
-    await Invoke.addUnit(payload);
+    payload.employee_id = headDivision[0];
+    payload.title = values.title;
+    payload.description = values.description ?? "none";
+    await Invoke.addDivision(payload);
     showToast("Data Berhasil Disimpan", "success");
     getDivisionListDataRequested(page, limit);
     dispatch(ComponentActions.setGlobalModal(false));
@@ -81,18 +83,20 @@ const doAddUnitProcess = async (values) => {
   }
 };
 
-const doEditUnitProcess = async (values) => {
+const doEditDivisionProcess = async (values) => {
   store.dispatch(ComponentActions.setGlobalLoading(true));
   const { dispatch, getState } = store;
-  const paging = getState().units.paging;
+  const paging = getState().division.paging;
   const { page, limit } = paging;
+  const headDivision = values.headDivision.split("|");
+
   try {
     const payload = {};
     payload.id = values.id;
-    payload.name = values.name;
-    payload.photo = values.imageUrl;
-    payload.description = values.description;
-    await Invoke.updateUnit(payload);
+    payload.title = values.title;
+    payload.employee_id = headDivision[0];
+    payload.description = values.description ?? "none";
+    await Invoke.updateDivision(payload);
     showToast("Data Berhasil Disimpan", "success");
     getDivisionListDataRequested(page, limit);
     store.dispatch(ComponentActions.setGlobalLoading(false));
@@ -108,20 +112,26 @@ const doEditUnitProcess = async (values) => {
 
 export const resetForm = async () => {
   const { dispatch } = store;
-  dispatch(change("editUnitForm", `id`, ""));
-  dispatch(change("editUnitForm", `name`, ""));
-  dispatch(change("editUnitForm", `description`, ""));
-  dispatch(change("editUnitForm", `imageUrl`, ""));
+  dispatch(change("editDivisionForm", `id`, ""));
+  dispatch(change("editDivisionForm", `title`, ""));
+  dispatch(change("editDivisionForm", `description`, ""));
+  dispatch(change("editDivisionForm", `headDivision`, ""));
 };
 
-export const mapDetailUnitToForm = async () => {
+export const mapDetailDivisionToForm = async () => {
   const { dispatch, getState } = store;
-  const data = getState().units.selectedUnitsData;
+  const data = getState().division.selectedDivisionData;
 
-  dispatch(change("editUnitForm", `id`, data.id ?? ""));
-  dispatch(change("editUnitForm", `name`, data.name ?? ""));
-  dispatch(change("editUnitForm", `description`, data.description ?? ""));
-  dispatch(change("editUnitForm", `imageUrl`, data.photo ?? ""));
+  dispatch(change("editDivisionForm", `id`, data.id ?? ""));
+  dispatch(change("editDivisionForm", `title`, data.title ?? ""));
+  dispatch(change("editDivisionForm", `description`, data.description ?? ""));
+  dispatch(
+    change(
+      "editDivisionForm",
+      `headDivision`,
+      `${data.employee_id}|${data.employee_name}`
+    )
+  );
 };
 
 export const getDivisionListDataRequested = async (
@@ -142,13 +152,13 @@ export const getDivisionListDataRequested = async (
   }
 };
 
-export const saveUnitRequested = async (type, values) => {
+export const saveDivisionRequested = async (type, values) => {
   const toastrConfirmOptions = {
     onOk: () => {
       if (type === "add") {
-        doAddUnitProcess(values);
+        doAddDivisionProcess(values);
       } else {
-        doEditUnitProcess(values);
+        doEditDivisionProcess(values);
       }
     },
     okText: "Ya",
@@ -161,10 +171,10 @@ export const saveUnitRequested = async (type, values) => {
   );
 };
 
-export const deleteUnitRequested = async (unitId) => {
+export const deleteDivisionRequested = async (divisionId) => {
   const toastrConfirmOptions = {
     onOk: () => {
-      doDeleteUnitProcess(unitId);
+      doDeleteDivisionProcess(divisionId);
     },
     okText: "Ya",
     cancelText: "Tidak",

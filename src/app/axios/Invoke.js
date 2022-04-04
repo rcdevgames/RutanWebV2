@@ -427,7 +427,16 @@ Invoke.deleteIdentificationById = (identificationId) => {
 
 // === Master Dvision API === :
 Invoke.getDivisionList = (page, limit, keyword) => {
-  return ConfigAxios.get(`divisions?page=${page}&limit=${limit}&q=${keyword}`);
+  return ConfigAxios.get(`/divisions?page=${page}&limit=${limit}&q=${keyword}`);
+};
+Invoke.addDivision = (payload) => {
+  return ConfigAxios.post(`/divisions`, payload);
+};
+Invoke.updateDivision = (payload) => {
+  return ConfigAxios.put(`/divisions`, payload);
+};
+Invoke.deleteDivision = (divisionId) => {
+  return ConfigAxios.delete(`/divisions/${divisionId}`, headersConfigDelete);
 };
 
 // Monitoring Employee

@@ -136,3 +136,14 @@ export const validateServiceEmployeeForm = (values) => {
   }
   return errors;
 };
+
+export const validateDivisionForm = (values) => {
+  const errors = {};
+  if (!values.title) {
+    errors.title = "Judul wajib diisi!";
+  }
+  if (!values.headDivision) {
+    errors.headDivision = "Kepala divisi wajib diisi!";
+  }
+  return errors;
+};

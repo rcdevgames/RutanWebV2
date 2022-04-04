@@ -1,5 +1,5 @@
 import React from "react";
-import { Input } from "antd";
+import { Divider, Input } from "antd";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import CTableAntd from "../../../components/CTable/CTableAntd";
 import { PlusOutlined } from "@ant-design/icons";
@@ -51,6 +51,7 @@ const EmployeeListComponent = (props) => {
                     </CButtonAntd>
                   </div>
                 </div>
+                <Divider orientation="left">Filter Data</Divider>
                 <div class="row d-flex mb-2">
                   {/* This Filter */}
                   <div class="col-md-3">

@@ -59,7 +59,7 @@ const CustomerComponent = (props) => {
                   <div class="col-md-4 mt-4">
                     <div class="mt-2" />
                     <Search
-                      placeholder="Cari Karyawan"
+                      placeholder="Cari Customer"
                       onSearch={onSearch}
                       enterButton
                     />

@@ -18,48 +18,18 @@ const RenderFooter = ({ handleSaveForm }) => {
   ];
 };
 
-const RenderContent = ({
-  handleSubmit,
-  submitForm,
-  formName,
-  enumFormCategory,
-  enumJobForm,
-}) => {
+const RenderContent = ({ handleSubmit, submitForm, enumTools }) => {
   return (
     <div class="page-content">
-      <h6 class="card-title text-center">{formName}</h6>
+      <h6 class="card-title text-center">Tambah Peralatan Karyawan</h6>
       <Form onSubmit={handleSubmit(submitForm)}>
         <div class="row mt-3">
           <div class="col-md-12">
             <CSelect
               showSearch
-              data={enumFormCategory ?? []}
-              name="formCategory"
-              label="Kategori"
-            />
-          </div>
-          <div class="col-md-12">
-            <Field
-              name="fieldName"
-              label="Nama Field"
-              component={CInput}
-              type="text"
-            />
-          </div>
-          <div class="col-md-12">
-            <CSelect
-              showSearch
-              data={enumJobForm ?? []}
-              name="jobForm"
-              label="Jenis Form"
-            />
-          </div>
-          <div class="col-md-12">
-            <Field
-              name="description"
-              label="Deskripsi"
-              component={CInput}
-              type="text"
+              data={enumTools}
+              name="tools"
+              label="Peralatan"
             />
           </div>
         </div>
@@ -75,13 +45,8 @@ const EmployeeToolsModalComponent = (props) => {
     submitForm,
     isLoadingFormGlobal,
     handleCancel,
-    formName,
-    enumMenu,
-    handleUploadPhoto,
+    enumTools,
     formStatus,
-    selectedUnitsData,
-    enumFormCategory,
-    enumJobForm,
   } = props;
 
   return (
@@ -94,13 +59,8 @@ const EmployeeToolsModalComponent = (props) => {
           handleSubmit={handleSubmit}
           submitForm={submitForm}
           isLoadingFormGlobal={isLoadingFormGlobal}
-          formName={formName}
           formStatus={formStatus}
-          enumMenu={enumMenu}
-          handleUploadPhoto={handleUploadPhoto}
-          selectedUnitsData={selectedUnitsData}
-          enumFormCategory={enumFormCategory}
-          enumJobForm={enumJobForm}
+          enumTools={enumTools}
         />
       }
     />

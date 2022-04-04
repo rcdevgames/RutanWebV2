@@ -294,36 +294,24 @@ export const saveEmployeeToolsRequested = async (formStatus, values) => {
   );
 };
 
-export const mapDetailEmployeeToForm = async () => {
+export const mapDetailEmployeeToolsToForm = async () => {
   const { dispatch, getState } = store;
-  const data = getState().employees.selectedEmployeeData;
-  const branch = `${data.branch_id}|${data.branch_name}`;
-  const province = `${data.province_id}|${data.province_name}`;
-  const city = `${data.city_id}|${data.city_name}`;
+  const data = getState().employeeTools.selectedEmployeeToolsData
+  // const splitTools = data;
+  const tools = `${data.tool_id}|${data.name}`;
 
-  dispatch(change("editEmployeeForm", `id`, data.id ?? ""));
-  dispatch(change("editEmployeeForm", `nik`, data.nik ?? ""));
-  dispatch(change("editEmployeeForm", `name`, data.name ?? ""));
-  dispatch(change("editEmployeeForm", `phone`, data.phone ?? ""));
-  dispatch(change("editEmployeeForm", `address`, data.address ?? ""));
-  dispatch(change("editEmployeeForm", `branch`, branch ?? ""));
-  dispatch(change("editEmployeeForm", `province`, province ?? ""));
-  dispatch(change("editEmployeeForm", `city`, city ?? ""));
+  dispatch(change("editEmployeeToolsForm", `id`, data.id));
+  dispatch(change("editEmployeeToolsForm", `tools`, tools));
 };
 
 export const resetForm = () => {
   const { dispatch } = store;
   dispatch(MasterDataActions.setCityListData([]));
-  dispatch(change("editEmployeeForm", `id`, ""));
-  dispatch(change("editEmployeeForm", `name`, ""));
-  dispatch(change("editEmployeeForm", `phone`, ""));
-  dispatch(change("editEmployeeForm", `address`, ""));
-  dispatch(change("editEmployeeForm", `branch`, ""));
-  dispatch(change("editEmployeeForm", `province`, ""));
-  dispatch(change("editEmployeeForm", `city`, ""));
+  dispatch(change("editEmployeeToolsForm", `id`, ""));
+  dispatch(change("editEmployeeToolsForm", `tools`, ""));
 };
 
-export const deleteEmployeeRequested = async (employeeId) => {
+export const deleteEmployeeToolsRequested = async (employeeId) => {
   const toastrConfirmOptions = {
     onOk: () => {
       doDeleteEmployeeProcess(employeeId);

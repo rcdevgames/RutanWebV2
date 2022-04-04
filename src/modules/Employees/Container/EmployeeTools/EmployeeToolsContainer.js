@@ -2,7 +2,7 @@ import { Space } from "antd";
 import React from "react";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
-import * as EmployeesActions from "../../Store/EmployeesActions";
+import * as EmployeeToolsActions from "../../Store/EmployeeTools/EmployeeToolsActions";
 import * as ComponentActions from "../../../App/Store/ComponentAction";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CButtonAntd from "../../../../components/CButton/CButtonAntd";
@@ -95,7 +95,7 @@ const EmployeeToolsContainer = (props) => {
     paging.page = nextPage;
     paging.limit = pageSize;
     paging.totalPage = totalPage;
-    await store.dispatch(UnitFieldsActions.setPagingUnitFields(paging));
+    await store.dispatch(EmployeeToolsActions.setPagingEmployeeTools(paging));
     getListUnitFields(nextPage, pageSize);
   };
 
@@ -124,24 +124,24 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
   getListUnitFields: (page, limit, keyword) =>
-    EmployeesActions.loadEmployeeListData(page, limit, keyword),
+    EmployeeToolsActions.loadEmployeeListData(page, limit, keyword),
   handlePressAddNew: async () => {
-    await dispatch(EmployeesActions.setSelectedEmployeeData({}));
-    await dispatch(EmployeesActions.setSelectedEmployeeId(""));
-    dispatch(EmployeesActions.setFormStatus("add"));
+    await dispatch(EmployeeToolsActions.setSelectedEmployeeToolsData({}));
+    await dispatch(EmployeeToolsActions.setSelectedEmployeeToolsId(""));
+    dispatch(EmployeeToolsActions.setFormStatus("add"));
     dispatch(ComponentActions.setGlobalModal(true));
-    EmployeesActions.resetForm();
+    EmployeeToolsActions.resetForm();
   },
   handlePressEdit: async (record) => {
-    await dispatch(EmployeesActions.setFormStatus("edit"));
-    await dispatch(EmployeesActions.setSelectedEmployeeId(record.id));
-    await dispatch(EmployeesActions.setSelectedEmployeeData(record));
+    await dispatch(EmployeeToolsActions.setFormStatus("edit"));
+    await dispatch(EmployeeToolsActions.setSelectedEmployeeToolsId(record.id));
+    await dispatch(EmployeeToolsActions.setSelectedEmployeeToolsData(record));
     await dispatch(ComponentActions.setGlobalModal(true));
-    await EmployeesActions.mapDetailEmployeeToForm();
+    await EmployeeToolsActions.mapDetailEmployeeToolsToForm();
   },
   handlePressDelete: async (unitFieldsId) => {
-    await dispatch(EmployeesActions.setSelectedEmployeeId(unitFieldsId));
-    EmployeesActions.deleteEmployeeRequested(unitFieldsId);
+    await dispatch(EmployeeToolsActions.setSelectedEmployeeToolsId(unitFieldsId));
+    EmployeeToolsActions.deleteEmployeeToolsRequested(unitFieldsId);
   },
 });
 

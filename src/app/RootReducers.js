@@ -10,6 +10,7 @@ import customersReducer from "../modules/Customers/Store/CustomersReducer";
 import adminReducer from "../modules/Admin/Store/AdminReducer";
 import rolesReducer from "../modules/Roles/Store/RolesReducer";
 import employeesReducer from "../modules/Employees/Store/EmployeesReducer";
+import employeeToolsReducer from "../modules/Employees/Store/EmployeeTools/EmployeeToolsReducer";
 import masterDataReducer from "../modules/MasterData/Store/MasterDataReducer";
 import unitReducer from "../modules/Units/Store/UnitsReducer";
 import jobFormsReducer from "../modules/JobForms/Store/JobFormsReducer";
@@ -40,6 +41,7 @@ const rootReducers = combineReducers({
   jobForms: jobFormsReducer,
   customers: customersReducer,
   employees: employeesReducer,
+  employeeTools: employeeToolsReducer,
   component: ComponentReducer,
   identification: identificationReducer,
   masters: masterDataReducer,

@@ -18,7 +18,7 @@ export const initialState = {
   },
 };
 
-export default function employeesToolsReducer(state = initialState, action) {
+export default function employeeToolsReducer(state = initialState, action) {
   const newState = Object.assign({}, state);
   // eslint-disable-next-line default-case
   switch (action.type) {

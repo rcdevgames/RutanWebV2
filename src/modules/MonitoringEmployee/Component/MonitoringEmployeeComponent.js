@@ -1,10 +1,10 @@
 import React from "react";
-import { Badge, Divider, Input, Table } from "antd";
+import { Badge, Divider, Table } from "antd";
 import { categoryMonitoringServices } from "../../../app/Helpers";
 import CDatePicker from "../../../components/CDatePicker/CDatePicker";
 import CSelect from "../../../components/CSelect/CSelect";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
-import { PrinterOutlined, SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined, FilePdfOutlined } from "@ant-design/icons";
 import CInput from "../../../components/CInput/CInput";
 import { Field } from "redux-form";
 
@@ -95,10 +95,10 @@ const MonitoringEmployeeComponent = (props) => {
                       <CButtonAntd
                         onClick={handlePressGeneratePdf}
                         type="primary"
-                        icon={<PrinterOutlined />}
+                        icon={<FilePdfOutlined />}
                         size="middle"
                       >
-                        Print
+                        Cetak Laporan
                       </CButtonAntd>
                     </div>
                   </div>

@@ -18,49 +18,14 @@ const RenderFooter = ({ handleSaveForm }) => {
   ];
 };
 
-const RenderContent = ({
-  handleSubmit,
-  submitForm,
-  formName,
-  enumFormCategory,
-  enumJobForm,
-}) => {
+const RenderContent = ({ handleSubmit, submitForm, formName, enumUnits }) => {
   return (
     <div class="page-content">
       <h6 class="card-title text-center">{formName}</h6>
       <Form onSubmit={handleSubmit(submitForm)}>
         <div class="row mt-3">
           <div class="col-md-12">
-            <CSelect
-              showSearch
-              data={enumFormCategory ?? []}
-              name="formCategory"
-              label="Kategori"
-            />
-          </div>
-          <div class="col-md-12">
-            <Field
-              name="fieldName"
-              label="Nama Field"
-              component={CInput}
-              type="text"
-            />
-          </div>
-          <div class="col-md-12">
-            <CSelect
-              showSearch
-              data={enumJobForm ?? []}
-              name="jobForm"
-              label="Jenis Form"
-            />
-          </div>
-          <div class="col-md-12">
-            <Field
-              name="description"
-              label="Deskripsi"
-              component={CInput}
-              type="text"
-            />
+            <CSelect showSearch data={enumUnits} name="unit" label="Unit" />
           </div>
         </div>
       </Form>
@@ -68,7 +33,7 @@ const RenderContent = ({
   );
 };
 
-const UnitFieldsModalComponent = (props) => {
+const DivisionUnitModalComponent = (props) => {
   const {
     isModalVisible,
     handleSubmit,
@@ -76,12 +41,8 @@ const UnitFieldsModalComponent = (props) => {
     isLoadingFormGlobal,
     handleCancel,
     formName,
-    enumMenu,
-    handleUploadPhoto,
     formStatus,
-    selectedUnitsData,
-    enumFormCategory,
-    enumJobForm,
+    enumUnits,
   } = props;
 
   return (
@@ -96,15 +57,11 @@ const UnitFieldsModalComponent = (props) => {
           isLoadingFormGlobal={isLoadingFormGlobal}
           formName={formName}
           formStatus={formStatus}
-          enumMenu={enumMenu}
-          handleUploadPhoto={handleUploadPhoto}
-          selectedUnitsData={selectedUnitsData}
-          enumFormCategory={enumFormCategory}
-          enumJobForm={enumJobForm}
+          enumUnits={enumUnits}
         />
       }
     />
   );
 };
 
-export default UnitFieldsModalComponent;
+export default DivisionUnitModalComponent;

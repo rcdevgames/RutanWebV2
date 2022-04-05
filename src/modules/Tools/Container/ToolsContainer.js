@@ -79,7 +79,7 @@ const ToolsContainer = (props) => {
   );
 
   React.useEffect(() => {
-    getListTools(page, limit);
+    getListTools(1, 10);
   }, []);
 
   const onChangePagination = async (nextPage, pageSize) => {

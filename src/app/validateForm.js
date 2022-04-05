@@ -147,3 +147,19 @@ export const validateDivisionForm = (values) => {
   }
   return errors;
 };
+
+export const validateDivisionUnitForm = (values) => {
+  const errors = {};
+  if (!values.unit) {
+    errors.unit = "Unit wajib dipilih!";
+  }
+  return errors;
+};
+
+export const validateEmployeeToolsForm = (values) => {
+  const errors = {};
+  if (!values.tools) {
+    errors.tools = "Peralatan wajib dipilih!";
+  }
+  return errors;
+};

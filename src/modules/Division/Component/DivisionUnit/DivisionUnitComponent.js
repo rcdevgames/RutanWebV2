@@ -8,16 +8,16 @@ import UnitFieldsModalContainer from "../../Container/DivisionUnit/DivisionUnitM
 
 const { Search } = Input;
 
-const UnitFieldsComponent = (props) => {
+const DivisionUnitComponent = (props) => {
   const {
     headers,
-    listUnitFields,
+    listDivisionUnit,
     renderActionTable,
     handlePressAddNew,
     onChangePagination,
     paging,
     onSearch,
-    selectedUnitsData,
+    selectedDivisionData,
   } = props;
 
   const pagination = {
@@ -34,13 +34,13 @@ const UnitFieldsComponent = (props) => {
             <div class="card">
               <div class="card-body">
                 <div class="row d-flex justify-content-between mb-2">
-                  <h6 class="ml-3 card-title">{`Field Unit : ${selectedUnitsData.name}`}</h6>
+                  <h6 class="ml-3 card-title">{`Divisi : ${selectedDivisionData.title}`}</h6>
                 </div>
                 <div class="row d-flex justify-content-between mb-2">
                   <div class="col-md-7">
                     <div class="row">
                       <CButtonAntd
-                        onClick={() => navigate("unit")}
+                        onClick={() => navigate("division")}
                         type="primary"
                         icon={<ArrowLeftOutlined />}
                         size="middle"
@@ -55,7 +55,7 @@ const UnitFieldsComponent = (props) => {
                         icon={<PlusOutlined />}
                         size="middle"
                       >
-                        Tambah Field
+                        Tambah Unit
                       </CButtonAntd>
                     </div>
                   </div>
@@ -69,7 +69,7 @@ const UnitFieldsComponent = (props) => {
                 </div>
                 <div class="table-responsive">
                   <CTableAntd
-                    data={listUnitFields}
+                    data={listDivisionUnit}
                     headers={headers}
                     renderActions={renderActionTable}
                     pagination={pagination}
@@ -85,4 +85,4 @@ const UnitFieldsComponent = (props) => {
   );
 };
 
-export default UnitFieldsComponent;
+export default DivisionUnitComponent;

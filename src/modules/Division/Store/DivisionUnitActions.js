@@ -5,22 +5,23 @@ import { toastr } from "react-redux-toastr";
 import { showToast } from "../../Roles/Store/RolesActions";
 import * as ComponentActions from "../../App/Store/ComponentAction";
 
-export const SET_UNIT_FIELDS_LIST_DATA = "SET_UNIT_FIELDS_LIST_DATA";
+export const SET_DIVISION_UNIT_LIST_DATA = "SET_DIVISION_UNIT_LIST_DATA";
 export const SET_FORM_STATUS = "SET_FORM_STATUS";
-export const SET_SELECTED_UNIT_FIELDS_ID = "SET_SELECTED_UNIT_FIELDS_ID";
-export const SET_SELECTED_UNIT_FIELDS_DATA = "SET_SELECTED_UNIT_FIELDS_DATA";
-export const SET_PAGING_UNIT_FIELDS = "SET_PAGING_UNIT_FIELDS";
+export const SET_SELECTED_DIVISION_UNIT_ID = "SET_SELECTED_DIVISION_UNIT_ID";
+export const SET_SELECTED_DIVISION_UNIT_DATA =
+  "SET_SELECTED_DIVISION_UNIT_DATA";
+export const SET_PAGING_DIVISION_UNIT = "SET_PAGING_DIVISION_UNIT";
 
-export const setUnitFieldsListData = (payload) => {
+export const setDivisionUnitListData = (payload) => {
   return {
-    type: SET_UNIT_FIELDS_LIST_DATA,
+    type: SET_DIVISION_UNIT_LIST_DATA,
     payload,
   };
 };
 
-export const setPagingUnitFields = (payload) => {
+export const setPagingDivisionUnit = (payload) => {
   return {
-    type: SET_PAGING_UNIT_FIELDS,
+    type: SET_PAGING_DIVISION_UNIT,
     payload,
   };
 };
@@ -32,64 +33,60 @@ export const setFormStatus = (payload) => {
   };
 };
 
-export const setSelectedUnitFieldsId = (payload) => {
+export const setSelectedDivisonUnitId = (payload) => {
   return {
-    type: SET_SELECTED_UNIT_FIELDS_ID,
+    type: SET_SELECTED_DIVISION_UNIT_ID,
     payload,
   };
 };
 
-export const setSelectedUnitFieldsData = (payload) => {
+export const setSelectedDivisionUnitData = (payload) => {
   return {
-    type: SET_SELECTED_UNIT_FIELDS_DATA,
+    type: SET_SELECTED_DIVISION_UNIT_DATA,
     payload,
   };
 };
 
-export const getUnitFieldsListDataRequested = async (
+export const getDivisionUnitListRequested = async (
   page,
   limit,
   keyword = ""
 ) => {
   const { getState } = store;
-  const unitId = getState().units.selectedUnitsId;
+  const divisionId = getState().division.selectedDivisionId;
   try {
-    const { data } = await Invoke.getListUnitFields(
+    const { data } = await Invoke.getDivisionUnitList(
+      divisionId,
       page,
       limit,
-      unitId,
       keyword
     );
     const paging = {};
     paging.page = data.callback.page;
     paging.limit = data.callback.limit;
     paging.totalPage = data.callback.totalPage;
-    store.dispatch(setUnitFieldsListData(data.callback.data));
-    store.dispatch(setPagingUnitFields(paging));
+    store.dispatch(setDivisionUnitListData(data.callback.data));
+    store.dispatch(setPagingDivisionUnit(paging));
   } catch (error) {
     console.log(error);
   }
 };
 
-const doAddUnitFieldsProcess = async (values) => {
+const doAddDivisionUnitProcess = async (values) => {
   const { dispatch, getState } = store;
-  const paging = getState().unitFields.paging;
-  const unitId = getState().units.selectedUnitsId;
+  const paging = getState().divisionUnit.paging;
+  const divisionId = getState().division.selectedDivisionId;
   const { page, limit } = paging;
-  const splitCategoryFormId = values.formCategory.split("|");
-  const splitjobFormId = values.jobForm.split("|");
+  const splitUnitId = values.unit.split("|");
 
   try {
     const payload = {};
-    payload.unit_id = unitId;
-    payload.name = values.fieldName;
-    payload.descriptions = values.description ?? "None";
-    payload.category_form_id = splitCategoryFormId[0] ?? "";
-    payload.job_form_id = splitjobFormId[0] ?? "";
+    payload.unit_id = splitUnitId[0];
+    payload.division_id = divisionId;
 
-    await Invoke.addUnitFields(payload);
+    await Invoke.addDivisionUnit(payload);
     showToast("Data Berhasil Disimpan", "success");
-    getUnitFieldsListDataRequested(page, limit);
+    getDivisionUnitListRequested(page, limit);
     dispatch(ComponentActions.setGlobalModal(false));
   } catch (error) {
     showToast("Internal Server Error!", "error");
@@ -98,11 +95,11 @@ const doAddUnitFieldsProcess = async (values) => {
   }
 };
 
-const doEditUnitFieldsProcess = async (values) => {
+const doEditDivisionUnitProcess = async (values) => {
   store.dispatch(ComponentActions.setGlobalLoading(true));
   const { dispatch, getState } = store;
-  const paging = getState().unitFields.paging;
-  const unitId = getState().units.selectedUnitsId;
+  const paging = getState().divisionUnit.paging;
+  const unitId = getState().division.selectedUnitsId;
   const { page, limit } = paging;
   const splitCategoryFormId = values.formCategory.split("|");
   const splitjobFormId = values.jobForm.split("|");
@@ -117,7 +114,7 @@ const doEditUnitFieldsProcess = async (values) => {
 
     await Invoke.updateUnitFields(payload);
     showToast("Data Berhasil Disimpan", "success");
-    getUnitFieldsListDataRequested(page, limit);
+    getDivisionUnitListRequested(page, limit);
     store.dispatch(ComponentActions.setGlobalLoading(false));
     dispatch(ComponentActions.setGlobalModal(false));
   } catch (error) {
@@ -135,20 +132,20 @@ const doDeleteUnitFieldsProcess = async (unitFieldId) => {
   try {
     await Invoke.deleteUnitFieldsById(unitFieldId);
     showToast("Data berhasil dihapus", "success");
-    getUnitFieldsListDataRequested(page, limit);
+    getDivisionUnitListRequested(page, limit);
   } catch (error) {
     showToast("Internal Server Error!", "error");
     console.log("error : ", error);
   }
 };
 
-export const saveUnitFieldsRequested = async (type, values) => {
+export const saveDivisionUnitRequested = async (type, values) => {
   const toastrConfirmOptions = {
     onOk: () => {
       if (type === "add") {
-        doAddUnitFieldsProcess(values);
+        doAddDivisionUnitProcess(values);
       } else {
-        doEditUnitFieldsProcess(values);
+        doEditDivisionUnitProcess(values);
       }
     },
     okText: "Ya",

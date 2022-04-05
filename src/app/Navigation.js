@@ -38,6 +38,7 @@ import UnitFieldsContainer from "../modules/Units/Container/UnitFields/UnitField
 import ReportIdentificationContainer from "../modules/ReportIdentification/Container/ReportIdentificationContainer";
 import DivisionContainer from "../modules/Division/Container/DivisionContainer";
 import EmployeeToolsContainer from "../modules/Employees/Container/EmployeeTools/EmployeeToolsContainer";
+import DivisionUnitContainer from "../modules/Division/Container/DivisionUnit/DivisionUnitContainer";
 
 export default function Navigation() {
   const authenticatedPage = (component, footerImg, footer) => {
@@ -59,6 +60,7 @@ export default function Navigation() {
   const EmployeeList = authenticatedPage(EmployeesListContainer, true);
   const EmployeeTools = authenticatedPage(EmployeeToolsContainer, true);
   const Division = authenticatedPage(DivisionContainer, true);
+  const DivisionUnit = authenticatedPage(DivisionUnitContainer, true);
   const EditEmployee = authenticatedPage(EmployeeEditContainer, true);
   const Dashboard = authenticatedPage(DashboardContainer, true);
   const Units = authenticatedPage(UnitsContainer, true);
@@ -131,6 +133,7 @@ export default function Navigation() {
         <Route exact path="/category" component={FormCategory} />
         <Route exact path="/employees" component={EmployeeList} />
         <Route exact path="/division" component={Division} />
+        <Route exact path="/division-unit" component={DivisionUnit} />
         <Route exact path="/edit-employee" component={EditEmployee} />
         <Route exact path="/internal-service" component={InternalService} />
         <Route exact path="/external-service" component={ExternalService} />

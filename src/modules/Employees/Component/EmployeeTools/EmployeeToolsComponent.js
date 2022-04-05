@@ -11,7 +11,7 @@ const { Search } = Input;
 const EmployeeToolsComponent = (props) => {
   const {
     headers,
-    listUnitFields,
+    listEmployeeTools,
     renderActionTable,
     handlePressAddNew,
     onChangePagination,
@@ -79,7 +79,7 @@ const EmployeeToolsComponent = (props) => {
                 </div>
                 <div class="table-responsive">
                   <CTableAntd
-                    data={listUnitFields}
+                    data={listEmployeeTools}
                     headers={headers}
                     renderActions={renderActionTable}
                     pagination={pagination}

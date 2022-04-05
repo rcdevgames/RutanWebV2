@@ -1,8 +1,10 @@
-import { Space, Tooltip } from "antd";
+import { Space } from "antd";
 import React from "react";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
 import * as DivisionActions from "../Store/DivisionActions";
+import * as DivisionUnitActions from "../Store/DivisionUnitActions";
+import * as EmployeeActions from "../../Employees/Store/EmployeesActions";
 import * as ComponentActions from "../../App/Store/ComponentAction";
 import {
   EditOutlined,
@@ -16,17 +18,16 @@ import { store } from "../../../app/ConfigureStore";
 
 const UnitsContainer = (props) => {
   const {
-    getListUnit,
+    getListDivision,
     handlePressEdit,
     handlePressDelete,
     handlePressAddNew,
-    handlePressUnitFields,
+    handlePressDivisionUnit,
     division: { listDivision, paging },
+    getListEmlpoyee 
   } = props;
 
   const { page, limit, totalPage } = paging;
-
-  const tooltipText = <span>Unit Model</span>;
 
   if (listDivision.length > 0) {
     listDivision.map((item, index) => {
@@ -83,7 +84,7 @@ const UnitsContainer = (props) => {
         size="middle"
       />
       <CButtonAntd
-        onClick={() => handlePressUnitFields(record)}
+        onClick={() => handlePressDivisionUnit(record)}
         type="primary"
         icon={<FileAddOutlined />}
         size="middle"
@@ -99,7 +100,8 @@ const UnitsContainer = (props) => {
   );
 
   React.useEffect(() => {
-    getListUnit(page, limit);
+    getListDivision(page, limit);
+    getListEmlpoyee(1, 99999);
   }, []);
 
   const onChangePagination = async (nextPage, pageSize) => {
@@ -108,11 +110,11 @@ const UnitsContainer = (props) => {
     paging.limit = pageSize;
     paging.totalPage = totalPage;
     await store.dispatch(DivisionActions.setPagingDivision(paging));
-    getListUnit(nextPage, pageSize);
+    getListDivision(nextPage, pageSize);
   };
 
   const onSearch = (val) => {
-    getListUnit(page, limit, val);
+    getListDivision(page, limit, val);
   };
 
   return (
@@ -133,8 +135,11 @@ const mapStateToProps = (state) => ({
   division: state.division,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getListUnit: (page, limit, keyword) =>
+  getListDivision: (page, limit, keyword) =>
     DivisionActions.getDivisionListDataRequested(page, limit, keyword),
+  getListEmlpoyee: (page, limit) => {
+    EmployeeActions.loadEmployeeListData(page, limit);
+  },
   handlePressAddNew: async () => {
     await dispatch(DivisionActions.setSelectedDivisionData({}));
     await dispatch(DivisionActions.setSelectedDivisionId(""));
@@ -153,7 +158,7 @@ const mapDispatchToProps = (dispatch) => ({
     await dispatch(DivisionActions.setSelectedDivisionId(divisionId));
     DivisionActions.deleteDivisionRequested(divisionId);
   },
-  handlePressUnitFields: async (record) => {
+  handlePressDivisionUnit: async (record) => {
     await dispatch(ComponentActions.setGlobalLoading(true));
     await dispatch(DivisionActions.setSelectedDivisionId(record.id));
     await dispatch(DivisionActions.setSelectedDivisionData(record));

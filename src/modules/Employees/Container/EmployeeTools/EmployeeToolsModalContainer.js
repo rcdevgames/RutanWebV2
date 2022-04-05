@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
-import { validateFormUnitModel } from "../../../../app/validateForm";
+import { validateEmployeeToolsForm, validateFormUnitModel } from "../../../../app/validateForm";
 import * as ComponentActions from "../../../App/Store/ComponentAction";
 import * as EmployeeToolsActions from "../../Store/EmployeeTools/EmployeeToolsActions";
 import EmployeeToolsModalComponent from "../../Component/EmployeeTools/EmployeeToolsModalComponent";
@@ -56,5 +56,5 @@ const EnhanceContainer = connect(
 
 export default reduxForm({
   form: "editEmployeeToolsForm",
-  validate: validateFormUnitModel,
+  validate: validateEmployeeToolsForm,
 })(EnhanceContainer);

@@ -8,9 +8,10 @@ import { showToast } from "../../../Roles/Store/RolesActions";
 import * as ComponentActions from "../../../App/Store/ComponentAction";
 import { navigate } from "../../../../app/Helpers";
 
-export const SET_EMPLOYEE_TOOL_LIST_DATA = "SET_EMPLOYEE_LIST_DATA";
-export const SET_SELECTED_EMPLOYEE_TOOLS_ID = "SET_SELECTED_EMPLOYEE_ID";
-export const SET_SELECTED_EMPLOYEE_TOOLS_DATA = "SET_SELECTED_EMPLOYEE_DATA";
+export const SET_EMPLOYEE_TOOL_LIST_DATA = "SET_EMPLOYEE_TOOL_LIST_DATA";
+export const SET_SELECTED_EMPLOYEE_TOOLS_ID = "SET_SELECTED_EMPLOYEE_TOOLS_ID";
+export const SET_SELECTED_EMPLOYEE_TOOLS_DATA =
+  "SET_SELECTED_EMPLOYEE_TOOLS_DATA";
 export const SET_FORM_STATUS = "SET_FORM_STATUS";
 export const SET_SELECTED_ROLE_EMPLOYEE = "SET_SELECTED_ROLE_EMPLOYEE";
 export const SET_PAGING_EMPLOYEE_TOOLS = "SET_PAGING_EMPLOYEE_TOOLS";
@@ -50,44 +51,21 @@ export const setPagingEmployeeTools = (payload) => {
   };
 };
 
-export const loadEmployeeListData = async (
+export const getEmployeeToolsRequested = async (
+  employeeId,
   page,
   limit,
-  keyword = "",
-  roleId = "",
-  branchId = "",
-  divisionId = ""
+  keyword = ""
 ) => {
   try {
-    const { data } = await Invoke.getEmployeeList(
-      page,
-      limit,
-      keyword,
-      roleId,
-      branchId,
-      divisionId
-    );
+    const { data } = await Invoke.getEmployeeTools(employeeId, page, limit);
+    console.log("=== data : ", data);
     const paging = {};
     paging.page = data.callback.page;
     paging.limit = data.callback.limit;
     paging.totalPage = data.callback.totalPage;
+    store.dispatch(setPagingEmployeeTools(paging));
     store.dispatch(setEmployeeToolsListData(data.callback.data));
-    store.dispatch(setPagingEmployeeTools(paging));
-    store.dispatch(setGlobalLoading(false));
-  } catch (error) {
-    store.dispatch(setGlobalLoading(false));
-    console.log(error);
-  }
-};
-
-export const getEmployeeToolsRequested = (employeeId, page, limit) => {
-  try {
-    const { data } = Invoke.getEmployeeTools(employeeId, page, limit);
-    const paging = {};
-    paging.page = data.callback.page;
-    paging.limit = data.callback.limit;
-    paging.totalPage = data.callback.totalPage;
-    store.dispatch(setPagingEmployeeTools(paging));
   } catch (error) {
     console.log("error : ", error);
   }
@@ -146,29 +124,21 @@ const doAddEmployeeToolsProcess = async (values) => {
   const { dispatch, getState } = store;
   dispatch(ComponentActions.setGlobalModal(true));
   const { page, limit } = getState().employees.paging;
-  const branchId = values.branch.split("|");
-  const provinceId = values.province.split("|");
-  const cityId = values.city.split("|");
+  const employeeId = getState().employees.selectedEmployeeId;
+  const slpitToolsId = values.tools.split("|");
 
   try {
     const payload = {};
-    payload.nik = values.nik;
-    payload.password = values.password;
-    payload.name = values.name;
-    payload.branch_id = branchId[0] ?? "";
-    payload.province_id = provinceId[0] ?? "";
-    payload.city_id = cityId[0] ?? "";
-    payload.phone = values.phone;
-    payload.address = values.address;
-    payload.photo = values.imageUrl;
+    payload.employee_id = employeeId;
+    payload.tool_id = slpitToolsId[0];
 
-    await Invoke.addEmployee(payload);
+    await Invoke.addEmployeeTools(payload);
 
     showToast("Data Berhasil Disimpan", "success");
-    loadEmployeeListData(page, limit);
+    getEmployeeToolsRequested(employeeId, page, limit);
     dispatch(ComponentActions.setGlobalModal(false));
     setTimeout(() => {
-      navigate("/employees");
+      navigate("/employee-tools");
     }, 500);
   } catch (error) {
     showToast("Internal Server Error!", "error");
@@ -177,101 +147,41 @@ const doAddEmployeeToolsProcess = async (values) => {
 };
 
 const doEditEmployeeToolsProcess = async (values) => {
-  const { dispatch } = store;
+  const { dispatch, getState } = store;
+  const employeeId = getState().employees.selectedEmployeeId;
   dispatch(ComponentActions.setGlobalLoading(true));
-  const branchId = values.branch.split("|");
-  const provinceId = values.province.split("|");
-  const cityId = values.city.split("|");
+  const splitTools = values.tools.split("|");
 
   try {
     const payload = {};
     payload.id = values.id;
-    payload.nik = values.nik;
-    payload.password = values.password;
-    payload.name = values.name;
-    payload.branch_id = branchId[0] ?? "";
-    payload.province_id = provinceId[0] ?? "";
-    payload.city_id = cityId[0] ?? "";
-    payload.phone = values.phone;
-    payload.address = values.address;
-    payload.photo = values.imageUrl ?? "";
-    // Save Employee - roles actions
-    if (values.selectedRoles.length > 0) {
-      await doSaveEmployeeRole(values.selectedRoles, "delete-and-add");
-    } else {
-      await doSaveEmployeeRole(values.selectedRoles, "delete-all");
-    }
+    payload.employee_id = employeeId;
+    payload.tool_id = splitTools[0];
+
     // Save Employee data actions
-    await Invoke.updateEmployee(payload);
+    await Invoke.updateEmployeeTools(payload);
     showToast("Data Berhasil Disimpan", "success");
     setTimeout(() => {
-      navigate("/employees");
+      navigate("/employee-tools");
     }, 1000);
   } catch (error) {
     dispatch(ComponentActions.setGlobalLoading(false));
   }
 };
 
-const doAddEmployeeRoleProcess = async (newRoleId, employeeId) => {
-  const payload = {
-    employee_id: employeeId,
-    role_id: newRoleId,
-  };
-  await Invoke.addEmployeeRole(payload);
-};
-
-const doDeleteAllEmployeeRoleProcess = async (roleListApi) => {
-  roleListApi.data.map(async (item, index) => {
-    await Invoke.deleteEmployeeRole(item.id);
-  });
-};
-
-const doDeleteEmployeeProcess = async (employeeId) => {
+const doDeleteEmployeeToolsProcess = async (employeeToolsId) => {
   const { getState } = store;
-  const paging = getState().employees.paging;
+  const paging = getState().employeeTools.paging;
+  const employeeId = getState().employees.selectedEmployeeId;
   const { page, limit } = paging;
 
   try {
-    await Invoke.deleteEmployeeById(employeeId);
+    await Invoke.deleteEmployeeToolsById(employeeToolsId);
     showToast("Data berhasil dihapus", "success");
-    loadEmployeeListData(page, limit);
+    getEmployeeToolsRequested(employeeId, page, limit);
   } catch (error) {
     showToast("Internal Server Error!", "error");
     console.log("error : ", error);
-  }
-};
-
-const doSaveEmployeeRole = async (newRoleSelected, type) => {
-  const { getState } = store;
-  try {
-    const currentRoleSelected = getState().employees.selectedRoleEmployee;
-    const selectedEmployeeId = getState().employees.selectedEmployeeId;
-    const { data } = await Invoke.getEmployeeRoles(selectedEmployeeId, 1, 100);
-    const roleListApi = data.callback;
-
-    if (type === "delete-all") {
-      await currentRoleSelected.map(async (item, index) => {
-        await doDeleteAllEmployeeRoleProcess(roleListApi);
-      });
-    } else if (type === "add") {
-      await newRoleSelected.map(async (item, index) => {
-        await doAddEmployeeRoleProcess(item, selectedEmployeeId);
-      });
-    } else {
-      // Check if the user is has been have roles or not
-      if (currentRoleSelected.length > 0) {
-        await doDeleteAllEmployeeRoleProcess(roleListApi);
-        await newRoleSelected.map(async (item, index) => {
-          await doAddEmployeeRoleProcess(item, selectedEmployeeId);
-        });
-      } else {
-        await newRoleSelected.map(async (item, index) => {
-          await doAddEmployeeRoleProcess(item, selectedEmployeeId);
-        });
-      }
-    }
-  } catch (error) {
-    console.log(error);
   }
 };
 
@@ -296,7 +206,7 @@ export const saveEmployeeToolsRequested = async (formStatus, values) => {
 
 export const mapDetailEmployeeToolsToForm = async () => {
   const { dispatch, getState } = store;
-  const data = getState().employeeTools.selectedEmployeeToolsData
+  const data = getState().employeeTools.selectedEmployeeToolsData;
   // const splitTools = data;
   const tools = `${data.tool_id}|${data.name}`;
 
@@ -306,7 +216,6 @@ export const mapDetailEmployeeToolsToForm = async () => {
 
 export const resetForm = () => {
   const { dispatch } = store;
-  dispatch(MasterDataActions.setCityListData([]));
   dispatch(change("editEmployeeToolsForm", `id`, ""));
   dispatch(change("editEmployeeToolsForm", `tools`, ""));
 };
@@ -314,7 +223,7 @@ export const resetForm = () => {
 export const deleteEmployeeToolsRequested = async (employeeId) => {
   const toastrConfirmOptions = {
     onOk: () => {
-      doDeleteEmployeeProcess(employeeId);
+      doDeleteEmployeeToolsProcess(employeeId);
     },
     okText: "Ya",
     cancelText: "Tidak",
@@ -329,29 +238,15 @@ export const deleteEmployeeToolsRequested = async (employeeId) => {
 export const handleSearch = async (keyword, values) => {
   const { getState } = store;
   const { page, limit } = getState().employees.paging;
+  const employeeId = getState().employees.selectedEmployeeId;
 
   if (!values) {
-    await loadEmployeeListData(page, limit, keyword);
+    getEmployeeToolsRequested(employeeId, page, limit, keyword);
     return;
   }
 
-  const splitRole = values.role ? values.role.split("|") : "";
-  const splitBranch = values.branch ? values.branch.split("|") : "";
-  const splitDivision = values.division ? values.division.split("|") : "";
-
-  const roleId = values.role ? splitRole[0] : "";
-  const branchId = values.branch ? splitBranch[0] : "";
-  const divisionId = values.division ? splitDivision[0] : "";
-
   try {
-    await loadEmployeeListData(
-      page,
-      limit,
-      keyword,
-      roleId,
-      branchId,
-      divisionId
-    );
+    await getEmployeeToolsRequested(employeeId, page, limit, keyword);
   } catch (error) {
     console.log(error);
   }

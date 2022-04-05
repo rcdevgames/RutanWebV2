@@ -27,6 +27,7 @@ import monitoringEmployeeReducer from "../modules/MonitoringEmployee/Store/Monit
 import reportServiceRepairReducer from "../modules/ReportServiceRepair/Store/ReportServiceRepairReducer";
 import reportEmployeeReducer from "../modules/ReportEmployee/Store/ReportEmployeeReducer";
 import divisionReducer from "../modules/Division/Store/DivisionReducer";
+import divisionUnitReducer from "../modules/Division/Store/DivisionUnitReducer";
 
 const rootReducers = combineReducers({
   router: connectRouter(history),
@@ -54,6 +55,7 @@ const rootReducers = combineReducers({
   serviceRepair: reportServiceRepairReducer,
   reportEmployee: reportEmployeeReducer,
   division: divisionReducer,
+  divisionUnit: divisionUnitReducer,
   form: formReducer,
   toastr: toastrReducer,
 });

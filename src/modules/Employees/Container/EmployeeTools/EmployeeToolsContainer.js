@@ -12,19 +12,19 @@ import EmployeeToolsComponent from "../../Component/EmployeeTools/EmployeeToolsC
 
 const EmployeeToolsContainer = (props) => {
   const {
-    getListUnitFields,
+    getListEmployeeTools,
     handlePressEdit,
     handlePressDelete,
     handlePressAddNew,
-    unitFields: { listUnitFields, paging },
-    employees: { selectedEmployeeData },
+    employeeTools: { listEmployeeTools, paging },
+    employees: { selectedEmployeeData, selectedEmployeeId },
   } = props;
 
   const { page, limit, totalPage } = paging;
 
-  if (listUnitFields.length > 0) {
-    listUnitFields.map((item, index) => {
-      listUnitFields[index] = { ...item, no: getIndex(page, limit)[index] };
+  if (listEmployeeTools.length > 0) {
+    listEmployeeTools.map((item, index) => {
+      listEmployeeTools[index] = { ...item, no: getIndex(page, limit)[index] };
     });
   }
 
@@ -37,32 +37,11 @@ const EmployeeToolsContainer = (props) => {
       sorter: (a, b) => a.no - b.no,
     },
     {
-      title: "Job Form",
-      dataIndex: "job_form_name",
-      key: "job_form_name",
-      width: "20%",
-      sorter: (a, b) => a.job_form_name.length - b.job_form_name.length,
-    },
-    {
-      title: "Nama Field",
+      title: "Nama Peralatan",
       dataIndex: "name",
       key: "name",
       width: "20%",
       sorter: (a, b) => a.name.length - b.name.length,
-    },
-    {
-      title: "Deskripsi",
-      dataIndex: "descriptions",
-      key: "descriptions",
-      width: "30%",
-      sorter: (a, b) => a.descriptions.length - b.descriptions.length,
-    },
-    {
-      title: "Dibuat",
-      dataIndex: "created_date",
-      key: "created_date",
-      width: "40%",
-      sorter: (a, b) => a.created_date.length - b.created_date.length,
     },
   ];
 
@@ -87,7 +66,7 @@ const EmployeeToolsContainer = (props) => {
   );
 
   React.useEffect(() => {
-    getListUnitFields(page, limit);
+    getListEmployeeTools(selectedEmployeeId, page, limit);
   }, []);
 
   const onChangePagination = async (nextPage, pageSize) => {
@@ -96,17 +75,17 @@ const EmployeeToolsContainer = (props) => {
     paging.limit = pageSize;
     paging.totalPage = totalPage;
     await store.dispatch(EmployeeToolsActions.setPagingEmployeeTools(paging));
-    getListUnitFields(nextPage, pageSize);
+    getListEmployeeTools(selectedEmployeeId, nextPage, pageSize);
   };
 
   const onSearch = (val) => {
-    getListUnitFields(page, limit, val);
+    getListEmployeeTools(selectedEmployeeId, page, limit, val);
   };
 
   return (
     <EmployeeToolsComponent
       headers={headers}
-      listUnitFields={listUnitFields}
+      listEmployeeTools={listEmployeeTools}
       renderActionTable={renderActionTable}
       handlePressAddNew={handlePressAddNew}
       onChangePagination={onChangePagination}
@@ -120,11 +99,16 @@ const EmployeeToolsContainer = (props) => {
 
 const mapStateToProps = (state) => ({
   employees: state.employees,
-  unitFields: state.unitFields,
+  employeeTools: state.employeeTools,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getListUnitFields: (page, limit, keyword) =>
-    EmployeeToolsActions.loadEmployeeListData(page, limit, keyword),
+  getListEmployeeTools: (employeeId, page, limit, keyword) =>
+    EmployeeToolsActions.getEmployeeToolsRequested(
+      employeeId,
+      page,
+      limit,
+      keyword
+    ),
   handlePressAddNew: async () => {
     await dispatch(EmployeeToolsActions.setSelectedEmployeeToolsData({}));
     await dispatch(EmployeeToolsActions.setSelectedEmployeeToolsId(""));
@@ -140,7 +124,9 @@ const mapDispatchToProps = (dispatch) => ({
     await EmployeeToolsActions.mapDetailEmployeeToolsToForm();
   },
   handlePressDelete: async (unitFieldsId) => {
-    await dispatch(EmployeeToolsActions.setSelectedEmployeeToolsId(unitFieldsId));
+    await dispatch(
+      EmployeeToolsActions.setSelectedEmployeeToolsId(unitFieldsId)
+    );
     EmployeeToolsActions.deleteEmployeeToolsRequested(unitFieldsId);
   },
 });
@@ -151,5 +137,5 @@ const EnhanceContainer = connect(
 )(EmployeeToolsContainer);
 
 export default reduxForm({
-  form: "unitFieldsForm",
+  form: "employeeToolsForm",
 })(EnhanceContainer);

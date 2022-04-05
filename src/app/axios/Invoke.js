@@ -166,8 +166,8 @@ Invoke.updateEmployeeTools = (data) => {
   return ConfigAxios.put("/employees/tools", data);
 };
 
-Invoke.deleteEmployeeToolsById = (employeeId) => {
-  return ConfigAxios.delete(`/employees/tools${employeeId}`);
+Invoke.deleteEmployeeToolsById = (employeeToolsId) => {
+  return ConfigAxios.delete(`/employees/tools/${employeeToolsId}`, headersConfigDelete);
 };
 // === End Employee - Tools API ===
 
@@ -437,6 +437,16 @@ Invoke.updateDivision = (payload) => {
 };
 Invoke.deleteDivision = (divisionId) => {
   return ConfigAxios.delete(`/divisions/${divisionId}`, headersConfigDelete);
+};
+
+// === Master Dvision - Unit API === :
+Invoke.getDivisionUnitList = (divisionId, page, limit, keyword) => {
+  return ConfigAxios.get(
+    `/units/divisions/${divisionId}?page=${page}&limit=${limit}&q=${keyword}`
+  );
+};
+Invoke.addDivisionUnit = (payload) => {
+  return ConfigAxios.post(`/units/divisions`, payload);
 };
 
 // Monitoring Employee

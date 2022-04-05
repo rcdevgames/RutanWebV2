@@ -5,6 +5,7 @@ import { getFormValues, reduxForm } from "redux-form";
 import * as EmployeeActions from "../Store/EmployeesActions";
 import * as ComponentActions from "../../App/Store/ComponentAction";
 import * as EmployeesActions from "../../Employees/Store/EmployeesActions";
+import * as ToolsActions from "../../Tools/Store/ToolsActions";
 import * as MasterDataActions from "../../MasterData/Store/MasterDataActions";
 import {
   EditOutlined,
@@ -33,6 +34,7 @@ const EmployeesListContainer = (props) => {
     branch: { listBranch },
     division: { listDivision },
     employeesFormValues,
+    getListTools,
   } = props;
   const { page, limit, totalPage } = paging;
 
@@ -98,8 +100,9 @@ const EmployeesListContainer = (props) => {
   );
 
   React.useEffect(() => {
-    getListEmployees(page, limit);
+    getListEmployees(1, 10);
     getDivisionListDataRequested(1, 100);
+    getListTools(1, 99999);
   }, []);
 
   const onChangePagination = async (nextPage, pageSize) => {
@@ -149,6 +152,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getListEmployees: (page, limit, keyword) =>
     EmployeeActions.loadEmployeeListData(page, limit, keyword),
+  getListTools: (page, limit) => {
+    ToolsActions.getToolsListDataRequested(page, limit);
+  },
   handlePressEdit: async (employee) => {
     dispatch(ComponentActions.setGlobalLoading(true));
     dispatch(EmployeeActions.setFormStatus("edit"));

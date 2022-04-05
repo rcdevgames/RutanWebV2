@@ -2,29 +2,29 @@ import { Space } from "antd";
 import React from "react";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
-import * as UnitFieldsActions from "../../Store/DivisionUnitActions";
+import * as DivisionUnitActions from "../../Store/DivisionUnitActions";
 import * as ComponentActions from "../../../App/Store/ComponentAction";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CButtonAntd from "../../../../components/CButton/CButtonAntd";
 import { getIndex } from "../../../../app/Helpers";
 import { store } from "../../../../app/ConfigureStore";
-import UnitFieldsComponent from "../../Component/DivisionUnit/DivisionUnitComponent";
+import DivisionUnitComponent from "../../Component/DivisionUnit/DivisionUnitComponent";
 
-const UnitFieldsContainer = (props) => {
+const DivisionUnitContainer = (props) => {
   const {
-    getListUnitFields,
+    getListDivisionUnit,
     handlePressEdit,
     handlePressDelete,
     handlePressAddNew,
-    unitFields: { listUnitFields, paging },
-    units: { selectedUnitsData },
+    divisionUnit: { listDivisionUnit, paging },
+    division: { selectedDivisionData },
   } = props;
 
   const { page, limit, totalPage } = paging;
 
-  if (listUnitFields.length > 0) {
-    listUnitFields.map((item, index) => {
-      listUnitFields[index] = { ...item, no: getIndex(page, limit)[index] };
+  if (listDivisionUnit.length > 0) {
+    listDivisionUnit.map((item, index) => {
+      listDivisionUnit[index] = { ...item, no: getIndex(page, limit)[index] };
     });
   }
 
@@ -37,31 +37,24 @@ const UnitFieldsContainer = (props) => {
       sorter: (a, b) => a.no - b.no,
     },
     {
-      title: "Job Form",
-      dataIndex: "job_form_name",
-      key: "job_form_name",
+      title: "Nama Unit",
+      dataIndex: "unit_name",
+      key: "unit_name",
       width: "20%",
-      sorter: (a, b) => a.job_form_name.length - b.job_form_name.length,
-    },
-    {
-      title: "Nama Field",
-      dataIndex: "name",
-      key: "name",
-      width: "20%",
-      sorter: (a, b) => a.name.length - b.name.length,
+      sorter: (a, b) => a.unit_name.length - b.unit_name.length,
     },
     {
       title: "Deskripsi",
-      dataIndex: "descriptions",
-      key: "descriptions",
-      width: "30%",
-      sorter: (a, b) => a.descriptions.length - b.descriptions.length,
+      dataIndex: "description",
+      key: "description",
+      width: "20%",
+      sorter: (a, b) => a.description.length - b.description.length,
     },
     {
       title: "Dibuat",
       dataIndex: "created_date",
       key: "created_date",
-      width: "40%",
+      width: "30%",
       sorter: (a, b) => a.created_date.length - b.created_date.length,
     },
   ];
@@ -87,7 +80,7 @@ const UnitFieldsContainer = (props) => {
   );
 
   React.useEffect(() => {
-    getListUnitFields(page, limit);
+    getListDivisionUnit(page, limit);
   }, []);
 
   const onChangePagination = async (nextPage, pageSize) => {
@@ -95,61 +88,61 @@ const UnitFieldsContainer = (props) => {
     paging.page = nextPage;
     paging.limit = pageSize;
     paging.totalPage = totalPage;
-    await store.dispatch(UnitFieldsActions.setPagingUnitFields(paging));
-    getListUnitFields(nextPage, pageSize);
+    await store.dispatch(DivisionUnitActions.setPagingDivisionUnit(paging));
+    getListDivisionUnit(nextPage, pageSize);
   };
 
   const onSearch = (val) => {
-    getListUnitFields(page, limit, val);
+    getListDivisionUnit(page, limit, val);
   };
 
   return (
-    <UnitFieldsComponent
+    <DivisionUnitComponent
       headers={headers}
-      listUnitFields={listUnitFields}
+      listDivisionUnit={listDivisionUnit}
       renderActionTable={renderActionTable}
       handlePressAddNew={handlePressAddNew}
       onChangePagination={onChangePagination}
       onSearch={onSearch}
       paging={paging}
-      selectedUnitsData={selectedUnitsData}
+      selectedDivisionData={selectedDivisionData}
       // {...props}
     />
   );
 };
 
 const mapStateToProps = (state) => ({
-  units: state.units,
-  unitFields: state.unitFields,
+  division: state.division,
+  divisionUnit: state.divisionUnit,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getListUnitFields: (page, limit, keyword) =>
-    UnitFieldsActions.getUnitFieldsListDataRequested(page, limit, keyword),
+  getListDivisionUnit: (page, limit, keyword) =>
+    DivisionUnitActions.getDivisionUnitListRequested(page, limit, keyword),
   handlePressAddNew: async () => {
-    await dispatch(UnitFieldsActions.setSelectedUnitFieldsData({}));
-    await dispatch(UnitFieldsActions.setSelectedUnitFieldsId(""));
-    dispatch(UnitFieldsActions.setFormStatus("add"));
+    await dispatch(DivisionUnitActions.setSelectedDivisionUnitData({}));
+    await dispatch(DivisionUnitActions.setSelectedDivisonUnitId(""));
+    dispatch(DivisionUnitActions.setFormStatus("add"));
     dispatch(ComponentActions.setGlobalModal(true));
-    UnitFieldsActions.resetForm();
+    DivisionUnitActions.resetForm();
   },
   handlePressEdit: async (record) => {
-    await dispatch(UnitFieldsActions.setFormStatus("edit"));
-    await dispatch(UnitFieldsActions.setSelectedUnitFieldsId(record.id));
-    await dispatch(UnitFieldsActions.setSelectedUnitFieldsData(record));
+    await dispatch(DivisionUnitActions.setFormStatus("edit"));
+    await dispatch(DivisionUnitActions.setSelectedDivisonUnitId(record.id));
+    await dispatch(DivisionUnitActions.setSelectedDivisionUnitData(record));
     await dispatch(ComponentActions.setGlobalModal(true));
-    await UnitFieldsActions.mapDetailUnitFieldToForm();
+    await DivisionUnitActions.mapDetailUnitFieldToForm();
   },
-  handlePressDelete: async (unitFieldsId) => {
-    await dispatch(UnitFieldsActions.setSelectedUnitFieldsId(unitFieldsId));
-    UnitFieldsActions.deleteUnitFieldRequested(unitFieldsId);
+  handlePressDelete: async (divisionUnitId) => {
+    await dispatch(DivisionUnitActions.setSelectedDivisonUnitId(divisionUnitId));
+    DivisionUnitActions.deleteUnitFieldRequested(divisionUnitId);
   },
 });
 
 const EnhanceContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(UnitFieldsContainer);
+)(DivisionUnitContainer);
 
 export default reduxForm({
-  form: "unitFieldsForm",
+  form: "divisionUnitForm",
 })(EnhanceContainer);

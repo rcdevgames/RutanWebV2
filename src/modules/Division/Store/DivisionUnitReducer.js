@@ -1,15 +1,15 @@
 import {
-  SET_UNIT_FIELDS_LIST_DATA,
+  SET_DIVISION_UNIT_LIST_DATA,
   SET_FORM_STATUS,
-  SET_SELECTED_UNIT_FIELDS_ID,
-  SET_SELECTED_UNIT_FIELDS_DATA,
-  SET_PAGING_UNIT_FIELDS,
+  SET_SELECTED_DIVISION_UNIT_ID,
+  SET_SELECTED_DIVISION_UNIT_DATA,
+  SET_PAGING_DIVISION_UNIT,
 } from "./DivisionUnitActions";
 
 export const initialState = {
-  listUnitFields: [],
-  selectedUnitFieldsId: "",
-  selectedUnitFieldsData: {},
+  listDivisionUnit: [],
+  selectedDivisionUnitId: "",
+  selectedDivisionUnitData: {},
   formStatus: "add",
   paging: {
     page: 1,
@@ -22,22 +22,22 @@ export default function divisionUnitReducer(state = initialState, action) {
   const newState = Object.assign({}, state);
   // eslint-disable-next-line default-case
   switch (action.type) {
-    case SET_UNIT_FIELDS_LIST_DATA:
-      newState.listUnitFields = action.payload;
+    case SET_DIVISION_UNIT_LIST_DATA:
+      newState.listDivisionUnit = action.payload;
       return { ...newState };
 
     case SET_FORM_STATUS:
       newState.formStatus = action.payload;
       return { ...newState };
 
-    case SET_SELECTED_UNIT_FIELDS_ID:
-      newState.selectedUnitFieldsId = action.payload;
+    case SET_SELECTED_DIVISION_UNIT_ID:
+      newState.selectedDivisionUnitId = action.payload;
       return { ...newState };
 
-    case SET_SELECTED_UNIT_FIELDS_DATA:
-      newState.selectedUnitFieldsData = action.payload;
+    case SET_SELECTED_DIVISION_UNIT_DATA:
+      newState.selectedDivisionUnitData = action.payload;
       return { ...newState };
-    case SET_PAGING_UNIT_FIELDS:
+    case SET_PAGING_DIVISION_UNIT:
       newState.paging = { ...state.paging, ...action.payload };
       return { ...newState };
   }

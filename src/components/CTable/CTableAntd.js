@@ -5,7 +5,7 @@ import Highlighter from "react-highlight-words";
 import { SearchOutlined } from "@ant-design/icons";
 
 const CTableAntd = (props) => {
-  const { data, headers, renderActions, size, pagination } = props;
+  const { data, headers, renderActions, size, pagination, id } = props;
 
   const [searchText, setSearchText] = React.useState("");
   const [searchedColumn, setSearchedColumn] = React.useState("");
@@ -77,6 +77,7 @@ const CTableAntd = (props) => {
 
   return (
     <Table
+      id={id ?? "my-table-customize"}
       columns={columns}
       dataSource={data}
       size={size ?? "middle"}

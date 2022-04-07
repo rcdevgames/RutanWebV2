@@ -9,6 +9,7 @@ import CButtonAntd from "../../../../components/CButton/CButtonAntd";
 import { getIndex } from "../../../../app/Helpers";
 import { store } from "../../../../app/ConfigureStore";
 import EmployeeToolsComponent from "../../Component/EmployeeTools/EmployeeToolsComponent";
+import { generateEmployeeToolsReport } from "../../Store/EmployeeTools/EmployeeToolsReport";
 
 const EmployeeToolsContainer = (props) => {
   const {
@@ -82,6 +83,14 @@ const EmployeeToolsContainer = (props) => {
     getListEmployeeTools(selectedEmployeeId, page, limit, val);
   };
 
+  const handlePressGeneratePdf = () => {
+    const dataPrinted = {
+      selectedEmployeeData,
+      listEmployeeTools,
+    };
+    generateEmployeeToolsReport(dataPrinted);
+  };
+
   return (
     <EmployeeToolsComponent
       headers={headers}
@@ -92,6 +101,7 @@ const EmployeeToolsContainer = (props) => {
       onSearch={onSearch}
       paging={paging}
       selectedEmployeeData={selectedEmployeeData}
+      handlePressGeneratePdf={handlePressGeneratePdf}
       // {...props}
     />
   );

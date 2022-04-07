@@ -2,7 +2,11 @@ import React from "react";
 import { Input } from "antd";
 import CButtonAntd from "../../../../components/CButton/CButtonAntd";
 import CTableAntd from "../../../../components/CTable/CTableAntd";
-import { PlusOutlined, ArrowLeftOutlined, FilePdfOutlined } from "@ant-design/icons";
+import {
+  PlusOutlined,
+  ArrowLeftOutlined,
+  FilePdfOutlined,
+} from "@ant-design/icons";
 import { navigate } from "../../../../app/Helpers";
 import EmployeeToolsModalContainer from "../../Container/EmployeeTools/EmployeeToolsModalContainer";
 
@@ -39,7 +43,7 @@ const EmployeeToolsComponent = (props) => {
                 </div>
                 <div class="row d-flex justify-content-between mb-2">
                   <div class="col-md-7">
-                    <div class="row">
+                    <div class="row ml-2 mb-2">
                       <CButtonAntd
                         onClick={() => navigate("employees")}
                         type="primary"
@@ -65,7 +69,7 @@ const EmployeeToolsComponent = (props) => {
                         icon={<FilePdfOutlined />}
                         size="middle"
                       >
-                        Generate PDF
+                        Cetak PDF
                       </CButtonAntd>
                     </div>
                   </div>

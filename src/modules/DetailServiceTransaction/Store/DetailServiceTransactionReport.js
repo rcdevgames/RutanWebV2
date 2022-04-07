@@ -142,11 +142,11 @@ export const exportDetailServicePdf = (data) => {
     body: dailyList,
     columns: [
       { header: "No", dataKey: "no" },
-      { header: "Karyawan", dataKey: "nik" },
-      { header: "Deskripsi", dataKey: "name" },
-      { header: "Mulai", dataKey: "phone" },
-      { header: "Selesai", dataKey: "address" },
-      { header: "Jam", dataKey: "startDate" },
+      { header: "Karyawan", dataKey: "name" },
+      { header: "Deskripsi", dataKey: "description" },
+      { header: "Mulai", dataKey: "start" },
+      { header: "Selesai", dataKey: "end" },
+      { header: "Jam", dataKey: "time" },
     ],
   });
 

@@ -11,48 +11,92 @@ export const exportMonitoringEmployeePdf = (data) => {
   listMonitoringEmployee.map((item, index) => {
     monitoringEmployeeList.push({
       no: index + 1,
-      nik: item.nik,
-      name: item.name,
+      nik: item.employee_nik,
+      name: item.employee_name,
       phone: item.phone,
       address: item.address,
-      startDate: item.created_date,
+      type: item.job_type,
+      status: item.job_status,
+      branch: item.branch_name,
+      customer: item.customer_name,
+      createdDate: item.created_date,
     });
   });
 
   const doc = new jsPDF();
   // doc.text({from_left}, {from_top})
   doc.setFontSize(20);
-  doc.setFont("Times-Roman", "regular");
+  doc.setFont("courier");
   doc.text("Monitoring Employee", 100, 20, "center");
   doc.setFontSize(16);
   doc.text("PT Rutan", 100, 30, "center");
 
-  doc.setFontSize(10);
-  doc.setFont("Times-Roman", "regular");
+  doc.setFontSize(12);
+
   //   Line 1
-  doc.text(20, 42, `Dari Tanggal`);
+  doc.text(15, 42, `Dari Tanggal`);
   doc.text(`: ${startDate ?? "-"}`, 50, 42);
-  doc.text(20, 49, `Sampai Tanggal`);
+  doc.text(15, 49, `Sampai Tanggal`);
   doc.text(`: ${dueDate ?? "-"}`, 50, 49);
 
-  var res = doc.autoTableHtmlToJson(document.getElementById("table_wrapper"));
-  // doc.autoTable(res.columns, res.data, {margin: {top: 80}});
-
-  var header = function (data) {
-    doc.setFontSize(18);
-    doc.setTextColor(40);
-    doc.setFontStyle("normal");
-    // doc.addImage(headerImgData, 'JPEG', data.settings.margin.left, 20, 50, 50);
-    doc.text("Management risc", data.settings.margin.left, 50);
+  // drawCell is function for styling font, color and add content to every cell
+  const drawCell = (dataCell) => {
+    // --> This for custom styling font too
+    // else if (dataCell.column.dataKey === "no") {
+    //   docCell.setFont("Verdana", "bold");
+    //   docCell.setFontSize(12);
+    // }
   };
 
-  //   Create table
+  // --> didParseCell is function for styling border, line, etc of every cell
+  const didParseCell = (dataCell) => {
+    let s = dataCell.cell.styles;
+    s.lineColor = [0, 0, 0];
+    s.lineWidth = 0.1;
+    s.font = "courier";
+
+    // --> This for spesific custom cell with spesific index
+    // if (dataCell.row.index === 1) {
+    //   s.lineColor = [0, 0, 0];
+    //   s.borders = "t";
+    // }
+  };
+
+  const headTable = [
+    [
+      { content: "Tanggal", rowSpan: 2, halign: "center" },
+      {
+        content: "Karyawan",
+        colSpan: 4,
+        styles: { halign: "center", fillColor: [255, 255, 255] },
+      },
+      {
+        content: "Service",
+        colSpan: 4,
+        styles: { halign: "center", fillColor: [255, 255, 255] },
+      },
+    ],
+    [
+      "NIK",
+      "Nama Karyawan",
+      "Cabang",
+      "Tipe",
+      "Customer",
+      "Unit",
+      "Model",
+      "Status",
+    ],
+  ];
+
   doc.autoTable({
-    margin: { top: 70, left: 16 },
+    startY: 60,
     body: monitoringEmployeeList,
-    html: "#table_wrapper",
+    theme: "plain",
+    head: headTable,
+    headStyles: { halign: "center", valign: "middle" },
+    styles: { overflow: "linebreak", fontSize: 9, columnWidth: "auto" },
     columns: [
-      { header: "Tanggal", dataKey: "date" },
+      { header: "Tanggal", dataKey: "createdDate" },
       { header: "NIK", dataKey: "nik" },
       { header: "Nama Karyawan", dataKey: "name" },
       { header: "Cabang", dataKey: "branch" },
@@ -62,7 +106,19 @@ export const exportMonitoringEmployeePdf = (data) => {
       { header: "Model", dataKey: "unit_models" },
       { header: "Status", dataKey: "status" },
     ],
-    startY: doc.autoTableEndPosY() + 20,
+    willDrawCell: drawCell,
+    didParseCell: didParseCell,
+    columnStyles: {
+      0: { columnWidth: 28 },
+      1: { columnWidth: 20 },
+      // 2: { halign: "center" },
+      // 3: { halign: "center" },
+      // 4: { halign: "center" },
+      // 5: { halign: "center" },
+      // 6: { halign: "center" },
+    },
+    tableLineColor: [0, 0, 0],
+    tableLineWidth: 0.3,
   });
 
   //   Export

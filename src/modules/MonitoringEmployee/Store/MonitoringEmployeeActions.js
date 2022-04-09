@@ -61,6 +61,7 @@ export const getMonitoringEmployeeListDataRequested = async (
       data.message.map((item, index) => {
         item.data.map((itemData, indexData) => {
           newListMonitoringEmployee.push({
+            created_date: item.date,
             ...itemData,
           });
         });

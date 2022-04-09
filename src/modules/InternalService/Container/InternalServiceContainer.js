@@ -32,7 +32,7 @@ const InternalServiceContainer = (props) => {
     ComponentAction.resetAllGlobalLoadingProcess();
     // resetForm();
     CustomerActions.getCustomerListDataByPaging(page, limit, keyowrd);
-    EmployeeActions.loadEmployeeListData();
+    EmployeeActions.loadEmployeeListData(1, 99999);
     MasterDataActions.loadProvinceListData();
   }, []);
 

@@ -68,7 +68,7 @@ const ExternalServiceContainer = (props) => {
 
   React.useEffect(() => {
     CustomerActions.getCustomerListDataByPaging(page, limit, keyword);
-    EmployeeActions.loadEmployeeListData();
+    EmployeeActions.loadEmployeeListData(1, 99999);
     MasterDataActions.loadProvinceListData();
     return () => {
       resetForm();

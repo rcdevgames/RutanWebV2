@@ -44,6 +44,12 @@ const EmployeesListContainer = (props) => {
     });
   }
 
+  if (listDivision.length > 0) {
+    listDivision.map((item, index) => {
+      listDivision[index] = { ...item, name: item.title };
+    });
+  }
+
   const headers = [
     {
       title: "No",

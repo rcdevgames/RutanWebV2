@@ -47,56 +47,95 @@ export const exportDetailServicePdf = (data) => {
   const doc = new jsPDF();
   // doc.text({from_left}, {from_top})
   doc.setFontSize(20);
-  doc.setFont("Times-Roman", "bold");
+  doc.setFont("courier", "bold");
   doc.text("E-Report PT. Rutan", 100, 20, "center");
 
   doc.setFontSize(10);
-  doc.setFont("Times-Roman", "regular");
+  doc.setFont("courier");
   //   Line 1
-  doc.text(20, 32, `Tipe`);
+  doc.text(15, 32, `Tipe`);
   doc.text(`: ${selectedJobService.type}`, 50, 32);
-  doc.text(115, 32, `Status Trans`);
-  doc.text(`: ${selectedJobService.status}`, 145, 32);
+  doc.text(100, 32, `Status Trans`);
+  doc.text(`: ${selectedJobService.status}`, 130, 32);
   //   Line 2
-  doc.text(20, 39, `Unit`);
+  doc.text(15, 39, `Unit`);
   doc.text(`: ${selectedJobService.unit ?? "-"}`, 50, 39);
-  doc.text(115, 39, `Job Perform`);
-  doc.text(`: ${selectedJobService.job_perform ?? "-"}`, 145, 39);
+  doc.text(100, 39, `Job Perform`);
+  doc.text(`: ${selectedJobService.job_perform ?? "-"}`, 130, 39);
   //   Line 3
-  doc.text(20, 46, `Model (SN)`);
+  doc.text(15, 46, `Model (SN)`);
   doc.text(`: ${selectedJobService.model ?? "-"}`, 50, 46);
-  doc.text(115, 46, `Start - Due`);
-  doc.text(`: ${startDate} - ${dueDate}`, 145, 46);
+  doc.text(100, 46, `Start - Due`);
+  doc.text(`: ${startDate} - ${dueDate}`, 130, 46);
   //   Line 4
-  doc.text(20, 53, `Job Forms`);
+  doc.text(15, 53, `Job Forms`);
   doc.text(`: ${selectedJobService.job_form_name ?? "-"}`, 50, 53);
-  doc.text(115, 53, `Dibuat`);
-  doc.text(`: ${selectedJobService.created_date ?? "-"}`, 145, 53);
+  doc.text(100, 53, `Dibuat`);
+  doc.text(`: ${selectedJobService.created_date ?? "-"}`, 130, 53);
   //   Line 5
-  doc.text(20, 60, `Customer`);
+  doc.text(15, 60, `Customer`);
   doc.text(`: ${selectedJobService.customer_name ?? "-"}`, 50, 60);
-  doc.text(115, 60, `Lokasi`);
-  doc.text(`: ${selectedJobService.location ?? "-"}`, 145, 60);
+  doc.text(100, 60, `Lokasi`);
+  doc.text(`: ${selectedJobService.location ?? "-"}`, 130, 60);
   //   Line 6
-  doc.text(20, 67, `Warranty`);
+  doc.text(15, 67, `Warranty`);
   doc.text(
     `: ${selectedJobService.warranty ? "Warranty" : "No-Warranty"}`,
     50,
     67
   );
   //   Line 7
-  doc.text(20, 75, `PIC`);
+  doc.text(15, 75, `PIC`);
   doc.text(`: ${selectedJobService.customer_pic_name ?? "-"}`, 50, 75);
 
   // === Technition ===
   doc.setFontSize(16);
-  doc.setFont("Times-Roman", "regular");
-  doc.text("Teknisi", 20, 87);
-  doc.line(20, 92, 200, 92);
+  doc.setFont("courier");
+  doc.text("Teknisi", 15, 87);
+  doc.line(15, 92, 200, 92);
+
+  // doc.autoTable({
+  //   margin: { top: 95, left: 16 },
+  //   body: employeeList,
+  //   columns: [
+  //     { header: "No", dataKey: "no" },
+  //     { header: "NIK", dataKey: "nik" },
+  //     { header: "Nama Karyawan", dataKey: "name" },
+  //     { header: "No. Telepon", dataKey: "phone" },
+  //     { header: "Alamat", dataKey: "address" },
+  //     { header: "Tanggal Mulai", dataKey: "startDate" },
+  //   ],
+  // });
+
+  // drawCell is function for styling font, color and add content to every cell
+  const drawCell = (dataCell) => {
+    // --> This for custom styling font too
+    // else if (dataCell.column.dataKey === "no") {
+    //   docCell.setFont("Verdana", "bold");
+    //   docCell.setFontSize(12);
+    // }
+  };
+
+  // --> didParseCell is function for styling border, line, etc of every cell
+  const didParseCell = (dataCell) => {
+    let s = dataCell.cell.styles;
+    s.lineColor = [0, 0, 0];
+    s.lineWidth = 0.1;
+    s.font = "courier";
+
+    // --> This for spesific custom cell with spesific index
+    // if (dataCell.row.index === 1) {
+    //   s.lineColor = [0, 0, 0];
+    //   s.borders = "t";
+    // }
+  };
 
   doc.autoTable({
-    margin: { top: 95, left: 16 },
+    startY: 95,
     body: employeeList,
+    theme: "plain",
+    headStyles: { halign: "center" },
+    styles: { overflow: "linebreak" },
     columns: [
       { header: "No", dataKey: "no" },
       { header: "NIK", dataKey: "nik" },
@@ -105,27 +144,35 @@ export const exportDetailServicePdf = (data) => {
       { header: "Alamat", dataKey: "address" },
       { header: "Tanggal Mulai", dataKey: "startDate" },
     ],
+    willDrawCell: drawCell,
+    didParseCell: didParseCell,
+    columnStyles: {
+      0: { halign: "center" },
+    },
+    tableLineColor: [0, 0, 0],
+    tableLineWidth: 0.3,
   });
+
   const employeeDistance = employeeList.length ? employeeList.length * 10 : 10;
 
   // === Checklist ===
   if (selectedJobService.is_external) {
     doc.setFontSize(16);
-    doc.setFont("Times-Roman", "regular");
-    doc.text("Checklist", 20, 130 + employeeDistance);
-    doc.line(20, 137 + employeeDistance, 200, 137 + employeeDistance);
+    doc.setFont("courier");
+    doc.text("Checklist", 15, 130 + employeeDistance);
+    doc.line(15, 137 + employeeDistance, 200, 137 + employeeDistance);
     // doc.addPage();
   }
 
   // Gambar - Gambar
   doc.setFontSize(16);
-  doc.setFont("Times-Roman", "regular");
+  doc.setFont("courier");
   const checklistDistance = checklistData.length
     ? checklistData.length * 10
     : 10;
   const totalImageDistance = checklistDistance + employeeDistance;
-  doc.text("Gambar - Gambar", 20, 137 + totalImageDistance);
-  doc.line(20, 144 + totalImageDistance, 200, 144 + totalImageDistance);
+  doc.text("Gambar - Gambar", 15, 137 + totalImageDistance);
+  doc.line(15, 144 + totalImageDistance, 200, 144 + totalImageDistance);
   selectedServiceMedia.map((item, index) => {
     doc.addImage(item.path, "JPEG", 10, 30, 150, 76);
   });
@@ -133,13 +180,29 @@ export const exportDetailServicePdf = (data) => {
   // Catatan Teknisi
   doc.addPage();
   doc.setFontSize(16);
-  doc.setFont("Times-Roman", "regular");
-  doc.text("Catatan Teknisi", 20, 20);
-  doc.line(20, 25, 200, 25);
+  doc.setFont("courier");
+  doc.text("Catatan Teknisi", 15, 20);
+  doc.line(15, 25, 200, 25);
 
+  // doc.autoTable({
+  //   margin: { top: 30, left: 16 },
+  //   body: dailyList,
+  //   columns: [
+  //     { header: "No", dataKey: "no" },
+  //     { header: "Karyawan", dataKey: "name" },
+  //     { header: "Deskripsi", dataKey: "description" },
+  //     { header: "Mulai", dataKey: "start" },
+  //     { header: "Selesai", dataKey: "end" },
+  //     { header: "Jam", dataKey: "time" },
+  //   ],
+  // });
   doc.autoTable({
-    margin: { top: 30, left: 16 },
+    // startY: 95,
+    margin: { top: 30, left: 15 },
     body: dailyList,
+    theme: "plain",
+    headStyles: { halign: "center" },
+    styles: { overflow: "linebreak" },
     columns: [
       { header: "No", dataKey: "no" },
       { header: "Karyawan", dataKey: "name" },
@@ -148,14 +211,21 @@ export const exportDetailServicePdf = (data) => {
       { header: "Selesai", dataKey: "end" },
       { header: "Jam", dataKey: "time" },
     ],
+    willDrawCell: drawCell,
+    didParseCell: didParseCell,
+    columnStyles: {
+      0: { halign: "center" },
+    },
+    tableLineColor: [0, 0, 0],
+    tableLineWidth: 0.3,
   });
 
   // Laporan Akhir
   doc.setFontSize(16);
-  doc.setFont("Times-Roman", "regular");
+  doc.setFont("courier");
   const dailiesDistance = dailyList.length * 10;
-  doc.text("Laporan Akhir", 20, 50 + dailiesDistance);
-  doc.line(20, 55 + dailiesDistance, 200, 55 + dailiesDistance);
+  doc.text("Laporan Akhir", 15, 50 + dailiesDistance);
+  doc.line(15, 55 + dailiesDistance, 200, 55 + dailiesDistance);
 
   // === Signature ===
   doc.addPage();
@@ -194,5 +264,5 @@ export const exportDetailServicePdf = (data) => {
   doc.text(130, 163, `(...........................)`);
 
   //   Export
-  doc.save("table.pdf");
+  doc.save(`detail-service-${selectedJobService.id}.pdf`);
 };

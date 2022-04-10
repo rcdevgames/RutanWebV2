@@ -194,6 +194,10 @@ const mapDispatchToProps = (dispatch) => ({
   getListServices: (page, limit, keyword) =>
     ListServiceActions.getListServicesRequested(page, limit, keyword),
   handlePressEdit: async (value) => ListServiceActions.handlePressEdit(value),
+  handlePressDelete: async (jobServiceId) => {
+    await dispatch(ListServiceActions.setSelectedJobServiceId(jobServiceId));
+    ListServiceActions.deleteJobServiceRequested(jobServiceId);
+  },
 });
 
 const EnhanceContainer = connect(

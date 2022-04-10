@@ -20,6 +20,10 @@ Invoke.getListServices = (page, limit, keyword) => {
   return ConfigAxios.get(`/services?page=${page}&limit=${limit}&q=${keyword}`);
 };
 
+Invoke.deleteJobServiceById = (jobId) => {
+  return ConfigAxios.delete(`/services/${jobId}`, headersConfigDelete);
+};
+
 Invoke.getOneServices = (jobId) => {
   return ConfigAxios.get(`/services/${jobId}`);
 };
@@ -167,7 +171,10 @@ Invoke.updateEmployeeTools = (data) => {
 };
 
 Invoke.deleteEmployeeToolsById = (employeeToolsId) => {
-  return ConfigAxios.delete(`/employees/tools/${employeeToolsId}`, headersConfigDelete);
+  return ConfigAxios.delete(
+    `/employees/tools/${employeeToolsId}`,
+    headersConfigDelete
+  );
 };
 // === End Employee - Tools API ===
 

@@ -34,6 +34,7 @@ const InternalServiceContainer = (props) => {
     CustomerActions.getCustomerListDataByPaging(page, limit, keyowrd);
     EmployeeActions.loadEmployeeListData(1, 99999);
     MasterDataActions.loadProvinceListData();
+    // MasterDataActions.loadCityListData();
   }, []);
 
   const SelectCustomerData = [];

@@ -50,6 +50,8 @@ export const setAutoPopulateUnitModel = async (unitId, fieldIndex) => {
 };
 
 export const setAutoPopulateEmployee = async (employeeId, indexEmployee) => {
+  let citySelected;
+
   try {
     const employeeData = await getEmployeeByIdFromReducer(
       employeeId,
@@ -58,6 +60,16 @@ export const setAutoPopulateEmployee = async (employeeId, indexEmployee) => {
     const provinceData = await getProvinceByIdFromReducer(
       employeeData.province_id
     );
+
+    const cityData = await Invoke.getCityList(1, 200, employeeData.province_id);
+
+    if (cityData.data.callback.data.length > 0) {
+      const [filteredCity] = cityData.data.callback.data.filter(
+        (x) => x.id === employeeData.city_id
+      );
+      citySelected = filteredCity;
+    }
+
     // Mapping data to redux-form
     store.dispatch(
       change(
@@ -87,6 +99,20 @@ export const setAutoPopulateEmployee = async (employeeId, indexEmployee) => {
         provinceData
       )
     );
+    store.dispatch(
+      change(
+        "externalServiceForm",
+        `employees[${indexEmployee}].employeeCityName`,
+        citySelected.name
+      )
+    );
+    store.dispatch(
+      change(
+        "externalServiceForm",
+        `employees[${indexEmployee}].employeeDetailCity`,
+        citySelected
+      )
+    );
     // store.dispatch(
     //   change("externalServiceForm", "employeeCityName", detailEmployee.nik)
     // );
@@ -97,6 +123,8 @@ export const setAutoPopulateEmployee = async (employeeId, indexEmployee) => {
 };
 
 export const setAutoPopulateCustomer = async (customerId) => {
+  let citySelected;
+
   try {
     const customersData = await getEmployeeByIdFromReducer(
       customerId,
@@ -105,6 +133,20 @@ export const setAutoPopulateCustomer = async (customerId) => {
     const provinceData = await getProvinceByIdFromReducer(
       customersData.province_id
     );
+
+    const cityData = await Invoke.getCityList(
+      1,
+      200,
+      customersData.province_id
+    );
+
+    if (cityData.data.callback.data.length > 0) {
+      const [filteredCity] = cityData.data.callback.data.filter(
+        (x) => x.id === customersData.city_id
+      );
+      citySelected = filteredCity;
+    }
+
     // Mapping data to redux-form
     store.dispatch(
       change(
@@ -127,6 +169,12 @@ export const setAutoPopulateCustomer = async (customerId) => {
     );
     store.dispatch(
       change("externalServiceForm", "customerDetailProvince", provinceData)
+    );
+    store.dispatch(
+      change("externalServiceForm", "customerCityName", citySelected.name)
+    );
+    store.dispatch(
+      change("externalServiceForm", "customerDetailCity", citySelected)
     );
   } catch (error) {
     console.log("process error");

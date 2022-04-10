@@ -6,6 +6,7 @@ import Invoke from "../../../app/axios/Invoke";
 import { setGlobalFormLoading } from "../../App/Store/ComponentAction";
 import { toast } from "react-toastify";
 import { navigate, SelectStatus } from "../../../app/Helpers";
+import * as MasterDataActions from "../../MasterData/Store/MasterDataActions";
 
 const getEmployeeByIdFromReducer = async (employeeId, type) => {
   const { getState } = store;
@@ -27,6 +28,13 @@ const getProvinceByIdFromReducer = async (provinceId) => {
   return result[0] ?? {};
 };
 
+const getCityByIdFromReducer = async (cityId) => {
+  const { getState } = store;
+  const { listCity } = getState().masters;
+  const result = listCity.filter((x) => x.id === cityId);
+  return result[0] ?? {};
+};
+
 export const setAutoPopulateEmployee = async (employeeId, indexEmployee) => {
   try {
     const employeeData = await getEmployeeByIdFromReducer(
@@ -36,6 +44,10 @@ export const setAutoPopulateEmployee = async (employeeId, indexEmployee) => {
     const provinceData = await getProvinceByIdFromReducer(
       employeeData.province_id
     );
+
+    await MasterDataActions.loadCityListData(employeeData.province_id);
+
+    const cityData = await getCityByIdFromReducer(employeeData.city_id);
     // Mapping data to redux-form
     store.dispatch(
       change(
@@ -65,6 +77,20 @@ export const setAutoPopulateEmployee = async (employeeId, indexEmployee) => {
         provinceData
       )
     );
+    store.dispatch(
+      change(
+        "internalServiceForm",
+        `employees[${indexEmployee}].employeeCityName`,
+        cityData.name
+      )
+    );
+    store.dispatch(
+      change(
+        "internalServiceForm",
+        `employees[${indexEmployee}].employeeDetailCity`,
+        cityData
+      )
+    );
   } catch (error) {
     console.log("process error");
     console.log(error);
@@ -72,14 +98,34 @@ export const setAutoPopulateEmployee = async (employeeId, indexEmployee) => {
 };
 
 export const setAutoPopulateCustomer = async (customerId) => {
+  let citySelected;
   try {
     const customersData = await getEmployeeByIdFromReducer(
       customerId,
       "customers"
     );
+
+    console.log("=== customer Data : ", customersData);
+
     const provinceData = await getProvinceByIdFromReducer(
       customersData.province_id
     );
+
+    const cityData = await Invoke.getCityList(
+      1,
+      200,
+      customersData.province_id
+    );
+
+    if (cityData.data.callback.data.length > 0) {
+      const [filteredCity] = cityData.data.callback.data.filter(
+        (x) => x.id === customersData.city_id
+      );
+      citySelected = filteredCity;
+    }
+
+    console.log("=== City : ", cityData);
+
     // Mapping data to redux-form
     store.dispatch(
       change(
@@ -102,6 +148,12 @@ export const setAutoPopulateCustomer = async (customerId) => {
     );
     store.dispatch(
       change("internalServiceForm", "customerDetailProvince", provinceData)
+    );
+    store.dispatch(
+      change("internalServiceForm", "customerCityName", citySelected.name)
+    );
+    store.dispatch(
+      change("internalServiceForm", "customerDetailCity", citySelected)
     );
   } catch (error) {
     console.log(error);

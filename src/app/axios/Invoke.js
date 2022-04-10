@@ -241,8 +241,8 @@ Invoke.setStatusEmployeeService = (jobId, payload) => {
 Invoke.getJobServiceSummary = (jobId) => {
   return ConfigAxios.get(`/services/summary/${jobId}`);
 };
-Invoke.getJobServiceMedia = (jobId) => {
-  return ConfigAxios.get(`/services/medias/${jobId}`);
+Invoke.getJobServiceMedia = (jobId, unitId) => {
+  return ConfigAxios.get(`/services/medias/${jobId}/${unitId}`);
 };
 Invoke.getJobServiceDailies = (jobId) => {
   return ConfigAxios.get(`/services/dailies/${jobId}`);

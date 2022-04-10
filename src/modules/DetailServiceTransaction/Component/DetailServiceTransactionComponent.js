@@ -1,5 +1,5 @@
 import React from "react";
-import { Tabs } from "antd";
+import { Divider, Tabs } from "antd";
 import { Typography } from "antd";
 import CBadgeText from "../../../components/CBadgeText/CBadgeText";
 import moment from "moment";
@@ -11,12 +11,20 @@ import {
   EditOutlined,
 } from "@ant-design/icons";
 import { navigate } from "../../../app/Helpers";
+import CSelect from "../../../components/CSelect/CSelect";
 
 const { Text } = Typography;
 const { TabPane } = Tabs;
 
 const DetailServiceTransactionComponent = (props) => {
-  const { data, TabPanel, onChangeTab, handlePressGeneratePdf } = props;
+  const {
+    data,
+    TabPanel,
+    onChangeTab,
+    handlePressGeneratePdf,
+    enumUnits,
+    onchangeUnit,
+  } = props;
   return (
     <div class="page-content">
       <div class="mt-5">
@@ -113,10 +121,24 @@ const DetailServiceTransactionComponent = (props) => {
                   <Text strong>{data.created_date}</Text>
                   <br />
                   <Text>Lokasi : </Text>
-                  <Text strong>{data.location}</Text>
+                  <Text strong>{data.location ?? "-"}</Text>
                 </div>
                 <div class="col-md-4"></div>
               </div>
+
+              {/* This for filter unit */}
+              <Divider orientation="left">Filter Data</Divider>
+              <div class="row d-flex mb-2">
+                <div class="col-md-3">
+                  <CSelect
+                    data={enumUnits ?? []}
+                    name="unit"
+                    label="Filter Unit"
+                    onChange={onchangeUnit}
+                  />
+                </div>
+              </div>
+
               <Tabs defaultActiveKey="1" onChange={onChangeTab}>
                 {TabPanel.map((item, index) => (
                   <TabPane

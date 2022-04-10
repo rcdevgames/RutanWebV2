@@ -13,12 +13,13 @@ import {
 } from "@ant-design/icons";
 import TabPanelEmployeeContainer from "./TabPanel/TabPanelEmployeeContainer";
 import * as DetailServiceActions from "../Store/DetailServiceTransactionAction";
-import * as EmployeesActions from "../../Employees/Store/EmployeesActions";
 import TabPanelSummaryContainer from "./TabPanel/TabPanelSummaryContainer";
 import TabPanelImagesContainer from "./TabPanel/TabPanelImagesContainer";
 import TabPanelDailiesContainer from "./TabPanel/TabPanelDailiesContainer";
 import TabPanelHistoriesContainer from "./TabPanel/TabPanelHistoriesContainer";
 import { exportDetailServicePdf } from "../Store/DetailServiceTransactionReport";
+import * as ListServiceActions from "../../ListServices/Store/ListServicesActions";
+import { enumSelectGenerator } from "../../../app/Helpers";
 
 const Panel1 = ({ title }) => {
   return (
@@ -39,6 +40,7 @@ const DetailServiceTransactionContainer = (props) => {
       selectedServiceHistories,
       selectedServiceChecklist,
     },
+    units: { listUnits },
   } = props;
 
   const printedData = {
@@ -147,12 +149,27 @@ const DetailServiceTransactionContainer = (props) => {
     exportDetailServicePdf(printedData);
   };
 
+  const SelectUnits = enumSelectGenerator(listUnits, "unit");
+
+  const onchangeUnit = (val) => {
+    const unitId = val.split("|");
+    console.log("=== unit : ", unitId[0]);
+    DetailServiceActions.getJobServiceMedia(selectedJobService.id, unitId[0]);
+    // DetailServiceActions.getJobServiceEmployeeList(selectedJobService.id);
+    // DetailServiceActions.getJobServiceSummary(selectedJobService.id);
+    // DetailServiceActions.getJobServiceDailies(selectedJobService.id);
+    // DetailServiceActions.getJobServiceHistories(selectedJobService.id);
+    // DetailServiceActions.getChecklistData(selectedJobService.id);
+  };
+
   return (
     <DetailServiceTransactionComponent
       data={selectedJobService}
       TabPanel={TabPanel}
       onChangeTab={onChangeTab}
       handlePressGeneratePdf={handlePressGeneratePdf}
+      enumUnits={SelectUnits}
+      onchangeUnit={onchangeUnit}
     />
   );
 };
@@ -160,8 +177,13 @@ const DetailServiceTransactionContainer = (props) => {
 const mapStateToProps = (state) => ({
   services: state.services,
   detailService: state.detailService,
+  units: state.units,
 });
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+  handlePressDelete: (jobId) => {
+    ListServiceActions.deleteJobServiceRequested(jobId);
+  },
+});
 
 const EnhanceContainer = connect(
   mapStateToProps,

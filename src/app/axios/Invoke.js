@@ -16,8 +16,10 @@ Invoke.submitLoginEmployee = (data) => {
   return ConfigAxios.post("/m_auth", data);
 };
 
-Invoke.getListServices = (page, limit, keyword) => {
-  return ConfigAxios.get(`/services?page=${page}&limit=${limit}&q=${keyword}`);
+Invoke.getListServices = (page, limit, keyword, type, status) => {
+  return ConfigAxios.get(
+    `/services?page=${page}&limit=${limit}&q=${keyword}&type=${type}&status=${status}`
+  );
 };
 
 Invoke.deleteJobServiceById = (jobId) => {

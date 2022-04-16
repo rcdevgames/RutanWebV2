@@ -101,6 +101,34 @@ export const SelectStatus = [
   },
 ];
 
+export const SelectStatusServices = [
+  {
+    id: `status-1`,
+    value: "S1",
+    label: "New",
+  },
+  {
+    id: `status-2`,
+    value: "S2",
+    label: "Progress",
+  },
+  {
+    id: `status-3`,
+    value: "S3",
+    label: "Completed",
+  },
+  {
+    id: `status-2`,
+    value: "S4",
+    label: "Approved",
+  },
+  {
+    id: `status-3`,
+    value: "S5",
+    label: "Rejected",
+  },
+];
+
 export const SelectStatusMilling = [
   {
     id: `status-1`,

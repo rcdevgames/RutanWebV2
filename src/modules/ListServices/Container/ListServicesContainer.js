@@ -1,9 +1,13 @@
 import React from "react";
 import { Space, Tag } from "antd";
 import { connect } from "react-redux";
-import { reduxForm } from "redux-form";
+import { getFormValues, reduxForm } from "redux-form";
 import { store } from "../../../app/ConfigureStore";
-import { getIndex } from "../../../app/Helpers";
+import {
+  enumTypeExternalServices,
+  getIndex,
+  SelectStatusServices,
+} from "../../../app/Helpers";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import ListServicesComponent from "../Component/ListServicesComponent";
@@ -16,6 +20,7 @@ const ListServicesContainer = (props) => {
     handlePressEdit,
     handlePressDelete,
     services: { listServices, paging },
+    listServiceFormValues,
   } = props;
 
   const { page, limit, totalPage } = paging;
@@ -171,7 +176,7 @@ const ListServicesContainer = (props) => {
   };
 
   const onSearch = (val) => {
-    getListServices(page, limit, val);
+    ListServiceActions.handleSearch(page, limit, val, listServiceFormValues);
   };
 
   return (
@@ -183,16 +188,25 @@ const ListServicesContainer = (props) => {
       onChangePagination={onChangePagination}
       onSearch={onSearch}
       paging={paging}
+      enumType={enumTypeExternalServices}
+      enumStatus={SelectStatusServices}
     />
   );
 };
 
 const mapStateToProps = (state) => ({
   services: state.services,
+  listServiceFormValues: getFormValues("listServices")(state),
 });
 const mapDispatchToProps = (dispatch) => ({
-  getListServices: (page, limit, keyword) =>
-    ListServiceActions.getListServicesRequested(page, limit, keyword),
+  getListServices: (page, limit, keyword, filterValues) => {
+    ListServiceActions.getListServicesRequested(
+      page,
+      limit,
+      keyword,
+      filterValues
+    );
+  },
   handlePressEdit: async (value) => ListServiceActions.handlePressEdit(value),
   handlePressDelete: async (jobServiceId) => {
     await dispatch(ListServiceActions.setSelectedJobServiceId(jobServiceId));

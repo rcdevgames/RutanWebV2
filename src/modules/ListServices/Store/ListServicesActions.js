@@ -37,15 +37,56 @@ export const setSelectedJobServiceId = (payload) => {
   };
 };
 
-export const getListServicesRequested = async (page, limit, keyword = "") => {
+export const getListServicesRequested = async (
+  page,
+  limit,
+  keyword = "",
+  type = "",
+  status = ""
+) => {
   try {
-    const { data } = await Invoke.getListServices(page, limit, keyword);
+    const { data } = await Invoke.getListServices(
+      page,
+      limit,
+      keyword,
+      type,
+      status
+    );
     const paging = {};
     paging.page = data.callback.page;
     paging.limit = data.callback.limit;
     paging.totalPage = data.callback.totalPage;
     store.dispatch(setListServices(data.callback.data));
     store.dispatch(setPagingListService(paging));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const handleSearch = async (page, limit, keyword, filterValues) => {
+  if (!filterValues) {
+    getListServicesRequested(page, limit, keyword);
+    return;
+  }
+
+  const splitTypeService = filterValues.typeService
+    ? filterValues.typeService.split("|")
+    : "";
+  const splitStatusService = filterValues.statusService
+    ? filterValues.statusService.split("|")
+    : "";
+
+  const typeService = filterValues.typeService ? splitTypeService[0] : "";
+  const statusService = filterValues.statusService ? splitStatusService[0] : "";
+
+  try {
+    await getListServicesRequested(
+      page,
+      limit,
+      keyword,
+      typeService,
+      statusService
+    );
   } catch (error) {
     console.log(error);
   }

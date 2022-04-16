@@ -1,7 +1,7 @@
 import React from "react";
 import { Badge, Divider, Input, Table } from "antd";
-import CTableAntd from "../../../components/CTable/CTableAntd";
 import { categoryServices } from "../../../app/Helpers";
+import CSelect from "../../../components/CSelect/CSelect";
 
 const { Search } = Input;
 
@@ -9,7 +9,8 @@ const ListServiceComponent = (props) => {
   const {
     headers,
     listServices,
-    renderActionTable,
+    enumType,
+    enumStatus,
     onChangePagination,
     paging,
     onSearch,
@@ -40,9 +41,30 @@ const ListServiceComponent = (props) => {
                     </div>
                   ))}
                 </div>
+                <Divider orientation="left">Filter Data</Divider>
                 <div class="row d-flex justify-content-between mb-2">
-                  <div class="col-md-7"></div>
-                  <div class="col-md-4">
+                  <div class="col-md-7">
+                    <div class="row d-flex mb-2">
+                      {/* This Filter */}
+                      <div class="col-md-6">
+                        <CSelect
+                          data={enumType ?? []}
+                          name="typeService"
+                          label="Filter Tipe"
+                          placeholder="- Tampilkan Semua -"
+                        />
+                      </div>
+                      <div class="col-md-6">
+                        <CSelect
+                          data={enumStatus ?? []}
+                          name="statusService"
+                          label="Filter Status"
+                          placeholder="- Tampilkan Semua -"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mt-4">
                     <Search
                       placeholder="Cari"
                       onSearch={onSearch}

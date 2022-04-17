@@ -2,7 +2,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import moment from "moment";
 
-export const exportMonitoringEmployeePdf = (data) => {
+export const exportMonitoringEmployeePdf = (data, values) => {
   const { listMonitoringEmployee, from, until } = data;
   const startDate = moment(from).format("YYYY-MM-DD");
   const dueDate = moment(until).format("YYYY-MM-DD");
@@ -27,7 +27,7 @@ export const exportMonitoringEmployeePdf = (data) => {
   // doc.text({from_left}, {from_top})
   doc.setFontSize(20);
   doc.setFont("courier");
-  doc.text("Monitoring Employee", 100, 20, "center");
+  doc.text("Monitoring Karyawan", 100, 20, "center");
   doc.setFontSize(16);
   doc.text("PT Rutan", 100, 30, "center");
 
@@ -38,6 +38,13 @@ export const exportMonitoringEmployeePdf = (data) => {
   doc.text(`: ${startDate ?? "-"}`, 50, 42);
   doc.text(15, 49, `Sampai Tanggal`);
   doc.text(`: ${dueDate ?? "-"}`, 50, 49);
+
+  // Check if filtered by branch
+  if (values) {
+    const splitBranch = values.branch.split("|");
+    doc.text(15, 56, `Cabang`);
+    doc.text(`: ${splitBranch[1] ?? "-"}`, 50, 56);
+  }
 
   // drawCell is function for styling font, color and add content to every cell
   const drawCell = (dataCell) => {
@@ -89,7 +96,7 @@ export const exportMonitoringEmployeePdf = (data) => {
   ];
 
   doc.autoTable({
-    startY: 60,
+    startY: values ? 65 : 60,
     body: monitoringEmployeeList,
     theme: "plain",
     head: headTable,

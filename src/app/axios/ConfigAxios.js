@@ -70,15 +70,33 @@ ConfigAxios.interceptors.response.use(
     return Promise.resolve(responseFulfilled);
   },
   (responseRejected) => {
-    toast.error("Request Timout!", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
+    console.log("=== responseRejected : ", responseRejected.response);
+    if (responseRejected.response && responseRejected.response.data) {
+      if (
+        responseRejected.response.data.status === 400 &&
+        responseRejected.response.data.message === "Data is not found"
+      ) {
+        toast.warning(responseRejected.response.data.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      } else {
+        toast.error("Request Timeout!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    }
     if (!_.isEmpty(responseRejected)) {
       if (process.env.NODE_ENV === "development") {
         console.log(

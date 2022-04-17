@@ -97,10 +97,14 @@ export const getJobServiceMedia = async (jobId, unitId = "") => {
   }
 };
 
-export const getJobServiceDailies = async (jobId) => {
+export const getJobServiceDailies = async (jobId, unitId = "") => {
   const { dispatch } = store;
-  const { data } = await Invoke.getJobServiceDailies(jobId);
-  dispatch(setSelectedServiceDailiesData(data.callback.data));
+  try {
+    const { data } = await Invoke.getJobServiceDailies(jobId, unitId);
+    dispatch(setSelectedServiceDailiesData(data.callback.data));
+  } catch (error) {
+    dispatch(setSelectedServiceDailiesData([]));
+  }
 };
 
 export const getJobServiceHistories = async (jobId, keyword = "") => {

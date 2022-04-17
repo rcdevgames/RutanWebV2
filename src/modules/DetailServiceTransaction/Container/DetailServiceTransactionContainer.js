@@ -157,7 +157,7 @@ const DetailServiceTransactionContainer = (props) => {
     DetailServiceActions.getJobServiceMedia(selectedJobService.id, unitId[0]);
     // DetailServiceActions.getJobServiceEmployeeList(selectedJobService.id);
     // DetailServiceActions.getJobServiceSummary(selectedJobService.id);
-    // DetailServiceActions.getJobServiceDailies(selectedJobService.id);
+    DetailServiceActions.getJobServiceDailies(selectedJobService.id, unitId[0]);
     // DetailServiceActions.getJobServiceHistories(selectedJobService.id);
     // DetailServiceActions.getChecklistData(selectedJobService.id);
   };

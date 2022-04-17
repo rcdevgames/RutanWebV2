@@ -159,7 +159,7 @@ const MonitoringEmployeeContainer = (props) => {
   };
 
   const handlePressGeneratePdf = () => {
-    exportMonitoringEmployeePdf(printedData);
+    exportMonitoringEmployeePdf(printedData, monitoringEmployeeFormValues);
   };
 
   return (

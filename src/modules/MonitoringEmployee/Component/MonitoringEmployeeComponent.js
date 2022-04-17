@@ -71,6 +71,7 @@ const MonitoringEmployeeComponent = (props) => {
                       data={enumBranch ?? []}
                       name="branch"
                       label="Cabang"
+                      placeholder="-Pilih Semua-"
                     />
                   </div>
                   <div class="col-md-2 mt-3">

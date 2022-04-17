@@ -134,6 +134,7 @@ const DetailServiceTransactionComponent = (props) => {
                     data={enumUnits ?? []}
                     name="unit"
                     label="Filter Unit"
+                    placeholder="-Pilih Semua-"
                     onChange={onchangeUnit}
                   />
                 </div>

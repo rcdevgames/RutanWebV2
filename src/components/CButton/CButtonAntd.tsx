@@ -5,6 +5,7 @@ interface IProps {
   onClick: any;
   disabled: boolean;
   isLoading: boolean;
+  backgroundColor: string;
   icon: any;
   shape: "default" | "circle" | "round";
   type: "primary" | "dashed" | "default" | "ghost" | "link" | "text";
@@ -24,9 +25,11 @@ const CButtonAntd: React.FC<IProps> = (props) => {
     type,
     size,
     danger,
+    backgroundColor
   } = props;
   return (
     <Button
+      style={{backgroundColor: backgroundColor, borderColor: backgroundColor}}
       block={props.block ?? false}
       icon={icon ?? null}
       type={type ?? "default"}

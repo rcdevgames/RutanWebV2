@@ -9,9 +9,12 @@ import {
   ArrowLeftOutlined,
   FilePdfOutlined,
   EditOutlined,
+  CheckCircleOutlined,
+  CloseCircleOutlined,
 } from "@ant-design/icons";
 import { navigate } from "../../../app/Helpers";
 import CSelect from "../../../components/CSelect/CSelect";
+import { Themes } from "../../../property/colors";
 
 const { Text } = Typography;
 const { TabPane } = Tabs;
@@ -25,6 +28,85 @@ const DetailServiceTransactionComponent = (props) => {
     enumUnits,
     onchangeUnit,
   } = props;
+
+  const RenderButtonAction = ({ status }) => {
+    let button;
+    switch (status.toLowerCase()) {
+      case "completed" || "approved":
+        button = (
+          <>
+            <div class="ml-3" />
+            <CButtonAntd
+              // onClick={handlePressAddNew}
+              type="primary"
+              icon={<CheckCircleOutlined />}
+              size="middle"
+              backgroundColor={Themes.success}
+            >
+              Approve
+            </CButtonAntd>
+            <div class="ml-3" />
+            <CButtonAntd
+              // onClick={handlePressAddNew}
+              type="primary"
+              icon={<CloseCircleOutlined />}
+              size="middle"
+              backgroundColor={Themes.warning}
+            >
+              Reject
+            </CButtonAntd>
+          </>
+        );
+        break;
+      case "approved":
+        button = (
+          <>
+            <div class="ml-3" />
+            <CButtonAntd
+              // onClick={handlePressAddNew}
+              type="primary"
+              icon={<CloseCircleOutlined />}
+              size="middle"
+              backgroundColor={Themes.warning}
+            >
+              Reject
+            </CButtonAntd>
+            <div class="ml-3" />
+            <CButtonAntd
+              // onClick={handlePressAddNew}
+              type="primary"
+              icon={<CheckCircleOutlined />}
+              size="middle"
+              backgroundColor={Themes.success}
+            >
+              Finished
+            </CButtonAntd>
+          </>
+        );
+        break;
+      case "finished":
+        button = (
+          <>
+            <div class="ml-3" />
+            <CButtonAntd
+              // onClick={handlePressAddNew}
+              type="primary"
+              icon={<CloseCircleOutlined />}
+              size="middle"
+              backgroundColor={Themes.warning}
+            >
+              Reject
+            </CButtonAntd>
+          </>
+        );
+        break;
+
+      default:
+        return <div />;
+    }
+    return button;
+  };
+
   return (
     <div class="page-content">
       <div class="mt-5">
@@ -54,6 +136,7 @@ const DetailServiceTransactionComponent = (props) => {
                   >
                     Ubah
                   </CButtonAntd>
+                  <RenderButtonAction status={data.status} />
                   <div class="ml-3" />
                   <CButtonAntd
                     onClick={handlePressGeneratePdf}

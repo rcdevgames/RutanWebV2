@@ -153,7 +153,6 @@ const DetailServiceTransactionContainer = (props) => {
 
   const onchangeUnit = (val) => {
     const unitId = val.split("|");
-    console.log("=== unit : ", unitId[0]);
     DetailServiceActions.getJobServiceMedia(selectedJobService.id, unitId[0]);
     // DetailServiceActions.getJobServiceEmployeeList(selectedJobService.id);
     // DetailServiceActions.getJobServiceSummary(selectedJobService.id);
@@ -170,6 +169,7 @@ const DetailServiceTransactionContainer = (props) => {
       handlePressGeneratePdf={handlePressGeneratePdf}
       enumUnits={SelectUnits}
       onchangeUnit={onchangeUnit}
+      {...props}
     />
   );
 };
@@ -182,6 +182,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   handlePressDelete: (jobId) => {
     ListServiceActions.deleteJobServiceRequested(jobId);
+  },
+  handlePressActions: (jobId, type) => {
+    ListServiceActions.handlePressActionsRequested(jobId, type);
   },
 });
 

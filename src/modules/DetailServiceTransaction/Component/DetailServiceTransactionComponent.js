@@ -27,17 +27,18 @@ const DetailServiceTransactionComponent = (props) => {
     handlePressGeneratePdf,
     enumUnits,
     onchangeUnit,
+    handlePressActions,
   } = props;
 
   const RenderButtonAction = ({ status }) => {
     let button;
     switch (status.toLowerCase()) {
-      case "completed" || "approved":
+      case "completed":
         button = (
           <>
             <div class="ml-3" />
             <CButtonAntd
-              // onClick={handlePressAddNew}
+              onClick={() => handlePressActions(data.id, "approved")}
               type="primary"
               icon={<CheckCircleOutlined />}
               size="middle"
@@ -47,7 +48,7 @@ const DetailServiceTransactionComponent = (props) => {
             </CButtonAntd>
             <div class="ml-3" />
             <CButtonAntd
-              // onClick={handlePressAddNew}
+              onClick={() => handlePressActions(data.id, "rejected")}
               type="primary"
               icon={<CloseCircleOutlined />}
               size="middle"
@@ -63,7 +64,7 @@ const DetailServiceTransactionComponent = (props) => {
           <>
             <div class="ml-3" />
             <CButtonAntd
-              // onClick={handlePressAddNew}
+              onClick={() => handlePressActions(data.id, "rejected")}
               type="primary"
               icon={<CloseCircleOutlined />}
               size="middle"
@@ -73,7 +74,7 @@ const DetailServiceTransactionComponent = (props) => {
             </CButtonAntd>
             <div class="ml-3" />
             <CButtonAntd
-              // onClick={handlePressAddNew}
+              onClick={() => handlePressActions(data.id, "finished")}
               type="primary"
               icon={<CheckCircleOutlined />}
               size="middle"

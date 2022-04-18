@@ -219,6 +219,15 @@ Invoke.getCityList = (page, limit, provinceId) => {
 Invoke.addInternalService = (data) => {
   return ConfigAxios.post("/services", data);
 };
+Invoke.setFinishedService = (jobId) => {
+  return ConfigAxios.get(`/m_services/finish/${jobId}`);
+};
+Invoke.setApprovedService = (jobId) => {
+  return ConfigAxios.get(`/m_services/approve/${jobId}`);
+};
+Invoke.setRejectedService = (jobId, payload) => {
+  return ConfigAxios.post(`/m_services/reject/${jobId}`, payload);
+};
 // === End Service API ===
 
 // Services - Employee API

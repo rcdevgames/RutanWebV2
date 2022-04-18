@@ -3,6 +3,7 @@ import { store } from "../../../app/ConfigureStore";
 import { navigate } from "../../../app/Helpers";
 import { toastr } from "react-redux-toastr";
 import { showToast } from "../../Roles/Store/RolesActions";
+import { setGlobalLoading } from "../../App/Store/ComponentAction";
 
 export const SET_LIST_SERVICES = "SET_LIST_SERVICES";
 export const SET_SELECTED_JOB_SERVICE = "SET_SELECTED_JOB_SERVICE";
@@ -132,4 +133,58 @@ export const deleteJobServiceRequested = async (jobId) => {
     "Apakah Anda Yakin Ingin Menghapus Data Ini?",
     toastrConfirmOptions
   );
+};
+
+export const handlePressActionsRequested = async (jobId, type) => {
+  type = type.toLowerCase();
+  let message;
+
+  switch (type) {
+    case "approved":
+      message = "Apakah anda yakin ingin meng-approve data ini?";
+      break;
+
+    case "finished":
+      message = "Apakah anda yakin ingin mem-finishing data ini?";
+      break;
+
+    default:
+      message = "Apakah anda yakin ingin me me-reject data ini?";
+      break;
+  }
+
+  const toastrConfirmOptions = {
+    onOk: () => {
+      doCallActionProcess(jobId, type);
+    },
+    okText: "Ya",
+    cancelText: "Tidak",
+  };
+
+  toastr.confirm(message, toastrConfirmOptions);
+};
+
+export const doCallActionProcess = async (jobId, type) => {
+  const { getState, dispatch } = store;
+  const paging = getState().services.paging;
+  const { page, limit } = paging;
+  dispatch(setGlobalLoading(true));
+  try {
+    if (type === "approved") {
+      await Invoke.setApprovedService(jobId);
+    }
+    if (type === "finished") {
+      await Invoke.setFinishedService(jobId);
+    }
+    await getListServicesRequested(page, limit);
+    showToast("Data berhasil di approved", "success");
+    setTimeout(() => {
+      navigate("/list_service");
+      dispatch(setGlobalLoading(false));
+    }, 500);
+  } catch (error) {
+    showToast("Internal Server Error!", "error");
+    store.dispatch(setGlobalLoading(false));
+    console.log("error : ", error);
+  }
 };

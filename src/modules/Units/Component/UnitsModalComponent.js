@@ -71,7 +71,7 @@ const RenderContent = ({
     <div class="page-content">
       <h6 class="card-title text-center">{formName}</h6>
       <Form onSubmit={handleSubmit(submitForm)}>
-        <div class="col-md-12">
+        {/* <div class="col-md-12">
           <Text style={{ marginBottom: 10 }}>Foto Unit</Text>
           <Upload
             name="avatar"
@@ -92,7 +92,7 @@ const RenderContent = ({
               uploadButton
             )}
           </Upload>
-        </div>
+        </div> */}
         <div class="col-md-12 mt-3">
           <Field name="name" label="Nama Unit" component={CInput} type="text" />
         </div>

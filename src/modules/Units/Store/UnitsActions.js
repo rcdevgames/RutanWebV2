@@ -69,7 +69,7 @@ const doAddUnitProcess = async (values) => {
     const payload = {};
     payload.name = values.name;
     payload.description = values.description;
-    payload.photo = values.imageUrl;
+    payload.photo = values.imageUrl ?? "";
     await Invoke.addUnit(payload);
     showToast("Data Berhasil Disimpan", "success");
     getUnitListDataRequested(page, limit);
@@ -90,7 +90,7 @@ const doEditUnitProcess = async (values) => {
     const payload = {};
     payload.id = values.id;
     payload.name = values.name;
-    payload.photo = values.imageUrl;
+    payload.photo = values.imageUrl ?? "";
     payload.description = values.description;
     await Invoke.updateUnit(payload);
     showToast("Data Berhasil Disimpan", "success");
@@ -171,5 +171,3 @@ export const deleteUnitRequested = async (unitId) => {
     toastrConfirmOptions
   );
 };
-
-

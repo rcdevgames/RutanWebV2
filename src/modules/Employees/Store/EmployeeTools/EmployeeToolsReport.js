@@ -22,6 +22,9 @@ export const generateEmployeeToolsReport = async (data) => {
   doc.text(15, 42, `Karyawan`);
   doc.text(`: ${selectedEmployeeData.name.toUpperCase()}`, 50, 42);
 
+  doc.text(15, 49, `Cabang`);
+  doc.text(`: ${selectedEmployeeData.branch_name ?? "-"}`, 50, 49);
+
   // drawCell is function for styling font, color and add content to every cell
   const drawCell = (dataCell) => {
     let docCell = dataCell.doc;
@@ -58,7 +61,7 @@ export const generateEmployeeToolsReport = async (data) => {
   };
 
   doc.autoTable({
-    startY: 50,
+    startY: 57,
     body: newListData,
     theme: "plain",
     headStyles: { halign: "center" },

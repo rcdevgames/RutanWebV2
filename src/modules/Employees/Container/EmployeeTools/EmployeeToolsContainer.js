@@ -19,6 +19,7 @@ const EmployeeToolsContainer = (props) => {
     handlePressAddNew,
     employeeTools: { listEmployeeTools, paging },
     employees: { selectedEmployeeData, selectedEmployeeId },
+    employeeToolsFormValues,
   } = props;
 
   const { page, limit, totalPage } = paging;
@@ -88,7 +89,7 @@ const EmployeeToolsContainer = (props) => {
       selectedEmployeeData,
       listEmployeeTools,
     };
-    generateEmployeeToolsReport(dataPrinted);
+    generateEmployeeToolsReport(dataPrinted, employeeToolsFormValues);
   };
 
   return (

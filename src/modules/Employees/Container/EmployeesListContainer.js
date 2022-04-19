@@ -59,7 +59,7 @@ const EmployeesListContainer = (props) => {
       sorter: (a, b) => a.no - b.no,
     },
     {
-      title: "Nik",
+      title: "NIK",
       dataIndex: "nik",
       key: "nik",
       width: "20%",

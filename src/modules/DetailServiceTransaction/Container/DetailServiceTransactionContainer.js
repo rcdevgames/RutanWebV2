@@ -20,6 +20,8 @@ import TabPanelHistoriesContainer from "./TabPanel/TabPanelHistoriesContainer";
 import { exportDetailServicePdf } from "../Store/DetailServiceTransactionReport";
 import * as ListServiceActions from "../../ListServices/Store/ListServicesActions";
 import { enumSelectGenerator } from "../../../app/Helpers";
+import TabPanelRejectionsContainer from "./TabPanel/TabPanelRejectionsContainer";
+import TabPanelChecklistContainer from "./TabPanel/TabPanelChecklistContainer";
 
 const Panel1 = ({ title }) => {
   return (
@@ -39,6 +41,7 @@ const DetailServiceTransactionContainer = (props) => {
       selectedServiceDailies,
       selectedServiceHistories,
       selectedServiceChecklist,
+      selectedServiceRejected,
     },
     units: { listUnits },
   } = props;
@@ -51,6 +54,7 @@ const DetailServiceTransactionContainer = (props) => {
     selectedServiceDailies,
     selectedServiceHistories,
     selectedServiceChecklist,
+    selectedServiceRejected,
   };
 
   const TabPanel = [
@@ -81,10 +85,12 @@ const DetailServiceTransactionContainer = (props) => {
       component: <TabPanelSummaryContainer summary={selectedServiceSummary} />,
     },
     {
-      key: "panel-7",
+      key: "panel-rejected",
       title: "Alasan Reject",
       icon: <CloseSquareOutlined />,
-      component: <Panel1 title="Alasan Reject" />,
+      component: (
+        <TabPanelRejectionsContainer rejections={selectedServiceRejected} />
+      ),
     },
     {
       key: "panel-histories",
@@ -104,7 +110,9 @@ const DetailServiceTransactionContainer = (props) => {
       key: "panel-checklist",
       title: "Checklist",
       icon: <CheckCircleOutlined />,
-      component: <Panel1 title="Checklist" />,
+      component: (
+        <TabPanelChecklistContainer checklist={selectedServiceRejected} />
+      ),
     });
   }
 
@@ -134,6 +142,10 @@ const DetailServiceTransactionContainer = (props) => {
         DetailServiceActions.getChecklistData(selectedJobService.id);
         break;
 
+      case "panel-rejected":
+        DetailServiceActions.getJobServiceRejections(selectedJobService.id);
+        break;
+
       default:
         console.log("no panel selected...");
         break;
@@ -155,7 +167,7 @@ const DetailServiceTransactionContainer = (props) => {
     const unitId = val.split("|");
     DetailServiceActions.getJobServiceMedia(selectedJobService.id, unitId[0]);
     // DetailServiceActions.getJobServiceEmployeeList(selectedJobService.id);
-    // DetailServiceActions.getJobServiceSummary(selectedJobService.id);
+    DetailServiceActions.getJobServiceSummary(selectedJobService.id, unitId[0]);
     DetailServiceActions.getJobServiceDailies(selectedJobService.id, unitId[0]);
     // DetailServiceActions.getJobServiceHistories(selectedJobService.id);
     // DetailServiceActions.getChecklistData(selectedJobService.id);

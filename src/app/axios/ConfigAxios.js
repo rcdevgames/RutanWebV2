@@ -70,12 +70,8 @@ ConfigAxios.interceptors.response.use(
     return Promise.resolve(responseFulfilled);
   },
   (responseRejected) => {
-    console.log("=== responseRejected : ", responseRejected.response);
     if (responseRejected.response && responseRejected.response.data) {
-      if (
-        responseRejected.response.data.status === 400 &&
-        responseRejected.response.data.message === "Data is not found"
-      ) {
+      if (responseRejected.response.data.status === 400) {
         toast.warning(responseRejected.response.data.message, {
           position: "top-right",
           autoClose: 5000,

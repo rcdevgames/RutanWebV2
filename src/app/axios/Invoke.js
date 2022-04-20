@@ -249,8 +249,8 @@ Invoke.setStatusEmployeeService = (jobId, payload) => {
 // End Services - Employee API
 
 // === Service - Views API ===
-Invoke.getJobServiceSummary = (jobId) => {
-  return ConfigAxios.get(`/services/summary/${jobId}`);
+Invoke.getJobServiceSummary = (jobId, unitId) => {
+  return ConfigAxios.get(`/m_services/summary/${jobId}/${unitId}`);
 };
 Invoke.getJobServiceMedia = (jobId, unitId) => {
   return ConfigAxios.get(`/services/medias/${jobId}/${unitId}`);
@@ -259,7 +259,10 @@ Invoke.getJobServiceDailies = (jobId, unitId) => {
   return ConfigAxios.get(`/services/dailies/${jobId}/${unitId}`);
 };
 Invoke.getChecklistData = (jobId) => {
-  return ConfigAxios.get(`/services/checklists/${jobId}`);
+  return ConfigAxios.get(`/m_services/checklist/${jobId}`);
+};
+Invoke.getRejectedData = (jobId) => {
+  return ConfigAxios.get(`/m_services/reject/${jobId}`);
 };
 Invoke.getJobServiceHistories = (jobId, page, limit, keyword) => {
   return ConfigAxios.get(

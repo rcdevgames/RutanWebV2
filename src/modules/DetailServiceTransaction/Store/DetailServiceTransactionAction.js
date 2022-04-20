@@ -21,6 +21,9 @@ export const SET_SELECTED_SERVICES_HISTORIES_DATA =
 export const SET_SELECTED_SERVICES_CHECKLIST_DATA =
   "SET_SELECTED_SERVICES_CHECKLIST_DATA";
 
+export const SET_SELECTED_SERVICES_REJECTED_DATA =
+  "SET_SELECTED_SERVICES_REJECTED_DATA";
+
 export const setSelectedServicesEmployeeListData = (payload) => {
   return {
     type: SET_SELECTED_SERVICES_EMPLOYEE_LIST_DATA,
@@ -63,6 +66,13 @@ export const setSelectedServiceHistoriesData = (payload) => {
   };
 };
 
+export const setSelectedServiceRejectedData = (payload) => {
+  return {
+    type: SET_SELECTED_SERVICES_REJECTED_DATA,
+    payload,
+  };
+};
+
 export const getJobServiceEmployeeList = async (jobId) => {
   const { dispatch } = store;
   const { data } = await Invoke.getServicesEmployee(jobId, 1, 100);
@@ -81,10 +91,14 @@ export const getJobServiceEmployeeList = async (jobId) => {
   dispatch(setSelectedServicesEmployeeListData(await results));
 };
 
-export const getJobServiceSummary = async (jobId) => {
+export const getJobServiceSummary = async (jobId, unitId = "") => {
   const { dispatch } = store;
-  const { data } = await Invoke.getJobServiceSummary(jobId);
-  dispatch(setSelectedSummaryData(data.callback));
+  try {
+    const { data } = await Invoke.getJobServiceSummary(jobId, unitId);
+    dispatch(setSelectedSummaryData(data.callback));
+  } catch (error) {
+    dispatch(setSelectedSummaryData([]));
+  }
 };
 
 export const getJobServiceMedia = async (jobId, unitId = "") => {
@@ -111,6 +125,12 @@ export const getJobServiceHistories = async (jobId, keyword = "") => {
   const { dispatch } = store;
   const { data } = await Invoke.getJobServiceHistories(jobId, 1, 100, keyword);
   dispatch(setSelectedServiceHistoriesData(data.callback.logs));
+};
+
+export const getJobServiceRejections = async (jobId) => {
+  const { dispatch } = store;
+  const { data } = await Invoke.getRejectedData(jobId);
+  dispatch(setSelectedServiceRejectedData(data.callback));
 };
 
 export const getChecklistData = async (jobId) => {

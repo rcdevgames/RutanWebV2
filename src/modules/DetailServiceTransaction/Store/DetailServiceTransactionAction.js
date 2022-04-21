@@ -1,6 +1,7 @@
 import Invoke from "../../../app/axios/Invoke";
 import { store } from "../../../app/ConfigureStore";
 import { navigate } from "../../../app/Helpers";
+import { toastr } from "react-redux-toastr";
 import * as ComponentActions from "../../App/Store/ComponentAction";
 
 export const SET_SELECTED_SERVICES_EMPLOYEE_LIST_DATA =
@@ -182,4 +183,23 @@ export const setStatusEmployee = async (
   }, 500);
 };
 
-export const generatePDF = () => {};
+const doRejectServiceProcess = async (jobId, values) => {
+  const payload = {};
+  payload.reason = values.reason;
+  await Invoke.setRejectedService(jobId, payload);
+};
+
+export const handlePressRejectedRequested = async (jobId, values) => {
+  const toastrConfirmOptions = {
+    onOk: () => {
+      doRejectServiceProcess(jobId, values);
+    },
+    okText: "Ya",
+    cancelText: "Tidak",
+  };
+
+  toastr.confirm(
+    "Apakah anda yakin ingin me me-reject data ini?",
+    toastrConfirmOptions
+  );
+};

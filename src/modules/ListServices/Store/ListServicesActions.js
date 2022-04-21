@@ -4,6 +4,7 @@ import { navigate } from "../../../app/Helpers";
 import { toastr } from "react-redux-toastr";
 import { showToast } from "../../Roles/Store/RolesActions";
 import { setGlobalLoading } from "../../App/Store/ComponentAction";
+import { setRejectionsModal } from "../../DetailServiceTransaction/Store/DetailServiceTransactionAction";
 
 export const SET_LIST_SERVICES = "SET_LIST_SERVICES";
 export const SET_SELECTED_JOB_SERVICE = "SET_SELECTED_JOB_SERVICE";
@@ -136,6 +137,7 @@ export const deleteJobServiceRequested = async (jobId) => {
 };
 
 export const handlePressActionsRequested = async (jobId, type) => {
+  const { dispatch } = store;
   type = type.toLowerCase();
   let message;
 
@@ -148,20 +150,23 @@ export const handlePressActionsRequested = async (jobId, type) => {
       message = "Apakah anda yakin ingin mem-finishing data ini?";
       break;
 
-    default:
+    case "rejected":
       message = "Apakah anda yakin ingin me me-reject data ini?";
+      await dispatch(setRejectionsModal(true));
       break;
   }
 
-  const toastrConfirmOptions = {
-    onOk: () => {
-      doCallActionProcess(jobId, type);
-    },
-    okText: "Ya",
-    cancelText: "Tidak",
-  };
+  if (type.toLowerCase() !== "rejected") {
+    const toastrConfirmOptions = {
+      onOk: () => {
+        doCallActionProcess(jobId, type);
+      },
+      okText: "Ya",
+      cancelText: "Tidak",
+    };
 
-  toastr.confirm(message, toastrConfirmOptions);
+    toastr.confirm(message, toastrConfirmOptions);
+  }
 };
 
 export const doCallActionProcess = async (jobId, type) => {

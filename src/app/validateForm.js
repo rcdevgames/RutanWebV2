@@ -163,3 +163,11 @@ export const validateEmployeeToolsForm = (values) => {
   }
   return errors;
 };
+
+export const validateFormRejected = (values) => {
+  const errors = {};
+  if (!values.reson) {
+    errors.reson = "Field ini wajib diisi!";
+  }
+  return errors;
+};

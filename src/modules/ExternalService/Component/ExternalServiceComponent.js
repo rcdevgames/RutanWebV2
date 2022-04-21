@@ -371,14 +371,13 @@ const ExternalServiceComponent = (props) => {
                   <hr />
                   <div class="row">
                     <div class="col-md-12">
-                      <label>Lokasi</label>
-                      <textarea
-                        id="maxlength-textarea"
-                        class="form-control"
-                        maxlength="100"
-                        rows="8"
-                        placeholder="Masukan alamat lokasi lengkap"
-                      ></textarea>
+                      <Field
+                        name="customerLocation"
+                        label="Lokasi"
+                        component={CInput}
+                        typeComponent="textarea"
+                        placeholder="Masukan Lokasi Customer"
+                      />
                     </div>
                   </div>
                   <div class="mt-4 row">

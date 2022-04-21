@@ -24,6 +24,15 @@ export const SET_SELECTED_SERVICES_CHECKLIST_DATA =
 export const SET_SELECTED_SERVICES_REJECTED_DATA =
   "SET_SELECTED_SERVICES_REJECTED_DATA";
 
+export const SET_REJECTIONS_MODAL = "SET_REJECTIONS_MODAL";
+
+export const setRejectionsModal = (payload) => {
+  return {
+    type: SET_REJECTIONS_MODAL,
+    payload,
+  };
+};
+
 export const setSelectedServicesEmployeeListData = (payload) => {
   return {
     type: SET_SELECTED_SERVICES_EMPLOYEE_LIST_DATA,

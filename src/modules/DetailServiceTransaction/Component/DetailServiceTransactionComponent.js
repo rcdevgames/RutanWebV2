@@ -15,6 +15,7 @@ import {
 import { navigate } from "../../../app/Helpers";
 import CSelect from "../../../components/CSelect/CSelect";
 import { Themes } from "../../../property/colors";
+import RejectedModalContainer from "../Container/RejectedModalContainer";
 
 const { Text } = Typography;
 const { TabPane } = Tabs;
@@ -244,6 +245,7 @@ const DetailServiceTransactionComponent = (props) => {
         </div>
       </div>
       <AddEmployeeModalContainer />
+      <RejectedModalContainer />
     </div>
   );
 };

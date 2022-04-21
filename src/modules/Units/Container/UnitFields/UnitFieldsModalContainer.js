@@ -28,8 +28,8 @@ const UnitFieldsModalContainer = (props) => {
   };
 
   const loadOption = async () => {
-    const { data } = await Invoke.getFormCategory(1, 100);
-    const dataJobForm = await Invoke.getListJobForm(1, 100);
+    const { data } = await Invoke.getFormCategory(1, 100, "");
+    const dataJobForm = await Invoke.getListJobForm(1, 100, "");
     const listFormCategory = data.callback.data;
     const listJobForm = dataJobForm.data.callback.data;
 

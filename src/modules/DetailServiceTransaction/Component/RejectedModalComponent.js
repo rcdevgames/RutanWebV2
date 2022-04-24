@@ -28,7 +28,7 @@ const RenderContent = ({ handleSubmit, submitForm, formName }) => {
             label="Alasan Reject"
             component={CInput}
             typeComponent="textarea"
-            placeholder="Masukan Lokasi Customer"
+            placeholder="Masukan alasan reject"
           />
         </div>
       </Form>

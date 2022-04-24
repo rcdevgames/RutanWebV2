@@ -165,6 +165,25 @@ export const exportDetailServicePdf = (data) => {
   }
 
   // Gambar - Gambar
+  const imageCollections = [
+    {
+      path: "https://drive.google.com/uc?id=1hwrQUgM6CvBwxIZUu1fRASxKQr0FxfsM",
+      title: "Image 1",
+    },
+    {
+      path: "https://drive.google.com/uc?id=1hwrQUgM6CvBwxIZUu1fRASxKQr0FxfsM",
+      title: "Image 2",
+    },
+    {
+      path: "https://drive.google.com/uc?id=1hwrQUgM6CvBwxIZUu1fRASxKQr0FxfsM",
+      title: "Image 3",
+    },
+    {
+      path: "https://drive.google.com/uc?id=1hwrQUgM6CvBwxIZUu1fRASxKQr0FxfsM",
+      title: "Image 4",
+    },
+  ];
+
   doc.setFontSize(16);
   doc.setFont("courier");
   const checklistDistance = checklistData.length
@@ -175,6 +194,44 @@ export const exportDetailServicePdf = (data) => {
   doc.line(15, 144 + totalImageDistance, 200, 144 + totalImageDistance);
   selectedServiceMedia.map((item, index) => {
     doc.addImage(item.path, "JPEG", 10, 30, 150, 76);
+  });
+
+  // convert to base64
+  const getBase64FromUrl = async (url) => {
+    const data = await fetch(url);
+    const blob = await data.blob();
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(blob);
+      reader.onloadend = () => {
+        const base64data = reader.result;
+        resolve(base64data);
+      };
+    });
+  };
+
+  imageCollections.map((item, index) => {
+    if (index % 2 == 0) {
+      // This is even
+      doc.addImage(
+        item.path,
+        "JPEG",
+        15, // left
+        200, // top
+        65, // width
+        65 // height
+      );
+    } else {
+      // This is odd
+      doc.addImage(
+        item.path,
+        "JPEG",
+        15 + index * 110, // left
+        200, // top
+        65, // width
+        65 // height
+      );
+    }
   });
 
   // Catatan Teknisi

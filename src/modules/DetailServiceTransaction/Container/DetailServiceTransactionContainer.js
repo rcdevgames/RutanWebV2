@@ -19,17 +19,11 @@ import TabPanelDailiesContainer from "./TabPanel/TabPanelDailiesContainer";
 import TabPanelHistoriesContainer from "./TabPanel/TabPanelHistoriesContainer";
 import { exportDetailServicePdf } from "../Store/DetailServiceTransactionReport";
 import * as ListServiceActions from "../../ListServices/Store/ListServicesActions";
-import { enumSelectGenerator } from "../../../app/Helpers";
+import { enumSelectGenerator, getBase64Image } from "../../../app/Helpers";
 import TabPanelRejectionsContainer from "./TabPanel/TabPanelRejectionsContainer";
 import TabPanelChecklistContainer from "./TabPanel/TabPanelChecklistContainer";
 
-const Panel1 = ({ title }) => {
-  return (
-    <div>
-      <h6>{title}</h6>
-    </div>
-  );
-};
+const base64 = require("base64topdf");
 
 const DetailServiceTransactionContainer = (props) => {
   const {
@@ -158,7 +152,13 @@ const DetailServiceTransactionContainer = (props) => {
   }, []);
 
   const handlePressGeneratePdf = () => {
-    exportDetailServicePdf(printedData);
+    getBase64Image(
+      "https://drive.google.com/uc?id=1hwrQUgM6CvBwxIZUu1fRASxKQr0FxfsM"
+    );
+    // let encodedPdf = base64.base64Encode(
+    //   "https://drive.google.com/uc?id=1hwrQUgM6CvBwxIZUu1fRASxKQr0FxfsM"
+    // );
+    // console.log("=== base64 : ", encodedPdf);
   };
 
   const SelectUnits = enumSelectGenerator(listUnits, "unit");

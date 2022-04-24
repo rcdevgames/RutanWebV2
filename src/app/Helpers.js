@@ -21,24 +21,6 @@ export const getBase64 = (img, callback) => {
   reader.readAsDataURL(img);
 };
 
-export const getBase64Image = (imgUrl) => {
-  var img = new Image();
-  let base64converted = "";
-  img.crossOrigin = "Anonymous";
-  img.src = imgUrl + "?not-from-cache-please";
-  img.onload = () => {
-    var canvas = document.createElement("canvas");
-    canvas.width = img.width;
-    canvas.height = img.height;
-    var ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0);
-    var dataURL = canvas.toDataURL("image/png");
-    base64converted = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-    console.log("=== dataURL : ", dataURL);
-  };
-  return base64converted;
-};
-
 export const SelectLocation = [
   {
     id: `location-1`,
@@ -433,3 +415,18 @@ export const enumTypeMonitoringEmployee = [
   { id: `enum-type-5`, value: "T5", label: "Demo" },
   { id: `enum-type-6`, value: "T6", label: "Modifikasi" },
 ];
+
+export const getBase64Image = (url) => {
+  const img = new Image();
+  img.setAttribute("crossOrigin", "anonymous");
+  img.onload = () => {
+    const canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+    const dataURL = canvas.toDataURL("image/png");
+    console.log(dataURL);
+  };
+  img.src = url;
+};

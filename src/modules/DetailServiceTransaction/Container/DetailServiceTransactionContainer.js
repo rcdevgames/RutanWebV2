@@ -22,6 +22,7 @@ import * as ListServiceActions from "../../ListServices/Store/ListServicesAction
 import { enumSelectGenerator, getBase64Image } from "../../../app/Helpers";
 import TabPanelRejectionsContainer from "./TabPanel/TabPanelRejectionsContainer";
 import TabPanelChecklistContainer from "./TabPanel/TabPanelChecklistContainer";
+import axios from "axios";
 
 const base64 = require("base64topdf");
 
@@ -152,13 +153,27 @@ const DetailServiceTransactionContainer = (props) => {
   }, []);
 
   const handlePressGeneratePdf = () => {
-    getBase64Image(
-      "https://drive.google.com/uc?id=1hwrQUgM6CvBwxIZUu1fRASxKQr0FxfsM"
-    );
-    // let encodedPdf = base64.base64Encode(
-    //   "https://drive.google.com/uc?id=1hwrQUgM6CvBwxIZUu1fRASxKQr0FxfsM"
-    // );
-    // console.log("=== base64 : ", encodedPdf);
+    axios
+      .post(
+        "http://www.example.com/generatePDF.php",
+        {},
+        {
+          responseType: "blob", // VERY IMPORTANT
+          headers: {
+            Accept: "application/pdf",
+            "Content-Type": "application/pdf",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers": "Authorization",
+          },
+        }
+      )
+      .then((response) => {
+        const blob = new Blob([response.data]);
+        const url = window.URL.createObjectURL(blob);
+        // this.setState({ fileUrl: url, loading: false });
+        console.log("=== url : ", url);
+      });
   };
 
   const SelectUnits = enumSelectGenerator(listUnits, "unit");

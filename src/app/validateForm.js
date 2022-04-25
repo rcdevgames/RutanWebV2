@@ -42,27 +42,35 @@ export const validateFormInternalService = (values) => {
 
 export const validateFormExternalService = (values) => {
   const errors = {};
-  // if (!values.typeService) {
-  //   errors.typeService = "Tipe service wajib diisi!";
-  // }
-  // if (!values.startDate) {
-  //   errors.startDate = "Tanggal Mulai wajib diisi!";
-  // }
-  // if (!values.endDate) {
-  //   errors.endDate = "Tanggal Akhir wajib diisi!";
-  // }
-  // if (!values.jobPerform) {
-  //   errors.jobPerform = "Job Perform wajib diisi!";
-  // }
-  // if (!values.employee) {
-  //   errors.employee = "Wajib pilih karyawan!";
-  // }
-  // if (!values.customer) {
-  //   errors.customer = "Wajib pilih customer";
-  // }
-  // if (!values.customerLocation) {
-  //   errors.customerLocation = "Lokasi wajib diisi!";
-  // }
+  if (!values.typeService) {
+    errors.typeService = "Tipe service wajib diisi!";
+  }
+  if (!values.startDate) {
+    errors.startDate = "Tanggal Mulai wajib diisi!";
+  }
+  if (!values.endDate) {
+    errors.endDate = "Tanggal Akhir wajib diisi!";
+  }
+  if (!values.jobPerform) {
+    errors.jobPerform = "Job Perform wajib diisi!";
+  }
+  if (!values.jobForm) {
+    errors.jobForm = "Job Form wajib diisi!";
+  }
+  if (!values.warranty) {
+    errors.warranty = "Job Form wajib diisi!";
+  }
+  if (!values.customer) {
+    errors.customer = "Wajib pilih customer";
+  }
+  if (!values.customerLocation) {
+    errors.customerLocation = "Lokasi wajib diisi!";
+  }
+  // ========== Field Array Valdiation ===========
+  if (!values.employees) {
+    errors.employees = "Wajib pilih karyawan!";
+  }
+  return errors;
   return errors;
 };
 

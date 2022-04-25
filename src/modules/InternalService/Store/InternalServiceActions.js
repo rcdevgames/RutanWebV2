@@ -182,7 +182,7 @@ export const handleSubmitForm = async (values) => {
     type: splitTypeId[0],
     status: SelectStatus[0].value,
     is_external: "false",
-    location: values.customerLocation,
+    location: values.customerLocation ?? "",
     start: moment(values.startDate).format("YYYY-MM-DD"),
     due: moment(values.endDate).format("YYYY-MM-DD"),
     job_perform: values.jobPerform,

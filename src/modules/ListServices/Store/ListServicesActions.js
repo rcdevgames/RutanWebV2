@@ -97,7 +97,9 @@ export const handleSearch = async (page, limit, keyword, filterValues) => {
 export const handlePressEdit = async (values) => {
   try {
     const { data } = await Invoke.getOneServices(values.id);
-    await store.dispatch(setSelectedJobService(data.callback));
+    await store.dispatch(
+      setSelectedJobService({ ...data.callback, units: values.unit_models })
+    );
     setTimeout(() => {
       navigate("detail-services");
     }, 500);

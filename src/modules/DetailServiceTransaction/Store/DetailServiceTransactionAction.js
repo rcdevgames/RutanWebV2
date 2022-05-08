@@ -143,10 +143,15 @@ export const getJobServiceRejections = async (jobId) => {
   dispatch(setSelectedServiceRejectedData(data.callback));
 };
 
-export const getChecklistData = async (jobId) => {
+export const getChecklistData = async (unitModelId) => {
   const { dispatch } = store;
-  const { data } = await Invoke.getChecklistData(jobId);
-  dispatch(setSelectedServicesChecklisttData(data.callback.data));
+  try {
+    const { data } = await Invoke.getChecklistData(unitModelId);
+    dispatch(setSelectedServicesChecklisttData(data.callback));
+  } catch (e) {
+    console.log(e);
+    dispatch(setSelectedServicesChecklisttData([]));
+  }
 };
 
 export const handleAddNewEmployeeService = async (jobId, employeeId) => {

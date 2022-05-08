@@ -1,44 +1,9 @@
 import React from "react";
-import { Typography, Row, Empty, Table } from "antd";
+import { Typography, Row, Empty, Col } from "antd";
 import { EditOutlined } from "@ant-design/icons";
-import moment from "moment";
-
-const RenderChecklist = ({ checklist }) => {
-  const columns = [
-    {
-      title: "Karyawan",
-      dataIndex: "karyawan",
-    },
-    {
-      title: "Deskripsi",
-      dataIndex: "deskripsi",
-    },
-    {
-      title: "Mulai",
-      dataIndex: "mulai",
-    },
-    {
-      title: "Selesai",
-      dataIndex: "selesai",
-    },
-    {
-      title: "Jam",
-      dataIndex: "jam",
-    },
-  ];
-  const data = [];
-  checklist.map((item, index) => {
-    data.push({
-      key: index,
-      karyawan: item.employee_name,
-      deskripsi: item.description,
-      mulai: moment(item.daily_start).format("DD-MMM-YYYY"),
-      selesai: moment(item.daily_end).format("DD-MMM-YYYY"),
-      jam: moment(item.daily_end).format("HH:mm:ss"),
-    });
-  });
-  return <Table columns={columns} dataSource={data} size="middle" />;
-};
+import { Radio } from "antd";
+import Text from "antd/lib/typography/Text";
+import { Themes } from "../../../../property/colors";
 
 const TabPanelChecklistComponent = (props) => {
   const { checklist } = props;
@@ -53,15 +18,118 @@ const TabPanelChecklistComponent = (props) => {
         <Typography style={{ marginLeft: 5 }}>Checklist</Typography>
       </Row>
       <hr />
-      {checklist.length > 0 ? (
-        <RenderChecklist rejections={checklist} />
-      ) : (
-        <div>
-          <Empty />
-        </div>
-      )}
+      <div class="row d-flex flex-wrap col md-12">
+        {checklist.length > 0 ? (
+          checklist.map((item, index) => (
+            <div style={{ width: "45%" }}>
+              <div>
+                <div class="mb-2 mt-2 pb-2">
+                  <Row
+                    gutter={16}
+                    style={{
+                      alignItems: "center",
+                      padding: "8px",
+                      borderBottom: "1px solid #020202",
+                      marginRight: "20px",
+                      marginTop: "20px",
+                    }}
+                  >
+                    <Col style={style} className="gutter-row" span={7}>
+                      <Text strong style={{ fontSize: 10 }}>
+                        {item.category_form_name}
+                      </Text>
+                    </Col>
+                    <Col style={style} className="gutter-row" span={4}>
+                      <Text strong style={{ fontSize: 10 }}>
+                        ADJUST
+                      </Text>
+                    </Col>
+                    <Col style={style} className="gutter-row" span={4}>
+                      <Text strong style={{ fontSize: 10 }}>
+                        CHECK
+                      </Text>
+                    </Col>
+                    <Col style={style} className="gutter-row" span={4}>
+                      <Text strong style={{ fontSize: 10 }}>
+                        REPAIR
+                      </Text>
+                    </Col>
+                    <Col style={style} className="gutter-row" span={5}>
+                      <Text strong style={{ fontSize: 10 }}>
+                        REPLACE
+                      </Text>
+                    </Col>
+                  </Row>
+                </div>
+
+                <Radio.Group disabled>
+                  {item.fields &&
+                    item.fields.map((item, index) => {
+                      return (
+                        <Row
+                          gutter={16}
+                          style={{
+                            alignItems: "center",
+                            padding: "8px",
+                            borderBottom: "1px solid #020202",
+                            marginRight: "30px",
+                          }}
+                        >
+                          <Col style={style} className="gutter-row" span={8}>
+                            <div>
+                              <Typography
+                                style={{
+                                  fontSize: 12,
+                                  color: Themes.secondary,
+                                }}
+                              >
+                                {item.field_name}
+                              </Typography>
+                            </div>
+                          </Col>
+                          <Col style={style} className="gutter-row" span={4}>
+                            <div>
+                              <Radio value={1}></Radio>
+                            </div>
+                          </Col>
+                          <Col style={style} className="gutter-row" span={4}>
+                            <div>
+                              <Radio value={2}></Radio>
+                            </div>
+                          </Col>
+                          <Col style={style} className="gutter-row" span={4}>
+                            <div>
+                              <Radio value={3}></Radio>
+                            </div>
+                          </Col>
+                          <Col style={style} className="gutter-row" span={4}>
+                            <div>
+                              <Radio value={4}></Radio>
+                            </div>
+                          </Col>
+                        </Row>
+                      );
+                    })}
+                </Radio.Group>
+              </div>
+              <div class="mr-3" />
+            </div>
+          ))
+        ) : (
+          <div class="page-content">
+            <Empty />
+          </div>
+        )}
+      </div>
     </div>
   );
+};
+
+const style = {
+  width: "200px",
+  alignContent: "center",
+  alignItems: "center",
+  justifyContent: "center",
 };
 
 export default TabPanelChecklistComponent;

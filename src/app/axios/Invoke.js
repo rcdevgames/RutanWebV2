@@ -258,8 +258,8 @@ Invoke.getJobServiceMedia = (jobId, unitId) => {
 Invoke.getJobServiceDailies = (jobId, unitId) => {
   return ConfigAxios.get(`/services/dailies/${jobId}/${unitId}`);
 };
-Invoke.getChecklistData = (jobId) => {
-  return ConfigAxios.get(`/m_services/checklist/${jobId}`);
+Invoke.getChecklistData = (unitModelId) => {
+  return ConfigAxios.get(`/m_services/checklist/${unitModelId}`);
 };
 Invoke.getRejectedData = (jobId) => {
   return ConfigAxios.get(`/m_services/reject/${jobId}`);

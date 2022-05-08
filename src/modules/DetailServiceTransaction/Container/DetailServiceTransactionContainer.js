@@ -19,7 +19,7 @@ import TabPanelDailiesContainer from "./TabPanel/TabPanelDailiesContainer";
 import TabPanelHistoriesContainer from "./TabPanel/TabPanelHistoriesContainer";
 import { exportDetailServicePdf } from "../Store/DetailServiceTransactionReport";
 import * as ListServiceActions from "../../ListServices/Store/ListServicesActions";
-import { enumSelectGenerator, getBase64Image } from "../../../app/Helpers";
+import { enumSelectGenerator } from "../../../app/Helpers";
 import TabPanelRejectionsContainer from "./TabPanel/TabPanelRejectionsContainer";
 import TabPanelChecklistContainer from "./TabPanel/TabPanelChecklistContainer";
 import axios from "axios";
@@ -106,7 +106,7 @@ const DetailServiceTransactionContainer = (props) => {
       title: "Checklist",
       icon: <CheckCircleOutlined />,
       component: (
-        <TabPanelChecklistContainer checklist={selectedServiceRejected} />
+        <TabPanelChecklistContainer checklist={selectedServiceChecklist} />
       ),
     });
   }
@@ -134,7 +134,7 @@ const DetailServiceTransactionContainer = (props) => {
         break;
 
       case "panel-checklist":
-        DetailServiceActions.getChecklistData(selectedJobService.id);
+        // DetailServiceActions.getChecklistData(selectedJobService.id);
         break;
 
       case "panel-rejected":
@@ -153,39 +153,54 @@ const DetailServiceTransactionContainer = (props) => {
   }, []);
 
   const handlePressGeneratePdf = () => {
-    axios
-      .post(
-        "http://www.example.com/generatePDF.php",
-        {},
-        {
-          responseType: "blob", // VERY IMPORTANT
-          headers: {
-            Accept: "application/pdf",
-            "Content-Type": "application/pdf",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-            "Access-Control-Allow-Headers": "Authorization",
-          },
-        }
-      )
-      .then((response) => {
-        const blob = new Blob([response.data]);
-        const url = window.URL.createObjectURL(blob);
-        // this.setState({ fileUrl: url, loading: false });
-        console.log("=== url : ", url);
-      });
+    // axios
+    //   .post(
+    //     "http://www.example.com/generatePDF.php",
+    //     {},
+    //     {
+    //       responseType: "blob", // VERY IMPORTANT
+    //       headers: {
+    //         Accept: "application/pdf",
+    //         "Content-Type": "application/pdf",
+    //         "Access-Control-Allow-Origin": "*",
+    //         "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+    //         "Access-Control-Allow-Headers": "Authorization",
+    //       },
+    //     }
+    //   )
+    //   .then((response) => {
+    //     const blob = new Blob([response.data]);
+    //     const url = window.URL.createObjectURL(blob);
+    //     // this.setState({ fileUrl: url, loading: false });
+    //     console.log("=== url : ", url);
+    //   });
+    exportDetailServicePdf(printedData);
   };
 
-  const SelectUnits = enumSelectGenerator(listUnits, "unit");
+  // Mapping units from list_service
+  const listUnitsFromService = [];
+  if (selectedJobService.units) {
+    selectedJobService.units.map((item, index) => {
+      listUnitsFromService.push({ id: item.unit_id, name: item.unit_name });
+    });
+  }
+
+  const SelectUnits = enumSelectGenerator(listUnitsFromService, "unit");
 
   const onchangeUnit = (val) => {
     const unitId = val.split("|");
+    const [unitModelsId] = selectedJobService.units.filter(
+      (x) => x.unit_id === unitId[0]
+    );
+    console.log("=== unitModelsId : ", unitModelsId);
     DetailServiceActions.getJobServiceMedia(selectedJobService.id, unitId[0]);
     // DetailServiceActions.getJobServiceEmployeeList(selectedJobService.id);
     DetailServiceActions.getJobServiceSummary(selectedJobService.id, unitId[0]);
     DetailServiceActions.getJobServiceDailies(selectedJobService.id, unitId[0]);
     // DetailServiceActions.getJobServiceHistories(selectedJobService.id);
-    // DetailServiceActions.getChecklistData(selectedJobService.id);
+    if (unitModelsId !== undefined) {
+      DetailServiceActions.getChecklistData(unitModelsId.id);
+    }
   };
 
   return (

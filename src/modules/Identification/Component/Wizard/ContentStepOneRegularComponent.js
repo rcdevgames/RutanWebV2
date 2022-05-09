@@ -81,14 +81,14 @@ const ContentStepOneRegularComponent = ({
       <div class="row ml-2 mr-2 text-left">
         <div class="col-md-4">
           <Field
-            name="customerAddress"
+            name="kelurahan"
             label="Kelurahan"
             placeholder="-"
             component={CInput}
             type="text"
           />
           <Field
-            name="customerAddress"
+            name="kecamatan"
             label="Kecamatan"
             placeholder="-"
             component={CInput}

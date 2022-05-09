@@ -214,7 +214,7 @@ export const exportDetailServicePdf = (data) => {
     if (index % 2 == 0) {
       // This is even
       doc.addImage(
-        item.path,
+        "https://drive.google.com/file/d/1hwrQUgM6CvBwxIZUu1fRASxKQr0FxfsM/view",
         "JPEG",
         15, // left
         200, // top
@@ -224,7 +224,7 @@ export const exportDetailServicePdf = (data) => {
     } else {
       // This is odd
       doc.addImage(
-        item.path,
+        "https://drive.google.com/file/d/1hwrQUgM6CvBwxIZUu1fRASxKQr0FxfsM/view",
         "JPEG",
         15 + index * 110, // left
         200, // top

@@ -191,6 +191,8 @@ export const setStatusEmployee = async (
 const doRejectServiceProcess = async (jobId, values) => {
   const payload = {};
   payload.reason = values.reason;
+  console.log("=== payload : ", payload);
+  console.log("=== jobId : ", jobId);
   await Invoke.setRejectedService(jobId, payload);
 };
 

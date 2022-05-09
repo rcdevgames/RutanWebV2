@@ -39,6 +39,7 @@ import ReportIdentificationContainer from "../modules/ReportIdentification/Conta
 import DivisionContainer from "../modules/Division/Container/DivisionContainer";
 import EmployeeToolsContainer from "../modules/Employees/Container/EmployeeTools/EmployeeToolsContainer";
 import DivisionUnitContainer from "../modules/Division/Container/DivisionUnit/DivisionUnitContainer";
+import DetailServiceReportContainer from "../modules/ReportPdf/Containers/DetailServiceReportContainer";
 
 export default function Navigation() {
   const authenticatedPage = (component, footerImg, footer) => {
@@ -138,6 +139,11 @@ export default function Navigation() {
         <Route exact path="/internal-service" component={InternalService} />
         <Route exact path="/external-service" component={ExternalService} />
         <Route exact path="/employee-tools" component={EmployeeTools} />
+        <Route
+          exact
+          path="/report-transaction"
+          component={DetailServiceReportContainer}
+        />
         <Route
           exact
           path="/monitoring-employee"

@@ -199,10 +199,10 @@ const doRejectServiceProcess = async (jobId, values) => {
     await Invoke.setRejectedService(jobId, payload);
     showToast("Berhasil melakukan reject", "success");
     navigate("/list_service");
-    dispatch(ComponentActions.setGlobalModal(false));
+    dispatch(setRejectionsModal(false));
   } catch (error) {
     showToast("Proses reject gagal, silahkan coba lagi", "error");
-    dispatch(ComponentActions.setGlobalModal(false));
+    dispatch(setRejectionsModal(false));
   }
 };
 

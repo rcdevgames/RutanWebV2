@@ -29,6 +29,7 @@ const DetailServiceTransactionComponent = (props) => {
     enumUnits,
     onchangeUnit,
     handlePressActions,
+    handlePressEdit,
   } = props;
 
   const RenderButtonAction = ({ status }) => {
@@ -131,7 +132,7 @@ const DetailServiceTransactionComponent = (props) => {
                   </CButtonAntd>
                   <div class="ml-3" />
                   <CButtonAntd
-                    // onClick={handlePressAddNew}
+                    onClick={handlePressEdit}
                     type="primary"
                     icon={<EditOutlined />}
                     size="middle"

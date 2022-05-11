@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
 import DetailServiceTransactionComponent from "../Component/DetailServiceTransactionComponent";
@@ -38,25 +37,6 @@ const DetailServiceTransactionContainer = (props) => {
     },
     units: { listUnits },
   } = props;
-
-  // const onLoadImage = async () => {
-  //   let image = await axios.get(
-  //     "https://drive.google.com/uc?id=1hwrQUgM6CvBwxIZUu1fRASxKQr0FxfsM",
-  //     { responseType: "arraybuffer", headers:{
-  //       'Access-Control-Allow-Origin' : "*"
-  //     }
-  //   )
-  //   let raw = Buffer.from(image.data).toString("base64");
-  //   console.log(
-  //     "=== result : ",
-  //     "data:" + image.headers["content-type"] + ";base64," + raw
-  //   );
-  //   return "data:" + image.headers["content-type"] + ";base64," + raw;
-  // };
-
-  // React.useEffect(() => {
-  //   onLoadImage();
-  // }, []);
 
   const printedData = {
     selectedJobService,
@@ -224,6 +204,9 @@ const mapDispatchToProps = (dispatch) => ({
   handlePressActions: (jobId, type) => {
     ListServiceActions.handlePressActionsRequested(jobId, type);
   },
+  handlePressEdit: () => {
+    
+  }
 });
 
 const EnhanceContainer = connect(

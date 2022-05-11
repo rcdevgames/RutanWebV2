@@ -3,6 +3,7 @@ import { store } from "../../../app/ConfigureStore";
 import { navigate } from "../../../app/Helpers";
 import { toastr } from "react-redux-toastr";
 import * as ComponentActions from "../../App/Store/ComponentAction";
+import { showToast } from "../../Roles/Store/RolesActions";
 
 export const SET_SELECTED_SERVICES_EMPLOYEE_LIST_DATA =
   "SET_SELECTED_SERVICES_EMPLOYEE_LIST_DATA";
@@ -189,11 +190,20 @@ export const setStatusEmployee = async (
 };
 
 const doRejectServiceProcess = async (jobId, values) => {
-  const payload = {};
-  payload.reason = values.reason;
-  console.log("=== payload : ", payload);
-  console.log("=== jobId : ", jobId);
-  await Invoke.setRejectedService(jobId, payload);
+  const { dispatch } = store;
+  try {
+    const payload = {};
+    payload.reason = values.reason;
+    console.log("=== payload : ", payload);
+    console.log("=== jobId : ", jobId);
+    await Invoke.setRejectedService(jobId, payload);
+    showToast("Berhasil melakukan reject", "success");
+    navigate("/list_service");
+    dispatch(ComponentActions.setGlobalModal(false));
+  } catch (error) {
+    showToast("Proses reject gagal, silahkan coba lagi", "error");
+    dispatch(ComponentActions.setGlobalModal(false));
+  }
 };
 
 export const handlePressRejectedRequested = async (jobId, values) => {

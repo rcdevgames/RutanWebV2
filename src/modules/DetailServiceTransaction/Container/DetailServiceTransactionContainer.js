@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
 import DetailServiceTransactionComponent from "../Component/DetailServiceTransactionComponent";
@@ -22,9 +23,6 @@ import * as ListServiceActions from "../../ListServices/Store/ListServicesAction
 import { enumSelectGenerator } from "../../../app/Helpers";
 import TabPanelRejectionsContainer from "./TabPanel/TabPanelRejectionsContainer";
 import TabPanelChecklistContainer from "./TabPanel/TabPanelChecklistContainer";
-import axios from "axios";
-
-const base64 = require("base64topdf");
 
 const DetailServiceTransactionContainer = (props) => {
   const {
@@ -40,6 +38,25 @@ const DetailServiceTransactionContainer = (props) => {
     },
     units: { listUnits },
   } = props;
+
+  // const onLoadImage = async () => {
+  //   let image = await axios.get(
+  //     "https://drive.google.com/uc?id=1hwrQUgM6CvBwxIZUu1fRASxKQr0FxfsM",
+  //     { responseType: "arraybuffer", headers:{
+  //       'Access-Control-Allow-Origin' : "*"
+  //     }
+  //   )
+  //   let raw = Buffer.from(image.data).toString("base64");
+  //   console.log(
+  //     "=== result : ",
+  //     "data:" + image.headers["content-type"] + ";base64," + raw
+  //   );
+  //   return "data:" + image.headers["content-type"] + ";base64," + raw;
+  // };
+
+  // React.useEffect(() => {
+  //   onLoadImage();
+  // }, []);
 
   const printedData = {
     selectedJobService,
@@ -153,27 +170,6 @@ const DetailServiceTransactionContainer = (props) => {
   }, []);
 
   const handlePressGeneratePdf = () => {
-    // axios
-    //   .post(
-    //     "http://www.example.com/generatePDF.php",
-    //     {},
-    //     {
-    //       responseType: "blob", // VERY IMPORTANT
-    //       headers: {
-    //         Accept: "application/pdf",
-    //         "Content-Type": "application/pdf",
-    //         "Access-Control-Allow-Origin": "*",
-    //         "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-    //         "Access-Control-Allow-Headers": "Authorization",
-    //       },
-    //     }
-    //   )
-    //   .then((response) => {
-    //     const blob = new Blob([response.data]);
-    //     const url = window.URL.createObjectURL(blob);
-    //     // this.setState({ fileUrl: url, loading: false });
-    //     console.log("=== url : ", url);
-    //   });
     exportDetailServicePdf(printedData);
   };
 
@@ -192,7 +188,7 @@ const DetailServiceTransactionContainer = (props) => {
     const [unitModelsId] = selectedJobService.units.filter(
       (x) => x.unit_id === unitId[0]
     );
-    console.log("=== unitModelsId : ", unitModelsId);
+
     DetailServiceActions.getJobServiceMedia(selectedJobService.id, unitId[0]);
     // DetailServiceActions.getJobServiceEmployeeList(selectedJobService.id);
     DetailServiceActions.getJobServiceSummary(selectedJobService.id, unitId[0]);

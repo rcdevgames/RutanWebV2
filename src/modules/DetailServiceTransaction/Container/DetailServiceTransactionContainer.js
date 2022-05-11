@@ -204,9 +204,7 @@ const mapDispatchToProps = (dispatch) => ({
   handlePressActions: (jobId, type) => {
     ListServiceActions.handlePressActionsRequested(jobId, type);
   },
-  handlePressEdit: () => {
-    
-  }
+  handlePressEdit: () => {},
 });
 
 const EnhanceContainer = connect(

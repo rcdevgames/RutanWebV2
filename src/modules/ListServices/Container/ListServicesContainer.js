@@ -176,7 +176,7 @@ const ListServicesContainer = (props) => {
   };
 
   const onSearch = (val) => {
-    ListServiceActions.handleSearch(page, limit, val, listServiceFormValues);
+    ListServiceActions.handleSearch(1, 10, val, listServiceFormValues);
   };
 
   return (

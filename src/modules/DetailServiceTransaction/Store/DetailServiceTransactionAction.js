@@ -206,8 +206,6 @@ const doRejectServiceProcess = async (jobId, values) => {
   try {
     const payload = {};
     payload.reason = values.reason;
-    console.log("=== payload : ", payload);
-    console.log("=== jobId : ", jobId);
     await Invoke.setRejectedService(jobId, payload);
     showToast("Berhasil melakukan reject", "success");
     navigate("/list_service");
@@ -285,9 +283,19 @@ export const mapDetailTransactionToForm = async () => {
   );
   dispatch(change("editTransactionForm", `endDate`, moment(data.end) ?? ""));
   dispatch(change("editTransactionForm", `jobPerform`, data.job_perform ?? ""));
-  dispatch(change("editTransactionForm", `warranty`, data.warranty));
   dispatch(
-    change("editTransactionForm", `warrantyMonths`, data.warranty_months ?? "0")
+    change(
+      "editTransactionForm",
+      `warranty`,
+      `${data.warranty}|${data.warranty ? "Warranty" : "No Warranty"}`
+    )
+  );
+  dispatch(
+    change(
+      "editTransactionForm",
+      `warrantyMonths`,
+      `${data.warranty_month}|${data.warranty_month} bulan` ?? "0"
+    )
   );
   dispatch(
     change("editTransactionForm", `warrantyYears`, data.warranty_year ?? "")

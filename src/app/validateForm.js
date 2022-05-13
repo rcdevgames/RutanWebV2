@@ -179,3 +179,11 @@ export const validateFormRejected = (values) => {
   }
   return errors;
 };
+
+export const validateFormTransaction = (values) => {
+  const errors = {};
+  if (!values.jobPerform) {
+    errors.jobPerform = "Field ini wajib diisi!";
+  }
+  return errors;
+};

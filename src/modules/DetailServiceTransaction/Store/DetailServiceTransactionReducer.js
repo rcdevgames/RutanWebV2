@@ -7,6 +7,7 @@ import {
   SET_SELECTED_SERVICES_CHECKLIST_DATA,
   SET_SELECTED_SERVICES_REJECTED_DATA,
   SET_REJECTIONS_MODAL,
+  SET_EDIT_TRANSACTION_MODAL,
 } from "./DetailServiceTransactionAction";
 
 export const initialState = {
@@ -18,6 +19,7 @@ export const initialState = {
   selectedServiceChecklist: [],
   selectedServiceRejected: [],
   rejectionsModal: false,
+  editTransactionModal: false,
 };
 
 export default function detailServiceTransactionReducer(
@@ -50,6 +52,9 @@ export default function detailServiceTransactionReducer(
       return { ...newState };
     case SET_REJECTIONS_MODAL:
       newState.rejectionsModal = action.payload;
+      return { ...newState };
+    case SET_EDIT_TRANSACTION_MODAL:
+      newState.editTransactionModal = action.payload;
       return { ...newState };
   }
 

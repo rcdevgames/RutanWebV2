@@ -204,7 +204,11 @@ const mapDispatchToProps = (dispatch) => ({
   handlePressActions: (jobId, type) => {
     ListServiceActions.handlePressActionsRequested(jobId, type);
   },
-  handlePressEdit: () => {},
+  handlePressEdit: async () => {
+    await dispatch(DetailServiceActions.setEditTransactionModal(true));
+    await DetailServiceActions.mapDetailTransactionToForm();
+    dispatch(DetailServiceActions.setEditTransactionModal(true));
+  },
 });
 
 const EnhanceContainer = connect(

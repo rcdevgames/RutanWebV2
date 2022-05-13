@@ -4,6 +4,9 @@ import { navigate } from "../../../app/Helpers";
 import { toastr } from "react-redux-toastr";
 import * as ComponentActions from "../../App/Store/ComponentAction";
 import { showToast } from "../../Roles/Store/RolesActions";
+import { change } from "redux-form";
+import moment from "moment";
+import { setSelectedJobService } from "../../ListServices/Store/ListServicesActions";
 
 export const SET_SELECTED_SERVICES_EMPLOYEE_LIST_DATA =
   "SET_SELECTED_SERVICES_EMPLOYEE_LIST_DATA";
@@ -26,11 +29,20 @@ export const SET_SELECTED_SERVICES_CHECKLIST_DATA =
 export const SET_SELECTED_SERVICES_REJECTED_DATA =
   "SET_SELECTED_SERVICES_REJECTED_DATA";
 
+export const SET_EDIT_TRANSACTION_MODAL = "SET_EDIT_TRANSACTION_MODAL";
+
 export const SET_REJECTIONS_MODAL = "SET_REJECTIONS_MODAL";
 
 export const setRejectionsModal = (payload) => {
   return {
     type: SET_REJECTIONS_MODAL,
+    payload,
+  };
+};
+
+export const setEditTransactionModal = (payload) => {
+  return {
+    type: SET_EDIT_TRANSACTION_MODAL,
     payload,
   };
 };
@@ -206,6 +218,49 @@ const doRejectServiceProcess = async (jobId, values) => {
   }
 };
 
+const doEditServiceProcess = async (values) => {
+  const { dispatch } = store;
+
+  const warranty = values.warranty.split("|");
+  const warrantyYears = values.warrantyYears.split("|");
+  const warrantyMonths = values.warrantyMonths.split("|");
+
+  const payload = {};
+  payload.id = values.id;
+  payload.start = moment(values.startDate).format("YYYY-MM-DD");
+  payload.due = moment(values.dueDate).format("YYYY-MM-DD");
+  payload.job_perform = values.jobPerform;
+  payload.warranty = warranty[0];
+  payload.warranty_month = warrantyMonths[0] ?? 0;
+  payload.warranty_year = warrantyYears[0] ?? 0;
+
+  try {
+    await Invoke.updateJobService(payload);
+    showToast("Data berhasil disimpan", "success");
+
+    const { data } = await Invoke.getOneServices(values.id);
+    await store.dispatch(
+      setSelectedJobService({ ...data.callback, units: values.unit_models })
+    );
+    dispatch(setEditTransactionModal(false));
+  } catch (error) {
+    showToast("Proses reject gagal, silahkan coba lagi", "error");
+    dispatch(setEditTransactionModal(false));
+  }
+};
+
+export const handlePressEditRequested = async (values) => {
+  const toastrConfirmOptions = {
+    onOk: () => {
+      doEditServiceProcess(values);
+    },
+    okText: "Ya",
+    cancelText: "Tidak",
+  };
+
+  toastr.confirm("Apakah anda yakin menyimpan data ini?", toastrConfirmOptions);
+};
+
 export const handlePressRejectedRequested = async (jobId, values) => {
   const toastrConfirmOptions = {
     onOk: () => {
@@ -218,5 +273,23 @@ export const handlePressRejectedRequested = async (jobId, values) => {
   toastr.confirm(
     "Apakah anda yakin ingin me me-reject data ini?",
     toastrConfirmOptions
+  );
+};
+
+export const mapDetailTransactionToForm = async () => {
+  const { dispatch, getState } = store;
+  const data = getState().services.selectedJobService;
+  dispatch(change("editTransactionForm", `id`, data.id ?? ""));
+  dispatch(
+    change("editTransactionForm", `startDate`, moment(data.start) ?? "")
+  );
+  dispatch(change("editTransactionForm", `endDate`, moment(data.end) ?? ""));
+  dispatch(change("editTransactionForm", `jobPerform`, data.job_perform ?? ""));
+  dispatch(change("editTransactionForm", `warranty`, data.warranty));
+  dispatch(
+    change("editTransactionForm", `warrantyMonths`, data.warranty_months ?? "0")
+  );
+  dispatch(
+    change("editTransactionForm", `warrantyYears`, data.warranty_year ?? "")
   );
 };

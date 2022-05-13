@@ -208,6 +208,18 @@ export const enumWarranty = [
   { id: `enum-warranty-2`, value: false, label: "No Warranty" },
 ];
 
+export const warrantyMonths = () => {
+  const warrantyMonths = [];
+  for (let i = 0; i <= 24; i++) {
+    warrantyMonths.push({
+      id: `enum-warranty-moths-${i}`,
+      value: i.toString(),
+      label: `${i} bulan`,
+    });
+  }
+  return warrantyMonths;
+};
+
 export const getProvinceEnum = (data) => {
   const SelectProvince = [];
   data.map((item, index) => {

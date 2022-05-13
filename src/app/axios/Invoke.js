@@ -219,6 +219,9 @@ Invoke.getCityList = (page, limit, provinceId) => {
 Invoke.addInternalService = (data) => {
   return ConfigAxios.post("/services", data);
 };
+Invoke.updateJobService = (data) => {
+  return ConfigAxios.put("/services", data);
+};
 Invoke.setFinishedService = (jobId) => {
   return ConfigAxios.get(`/m_services/finish/${jobId}`);
 };

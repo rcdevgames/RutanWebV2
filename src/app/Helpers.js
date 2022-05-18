@@ -85,11 +85,6 @@ export const SelectStatus = [
 
 export const SelectStatusServices = [
   {
-    id: `status-1`,
-    value: "S1",
-    label: "New",
-  },
-  {
     id: `status-2`,
     value: "S2",
     label: "Progress",

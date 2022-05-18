@@ -82,8 +82,19 @@ const RenderContent = ({
 }) => {
   return (
     <div class="page-content">
-      <Divider orientation="left">Ubah Service</Divider>
+      <Divider orientation="left">Ubah Catatan Teknisi</Divider>
       <Form onSubmit={handleSubmit(submitForm)}>
+        <div class="row mt-2">
+          <div class="col-md-12">
+            <Field
+              name="title"
+              label="Judul"
+              // placeholder=""
+              component={CInput}
+              typeComponents="text"
+            />
+          </div>
+        </div>
         <div class="row">
           <div class="col-md-4">
             <CDatePicker name="startDate" label="Tanggal Mulai" />
@@ -91,38 +102,12 @@ const RenderContent = ({
           <div class="col-md-4">
             <CDatePicker name="endDate" label="Tanggal Akhir" />
           </div>
-          <div class="col-md-4">
-            <CSelect
-              // onChange={(val) => onChangeProvince(val)}
-              data={enumWarranty}
-              name="warranty"
-              label="Warranty"
-            />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-7">
-            <CSelect
-              // onChange={(val) => onChangeProvince(val)}
-              data={warrantyMonths()}
-              name="warrantyMonths"
-              label="Warranty Months"
-            />
-          </div>
-          <div class="col-md-5">
-            <Field
-              name="warrantyYears"
-              label="Warranty Year"
-              component={CInput}
-              typeComponents="text"
-            />
-          </div>
         </div>
         <div class="row mt-2">
           <div class="col-md-12">
             <Field
-              name="jobPerform"
-              label="Job Perform"
+              name="description"
+              label="Deskripsi"
               // placeholder=""
               component={CInput}
               typeComponents="text"

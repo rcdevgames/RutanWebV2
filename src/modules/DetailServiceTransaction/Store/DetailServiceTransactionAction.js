@@ -35,6 +35,8 @@ export const SET_REJECTIONS_MODAL = "SET_REJECTIONS_MODAL";
 
 export const SET_EDIT_DAILIES_MODAL = "SET_EDIT_DAILIES_MODAL";
 
+export const SET_SELECTED_EDIT_DAILIES_DATA = "SET_SELECTED_EDIT_DAILIES_DATA";
+
 export const setRejectionsModal = (payload) => {
   return {
     type: SET_REJECTIONS_MODAL,
@@ -101,6 +103,13 @@ export const setSelectedServiceHistoriesData = (payload) => {
 export const setSelectedServiceRejectedData = (payload) => {
   return {
     type: SET_SELECTED_SERVICES_REJECTED_DATA,
+    payload,
+  };
+};
+
+export const setSelectedEditDailiesData = (payload) => {
+  return {
+    type: SET_SELECTED_EDIT_DAILIES_DATA,
     payload,
   };
 };
@@ -284,18 +293,20 @@ export const handlePressRejectedRequested = async (jobId, values) => {
 };
 
 const doEditDailiesProcess = async (values) => {
-  const { dispatch } = store;
+  const { dispatch, getState } = store;
+  const dataService = getState().services.selectedJobService;
 
   const payload = {};
-  payload.id = "4513e1b2-5f51-4f2e-aa41-b08dab00dfd6";
-  payload.title = "Perjalanan Pulang";
-  payload.daily_start = "2021-04-26 05:12:00";
-  payload.daily_end = "2021-04-26 03:12:00";
-  payload.description = "Perjalanan Pulang Grobogan Sunda";
+  payload.id = values.id;
+  payload.title = values.title ?? "";
+  payload.daily_start = moment(values.startDate).format("YYYY-MM-DD");
+  payload.daily_end = moment(values.endDate).format("YYYY-MM-DD");
+  payload.description = values.description ?? "";
   try {
     await Invoke.updateJobServiceDailies(payload);
-    showToast("Berhasil melakukan reject", "success");
-    navigate("/list_service");
+    showToast("Berhasil menyimpan data", "success");
+    await getJobServiceDailies(dataService.id);
+    dispatch(setEditDailiesModal(false));
   } catch (error) {
     showToast("Proses manyimpan gagal, silahkan coba lagi", "error");
     dispatch(setEditTransactionModal(false));
@@ -343,4 +354,14 @@ export const mapDetailTransactionToForm = async () => {
   dispatch(
     change("editTransactionForm", `warrantyYears`, data.warranty_year ?? "")
   );
+};
+
+export const mapDailiesToForm = async () => {
+  const { dispatch, getState } = store;
+  const data = getState().detailService.selectedEditDailies;
+  dispatch(change("editDailiesForm", `id`, data.id ?? ""));
+  dispatch(change("editDailiesForm", `startDate`, moment(data.mulai) ?? ""));
+  dispatch(change("editDailiesForm", `endDate`, moment(data.selesai) ?? ""));
+  dispatch(change("editDailiesForm", `title`, data.title ?? ""));
+  dispatch(change("editDailiesForm", `description`, data.deskripsi ?? ""));
 };

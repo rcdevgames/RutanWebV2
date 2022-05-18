@@ -101,6 +101,19 @@ const ListServicesContainer = (props) => {
       sorter: (a, b) => a.customer_name.length - b.customer_name.length,
     },
     {
+      title: "Teknisi",
+      dataIndex: "employees",
+      render: (employees) =>
+        employees.map((employee) => (
+          <Text>
+            {employee.employee_name}
+            {employees.length <= 1 ? "" : ", "}
+          </Text>
+        )),
+      key: "employees",
+      width: "15%",
+    },
+    {
       title: "Unit",
       dataIndex: "unit_models",
       render: (units) =>

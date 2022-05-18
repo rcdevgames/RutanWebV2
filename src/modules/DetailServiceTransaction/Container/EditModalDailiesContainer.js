@@ -16,9 +16,7 @@ const EditModalDailiesContainer = (props) => {
 
   const submitForm = (values) => {
     if (valid) {
-      console.log("valid");
-      // handleSubmitForm("edit", values, menuSelected);
-      DetailServiceTransactionAction.handlePressEditRequested(values);
+      DetailServiceTransactionAction.handlePressEditDailiesRequested(values);
     } else {
     }
   };
@@ -57,12 +55,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleClearModalContent: () => {
     // dispatch(DetailServiceTransactionAction.setSelectedRoleMenu([]));
   },
-  handleSubmitForm: (type, values, menuSelected) => {},
-  // DetailServiceTransactionAction.saveRoleRequested(
-  //   type,
-  //   values,
-  //   menuSelected
-  // ),
 });
 
 const EnhanceContainer = connect(
@@ -71,6 +63,6 @@ const EnhanceContainer = connect(
 )(EditModalDailiesContainer);
 
 export default reduxForm({
-  form: "editTransactionForm",
+  form: "editDailiesForm",
   validate: validateFormTransaction,
 })(EnhanceContainer);

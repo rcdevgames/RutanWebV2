@@ -43,7 +43,7 @@ const TabPanelImagesComponent = (props) => {
         <Typography style={{ marginLeft: 5 }}>Media</Typography>
       </Row>
       <hr />
-      {medias.length > 0 ? (
+      {medias && medias.length > 0 ? (
         <Row style={{}}>
           <RenderImage medias={medias} />
         </Row>

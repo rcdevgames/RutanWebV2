@@ -24,6 +24,10 @@ const RenderDailies = ({ dailies, handlePressEdit }) => {
       dataIndex: "karyawan",
     },
     {
+      title: "Judul",
+      dataIndex: "title",
+    },
+    {
       title: "Deskripsi",
       dataIndex: "deskripsi",
     },
@@ -51,7 +55,9 @@ const RenderDailies = ({ dailies, handlePressEdit }) => {
   dailies.map((item, index) => {
     data.push({
       key: index,
+      id: item.id,
       karyawan: item.employee_name,
+      title: item.title,
       deskripsi: item.description,
       mulai: moment(item.daily_start).format("DD-MMM-YYYY"),
       selesai: moment(item.daily_end).format("DD-MMM-YYYY"),
@@ -74,7 +80,7 @@ const TabPanelDailiesComponent = (props) => {
         <Typography style={{ marginLeft: 5 }}>Catatan</Typography>
       </Row>
       <hr />
-      {dailies.length > 0 ? (
+      {dailies && dailies.length > 0 ? (
         <RenderDailies dailies={dailies} handlePressEdit={handlePressEdit} />
       ) : (
         <div>

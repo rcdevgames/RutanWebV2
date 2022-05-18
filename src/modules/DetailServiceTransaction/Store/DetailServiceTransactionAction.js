@@ -33,6 +33,8 @@ export const SET_EDIT_TRANSACTION_MODAL = "SET_EDIT_TRANSACTION_MODAL";
 
 export const SET_REJECTIONS_MODAL = "SET_REJECTIONS_MODAL";
 
+export const SET_EDIT_DAILIES_MODAL = "SET_EDIT_DAILIES_MODAL";
+
 export const setRejectionsModal = (payload) => {
   return {
     type: SET_REJECTIONS_MODAL,
@@ -43,6 +45,13 @@ export const setRejectionsModal = (payload) => {
 export const setEditTransactionModal = (payload) => {
   return {
     type: SET_EDIT_TRANSACTION_MODAL,
+    payload,
+  };
+};
+
+export const setEditDailiesModal = (payload) => {
+  return {
+    type: SET_EDIT_DAILIES_MODAL,
     payload,
   };
 };
@@ -270,6 +279,40 @@ export const handlePressRejectedRequested = async (jobId, values) => {
 
   toastr.confirm(
     "Apakah anda yakin ingin me me-reject data ini?",
+    toastrConfirmOptions
+  );
+};
+
+const doEditDailiesProcess = async (values) => {
+  const { dispatch } = store;
+
+  const payload = {};
+  payload.id = "4513e1b2-5f51-4f2e-aa41-b08dab00dfd6";
+  payload.title = "Perjalanan Pulang";
+  payload.daily_start = "2021-04-26 05:12:00";
+  payload.daily_end = "2021-04-26 03:12:00";
+  payload.description = "Perjalanan Pulang Grobogan Sunda";
+  try {
+    await Invoke.updateJobServiceDailies(payload);
+    showToast("Berhasil melakukan reject", "success");
+    navigate("/list_service");
+  } catch (error) {
+    showToast("Proses manyimpan gagal, silahkan coba lagi", "error");
+    dispatch(setEditTransactionModal(false));
+  }
+};
+
+export const handlePressEditDailiesRequested = async (values) => {
+  const toastrConfirmOptions = {
+    onOk: () => {
+      doEditDailiesProcess(values);
+    },
+    okText: "Ya",
+    cancelText: "Tidak",
+  };
+
+  toastr.confirm(
+    "Apakah anda yakin ingin menyimpan data ini?",
     toastrConfirmOptions
   );
 };

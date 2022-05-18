@@ -22,6 +22,7 @@ import * as ListServiceActions from "../../ListServices/Store/ListServicesAction
 import { enumSelectGenerator } from "../../../app/Helpers";
 import TabPanelRejectionsContainer from "./TabPanel/TabPanelRejectionsContainer";
 import TabPanelChecklistContainer from "./TabPanel/TabPanelChecklistContainer";
+import { store } from "../../../app/ConfigureStore";
 
 const DetailServiceTransactionContainer = (props) => {
   const {
@@ -147,6 +148,11 @@ const DetailServiceTransactionContainer = (props) => {
   React.useEffect(() => {
     // EmployeesActions.loadEmployeeListData();
     DetailServiceActions.getJobServiceEmployeeList(selectedJobService.id);
+    return () => {
+      store.dispatch(
+        DetailServiceActions.setSelectedServicesChecklisttData([])
+      );
+    };
   }, []);
 
   const handlePressGeneratePdf = () => {

@@ -261,6 +261,9 @@ Invoke.getJobServiceMedia = (jobId, unitId) => {
 Invoke.getJobServiceDailies = (jobId, unitId) => {
   return ConfigAxios.get(`/services/dailies/${jobId}/${unitId}`);
 };
+Invoke.updateJobServiceDailies = (payload) => {
+  return ConfigAxios.put(`/services/dailies`, payload);
+};
 Invoke.getChecklistData = (unitModelId) => {
   return ConfigAxios.get(`/m_services/checklist/${unitModelId}`);
 };

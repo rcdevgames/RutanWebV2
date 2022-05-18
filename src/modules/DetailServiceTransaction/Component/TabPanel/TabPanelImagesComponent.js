@@ -16,10 +16,13 @@ const RenderImage = ({ medias }) => {
       >
         <Card
           hoverable
-          style={{ width: 240 }}
-          cover={<Image width={"100%"} src={item.path} />}
+          style={{ width: 240, height: 200 }}
+          cover={<Image width={"100%"} height={150} src={item.path} />}
         >
-          <Meta title={item.title} description={item.description} />
+          <Meta
+            style={{ marginTop: -10 }}
+            title={`Gambar Penting ${index + 1}`}
+          />
         </Card>
       </Col>
     );

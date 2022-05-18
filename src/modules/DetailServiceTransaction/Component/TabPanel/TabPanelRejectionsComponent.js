@@ -6,35 +6,34 @@ import moment from "moment";
 const RenderDailies = ({ rejections }) => {
   const columns = [
     {
-      title: "Karyawan",
-      dataIndex: "karyawan",
+      title: "No",
+      dataIndex: "no",
     },
     {
-      title: "Deskripsi",
-      dataIndex: "deskripsi",
+      title: "NIK",
+      dataIndex: "nik",
     },
     {
-      title: "Mulai",
-      dataIndex: "mulai",
+      title: "Nama Karyawan",
+      dataIndex: "name",
     },
     {
-      title: "Selesai",
-      dataIndex: "selesai",
+      title: "Alasan Reject",
+      dataIndex: "reason",
     },
     {
-      title: "Jam",
-      dataIndex: "jam",
+      title: "Tanggal Di-Reject",
+      dataIndex: "rejectionDate",
     },
   ];
   const data = [];
   rejections.map((item, index) => {
     data.push({
       key: index,
-      karyawan: item.employee_name,
-      deskripsi: item.description,
-      mulai: moment(item.daily_start).format("DD-MMM-YYYY"),
+      nik: item.nik,
+      name: item.name,
+      reason: item.reason,
       selesai: moment(item.daily_end).format("DD-MMM-YYYY"),
-      jam: moment(item.daily_end).format("HH:mm:ss"),
     });
   });
   return <Table columns={columns} dataSource={data} size="middle" />;

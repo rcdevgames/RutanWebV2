@@ -8,6 +8,7 @@ import {
   SET_SELECTED_SERVICES_REJECTED_DATA,
   SET_REJECTIONS_MODAL,
   SET_EDIT_TRANSACTION_MODAL,
+  SET_EDIT_DAILIES_MODAL,
 } from "./DetailServiceTransactionAction";
 
 export const initialState = {
@@ -20,6 +21,7 @@ export const initialState = {
   selectedServiceRejected: [],
   rejectionsModal: false,
   editTransactionModal: false,
+  editDailiesModal: false,
 };
 
 export default function detailServiceTransactionReducer(
@@ -55,6 +57,9 @@ export default function detailServiceTransactionReducer(
       return { ...newState };
     case SET_EDIT_TRANSACTION_MODAL:
       newState.editTransactionModal = action.payload;
+      return { ...newState };
+    case SET_EDIT_DAILIES_MODAL:
+      newState.editDailiesModal = action.payload;
       return { ...newState };
   }
 

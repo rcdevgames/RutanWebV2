@@ -17,6 +17,7 @@ import CSelect from "../../../components/CSelect/CSelect";
 import { Themes } from "../../../property/colors";
 import RejectedModalContainer from "../Container/RejectedModalContainer";
 import EditModalTransactionContainer from "../Container/EditModalTransactionContainer";
+import EditModalDailiesContainer from "../Container/EditModalDailiesContainer";
 
 const { Text } = Typography;
 const { TabPane } = Tabs;
@@ -249,6 +250,7 @@ const DetailServiceTransactionComponent = (props) => {
       <AddEmployeeModalContainer />
       <RejectedModalContainer />
       <EditModalTransactionContainer />
+      <EditModalDailiesContainer />
     </div>
   );
 };

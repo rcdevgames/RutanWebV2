@@ -61,7 +61,7 @@ const RenderDailies = ({ dailies, handlePressEdit }) => {
       deskripsi: item.description,
       mulai: moment(item.daily_start).format("DD-MMM-YYYY"),
       selesai: moment(item.daily_end).format("DD-MMM-YYYY"),
-      jam: moment(item.daily_end).format("HH:mm:ss"),
+      jam: item.hours,
     });
   });
   return <Table columns={columns} dataSource={data} size="middle" />;

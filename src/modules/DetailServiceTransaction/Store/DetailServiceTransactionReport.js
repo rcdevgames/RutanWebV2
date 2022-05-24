@@ -40,7 +40,7 @@ export const exportDetailServicePdf = (data) => {
       description: item.description,
       start: moment(item.daily_start).format("DD-MMM-YYYY"),
       end: moment(item.daily_end).format("DD-MMM-YYYY"),
-      time: moment(item.daily_end).format("HH:mm:ss"),
+      time: item.hours,
     });
   });
 
@@ -192,23 +192,9 @@ export const exportDetailServicePdf = (data) => {
   const totalImageDistance = checklistDistance + employeeDistance;
   doc.text("Gambar - Gambar", 15, 137 + totalImageDistance);
   doc.line(15, 144 + totalImageDistance, 200, 144 + totalImageDistance);
-  selectedServiceMedia.map((item, index) => {
-    doc.addImage(item.path, "JPEG", 10, 30, 150, 76);
-  });
-
-  // convert to base64
-  const getBase64FromUrl = async (url) => {
-    const data = await fetch(url);
-    const blob = await data.blob();
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(blob);
-      reader.onloadend = () => {
-        const base64data = reader.result;
-        resolve(base64data);
-      };
-    });
-  };
+  // selectedServiceMedia.map((item, index) => {
+  //   doc.addImage(item.path, "JPEG", 10, 30, 150, 76);
+  // });
 
   imageCollections.map((item, index) => {
     if (index % 2 == 0) {

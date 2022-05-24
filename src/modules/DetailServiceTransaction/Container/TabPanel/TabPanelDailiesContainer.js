@@ -13,7 +13,7 @@ const TabPanelDailiesContainer = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  branch: state.branch,
+  // dailies: state.dailies,
 });
 const mapDispatchToProps = (dispatch) => ({
   handlePressEdit: async (values) => {

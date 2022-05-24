@@ -13,6 +13,7 @@ import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import ListServicesComponent from "../Component/ListServicesComponent";
 import * as ListServiceActions from "../Store/ListServicesActions";
 import Text from "antd/lib/typography/Text";
+import moment from "moment";
 
 const ListServicesContainer = (props) => {
   const {
@@ -139,6 +140,16 @@ const ListServicesContainer = (props) => {
       key: "unit_models",
       width: "15%",
       sorter: (a, b) => a.customer_name.length - b.customer_name.length,
+    },
+    {
+      title: "Due Date",
+      dataIndex: "due",
+      key: "due",
+      width: "15%",
+      sorter: (a, b) => a.due - b.due,
+      render: (due) => {
+        return <Text>{moment(due).format("YYYY-MM-DD")}</Text>;
+      },
     },
     {
       title: "Status",

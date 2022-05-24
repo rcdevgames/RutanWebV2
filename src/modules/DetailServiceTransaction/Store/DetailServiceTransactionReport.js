@@ -169,21 +169,27 @@ export const exportDetailServicePdf = (data) => {
     // drawCell is function for styling font, color and add content to every cell
     const drawCellChecklist = (dataCell) => {
       let docCell = dataCell.doc;
+      console.log("=== doc cell : ", dataCell);
 
       // --> Draw Circle shape for checklist
-      if (dataCell.cell.section === "body" && dataCell.column.index === 2) {
+      if (
+        (dataCell.cell.section === "body" && dataCell.column.index === 1) ||
+        (dataCell.cell.section === "body" && dataCell.column.index === 2) ||
+        (dataCell.cell.section === "body" && dataCell.column.index === 3) ||
+        (dataCell.cell.section === "body" && dataCell.column.index === 4)
+      ) {
         // --> set width of line Circle
         docCell.setLineWidth(0.3);
         // --> set fill color of circle
         doc.setFillColor(255, 255, 255);
         // --> Draw circle :)
         // penjelasan parameter (x, y, r(panjang jari-jari lingkaran), style ("F"|"FD"))
-        doc.circle(dataCell.cell.x + 22, dataCell.cell.y + 4, 2, "FD");
+        doc.circle(dataCell.cell.x + 8, dataCell.cell.y + 4, 2, "FD");
       }
       // --> This for custom styling font too
       // else if (dataCell.column.dataKey === "no") {
-      //   docCell.setFont("Verdana", "bold");
-      //   docCell.setFontSize(12);
+      // docCell.setFont("Verdana", "bold");
+      // docCell.setFontSize(12);
       // }
     };
 
@@ -219,7 +225,7 @@ export const exportDetailServicePdf = (data) => {
             valign: "middle",
             fontStyle: "bold",
             lineWidth: 0,
-            fontSize: 10,
+            fontSize: 8,
             textColor: 0,
             overflow: "linebreak",
           },
@@ -246,15 +252,25 @@ export const exportDetailServicePdf = (data) => {
             valign: "middle",
             fontStyle: "bold",
             lineWidth: 0,
-            fontSize: 10,
+            fontSize: 8,
             textColor: 0,
             overflow: "linebreak",
           },
           columns: [
-            { header: "#", dataKey: "no" },
-            { header: "Nama Peralatan", dataKey: "name" },
-            { header: "Check", dataKey: "" },
+            { header: item.category_form_name, dataKey: "field_name" },
+            { header: "ADJUST", dataKey: "" },
+            { header: "CHECK", dataKey: "" },
+            { header: "REPAIR", dataKey: "" },
+            { header: "REPLACE", dataKey: "" },
           ],
+          columnStyles: {
+            0: { cellWidth: 25 },
+            1: { cellWidth: 16 },
+            2: { cellWidth: 16 },
+            3: { cellWidth: 16 },
+            4: { cellWidth: 16 },
+            // etc
+          },
           willDrawCell: drawCellChecklist,
           didParseCell: didParseCellChecklist,
         });

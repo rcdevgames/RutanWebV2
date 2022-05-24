@@ -156,19 +156,9 @@ export const getJobServiceDailies = async (jobId, unitId = "") => {
   const { dispatch } = store;
   try {
     const { data } = await Invoke.getJobServiceDailies(jobId, unitId);
-    // data.callback.data.map((item, index) => {
-    //   var start = moment(item.daily_start);
-    //   var end = moment(item.daily_end);
-
-    //   var duration = moment.duration(start.diff(end));
-    //   var hours = duration.asHours();
-
-    //   //Difference in number of days
-    //   // const result = console.log("=== result : ", hours);
-    //   console.log("=== result ceil", Math.ceil(hours));
-    //   data.callback.data[index].totalHours = Math.ceil(hours);
-    // });
-    dispatch(setSelectedServiceDailiesData(data.callback.data));
+    dispatch(
+      setSelectedServiceDailiesData(data.callback.data || data.callback)
+    );
   } catch (error) {
     dispatch(setSelectedServiceDailiesData([]));
   }

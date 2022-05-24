@@ -148,9 +148,17 @@ const DetailServiceTransactionContainer = (props) => {
   React.useEffect(() => {
     // EmployeesActions.loadEmployeeListData();
     DetailServiceActions.getJobServiceEmployeeList(selectedJobService.id);
+    DetailServiceActions.getJobServiceDailies(selectedJobService.id);
     return () => {
       store.dispatch(
         DetailServiceActions.setSelectedServicesChecklisttData([])
+      );
+      store.dispatch(DetailServiceActions.setSelectedServiceDailiesData([]));
+      store.dispatch(DetailServiceActions.setSelectedServiceRejectedData([]));
+      store.dispatch(DetailServiceActions.setSelectedServiceHistoriesData([]));
+      store.dispatch(DetailServiceActions.setSelectedServiceMediaData([]));
+      store.dispatch(
+        DetailServiceActions.setSelectedServicesEmployeeListData([])
       );
     };
   }, []);

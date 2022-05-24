@@ -29,20 +29,24 @@ export const exportDetailServicePdf = (data) => {
     });
   });
 
-  selectedServiceChecklist.map((item, index) => {
-    checklistData.push({});
-  });
+  // selectedServiceChecklist.map((item, index) => {
+  //   checklistData.push({});
+  // });
 
-  selectedServiceDailies.map((item, index) => {
-    dailyList.push({
-      no: index + 1,
-      name: item.employee_name,
-      description: item.description,
-      start: moment(item.daily_start).format("DD-MMM-YYYY"),
-      end: moment(item.daily_end).format("DD-MMM-YYYY"),
-      time: item.hours,
+  if (selectedServiceDailies.legth > 0) {
+    selectedServiceDailies.map((item, index) => {
+      dailyList.push({
+        no: index + 1,
+        name: item.employee_name,
+        description: item.description,
+        start: moment(item.daily_start).format("DD-MMM-YYYY"),
+        end: moment(item.daily_end).format("DD-MMM-YYYY"),
+        time: item.hours,
+      });
     });
-  });
+  } else {
+    dailyList.push([]);
+  }
 
   const doc = new jsPDF();
   // doc.text({from_left}, {from_top})
@@ -162,28 +166,103 @@ export const exportDetailServicePdf = (data) => {
     doc.text("Checklist", 15, 130 + employeeDistance);
     doc.line(15, 137 + employeeDistance, 200, 137 + employeeDistance);
     // doc.addPage();
+    // drawCell is function for styling font, color and add content to every cell
+    const drawCellChecklist = (dataCell) => {
+      let docCell = dataCell.doc;
+
+      // --> Draw Circle shape for checklist
+      if (dataCell.cell.section === "body" && dataCell.column.index === 2) {
+        // --> set width of line Circle
+        docCell.setLineWidth(0.3);
+        // --> set fill color of circle
+        doc.setFillColor(255, 255, 255);
+        // --> Draw circle :)
+        // penjelasan parameter (x, y, r(panjang jari-jari lingkaran), style ("F"|"FD"))
+        doc.circle(dataCell.cell.x + 22, dataCell.cell.y + 4, 2, "FD");
+      }
+      // --> This for custom styling font too
+      // else if (dataCell.column.dataKey === "no") {
+      //   docCell.setFont("Verdana", "bold");
+      //   docCell.setFontSize(12);
+      // }
+    };
+
+    // --> didParseCell is function for styling border, line, etc of every cell
+    const didParseCellChecklist = (dataCell) => {
+      let s = dataCell.cell.styles;
+      // s.lineColor = [0, 0, 0];
+      // s.lineWidth = 0.1;
+      s.font = "courier";
+    };
+
+    // Check if the index of data is even or odd
+    selectedServiceChecklist.map((item, index) => {
+      const isEven = (n) => {
+        return n % 2 === 0;
+      };
+
+      if (isEven(index + 1)) {
+        doc.autoTable({
+          startY: 170,
+          margin: {
+            left: 70,
+          },
+          tableWidth: 100,
+          body: item.fields,
+          theme: "plain",
+          headStyles: { halign: "center" },
+          styles: {
+            cellPadding: 0,
+            rowHeight: 10,
+            fillStyle: "S",
+            halign: "center",
+            valign: "middle",
+            fontStyle: "bold",
+            lineWidth: 0,
+            fontSize: 10,
+            textColor: 0,
+            overflow: "linebreak",
+          },
+          columns: [
+            { header: "#", dataKey: "no" },
+            { header: "Nama Peralatan", dataKey: "name" },
+            { header: "Check", dataKey: "" },
+          ],
+          willDrawCell: drawCellChecklist,
+          didParseCell: didParseCellChecklist,
+        });
+      } else {
+        doc.autoTable({
+          startY: 170,
+          tableWidth: 200,
+          body: item.fields,
+          theme: "plain",
+          headStyles: { halign: "center" },
+          styles: {
+            cellPadding: 0,
+            rowHeight: 10,
+            fillStyle: "S",
+            halign: "center",
+            valign: "middle",
+            fontStyle: "bold",
+            lineWidth: 0,
+            fontSize: 10,
+            textColor: 0,
+            overflow: "linebreak",
+          },
+          columns: [
+            { header: "#", dataKey: "no" },
+            { header: "Nama Peralatan", dataKey: "name" },
+            { header: "Check", dataKey: "" },
+          ],
+          willDrawCell: drawCellChecklist,
+          didParseCell: didParseCellChecklist,
+        });
+      }
+    });
   }
 
   // Gambar - Gambar
-  const imageCollections = [
-    {
-      path: "https://drive.google.com/uc?id=1hwrQUgM6CvBwxIZUu1fRASxKQr0FxfsM",
-      title: "Image 1",
-    },
-    {
-      path: "https://drive.google.com/uc?id=1hwrQUgM6CvBwxIZUu1fRASxKQr0FxfsM",
-      title: "Image 2",
-    },
-    {
-      path: "https://drive.google.com/uc?id=1hwrQUgM6CvBwxIZUu1fRASxKQr0FxfsM",
-      title: "Image 3",
-    },
-    {
-      path: "https://drive.google.com/uc?id=1hwrQUgM6CvBwxIZUu1fRASxKQr0FxfsM",
-      title: "Image 4",
-    },
-  ];
-
   doc.setFontSize(16);
   doc.setFont("courier");
   const checklistDistance = checklistData.length
@@ -195,30 +274,6 @@ export const exportDetailServicePdf = (data) => {
   // selectedServiceMedia.map((item, index) => {
   //   doc.addImage(item.path, "JPEG", 10, 30, 150, 76);
   // });
-
-  imageCollections.map((item, index) => {
-    if (index % 2 == 0) {
-      // This is even
-      doc.addImage(
-        "https://drive.google.com/file/d/1hwrQUgM6CvBwxIZUu1fRASxKQr0FxfsM/view",
-        "JPEG",
-        15, // left
-        200, // top
-        65, // width
-        65 // height
-      );
-    } else {
-      // This is odd
-      doc.addImage(
-        "https://drive.google.com/file/d/1hwrQUgM6CvBwxIZUu1fRASxKQr0FxfsM/view",
-        "JPEG",
-        15 + index * 110, // left
-        200, // top
-        65, // width
-        65 // height
-      );
-    }
-  });
 
   // Catatan Teknisi
   doc.addPage();

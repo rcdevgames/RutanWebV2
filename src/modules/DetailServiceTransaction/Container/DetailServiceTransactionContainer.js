@@ -149,6 +149,10 @@ const DetailServiceTransactionContainer = (props) => {
     // EmployeesActions.loadEmployeeListData();
     DetailServiceActions.getJobServiceEmployeeList(selectedJobService.id);
     DetailServiceActions.getJobServiceDailies(selectedJobService.id);
+    DetailServiceActions.getJobServiceHistories(selectedJobService.id);
+    DetailServiceActions.getJobServiceSummary(selectedJobService.id);
+    DetailServiceActions.getJobServiceRejections(selectedJobService.id);
+    DetailServiceActions.getJobServiceMedia(selectedJobService.id);
     return () => {
       store.dispatch(
         DetailServiceActions.setSelectedServicesChecklisttData([])
@@ -178,6 +182,7 @@ const DetailServiceTransactionContainer = (props) => {
   const SelectUnits = enumSelectGenerator(listUnitsFromService, "unit");
 
   const onchangeUnit = (val) => {
+    const { dispatch } = store;
     const unitId = val.split("|");
     const [unitModelsId] = selectedJobService.units.filter(
       (x) => x.unit_id === unitId[0]
@@ -190,6 +195,8 @@ const DetailServiceTransactionContainer = (props) => {
     // DetailServiceActions.getJobServiceHistories(selectedJobService.id);
     if (unitModelsId !== undefined) {
       DetailServiceActions.getChecklistData(unitModelsId.id);
+    } else {
+      dispatch(DetailServiceActions.setSelectedServicesChecklisttData([]));
     }
   };
 

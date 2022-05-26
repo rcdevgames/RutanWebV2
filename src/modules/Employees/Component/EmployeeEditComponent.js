@@ -144,9 +144,9 @@ const EmployeeEditComponent = (props) => {
                   <div class="row">
                     <div class="col-md-6">
                       <Field
-                        name={"name"}
-                        label="Nama Karyawan"
-                        placeholder="-"
+                        name="password"
+                        label="Password"
+                        placeholder="* Isi jika ingin merubah password"
                         component={CInput}
                         type="text"
                       />
@@ -163,37 +163,12 @@ const EmployeeEditComponent = (props) => {
                   <div class="row">
                     <div class="col-md-6">
                       <Field
-                        name={`phone`}
-                        label="No. Telepon"
+                        name={"name"}
+                        label="Nama Karyawan"
                         placeholder="-"
                         component={CInput}
                         type="text"
                       />
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <CSelect data={enumBranch} name="branch" label="Cabang" />
-                      <Field
-                        name="address"
-                        label="Alamat"
-                        component={CInput}
-                        typeComponent="textarea"
-                      />
-                      <hr />
-                      {formStatus === "edit" && (
-                        <div class="card">
-                          <div class="card-body">
-                            <h6 class="card-title text-center">Pilih Role</h6>
-                            <SelectRole
-                              data={enumRole}
-                              defaultValues={selectedRoleEmployee}
-                              onChangeRoleEmployee={onChangeRoleEmployee}
-                            />
-                          </div>
-                        </div>
-                      )}
-                      <br />
                     </div>
                     <div class="col-md-6">
                       <Typography style={{ textAlign: "left" }}>
@@ -256,6 +231,42 @@ const EmployeeEditComponent = (props) => {
                           )}
                         </Upload>
                       </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <Field
+                        name={`phone`}
+                        label="No. Telepon"
+                        placeholder="-"
+                        component={CInput}
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <CSelect data={enumBranch} name="branch" label="Cabang" />
+                      <Field
+                        name="address"
+                        label="Alamat"
+                        component={CInput}
+                        typeComponent="textarea"
+                      />
+                      <hr />
+                      {formStatus === "edit" && (
+                        <div class="card">
+                          <div class="card-body">
+                            <h6 class="card-title text-center">Pilih Role</h6>
+                            <SelectRole
+                              data={enumRole}
+                              defaultValues={selectedRoleEmployee}
+                              onChangeRoleEmployee={onChangeRoleEmployee}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      <br />
                     </div>
                   </div>
                   <div class="row ml-2">

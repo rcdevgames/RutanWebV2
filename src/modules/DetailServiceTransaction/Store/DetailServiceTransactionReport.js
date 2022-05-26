@@ -29,11 +29,7 @@ export const exportDetailServicePdf = (data) => {
     });
   });
 
-  // selectedServiceChecklist.map((item, index) => {
-  //   checklistData.push({});
-  // });
-
-  if (selectedServiceDailies.legth > 0) {
+  if (selectedServiceDailies.length > 0) {
     selectedServiceDailies.map((item, index) => {
       dailyList.push({
         no: index + 1,
@@ -98,19 +94,6 @@ export const exportDetailServicePdf = (data) => {
   doc.text("Teknisi", 15, 87);
   doc.line(15, 92, 200, 92);
 
-  // doc.autoTable({
-  //   margin: { top: 95, left: 16 },
-  //   body: employeeList,
-  //   columns: [
-  //     { header: "No", dataKey: "no" },
-  //     { header: "NIK", dataKey: "nik" },
-  //     { header: "Nama Karyawan", dataKey: "name" },
-  //     { header: "No. Telepon", dataKey: "phone" },
-  //     { header: "Alamat", dataKey: "address" },
-  //     { header: "Tanggal Mulai", dataKey: "startDate" },
-  //   ],
-  // });
-
   // drawCell is function for styling font, color and add content to every cell
   const drawCell = (dataCell) => {
     // --> This for custom styling font too
@@ -160,6 +143,21 @@ export const exportDetailServicePdf = (data) => {
   const employeeDistance = employeeList.length ? employeeList.length * 10 : 10;
 
   // === Checklist ===
+  const isEven = (n) => {
+    return n % 2 === 0;
+  };
+  // create data by increment the row
+  let incrementRow = 0;
+  selectedServiceChecklist.map((item, index) => {
+    if (!isEven(index + 1)) {
+      incrementRow += 1;
+    }
+    item.marginBottom = 
+    item.row = incrementRow;
+    checklistData.push(item);
+    console.log("=== itemRow : ", item.row);
+  });
+
   if (selectedJobService.is_external) {
     doc.setFontSize(16);
     doc.setFont("courier");
@@ -169,7 +167,6 @@ export const exportDetailServicePdf = (data) => {
     // drawCell is function for styling font, color and add content to every cell
     const drawCellChecklist = (dataCell) => {
       let docCell = dataCell.doc;
-      console.log("=== doc cell : ", dataCell);
 
       // --> Draw Circle shape for checklist
       if (
@@ -202,42 +199,9 @@ export const exportDetailServicePdf = (data) => {
     };
 
     // Check if the index of data is even or odd
-    selectedServiceChecklist.map((item, index) => {
-      const isEven = (n) => {
-        return n % 2 === 0;
-      };
-
-      if (isEven(index + 1)) {
-        doc.autoTable({
-          startY: 170,
-          margin: {
-            left: 70,
-          },
-          tableWidth: 100,
-          body: item.fields,
-          theme: "plain",
-          headStyles: { halign: "center" },
-          styles: {
-            cellPadding: 0,
-            rowHeight: 10,
-            fillStyle: "S",
-            halign: "center",
-            valign: "middle",
-            fontStyle: "bold",
-            lineWidth: 0,
-            fontSize: 8,
-            textColor: 0,
-            overflow: "linebreak",
-          },
-          columns: [
-            { header: "#", dataKey: "no" },
-            { header: "Nama Peralatan", dataKey: "name" },
-            { header: "Check", dataKey: "" },
-          ],
-          willDrawCell: drawCellChecklist,
-          didParseCell: didParseCellChecklist,
-        });
-      } else {
+    console.log("=== checklistData : ", checklistData);
+    checklistData.map((item, index) => {
+      if (!isEven(index + 1)) {
         doc.autoTable({
           startY: 170,
           tableWidth: 200,
@@ -258,10 +222,51 @@ export const exportDetailServicePdf = (data) => {
           },
           columns: [
             { header: item.category_form_name, dataKey: "field_name" },
-            { header: "ADJUST", dataKey: "" },
-            { header: "CHECK", dataKey: "" },
-            { header: "REPAIR", dataKey: "" },
-            { header: "REPLACE", dataKey: "" },
+            { header: "ADJUST", dataKey: "test1" },
+            { header: "CHECK", dataKey: "test2" },
+            { header: "REPAIR", dataKey: "test3" },
+            { header: "REPLACE", dataKey: "test4" },
+          ],
+          columnStyles: {
+            0: { cellWidth: 25 },
+            1: { cellWidth: 16 },
+            2: { cellWidth: 16 },
+            3: { cellWidth: 16 },
+            4: { cellWidth: 16 },
+            // etc
+          },
+          willDrawCell: drawCellChecklist,
+          didParseCell: didParseCellChecklist,
+        });
+      } else {
+        doc.autoTable({
+          startY: 170,
+          margin: {
+            left: 110,
+            top: 30,
+          },
+          tableWidth: 200,
+          body: item.fields,
+          theme: "plain",
+          headStyles: { halign: "center" },
+          styles: {
+            cellPadding: 0,
+            rowHeight: 10,
+            fillStyle: "S",
+            halign: "center",
+            valign: "middle",
+            fontStyle: "bold",
+            lineWidth: 0,
+            fontSize: 8,
+            textColor: 0,
+            overflow: "linebreak",
+          },
+          columns: [
+            { header: item.category_form_name, dataKey: "field_name" },
+            { header: "ADJUST", dataKey: "test1" },
+            { header: "CHECK", dataKey: "test2" },
+            { header: "REPAIR", dataKey: "test3" },
+            { header: "REPLACE", dataKey: "test4" },
           ],
           columnStyles: {
             0: { cellWidth: 25 },
@@ -298,18 +303,8 @@ export const exportDetailServicePdf = (data) => {
   doc.text("Catatan Teknisi", 15, 20);
   doc.line(15, 25, 200, 25);
 
-  // doc.autoTable({
-  //   margin: { top: 30, left: 16 },
-  //   body: dailyList,
-  //   columns: [
-  //     { header: "No", dataKey: "no" },
-  //     { header: "Karyawan", dataKey: "name" },
-  //     { header: "Deskripsi", dataKey: "description" },
-  //     { header: "Mulai", dataKey: "start" },
-  //     { header: "Selesai", dataKey: "end" },
-  //     { header: "Jam", dataKey: "time" },
-  //   ],
-  // });
+  console.log("=== dailyList : ", dailyList);
+
   doc.autoTable({
     // startY: 95,
     margin: { top: 30, left: 15 },

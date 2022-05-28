@@ -5,21 +5,39 @@ import { store } from "../../../app/ConfigureStore";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import { setGlobalLoading } from "../../App/Store/ComponentAction";
 import DashboardComponent from "../Component/DashboardComponent";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { EditOutlined } from "@ant-design/icons";
 import * as ListServiceActions from "../../ListServices/Store/ListServicesActions";
 import Text from "antd/lib/typography/Text";
 import moment from "moment";
+import { getDashboardProgressData } from "../Store/DashboardActions";
 
 const DashboardContainer = (props) => {
   const {
     handlePressEdit,
-    handlePressDelete,
     auth: { userDetail },
-    services: { listServices, paging },
+    services: { dashboardListServices },
+    dashboard: { dashboardData },
   } = props;
   React.useEffect(() => {
     store.dispatch(setGlobalLoading(false));
+    ListServiceActions.getTopTenService();
+    getDashboardProgressData();
   }, []);
+
+  if (Object.keys(dashboardData).length > 0) {
+    dashboardData.totalCustomer = dashboardData.totalCustomer
+      ? dashboardData.totalCustomer.toLocaleString("en-US")
+      : 0;
+    dashboardData.totalInternalService = dashboardData.totalCustomer
+      ? dashboardData.totalInternalService.toLocaleString("en-US")
+      : 0;
+    dashboardData.totalExternalService = dashboardData.totalExternalService
+      ? dashboardData.totalExternalService.toLocaleString("en-US")
+      : 0;
+    dashboardData.totalIdentification = dashboardData.totalIdentification
+      ? dashboardData.totalIdentification.toLocaleString("en-US")
+      : 0;
+  }
 
   const renderActionTable = (text, record) => (
     <Space size="middle">
@@ -172,7 +190,8 @@ const DashboardContainer = (props) => {
     <DashboardComponent
       userDetail={userDetail}
       headers={headers}
-      listServices={listServices}
+      listServices={dashboardListServices}
+      dashboard={dashboardData}
     />
   );
 };
@@ -180,6 +199,7 @@ const DashboardContainer = (props) => {
 const mapStateToProps = (state) => ({
   auth: state.auth,
   services: state.services,
+  dashboard: state.dashboard,
 });
 const mapDispatchToProps = (dispatch) => ({
   handlePressEdit: async (value) => ListServiceActions.handlePressEdit(value),

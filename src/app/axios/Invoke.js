@@ -215,6 +215,12 @@ Invoke.getCityList = (page, limit, provinceId) => {
 };
 // === End Master Cities API ===
 
+// === Dashboard API ===
+Invoke.getDashboardProgressData = (data) => {
+  return ConfigAxios.get("/dashboards", data);
+};
+// === End Dashboard API ===
+
 // === Services API ===
 Invoke.addInternalService = (data) => {
   return ConfigAxios.post("/services", data);

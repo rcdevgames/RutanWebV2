@@ -3,10 +3,12 @@ import {
   SET_SELECTED_JOB_SERVICE,
   SET_PAGING_LIST_SERVICE,
   SET_SELECTED_JOB_SERVICE_ID,
+  SET_DASHBOARD_LIST_SERVICES,
 } from "./ListServicesActions";
 
 export const initialState = {
   listServices: [],
+  dashboardListServices: [],
   selectedJobService: {},
   selectedJobServiceId: {},
   paging: {
@@ -22,6 +24,10 @@ export default function listServiceReducer(state = initialState, action) {
   switch (action.type) {
     case SET_LIST_SERVICES:
       newState.listServices = action.payload;
+      return { ...newState };
+
+    case SET_DASHBOARD_LIST_SERVICES:
+      newState.dashboardListServices = action.payload;
       return { ...newState };
 
     case SET_SELECTED_JOB_SERVICE:

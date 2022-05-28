@@ -10,10 +10,18 @@ export const SET_LIST_SERVICES = "SET_LIST_SERVICES";
 export const SET_SELECTED_JOB_SERVICE = "SET_SELECTED_JOB_SERVICE";
 export const SET_PAGING_LIST_SERVICE = "SET_PAGING_LIST_SERVICE";
 export const SET_SELECTED_JOB_SERVICE_ID = "SET_SELECTED_JOB_SERVICE_ID";
+export const SET_DASHBOARD_LIST_SERVICES = "SET_DASHBOARD_LIST_SERVICES";
 
 export const setListServices = (payload) => {
   return {
     type: SET_LIST_SERVICES,
+    payload,
+  };
+};
+
+export const setDashboardListService = (payload) => {
+  return {
+    type: SET_DASHBOARD_LIST_SERVICES,
     payload,
   };
 };
@@ -60,6 +68,15 @@ export const getListServicesRequested = async (
     paging.totalPage = data.callback.totalPage;
     store.dispatch(setListServices(data.callback.data));
     store.dispatch(setPagingListService(paging));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getTopTenService = async () => {
+  try {
+    const { data } = await Invoke.getListServices(1, 10, "", "", "");
+    store.dispatch(setDashboardListService(data.callback.data));
   } catch (error) {
     console.log(error);
   }

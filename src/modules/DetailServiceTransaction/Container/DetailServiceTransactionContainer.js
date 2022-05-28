@@ -36,7 +36,6 @@ const DetailServiceTransactionContainer = (props) => {
       selectedServiceChecklist,
       selectedServiceRejected,
     },
-    units: { listUnits },
   } = props;
 
   const printedData = {

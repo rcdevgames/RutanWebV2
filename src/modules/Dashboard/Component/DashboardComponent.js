@@ -21,7 +21,7 @@ const DashboardComponent = (props) => {
                       <h6 class="card-title mb-0">Total Customer</h6>
                     </div>
                     <div class="row">
-                      <div class="col-6 col-md-12 col-xl-5">
+                      <div class="col-12 col-md-12 col-xl-8">
                         <h3 class="mb-2">{dashboard.totalCustomer}</h3>
                       </div>
                     </div>
@@ -35,7 +35,7 @@ const DashboardComponent = (props) => {
                       <h6 class="card-title mb-0">Total Service Internal</h6>
                     </div>
                     <div class="row">
-                      <div class="col-6 col-md-12 col-xl-5">
+                      <div class="col-6 col-md-12 col-xl-8">
                         <h3 class="mb-2">{dashboard.totalInternalService}</h3>
                       </div>
                     </div>
@@ -49,7 +49,7 @@ const DashboardComponent = (props) => {
                       <h6 class="card-title mb-0">Total Service External</h6>
                     </div>
                     <div class="row">
-                      <div class="col-6 col-md-12 col-xl-5">
+                      <div class="col-6 col-md-12 col-xl-8">
                         <h3 class="mb-2">{dashboard.totalExternalService}</h3>
                       </div>
                     </div>
@@ -63,7 +63,7 @@ const DashboardComponent = (props) => {
                       <h6 class="card-title mb-0">Total Identifikasi</h6>
                     </div>
                     <div class="row">
-                      <div class="col-6 col-md-12 col-xl-5">
+                      <div class="col-6 col-md-12 col-xl-8">
                         <h3 class="mb-2">{dashboard.totalIdentification}</h3>
                       </div>
                     </div>

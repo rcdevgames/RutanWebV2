@@ -59,8 +59,8 @@ const RenderDailies = ({ dailies, handlePressEdit }) => {
       karyawan: item.employee_name,
       title: item.title,
       deskripsi: item.description,
-      mulai: moment(item.daily_start).format("DD-MMM-YYYY"),
-      selesai: moment(item.daily_end).format("DD-MMM-YYYY"),
+      mulai: moment(item.daily_start).format("DD-MMM-YYYY HH:mm:ss"),
+      selesai: moment(item.daily_end).format("DD-MMM-YYYY HH:mm:ss"),
       jam: item.hours,
     });
   });

@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Row, Empty, Col } from "antd";
+import { Typography, Row, Empty, Col, Checkbox } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import { Radio } from "antd";
 import Text from "antd/lib/typography/Text";
@@ -20,7 +20,7 @@ const TabPanelChecklistComponent = (props) => {
       <hr />
       <div class="row d-flex flex-wrap col md-12">
         {checklist.length > 0 ? (
-          checklist.map((item, index) => (
+          checklist.map((itemChecklist, indexChecklist) => (
             <div style={{ width: "45%" }}>
               <div>
                 <div class="mb-2 mt-2 pb-2">
@@ -36,7 +36,7 @@ const TabPanelChecklistComponent = (props) => {
                   >
                     <Col style={style} className="gutter-row" span={7}>
                       <Text strong style={{ fontSize: 10 }}>
-                        {item.category_form_name}
+                        {itemChecklist.category_form_name}
                       </Text>
                     </Col>
                     <Col style={style} className="gutter-row" span={4}>
@@ -63,8 +63,8 @@ const TabPanelChecklistComponent = (props) => {
                 </div>
 
                 <Radio.Group disabled>
-                  {item.fields &&
-                    item.fields.map((item, index) => {
+                  {itemChecklist.fields &&
+                    itemChecklist.fields.map((itemFields, indexFields) => {
                       return (
                         <Row
                           gutter={16}
@@ -83,28 +83,48 @@ const TabPanelChecklistComponent = (props) => {
                                   color: Themes.secondary,
                                 }}
                               >
-                                {item.field_name}
+                                {itemFields.field_name}
                               </Typography>
                             </div>
                           </Col>
                           <Col style={style} className="gutter-row" span={4}>
                             <div>
-                              <Radio value={1}></Radio>
+                              <Checkbox
+                                checked={
+                                  itemChecklist.fields[indexFields].is_check
+                                }
+                                disabled={true}
+                              />
                             </div>
                           </Col>
                           <Col style={style} className="gutter-row" span={4}>
                             <div>
-                              <Radio value={2}></Radio>
+                              <Checkbox
+                                checked={
+                                  itemChecklist.fields[indexFields].is_check
+                                }
+                                disabled={true}
+                              />
                             </div>
                           </Col>
                           <Col style={style} className="gutter-row" span={4}>
                             <div>
-                              <Radio value={3}></Radio>
+                              <Checkbox
+                                checked={
+                                  itemChecklist.fields[indexFields].is_check
+                                }
+                                disabled={true}
+                              />
                             </div>
                           </Col>
                           <Col style={style} className="gutter-row" span={4}>
                             <div>
-                              <Radio value={4}></Radio>
+                              <Checkbox
+                                checked={
+                                  itemChecklist.fields[indexFields].is_check
+                                }
+                                disabled={true}
+                              />
                             </div>
                           </Col>
                         </Row>

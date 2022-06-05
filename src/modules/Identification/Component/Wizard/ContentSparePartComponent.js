@@ -286,7 +286,7 @@ const ContentSparePartComponent = ({ onChangeServiced, isServiced }) => {
         </div>
         <FieldArray
           name="spare_part_changing_histories"
-          component={(_props) => <RenderServiceHistory {..._props} />}
+          component={RenderServiceHistory}
         />
         <hr />
       </div>

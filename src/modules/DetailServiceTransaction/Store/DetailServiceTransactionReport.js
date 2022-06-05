@@ -11,6 +11,7 @@ export const exportDetailServicePdf = (data) => {
     selectedServiceDailies,
     selectedServiceHistories,
     selectedServiceChecklist,
+    selectedUnit,
   } = data;
   const startDate = moment(selectedJobService.start).format("YYYY-MM-DD");
   const dueDate = moment(selectedJobService.due).format("YYYY-MM-DD");
@@ -59,7 +60,7 @@ export const exportDetailServicePdf = (data) => {
   doc.text(`: ${selectedJobService.status}`, 130, 32);
   //   Line 2
   doc.text(15, 39, `Unit`);
-  doc.text(`: ${selectedJobService.unit ?? "-"}`, 50, 39);
+  doc.text(`: ${selectedUnit ?? "-"}`, 50, 39);
   doc.text(100, 39, `Job Perform`);
   doc.text(`: ${selectedJobService.job_perform ?? "-"}`, 130, 39);
   //   Line 3
@@ -152,8 +153,7 @@ export const exportDetailServicePdf = (data) => {
     if (!isEven(index + 1)) {
       incrementRow += 1;
     }
-    item.marginBottom = 
-    item.row = incrementRow;
+    item.marginBottom = item.row = incrementRow;
     checklistData.push(item);
     console.log("=== itemRow : ", item.row);
   });

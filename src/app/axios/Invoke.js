@@ -451,6 +451,10 @@ Invoke.updateIdentificationMilling = (payload) => {
   return ConfigAxios.put("/m_identifications/milling", payload);
 };
 
+Invoke.updateIdentificationRegular = (payload) => {
+  return ConfigAxios.put("/m_identifications/regular", payload);
+};
+
 Invoke.deleteIdentificationById = (identificationId) => {
   return ConfigAxios.delete(
     `/identifications/${identificationId}`,

@@ -162,7 +162,7 @@ const doUpdateIdentificationMilling = async (values, isLastStep) => {
       rice_trademark: values.riceTrademark ?? "",
       history_service_place: values.history_service_place ?? "",
       history_service_type: values.history_service_type ?? "",
-      note: values.note ?? "",
+      notes: values.note ?? "",
       engine_confs: engineConfs,
       spare_part_needs: values.spare_part_needs ?? [],
       spare_part_changing_histories: values.spare_part_changing_histories ?? [],
@@ -190,11 +190,20 @@ const doUpdateIdentificationRegular = async (values, isFinished) => {
   const paging = getState().identification.paging;
   const { page, limit } = paging;
   try {
+    if (!values || values === undefined) {
+      // showToast("Harap lengkapi form untuk melanjutkan", "error");
+      return;
+    }
+
+    console.log("=== values : ", values);
+
     const identificationId = getState().identification.selectedIdentificationId;
-    const splitInstanceType = values.instanceType.split("|");
-    const splitMillingStatus = values.millingStatus.split("|");
-    const splitCity = values.city.split("|");
-    const splitProvince = values.province.split("|");
+    const splitInstanceType = values?.instanceType.split("|");
+    const splitMillingStatus = values.millingStatus
+      ? values?.millingStatus.split("|")
+      : [""];
+    const splitCity = values?.city.split("|");
+    const splitProvince = values?.province.split("|");
 
     const engineConfs = [];
     if (values.engine_confs && values.engine_confs.length > 0) {
@@ -207,30 +216,42 @@ const doUpdateIdentificationRegular = async (values, isFinished) => {
 
     const payload = {
       identification_id: identificationId,
-      instance_type: splitInstanceType[0],
+      instance_type: splitInstanceType[0] ?? "",
       instance_name: values.instanceName ?? "",
+      instance_address: values.instanceAddress ?? "",
       name: values.customerName ?? "",
       ktp_npwp: values.ktp_npwp ?? "",
       status: splitMillingStatus[0],
-      city: splitCity[1],
-      province: splitProvince[1],
-      phone: values.phone ?? "",
-      milling_capacity: values.millingCapacity ?? "",
-      milling_work_capacity_perday: values.millingWorkCapacityPerDay ?? "",
-      rice_trademark: values.riceTrademark ?? "",
-      history_service_place: values.history_service_place ?? "",
-      history_service_type: values.history_service_type ?? "",
-      note: values.note ?? "",
-      engine_confs: engineConfs,
+      address_district: "",
+      address_city: splitCity[1] ?? "",
+      address_province: splitProvince[1] ?? "",
+      address_subdistrict: values.kelurahan ?? "",
+      address_postal_code: values.postalCode ?? "",
+      phone: values.instancePhoneNumber ?? "",
+      product_name: values.productName,
+      buy_date: "2021-09-22",
+      assistance_date: "2021-09-25",
+      serial_number: "SN1231",
+      machine_number: "MCN1231",
+      gearbox_number: "GB1231",
+      production_unit_year: "2021",
+      work_hour_per_day: "8 Hours",
+      hour_meter: 1233,
+      history_service_place: "Fee Text",
+      history_service_type: "Fee Text",
+      notes: "Test Regular Identification",
       spare_part_needs: values.spare_part_needs ?? [],
       spare_part_changing_histories: values.spare_part_changing_histories ?? [],
       spare_part_selling_histories: values.spare_part_selling_histories ?? [],
     };
 
-    return;
-    await Invoke.updateIdentificationMilling(payload);
-    showToast("Data Berhasil Disimpan", "success");
-    getIdentificationListRequested(page, limit);
+    // return;
+    await Invoke.updateIdentificationRegular(payload);
+    if (isFinished) {
+      showToast("Data berhasil disimpan", "success");
+      getIdentificationListRequested(page, limit);
+      navigate("/identification");
+    }
   } catch (error) {
     showToast("Internal Server Error!", "error");
     console.log("error : ", error);

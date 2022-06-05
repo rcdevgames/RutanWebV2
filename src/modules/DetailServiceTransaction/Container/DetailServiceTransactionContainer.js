@@ -35,6 +35,7 @@ const DetailServiceTransactionContainer = (props) => {
       selectedServiceHistories,
       selectedServiceChecklist,
       selectedServiceRejected,
+      selectedUnit,
     },
   } = props;
 
@@ -47,6 +48,7 @@ const DetailServiceTransactionContainer = (props) => {
     selectedServiceHistories,
     selectedServiceChecklist,
     selectedServiceRejected,
+    selectedUnit,
   };
 
   const TabPanel = [
@@ -186,6 +188,12 @@ const DetailServiceTransactionContainer = (props) => {
     const [unitModelsId] = selectedJobService.units.filter(
       (x) => x.unit_id === unitId[0]
     );
+    console.log("=== unit Name : ", unitId[1]);
+    if (unitId[1] === undefined) {
+      dispatch(DetailServiceActions.setSelectedUnit("Seluruh Unit"));
+    } else {
+      dispatch(DetailServiceActions.setSelectedUnit(unitId[1]));
+    }
 
     DetailServiceActions.getJobServiceMedia(selectedJobService.id, unitId[0]);
     // DetailServiceActions.getJobServiceEmployeeList(selectedJobService.id);

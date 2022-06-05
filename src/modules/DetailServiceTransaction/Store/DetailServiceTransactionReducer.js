@@ -9,7 +9,8 @@ import {
   SET_REJECTIONS_MODAL,
   SET_EDIT_TRANSACTION_MODAL,
   SET_EDIT_DAILIES_MODAL,
-  SET_SELECTED_EDIT_DAILIES_DATA
+  SET_SELECTED_EDIT_DAILIES_DATA,
+  SET_SELECTED_UNIT,
 } from "./DetailServiceTransactionAction";
 
 export const initialState = {
@@ -24,6 +25,7 @@ export const initialState = {
   editTransactionModal: false,
   editDailiesModal: false,
   selectedEditDailies: {},
+  selectedUnit: "Seluruh Unit",
 };
 
 export default function detailServiceTransactionReducer(
@@ -65,6 +67,9 @@ export default function detailServiceTransactionReducer(
       return { ...newState };
     case SET_SELECTED_EDIT_DAILIES_DATA:
       newState.selectedEditDailies = action.payload;
+      return { ...newState };
+    case SET_SELECTED_UNIT:
+      newState.selectedUnit = action.payload;
       return { ...newState };
   }
 

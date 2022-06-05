@@ -66,7 +66,7 @@ const ContentStepOneRegularComponent = ({
         </div>
         <div class="col-md-4">
           <Field
-            name="riceTrademark"
+            name="instancePhoneNumber"
             label="No. Telepon"
             placeholder="-"
             component={CInput}

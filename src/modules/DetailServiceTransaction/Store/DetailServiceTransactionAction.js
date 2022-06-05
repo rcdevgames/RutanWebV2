@@ -37,9 +37,18 @@ export const SET_EDIT_DAILIES_MODAL = "SET_EDIT_DAILIES_MODAL";
 
 export const SET_SELECTED_EDIT_DAILIES_DATA = "SET_SELECTED_EDIT_DAILIES_DATA";
 
+export const SET_SELECTED_UNIT = "SET_SELECTED_UNIT";
+
 export const setRejectionsModal = (payload) => {
   return {
     type: SET_REJECTIONS_MODAL,
+    payload,
+  };
+};
+
+export const setSelectedUnit = (payload) => {
+  return {
+    type: SET_SELECTED_UNIT,
     payload,
   };
 };

@@ -39,6 +39,8 @@ export const SET_SELECTED_EDIT_DAILIES_DATA = "SET_SELECTED_EDIT_DAILIES_DATA";
 
 export const SET_SELECTED_UNIT = "SET_SELECTED_UNIT";
 
+export const RESET_DETAIL_SERVICE = "RESET_DETAIL_SERVICE";
+
 export const setRejectionsModal = (payload) => {
   return {
     type: SET_REJECTIONS_MODAL,

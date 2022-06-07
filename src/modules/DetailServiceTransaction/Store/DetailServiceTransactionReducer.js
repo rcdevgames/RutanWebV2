@@ -11,6 +11,7 @@ import {
   SET_EDIT_DAILIES_MODAL,
   SET_SELECTED_EDIT_DAILIES_DATA,
   SET_SELECTED_UNIT,
+  RESET_DETAIL_SERVICE,
 } from "./DetailServiceTransactionAction";
 
 export const initialState = {
@@ -70,6 +71,9 @@ export default function detailServiceTransactionReducer(
       return { ...newState };
     case SET_SELECTED_UNIT:
       newState.selectedUnit = action.payload;
+      return { ...newState };
+    case RESET_DETAIL_SERVICE:
+      newState = initialState;
       return { ...newState };
   }
 

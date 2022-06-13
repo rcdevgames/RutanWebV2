@@ -13,6 +13,7 @@ import {
 } from "@ant-design/icons";
 import TabPanelEmployeeContainer from "./TabPanel/TabPanelEmployeeContainer";
 import * as DetailServiceActions from "../Store/DetailServiceTransactionAction";
+import * as EmployeesActions from "../../Employees/Store/EmployeesActions";
 import TabPanelSummaryContainer from "./TabPanel/TabPanelSummaryContainer";
 import TabPanelImagesContainer from "./TabPanel/TabPanelImagesContainer";
 import TabPanelDailiesContainer from "./TabPanel/TabPanelDailiesContainer";
@@ -147,7 +148,7 @@ const DetailServiceTransactionContainer = (props) => {
   };
 
   React.useEffect(() => {
-    // EmployeesActions.loadEmployeeListData();
+    EmployeesActions.loadEmployeeListData(1, 99999);
     DetailServiceActions.getJobServiceEmployeeList(selectedJobService.id);
     DetailServiceActions.getJobServiceDailies(selectedJobService.id);
     DetailServiceActions.getJobServiceHistories(selectedJobService.id);
@@ -188,7 +189,7 @@ const DetailServiceTransactionContainer = (props) => {
     const [unitModelsId] = selectedJobService.units.filter(
       (x) => x.unit_id === unitId[0]
     );
-    console.log("=== unit Name : ", unitId[1]);
+
     if (unitId[1] === undefined) {
       dispatch(DetailServiceActions.setSelectedUnit("Seluruh Unit"));
     } else {

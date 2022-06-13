@@ -45,7 +45,7 @@ export const doLogout = (dispatch) => {
   toastr.confirm("Apakah Anda Yakin Ingin Keluar?", toastrConfirmOptions);
 };
 
-const appendItem = (data) =>
+const appendItem = async (data) =>
   new Promise((resolve, reject) => {
     store.dispatch(setAccessToken(data.data.callback.accessToken));
     delete data.data.callback.accessToken;
@@ -57,6 +57,8 @@ export const handleSubmitLogin = async (values) => {
   const { username, password } = values;
   const payload = { username, password };
 
+  console.log("=== user pass : ", username, password);
+
   store.dispatch(setGlobalLoading(true));
 
   Invoke.submitLogin(payload)
@@ -67,7 +69,7 @@ export const handleSubmitLogin = async (values) => {
           history.push("/dashboard");
           window.location.reload();
           store.dispatch(setGlobalLoading(false));
-        }, 5000);
+        }, 20000);
       });
     })
     .catch((onRejected) => {

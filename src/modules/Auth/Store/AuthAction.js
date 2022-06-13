@@ -64,12 +64,11 @@ export const handleSubmitLogin = async (values) => {
   Invoke.submitLogin(payload)
     .then((data) => {
       appendItem(data).then(() => {
-        initializeApp();
         setTimeout(() => {
           history.push("/dashboard");
           window.location.reload();
           store.dispatch(setGlobalLoading(false));
-        }, 20000);
+        }, 5000);
       });
     })
     .catch((onRejected) => {

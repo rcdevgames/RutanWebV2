@@ -1,6 +1,8 @@
 import { Space, Tag } from "antd";
 import React from "react";
 import { connect } from "react-redux";
+import * as AdminActions from "../../Admin/Store/AdminActions";
+import * as RoleActions from "../../Roles/Store/RolesActions";
 import { store } from "../../../app/ConfigureStore";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import { setGlobalLoading } from "../../App/Store/ComponentAction";
@@ -10,6 +12,7 @@ import * as ListServiceActions from "../../ListServices/Store/ListServicesAction
 import Text from "antd/lib/typography/Text";
 import moment from "moment";
 import { getDashboardProgressData } from "../Store/DashboardActions";
+import { initializeApp } from "../../../app/InitializeApp";
 
 const DashboardContainer = (props) => {
   const {
@@ -22,6 +25,7 @@ const DashboardContainer = (props) => {
     store.dispatch(setGlobalLoading(false));
     ListServiceActions.getTopTenService();
     getDashboardProgressData();
+    initializeApp();
   }, []);
 
   if (Object.keys(dashboardData).length > 0) {

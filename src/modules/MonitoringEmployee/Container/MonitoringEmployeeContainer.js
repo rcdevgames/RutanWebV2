@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { getFormValues, reduxForm } from "redux-form";
 import * as MonitoringEmployeeActions from "../Store/MonitoringEmployeeActions";
+import * as BranchActions from "../../Branch/Store/BranchActions";
 import { store } from "../../../app/ConfigureStore";
 import { enumTypeMonitoringEmployee } from "../../../app/Helpers";
 import MonitoringEmployeeComponent from "../Component/MonitoringEmployeeComponent";
@@ -15,7 +16,7 @@ const MonitoringEmployeeContainer = (props) => {
     getListMonitoringEmployee,
     handlePressAddNew,
     monitoringEmployee: { listMonitoringEmployee, paging },
-    branch: { listBranch },
+    branch: { listBranchDropdown },
     monitoringEmployeeFormValues,
   } = props;
 
@@ -131,7 +132,7 @@ const MonitoringEmployeeContainer = (props) => {
   ];
 
   const SelectBranch = [];
-  listBranch.map((item, index) => {
+  listBranchDropdown.map((item, index) => {
     SelectBranch.push({
       id: `branch-${index}`,
       value: item.id,
@@ -141,6 +142,7 @@ const MonitoringEmployeeContainer = (props) => {
 
   React.useEffect(() => {
     getListMonitoringEmployee(page, limit);
+    BranchActions.getBranchListDataRequested(1, 99999, "", true);
   }, []);
 
   const onChangePagination = async (nextPage, pageSize) => {

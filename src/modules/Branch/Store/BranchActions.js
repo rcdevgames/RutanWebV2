@@ -10,10 +10,18 @@ export const SET_FORM_STATUS = "SET_FORM_STATUS";
 export const SET_SELECTED_BRANCH_ID = "SET_SELECTED_BRANCH_ID";
 export const SET_SELECTED_BRANCH_DATA = "SET_SELECTED_BRANCH_DATA";
 export const SET_PAGING_BRANCH = "SET_PAGING_BRANCH";
+export const SET_BRANCH_LIST_DATA_DROPDOWN = "SET_BRANCH_LIST_DATA_DROPDOWN";
 
 export const setBranchListData = (payload) => {
   return {
     type: SET_BRANCH_LIST_DATA,
+    payload,
+  };
+};
+
+export const setBranchListDataDropdown = (payload) => {
+  return {
+    type: SET_BRANCH_LIST_DATA_DROPDOWN,
     payload,
   };
 };
@@ -116,14 +124,23 @@ export const mapDetailBranchToForm = async () => {
   dispatch(change("editBranchForm", `description`, data.name ?? ""));
 };
 
-export const getBranchListDataRequested = async (page, limit, keyword = "") => {
+export const getBranchListDataRequested = async (
+  page,
+  limit,
+  keyword = "",
+  isDropdown = false
+) => {
   try {
     const { data } = await Invoke.getListBranch(page, limit, keyword);
     const paging = {};
     paging.page = data.callback.page;
     paging.limit = data.callback.limit;
     paging.totalPage = data.callback.totalPage;
-    store.dispatch(setBranchListData(data.callback.data));
+    if (isDropdown) {
+      store.dispatch(setBranchListDataDropdown(data.callback.data));
+    } else {
+      store.dispatch(setBranchListData(data.callback.data));
+    }
     store.dispatch(setPagingBranch(paging));
   } catch (error) {
     console.log(error);

@@ -4,10 +4,12 @@ import {
   SET_PAGING_BRANCH,
   SET_SELECTED_BRANCH_ID,
   SET_SELECTED_BRANCH_DATA,
+  SET_BRANCH_LIST_DATA_DROPDOWN
 } from "./BranchActions";
 
 export const initialState = {
   listBranch: [],
+  listBranchDropdown: [],
   selectedBranchId: "",
   selectedBranchData: {},
   formStatus: "add",
@@ -25,6 +27,10 @@ export default function branchReducer(state = initialState, action) {
   switch (action.type) {
     case SET_BRANCH_LIST_DATA:
       newState.listBranch = action.payload;
+      return { ...newState };
+
+    case SET_BRANCH_LIST_DATA_DROPDOWN:
+      newState.listBranchDropdown = action.payload;
       return { ...newState };
 
     case SET_FORM_STATUS:

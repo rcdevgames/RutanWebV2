@@ -133,14 +133,16 @@ const DetailServiceTransactionComponent = (props) => {
                     Kembali
                   </CButtonAntd>
                   <div class="ml-3" />
-                  <CButtonAntd
-                    onClick={handlePressEdit}
-                    type="primary"
-                    icon={<EditOutlined />}
-                    size="middle"
-                  >
-                    Ubah
-                  </CButtonAntd>
+                  {data.status.toLowerCase() !== "approved" && (
+                    <CButtonAntd
+                      onClick={handlePressEdit}
+                      type="primary"
+                      icon={<EditOutlined />}
+                      size="middle"
+                    >
+                      Ubah
+                    </CButtonAntd>
+                  )}
                   <RenderButtonAction status={data.status} />
                   <div class="ml-3" />
                   <CButtonAntd

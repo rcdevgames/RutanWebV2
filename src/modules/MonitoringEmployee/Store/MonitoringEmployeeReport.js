@@ -41,9 +41,11 @@ export const exportMonitoringEmployeePdf = (data, values) => {
 
   // Check if filtered by branch
   if (values) {
-    const splitBranch = values.branch.split("|");
-    doc.text(15, 56, `Cabang`);
-    doc.text(`: ${splitBranch[1] ?? "-"}`, 50, 56);
+    if (values.branch) {
+      const splitBranch = values.branch.split("|");
+      doc.text(15, 56, `Cabang`);
+      doc.text(`: ${splitBranch[1] ?? "-"}`, 50, 56);
+    }
   }
 
   // drawCell is function for styling font, color and add content to every cell

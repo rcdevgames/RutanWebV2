@@ -103,7 +103,7 @@ const CustomerContainer = (props) => {
   );
 
   React.useEffect(() => {
-    getListCustomer(page, limit, keyword);
+    getListCustomer(1, 10, "");
     getListBranch();
     getListProvince();
   }, []);

@@ -4,10 +4,12 @@ import {
   SET_FORM_STATUS,
   SET_SELECTED_CUSTOMER_DATA,
   SET_SELECTED_CUSTOMER_ID,
+  SET_CUSTOMER_LIST_DATA_DROPDOWN,
 } from "./CustomersActions";
 
 export const initialState = {
   listCustomers: [],
+  listCustomersDropdown: [],
   formStatus: "add",
   selectedCustomerData: {},
   selectedCustomerId: "",
@@ -25,6 +27,10 @@ export default function authReducer(state = initialState, action) {
   switch (action.type) {
     case SET_CUSTOMER_LIST_DATA:
       newState.listCustomers = action.payload;
+      return { ...newState };
+
+    case SET_CUSTOMER_LIST_DATA_DROPDOWN:
+      newState.listCustomersDropdown = action.payload;
       return { ...newState };
 
     case SET_FORM_STATUS:

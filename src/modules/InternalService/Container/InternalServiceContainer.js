@@ -13,7 +13,7 @@ import { enumTypeInternalServices } from "../../../app/Helpers";
 const InternalServiceContainer = (props) => {
   const {
     valid,
-    customers: { listCustomers, paging, keyowrd },
+    customers: { listCustomersDropdown, paging, keyowrd },
     employees: { listEmployees },
     component: { isLoadingFormGlobal },
   } = props;
@@ -31,14 +31,14 @@ const InternalServiceContainer = (props) => {
     // Reset all form data and loading when first load data
     ComponentAction.resetAllGlobalLoadingProcess();
     // resetForm();
-    CustomerActions.getCustomerListDataByPaging(page, limit, keyowrd);
-    EmployeeActions.loadEmployeeListData(1, 99999);
+    CustomerActions.getCustomerListDataByPaging(1, 999999, "", "", true);
+    EmployeeActions.loadEmployeeListData(1, 999999);
     MasterDataActions.loadProvinceListData();
     // MasterDataActions.loadCityListData();
   }, []);
 
   const SelectCustomerData = [];
-  listCustomers.map((item, index) => {
+  listCustomersDropdown.map((item, index) => {
     SelectCustomerData.push({
       id: `customer-${index}`,
       value: item.id,

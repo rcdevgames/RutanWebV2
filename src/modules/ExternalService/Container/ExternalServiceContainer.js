@@ -26,15 +26,13 @@ const ExternalServiceContainer = (props) => {
 
   const {
     valid,
-    customers: { listCustomers, paging, keyword },
+    customers: { listCustomersDropdown },
     employees: { listEmployees },
     units: { listUnits },
     jobForms: { listJobForms },
     resetForm,
     // form: { externalServiceForm },
   } = props;
-
-  const { page, limit } = paging;
 
   const submitForm = (values) => {
     ExternalServiceActions.handleSubmitForm(values);
@@ -67,7 +65,7 @@ const ExternalServiceContainer = (props) => {
   });
 
   React.useEffect(() => {
-    CustomerActions.getCustomerListDataByPaging(page, limit, keyword);
+    CustomerActions.getCustomerListDataByPaging(1, 999999, "", "", true);
     EmployeeActions.loadEmployeeListData(1, 99999);
     MasterDataActions.loadProvinceListData();
     return () => {
@@ -76,7 +74,7 @@ const ExternalServiceContainer = (props) => {
   }, []);
 
   const SelectCustomerData = [];
-  listCustomers.map((item, index) => {
+  listCustomersDropdown.map((item, index) => {
     SelectCustomerData.push({
       id: `customer-${index}`,
       value: item.id,

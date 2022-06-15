@@ -11,10 +11,19 @@ export const SET_PAGING_CUSTOMER = "SET_PAGING_CUSTOMER";
 export const SET_SELECTED_CUSTOMER_DATA = "SET_SELECTED_CUSTOMER_DATA";
 export const SET_FORM_STATUS = "SET_FORM_STATUS";
 export const SET_SELECTED_CUSTOMER_ID = "SET_SELECTED_CUSTOMER_ID";
+export const SET_CUSTOMER_LIST_DATA_DROPDOWN =
+  "SET_CUSTOMER_LIST_DATA_DROPDOWN";
 
 export const setCustomerListData = (payload) => {
   return {
     type: SET_CUSTOMER_LIST_DATA,
+    payload,
+  };
+};
+
+export const setCustomerListDataDropdown = (payload) => {
+  return {
+    type: SET_CUSTOMER_LIST_DATA_DROPDOWN,
     payload,
   };
 };
@@ -77,7 +86,8 @@ export const getCustomerListDataByPaging = async (
   page,
   limit,
   keyword = "",
-  branchId = ""
+  branchId = "",
+  isDropdownData = false
 ) => {
   try {
     const { data } = await Invoke.getCustomerList(
@@ -90,7 +100,11 @@ export const getCustomerListDataByPaging = async (
     paging.page = data.callback.page;
     paging.limit = data.callback.limit;
     paging.totalPage = data.callback.totalPage;
-    store.dispatch(setCustomerListData(data.callback.data));
+    if (isDropdownData) {
+      store.dispatch(setCustomerListDataDropdown(data.callback.data));
+    } else {
+      store.dispatch(setCustomerListData(data.callback.data));
+    }
     store.dispatch(setPagingCustomer(paging));
   } catch (error) {
     console.log(error);

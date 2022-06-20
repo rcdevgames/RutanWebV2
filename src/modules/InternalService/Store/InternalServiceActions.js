@@ -15,8 +15,8 @@ const getEmployeeByIdFromReducer = async (employeeId, type) => {
     const { listEmployees } = getState().employees;
     tempData = listEmployees.filter((x) => x.id === employeeId);
   } else {
-    const { listCustomers } = getState().customers;
-    tempData = listCustomers.filter((x) => x.id === employeeId);
+    const { listCustomersDropdown } = getState().customers;
+    tempData = listCustomersDropdown.filter((x) => x.id === employeeId);
   }
   return tempData[0] ?? {};
 };
@@ -104,8 +104,6 @@ export const setAutoPopulateCustomer = async (customerId) => {
       customerId,
       "customers"
     );
-
-    console.log("=== customer Data : ", customersData);
 
     const provinceData = await getProvinceByIdFromReducer(
       customersData.province_id

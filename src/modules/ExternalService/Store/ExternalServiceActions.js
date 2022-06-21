@@ -23,8 +23,8 @@ const getEmployeeByIdFromReducer = async (employeeId, type) => {
     const { listEmployees } = getState().employees;
     tempData = listEmployees.filter((x) => x.id === employeeId);
   } else {
-    const { listCustomers } = getState().customers;
-    tempData = listCustomers.filter((x) => x.id === employeeId);
+    const { listCustomersDropdown } = getState().customers;
+    tempData = listCustomersDropdown.filter((x) => x.id === employeeId);
   }
   return tempData[0] ?? {};
 };

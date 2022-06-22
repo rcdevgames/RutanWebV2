@@ -1,11 +1,11 @@
 import React from "react";
-import { Typography, Row, Empty, Card, Col, Image } from "antd";
+import { Typography, Row, Empty, Card, Col, Image, Divider } from "antd";
 import { CameraOutlined } from "@ant-design/icons";
 
 const { Paragraph } = Typography;
 const { Meta } = Card;
 
-const RenderImage = ({ medias }) => {
+const RenderImage = ({ medias, unit }) => {
   return medias.map((item, index) => {
     return (
       <Col
@@ -21,7 +21,7 @@ const RenderImage = ({ medias }) => {
         >
           <Meta
             style={{ marginTop: -10 }}
-            title={`Gambar Penting ${index + 1}`}
+            title={`Gambar ${unit} - ${index + 1}`}
           />
         </Card>
       </Col>
@@ -44,9 +44,17 @@ const TabPanelImagesComponent = (props) => {
       </Row>
       <hr />
       {medias && medias.length > 0 ? (
-        <Row style={{}}>
-          <RenderImage medias={medias} />
-        </Row>
+        medias.map((item, index) => (
+          <div>
+            <Divider
+              style={{ textTransform: "capitalize" }}
+              plain
+            >{`Unit ${item.unitName}`}</Divider>
+            <Row>
+              <RenderImage medias={item.image} unit={item.unitName} />
+            </Row>
+          </div>
+        ))
       ) : (
         <div>
           <Empty />

@@ -11,6 +11,9 @@ import { setSelectedJobService } from "../../ListServices/Store/ListServicesActi
 export const SET_SELECTED_SERVICES_EMPLOYEE_LIST_DATA =
   "SET_SELECTED_SERVICES_EMPLOYEE_LIST_DATA";
 
+export const SET_GROUPING_SELECTED_SERVICES_MEDIA_DATA =
+  "SET_GROUPING_SELECTED_SERVICES_MEDIA_DATA";
+
 export const SET_SELECTED_SERVICES_SUMMARY_DATA =
   "SET_SELECTED_SERVICES_SUMMARY_DATA";
 
@@ -58,6 +61,13 @@ export const setSelectedUnit = (payload) => {
 export const setEditTransactionModal = (payload) => {
   return {
     type: SET_EDIT_TRANSACTION_MODAL,
+    payload,
+  };
+};
+
+export const setGroupingSelectedServicesMediaData = (payload) => {
+  return {
+    type: SET_GROUPING_SELECTED_SERVICES_MEDIA_DATA,
     payload,
   };
 };

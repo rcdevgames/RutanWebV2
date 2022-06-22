@@ -24,6 +24,7 @@ import { enumSelectGenerator } from "../../../app/Helpers";
 import TabPanelRejectionsContainer from "./TabPanel/TabPanelRejectionsContainer";
 import TabPanelChecklistContainer from "./TabPanel/TabPanelChecklistContainer";
 import { store } from "../../../app/ConfigureStore";
+import Invoke from "../../../app/axios/Invoke";
 
 const DetailServiceTransactionContainer = (props) => {
   const {
@@ -32,6 +33,7 @@ const DetailServiceTransactionContainer = (props) => {
       selectedServiceEmployeeList,
       selectedServiceSummary,
       selectedServiceMedia,
+      groupingSelectedServiceMedia,
       selectedServiceDailies,
       selectedServiceHistories,
       selectedServiceChecklist,
@@ -39,6 +41,7 @@ const DetailServiceTransactionContainer = (props) => {
       selectedUnit,
     },
   } = props;
+  const { dispatch } = store;
 
   const printedData = {
     selectedJobService,
@@ -65,7 +68,7 @@ const DetailServiceTransactionContainer = (props) => {
       key: "panel-gambar",
       title: "Gambar",
       icon: <FileImageOutlined />,
-      component: <TabPanelImagesContainer medias={selectedServiceMedia} />,
+      component: <TabPanelImagesContainer medias={groupingSelectedServiceMedia} />,
     },
     {
       key: "panel-dailies",
@@ -147,6 +150,28 @@ const DetailServiceTransactionContainer = (props) => {
     }
   };
 
+  const getMediaGrouping = async () => {
+    // Hit media api and grouping by units :
+    let groupingMediaList = [];
+    if (selectedJobService.units) {
+      await selectedJobService.units.map(async (item, index) => {
+        const { data } = await Invoke.getJobServiceMedia(
+          selectedJobService.id,
+          item.id
+        );
+        groupingMediaList.push({
+          unitName: item.unit_name,
+          image: data.callback.data,
+        });
+      });
+      dispatch(
+        DetailServiceActions.setGroupingSelectedServicesMediaData(
+          groupingMediaList
+        )
+      );
+    }
+  };
+
   React.useEffect(() => {
     EmployeesActions.loadEmployeeListData(1, 99999);
     DetailServiceActions.getJobServiceEmployeeList(selectedJobService.id);
@@ -155,6 +180,9 @@ const DetailServiceTransactionContainer = (props) => {
     DetailServiceActions.getJobServiceSummary(selectedJobService.id);
     DetailServiceActions.getJobServiceRejections(selectedJobService.id);
     DetailServiceActions.getJobServiceMedia(selectedJobService.id);
+
+    // Call this function
+    getMediaGrouping();
     return () => {
       store.dispatch(
         DetailServiceActions.setSelectedServicesChecklisttData([])

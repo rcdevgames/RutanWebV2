@@ -12,12 +12,14 @@ import {
   SET_SELECTED_EDIT_DAILIES_DATA,
   SET_SELECTED_UNIT,
   RESET_DETAIL_SERVICE,
+  SET_GROUPING_SELECTED_SERVICES_MEDIA_DATA,
 } from "./DetailServiceTransactionAction";
 
 export const initialState = {
   selectedServiceEmployeeList: [],
   selectedServiceSummary: {},
   selectedServiceMedia: [],
+  groupingSelectedServiceMedia: [],
   selectedServiceDailies: [],
   selectedServiceHistories: [],
   selectedServiceChecklist: [],
@@ -44,6 +46,9 @@ export default function detailServiceTransactionReducer(
       return { ...newState };
     case SET_SELECTED_SERVICES_MEDIA_DATA:
       newState.selectedServiceMedia = action.payload;
+      return { ...newState };
+    case SET_GROUPING_SELECTED_SERVICES_MEDIA_DATA:
+      newState.groupingSelectedServiceMedia = action.payload;
       return { ...newState };
     case SET_SELECTED_SERVICES_DAILIES_DATA:
       newState.selectedServiceDailies = action.payload;

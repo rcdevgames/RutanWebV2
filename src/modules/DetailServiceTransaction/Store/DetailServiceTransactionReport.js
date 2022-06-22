@@ -155,7 +155,6 @@ export const exportDetailServicePdf = (data) => {
     }
     item.marginBottom = item.row = incrementRow;
     checklistData.push(item);
-    console.log("=== itemRow : ", item.row);
   });
 
   if (selectedJobService.is_external) {
@@ -303,8 +302,6 @@ export const exportDetailServicePdf = (data) => {
   doc.text("Catatan Teknisi", 15, 20);
   doc.line(15, 25, 200, 25);
 
-  console.log("=== dailyList : ", dailyList);
-
   doc.autoTable({
     // startY: 95,
     margin: { top: 30, left: 15 },
@@ -335,6 +332,10 @@ export const exportDetailServicePdf = (data) => {
   const dailiesDistance = dailyList.length * 10;
   doc.text("Laporan Akhir", 15, 50 + dailiesDistance);
   doc.line(15, 55 + dailiesDistance, 200, 55 + dailiesDistance);
+  // Laporan Akhir Text
+  doc.setFontSize(12);
+  doc.setFont("courier", "normal", "regular");
+  doc.text(15, 65 + dailiesDistance, selectedServiceSummary.summary);
 
   // === Signature ===
   doc.addPage();

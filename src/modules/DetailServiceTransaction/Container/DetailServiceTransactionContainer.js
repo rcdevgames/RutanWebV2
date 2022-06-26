@@ -57,24 +57,12 @@ const DetailServiceTransactionContainer = (props) => {
 
   const TabPanel = [
     {
-      key: "panel-teknisi",
-      title: "Teknisi",
-      icon: <UsergroupAddOutlined />,
-      component: (
-        <TabPanelEmployeeContainer employees={selectedServiceEmployeeList} />
-      ),
-    },
-    {
       key: "panel-gambar",
       title: "Gambar",
       icon: <FileImageOutlined />,
-      component: <TabPanelImagesContainer medias={groupingSelectedServiceMedia} />,
-    },
-    {
-      key: "panel-dailies",
-      title: "Catatan Teknisi",
-      icon: <EditOutlined />,
-      component: <TabPanelDailiesContainer dailies={selectedServiceDailies} />,
+      component: (
+        <TabPanelImagesContainer medias={groupingSelectedServiceMedia} />
+      ),
     },
     {
       key: "panel-summary",
@@ -83,12 +71,26 @@ const DetailServiceTransactionContainer = (props) => {
       component: <TabPanelSummaryContainer summary={selectedServiceSummary} />,
     },
     {
+      key: "panel-teknisi",
+      title: "Teknisi",
+      icon: <UsergroupAddOutlined />,
+      component: (
+        <TabPanelEmployeeContainer employees={selectedServiceEmployeeList} />
+      ),
+    },
+    {
       key: "panel-rejected",
       title: "Alasan Reject",
       icon: <CloseSquareOutlined />,
       component: (
         <TabPanelRejectionsContainer rejections={selectedServiceRejected} />
       ),
+    },
+    {
+      key: "panel-dailies",
+      title: "Catatan Teknisi",
+      icon: <EditOutlined />,
+      component: <TabPanelDailiesContainer dailies={selectedServiceDailies} />,
     },
     {
       key: "panel-histories",
@@ -112,6 +114,15 @@ const DetailServiceTransactionContainer = (props) => {
         <TabPanelChecklistContainer checklist={selectedServiceChecklist} />
       ),
     });
+
+    // Move content of checklist to index 0
+    const fromIndex = TabPanel.indexOf("panel-checklist"); // 👉️ 0
+    const toIndex = 0;
+
+    const element = TabPanel.splice(fromIndex, 1)[0];
+    console.log(element); // ['panel-checklist']
+
+    TabPanel.splice(toIndex, 0, element);
   }
 
   const onChangeTab = (activeTab) => {

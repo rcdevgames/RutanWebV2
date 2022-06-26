@@ -35,7 +35,54 @@ const getCityByIdFromReducer = async (cityId) => {
   return result[0] ?? {};
 };
 
-export const setAutoPopulateEmployee = async (employeeId, indexEmployee) => {
+export const setAutoPopulateEmployee = async (
+  employeeId,
+  indexEmployee,
+  isReset = false
+) => {
+  if (isReset) {
+    // Mapping data to redux-form
+    store.dispatch(
+      change("internalServiceForm", `employees[${indexEmployee}].nik`, "")
+    );
+    store.dispatch(
+      change(
+        "internalServiceForm",
+        `employees[${indexEmployee}].employeePhoneNumber`,
+        ""
+      )
+    );
+    store.dispatch(
+      change(
+        "internalServiceForm",
+        `employees[${indexEmployee}].employeeProvinceName`,
+        ""
+      )
+    );
+    store.dispatch(
+      change(
+        "internalServiceForm",
+        `employees[${indexEmployee}].employeeDetailProvince`,
+        {}
+      )
+    );
+    store.dispatch(
+      change(
+        "internalServiceForm",
+        `employees[${indexEmployee}].employeeCityName`,
+        ""
+      )
+    );
+    store.dispatch(
+      change(
+        "internalServiceForm",
+        `employees[${indexEmployee}].employeeDetailCity`,
+        {}
+      )
+    );
+    return;
+  }
+
   try {
     const employeeData = await getEmployeeByIdFromReducer(
       employeeId,

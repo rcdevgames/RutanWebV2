@@ -49,8 +49,54 @@ export const setAutoPopulateUnitModel = async (unitId, fieldIndex) => {
   );
 };
 
-export const setAutoPopulateEmployee = async (employeeId, indexEmployee) => {
+export const setAutoPopulateEmployee = async (
+  employeeId,
+  indexEmployee,
+  isReset = false
+) => {
   let citySelected;
+
+  if (isReset) {
+    // Mapping data to redux-form
+    store.dispatch(
+      change("externalServiceForm", `employees[${indexEmployee}].nik`, "")
+    );
+    store.dispatch(
+      change(
+        "externalServiceForm",
+        `employees[${indexEmployee}].employeePhoneNumber`,
+        ""
+      )
+    );
+    store.dispatch(
+      change(
+        "externalServiceForm",
+        `employees[${indexEmployee}].employeeProvinceName`,
+        ""
+      )
+    );
+    store.dispatch(
+      change(
+        "externalServiceForm",
+        `employees[${indexEmployee}].employeeDetailProvince`,
+        {}
+      )
+    );
+    store.dispatch(
+      change(
+        "externalServiceForm",
+        `employees[${indexEmployee}].employeeCityName`,
+        ""
+      )
+    );
+    store.dispatch(
+      change(
+        "externalServiceForm",
+        `employees[${indexEmployee}].employeeDetailCity`,
+        {}
+      )
+    );
+  }
 
   try {
     const employeeData = await getEmployeeByIdFromReducer(

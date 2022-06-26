@@ -79,6 +79,14 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleAutoPopulateEmployee: (employeeId, indexEmployee) => {
     const arrVal = employeeId.split("|");
+    if (!employeeId) {
+      InternalServiceActions.setAutoPopulateEmployee(
+        arrVal[0],
+        indexEmployee,
+        true
+      );
+      return;
+    }
     InternalServiceActions.setAutoPopulateEmployee(arrVal[0], indexEmployee);
   },
   handleAutoPopulateCustomer: (customerId) => {

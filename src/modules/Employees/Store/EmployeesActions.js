@@ -169,14 +169,14 @@ const doAddEmployeeProcess = async (values, selectedRoles) => {
   try {
     const payload = {};
     payload.nik = values.nik;
-    payload.password = values.password;
+    payload.password = values.password ?? "";
     payload.name = values.name;
     payload.branch_id = branchId[0] ?? "";
     payload.province_id = provinceId[0] ?? "";
     payload.city_id = cityId[0] ?? "";
     payload.phone = values.phone;
     payload.address = values.address;
-    payload.photo = values.imageUrl;
+    payload.photo = values.imageUrl ?? "";
 
     await Invoke.addEmployee(payload);
     // await doSaveEmployeeRole(selectedRoles, "add");

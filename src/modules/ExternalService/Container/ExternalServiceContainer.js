@@ -102,7 +102,12 @@ const ExternalServiceContainer = (props) => {
 
   const handleChangeType = (val) => {
     const type = val.split("|");
-    if (type[0] === "T2") {
+    if (
+      type[0] === "T2" ||
+      type[0] === "T4" ||
+      type[0] === "T5" ||
+      type[0] === "T6"
+    ) {
       setIsTroubleShoot(true);
     } else {
       setIsTroubleShoot(false);

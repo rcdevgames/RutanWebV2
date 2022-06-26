@@ -159,7 +159,7 @@ export const getJobServiceSummary = async (jobId, unitId = "") => {
     const { data } = await Invoke.getJobServiceSummary(jobId, unitId);
     dispatch(setSelectedSummaryData(data.callback));
   } catch (error) {
-    dispatch(setSelectedSummaryData([]));
+    dispatch(setSelectedSummaryData({}));
   }
 };
 

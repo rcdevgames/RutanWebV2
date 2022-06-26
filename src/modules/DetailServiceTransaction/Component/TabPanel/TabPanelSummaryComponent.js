@@ -5,7 +5,8 @@ import { FileOutlined } from "@ant-design/icons";
 const { Paragraph } = Typography;
 
 const TabPanelSummaryComponent = (props) => {
-  const { summary } = props;
+  const { summaryArr } = props;
+
   return (
     <div class="page-content">
       <Row
@@ -17,8 +18,12 @@ const TabPanelSummaryComponent = (props) => {
         <Typography style={{ marginLeft: 5 }}>Laporan Akhir</Typography>
       </Row>
       <hr />
-      {summary.summary ? (
-        <Paragraph>{summary.summary}</Paragraph>
+      {summaryArr.length > 0 ? (
+        summaryArr.map((item, index) => (
+          <div>
+            <Typography>{item}</Typography>
+          </div>
+        ))
       ) : (
         <div>
           <Empty />

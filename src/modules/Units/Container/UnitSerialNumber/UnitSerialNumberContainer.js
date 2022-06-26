@@ -1,27 +1,22 @@
-import { Space, Tooltip } from "antd";
+import { Space } from "antd";
 import React from "react";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
-import * as UnitModelActions from "../Store/UnitModelActions";
-import * as ComponentActions from "../../App/Store/ComponentAction";
-import {
-  EditOutlined,
-  DeleteOutlined,
-  FieldNumberOutlined,
-} from "@ant-design/icons";
-import CButtonAntd from "../../../components/CButton/CButtonAntd";
-import { getIndex, navigate } from "../../../app/Helpers";
-import { store } from "../../../app/ConfigureStore";
-import UnitModelsComponent from "../Component/UnitModelsComponent";
+import * as UnitSerialNumberActions from "../../Store/UnitSerialNumberActions";
+import * as ComponentActions from "../../../App/Store/ComponentAction";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import CButtonAntd from "../../../../components/CButton/CButtonAntd";
+import { getIndex } from "../../../../app/Helpers";
+import { store } from "../../../../app/ConfigureStore";
+import UnitSerialNumberComponent from "../../Component/UnitSerialNumber/UnitSerialNumberComponent";
 
-const UnitModelsContainer = (props) => {
+const UnitSerialNumberContainer = (props) => {
   const {
     getListUnitModels,
     handlePressEdit,
     handlePressDelete,
     handlePressAddNew,
-    handlePressSerialNumber,
-    unitModels: { listUnitModels, paging },
+    unitModels: { listUnitModels, paging, selectedUnitModelsData },
   } = props;
 
   const { page, limit, totalPage } = paging;
@@ -67,12 +62,6 @@ const UnitModelsContainer = (props) => {
         size="middle"
       />
       <CButtonAntd
-        onClick={() => handlePressSerialNumber(record)}
-        type="ghost"
-        icon={<FieldNumberOutlined />}
-        size="middle"
-      />
-      <CButtonAntd
         onClick={() => handlePressDelete(record.id)}
         type="primary"
         icon={<DeleteOutlined />}
@@ -91,7 +80,7 @@ const UnitModelsContainer = (props) => {
     paging.page = nextPage;
     paging.limit = pageSize;
     paging.totalPage = totalPage;
-    await store.dispatch(UnitModelActions.setPagingUnitModel(paging));
+    await store.dispatch(UnitSerialNumberActions.setPagingUnitModel(paging));
     getListUnitModels(nextPage, pageSize);
   };
 
@@ -100,7 +89,7 @@ const UnitModelsContainer = (props) => {
   };
 
   return (
-    <UnitModelsComponent
+    <UnitSerialNumberComponent
       headers={headers}
       listUnits={listUnitModels}
       renderActionTable={renderActionTable}
@@ -108,6 +97,7 @@ const UnitModelsContainer = (props) => {
       onChangePagination={onChangePagination}
       onSearch={onSearch}
       paging={paging}
+      selectedUnitModelsData={selectedUnitModelsData}
       // {...props}
     />
   );
@@ -119,40 +109,32 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
   getListUnitModels: (page, limit, keyword) =>
-    UnitModelActions.getUnitModelListDataRequested(page, limit, keyword),
+    UnitSerialNumberActions.getUnitModelListDataRequested(page, limit, keyword),
   handlePressAddNew: async () => {
-    await dispatch(UnitModelActions.setSelectedUnitModelData({}));
-    await dispatch(UnitModelActions.setSelectedUnitModelId(""));
-    dispatch(UnitModelActions.setFormStatus("add"));
+    await dispatch(UnitSerialNumberActions.setSelectedUnitModelData({}));
+    await dispatch(UnitSerialNumberActions.setSelectedUnitModelId(""));
+    dispatch(UnitSerialNumberActions.setFormStatus("add"));
     dispatch(ComponentActions.setGlobalModal(true));
-    UnitModelActions.resetForm();
+    UnitSerialNumberActions.resetForm();
   },
   handlePressEdit: async (record) => {
-    await dispatch(UnitModelActions.setFormStatus("edit"));
-    await dispatch(UnitModelActions.setSelectedUnitModelId(record.id));
-    await dispatch(UnitModelActions.setSelectedUnitModelData(record));
+    await dispatch(UnitSerialNumberActions.setFormStatus("edit"));
+    await dispatch(UnitSerialNumberActions.setSelectedUnitModelId(record.id));
+    await dispatch(UnitSerialNumberActions.setSelectedUnitModelData(record));
     await dispatch(ComponentActions.setGlobalModal(true));
-    await UnitModelActions.mapDetailUnitModelToForm();
+    await UnitSerialNumberActions.mapDetailUnitModelToForm();
   },
   handlePressDelete: async (unitModelId) => {
-    await dispatch(UnitModelActions.setSelectedUnitModelId(unitModelId));
-    UnitModelActions.deleteUnitModelRequested(unitModelId);
-  },
-  handlePressSerialNumber: async (record) => {
-    await dispatch(ComponentActions.setGlobalLoading(true));
-    await dispatch(UnitModelActions.setSelectedUnitModelId(record.id));
-    await dispatch(UnitModelActions.setSelectedUnitModelData(record));
-    setTimeout(() => {
-      navigate("unit-serial-number");
-    }, 500);
+    await dispatch(UnitSerialNumberActions.setSelectedUnitModelId(unitModelId));
+    UnitSerialNumberActions.deleteUnitModelRequested(unitModelId);
   },
 });
 
 const EnhanceContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(UnitModelsContainer);
+)(UnitSerialNumberContainer);
 
 export default reduxForm({
-  form: "unitsModelsForm",
+  form: "unitSerialNumberForm",
 })(EnhanceContainer);

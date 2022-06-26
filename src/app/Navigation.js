@@ -40,6 +40,7 @@ import DivisionContainer from "../modules/Division/Container/DivisionContainer";
 import EmployeeToolsContainer from "../modules/Employees/Container/EmployeeTools/EmployeeToolsContainer";
 import DivisionUnitContainer from "../modules/Division/Container/DivisionUnit/DivisionUnitContainer";
 import DetailServiceReportContainer from "../modules/ReportPdf/Containers/DetailServiceReportContainer";
+import UnitSerialNumberContainer from "../modules/Units/Container/UnitSerialNumber/UnitSerialNumberContainer";
 
 export default function Navigation() {
   const authenticatedPage = (component, footerImg, footer) => {
@@ -67,6 +68,7 @@ export default function Navigation() {
   const Units = authenticatedPage(UnitsContainer, true);
   const UnitModels = authenticatedPage(UnitModelsContainer, true);
   const UnitFields = authenticatedPage(UnitFieldsContainer, true);
+  const UnitSerialNumber = authenticatedPage(UnitSerialNumberContainer, true);
   const Tools = authenticatedPage(ToolsContainer, true);
   const Customers = authenticatedPage(CustomerContainer, true);
   const FormCategory = authenticatedPage(FormCategoryContainer, true);
@@ -129,6 +131,7 @@ export default function Navigation() {
         <Route exact path="/unit" component={Units} />
         <Route exact path="/unit-models" component={UnitModels} />
         <Route exact path="/unit-fields" component={UnitFields} />
+        <Route exact path="/unit-serial-number" component={UnitSerialNumber} />
         <Route exact path="/tools" component={Tools} />
         <Route exact path="/customer" component={Customers} />
         <Route exact path="/category" component={FormCategory} />

@@ -163,6 +163,11 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleAutoPopulateCustomer: (customerId) => {
     const arrVal = customerId.split("|");
+    
+    if (!customerId) {
+      ExternalServiceActions.setAutoPopulateCustomer(arrVal[0], true);
+      return;
+    }
     ExternalServiceActions.setAutoPopulateCustomer(arrVal[0]);
   },
   handleAutoPopulateUnitModel: (unitId, fieldIndex) => {

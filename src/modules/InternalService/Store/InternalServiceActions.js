@@ -97,8 +97,21 @@ export const setAutoPopulateEmployee = async (employeeId, indexEmployee) => {
   }
 };
 
-export const setAutoPopulateCustomer = async (customerId) => {
+export const setAutoPopulateCustomer = async (customerId, isReset = false) => {
   let citySelected;
+  if (isReset) {
+    // Mapping data to redux-form
+    store.dispatch(change("internalServiceForm", "customerPhoneNumber", ""));
+    store.dispatch(change("internalServiceForm", "picCustomer", ""));
+    store.dispatch(change("internalServiceForm", "customerAddress", ""));
+    store.dispatch(change("internalServiceForm", "picPhoneNumber", ""));
+    store.dispatch(change("internalServiceForm", "customerProvinceName", ""));
+    store.dispatch(change("internalServiceForm", "customerDetailProvince", {}));
+    store.dispatch(change("internalServiceForm", "customerCityName", ""));
+    store.dispatch(change("internalServiceForm", "customerDetailCity", {}));
+    return;
+  }
+
   try {
     const customersData = await getEmployeeByIdFromReducer(
       customerId,

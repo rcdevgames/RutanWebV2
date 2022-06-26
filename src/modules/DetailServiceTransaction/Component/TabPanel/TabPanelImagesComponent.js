@@ -21,7 +21,7 @@ const RenderImage = ({ medias, unit }) => {
         >
           <Meta
             style={{ marginTop: -10 }}
-            title={`Gambar Penting - ${index + 1}`}
+            title={`Gambar Penting ${index + 1}`}
           />
         </Card>
       </Col>

@@ -187,3 +187,17 @@ export const validateFormTransaction = (values) => {
   }
   return errors;
 };
+
+export const validateUnitSerialNumberForm = (values) => {
+  const errors = {};
+  if (!values.customer) {
+    errors.customer = "Wajib memilih customer!";
+  }
+  if (!values.serialNumber) {
+    errors.serialNumber = "Serial number wajib diisi!";
+  }
+  if (!values.descriptions) {
+    errors.descriptions = "Deskripsi wajib diisi!";
+  }
+  return errors;
+};

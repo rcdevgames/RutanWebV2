@@ -5,7 +5,7 @@ import CTableAntd from "../../../../components/CTable/CTableAntd";
 import { PlusOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import { navigate } from "../../../../app/Helpers";
 import CSelect from "../../../../components/CSelect/CSelect";
-// import UnitFieldsModalContainer from "../../Container/UnitFields/UnitFieldsModalContainer";
+import ModalUnitSerialNumberContainer from "../../Container/UnitSerialNumber/ModalUnitSerialNumberContainer";
 
 const { Search } = Input;
 
@@ -98,7 +98,7 @@ const UnitSerialNumberComponent = (props) => {
           </div>
         </div>
       </div>
-      {/* <UnitFieldsModalContainer /> */}
+      <ModalUnitSerialNumberContainer />
     </div>
   );
 };

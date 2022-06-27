@@ -1,4 +1,4 @@
-import { Space, Tooltip } from "antd";
+import { Space } from "antd";
 import React from "react";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";

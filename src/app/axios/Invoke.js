@@ -305,7 +305,28 @@ Invoke.getListUnitModel = (page, limit, unitId, keyword) => {
     `/units/models/${unitId}?page=${page}&limit=${limit}&q=${keyword}`
   );
 };
-Invoke.getUnitSerialNumber = (page, limit, keyword, unitModelId, customerId) => {
+Invoke.addUnitSerialNumber = (payload, unitModelId) => {
+  return ConfigAxios.post(`/units/serial/${unitModelId}`, payload);
+};
+Invoke.updateUnitSerialNumber = (payload, unitModelId, unitSerialNumberId) => {
+  return ConfigAxios.put(
+    `/units/serial/${unitModelId}/${unitSerialNumberId}`,
+    payload
+  );
+};
+Invoke.deleteUnitSerialNumber = (unitModelId, unitSerialNumberId) => {
+  return ConfigAxios.delete(
+    `/units/serial/${unitModelId}/${unitSerialNumberId}`,
+    headersConfigDelete
+  );
+};
+Invoke.getUnitSerialNumber = (
+  page,
+  limit,
+  keyword,
+  unitModelId,
+  customerId
+) => {
   return ConfigAxios.get(
     `/units/serial/${unitModelId}?page=${page}&limit=${limit}&q=${keyword}&customerId=${customerId}`
   );

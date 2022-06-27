@@ -50,20 +50,22 @@ export const setSelectedUnitSerialNumberData = (payload) => {
 };
 
 export const handleSearch = (val, keyword) => {
-  console.log("=== val : ", val);
   const { getState, dispatch } = store;
   const { page, limit } = getState().unitSerialNumber.paging;
   try {
     if (!val) {
-      toast.warning("Wajib memilih customer untuk menampilkan data serial number", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toast.warning(
+        "Wajib memilih customer untuk menampilkan data serial number",
+        {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        }
+      );
       dispatch(setUnitSerialNumberData([]));
       return;
     }
@@ -109,25 +111,20 @@ export const getUnitSerialNumber = async (
   }
 };
 
-const doAddUnitModelsProcess = async (values) => {
+const doAddUnitSerialNumberProcess = async (values) => {
   const { dispatch, getState } = store;
   dispatch(ComponentActions.setGlobalLoading(true));
   const paging = getState().unitModels.paging;
-  const unitId = getState().units.selectedUnitsId;
+  const unitModelId = getState().unitModels.selectedUnitModelsId;
+  const customerId = values.customer.split("|");
   const { page, limit } = paging;
   try {
     const payload = {};
-    payload.unit_id = unitId;
-    payload.name = values.name;
+    payload.customer_id = customerId[0];
+    payload.serial_number = values.serialNumber;
     payload.descriptions = values.description ?? "None";
-    payload.serial_number = values.serialNumber ?? "";
-    payload.machine_no = values.machineNo ?? "";
-    payload.engine_model = values.engineModel ?? "";
-    payload.engine_no = values.engineNo ?? "";
-    payload.chasis_no = values.chasisNo ?? "";
-    payload.transmission_no = values.transmissionNo ?? "";
 
-    await Invoke.addUnitModel(payload);
+    await Invoke.addUnitSerialNumber(payload, unitModelId);
     showToast("Data Berhasil Disimpan", "success");
     getUnitSerialNumber(page, limit);
     dispatch(ComponentActions.setGlobalModal(false));
@@ -141,25 +138,25 @@ const doAddUnitModelsProcess = async (values) => {
   }
 };
 
-const doEditUnitModelsProcess = async (values) => {
+const doEditUnitSerialNumberProcess = async (values) => {
   store.dispatch(ComponentActions.setGlobalLoading(true));
   const { dispatch, getState } = store;
   const paging = getState().unitModels.paging;
   const { page, limit } = paging;
+  const unitModelId = getState().unitModels.selectedUnitModelsId;
+  const unitSerialNumberId =
+    getState().unitSerialNumber.selectedUnitSerialNumberId;
+
   try {
     const payload = {};
-    payload.id = values.id;
-    payload.unit_id = values.unitId;
-    payload.name = values.name;
-    payload.descriptions = values.description ?? "None";
-    payload.serial_number = values.serialNumber ?? "";
-    payload.machine_no = values.machineNo ?? "";
-    payload.engine_model = values.engineModel ?? "";
-    payload.engine_no = values.engineNo ?? "";
-    payload.chasis_no = values.chasisNo ?? "";
-    payload.transmission_no = values.transmissionNo ?? "";
+    payload.serial_number = values.serialNumber;
+    payload.descriptions = values.descriptions ?? "None";
 
-    await Invoke.updateUnitModel(payload);
+    await Invoke.updateUnitSerialNumber(
+      payload,
+      unitModelId,
+      unitSerialNumberId
+    );
     showToast("Data Berhasil Disimpan", "success");
     getUnitSerialNumber(page, limit);
     store.dispatch(ComponentActions.setGlobalLoading(false));
@@ -172,12 +169,13 @@ const doEditUnitModelsProcess = async (values) => {
   }
 };
 
-const doDeleteUnitModelsProcess = async (unitModelId) => {
+const doDeleteUnitModelsProcess = async (serialNumberId) => {
   const { getState } = store;
   const paging = getState().unitModels.paging;
+  const unitModelId = getState().unitModels.selectedUnitModelsId;
   const { page, limit } = paging;
   try {
-    await Invoke.deleteUnitModelById(unitModelId);
+    await Invoke.deleteUnitSerialNumber(unitModelId, serialNumberId);
     showToast("Data berhasil dihapus", "success");
     getUnitSerialNumber(page, limit);
   } catch (error) {
@@ -186,13 +184,13 @@ const doDeleteUnitModelsProcess = async (unitModelId) => {
   }
 };
 
-export const saveUnitModelsRequested = async (type, values) => {
+export const saveUnitSerialNumberRequested = async (type, values) => {
   const toastrConfirmOptions = {
     onOk: () => {
       if (type === "add") {
-        doAddUnitModelsProcess(values);
+        doAddUnitSerialNumberProcess(values);
       } else {
-        doEditUnitModelsProcess(values);
+        doEditUnitSerialNumberProcess(values);
       }
     },
     okText: "Ya",
@@ -220,36 +218,28 @@ export const deleteUnitModelRequested = async (unitModelId) => {
   );
 };
 
-export const mapDetailUnitModelToForm = async () => {
+export const mapDetailUnitSerialNumberToForm = async () => {
   const { dispatch, getState } = store;
-  const data = getState().unitModels.selectedUnitModelsData;
+  const data = getState().unitSerialNumber.selectedUnitSerialNumberData;
 
-  dispatch(change("editUnitModelForm", `id`, data.id ?? ""));
-  dispatch(change("editUnitModelForm", `unitId`, data.unit_id ?? ""));
-  dispatch(change("editUnitModelForm", `name`, data.name ?? ""));
-  dispatch(change("editUnitModelForm", `description`, data.descriptions ?? ""));
   dispatch(
-    change("editUnitModelForm", `serialNumber`, data.serial_number ?? "")
+    change(
+      "editUnitSerialNumberForm",
+      `customer`,
+      `${data.customer_id}|${data.customer_name}` ?? ""
+    )
   );
-  dispatch(change("editUnitModelForm", `machineNo`, data.machine_no ?? ""));
-  dispatch(change("editUnitModelForm", `engineModel`, data.engine_model ?? ""));
-  dispatch(change("editUnitModelForm", `engineNo`, data.engine_no ?? ""));
-  dispatch(change("editUnitModelForm", `chasisNo`, data.chasis_no ?? ""));
   dispatch(
-    change("editUnitModelForm", `transmissionNo`, data.transmission_no ?? "")
+    change("editUnitSerialNumberForm", `serialNumber`, data.serial_number ?? "")
+  );
+  dispatch(
+    change("editUnitSerialNumberForm", `description`, data.descriptions ?? "")
   );
 };
 
 export const resetForm = async () => {
   const { dispatch } = store;
-  dispatch(change("editUnitModelForm", `id`, ""));
-  dispatch(change("editUnitModelForm", `unitId`, ""));
-  dispatch(change("editUnitModelForm", `name`, ""));
-  dispatch(change("editUnitModelForm", `description`, ""));
-  dispatch(change("editUnitModelForm", `serialNumber`, ""));
-  dispatch(change("editUnitModelForm", `machineNo`, ""));
-  dispatch(change("editUnitModelForm", `engineModel`, ""));
-  dispatch(change("editUnitModelForm", `engineNo`, ""));
-  dispatch(change("editUnitModelForm", `chasisNo`, ""));
-  dispatch(change("editUnitModelForm", `transmissionNo`, ""));
+  dispatch(change("editUnitSerialNumberForm", `customer`, ""));
+  dispatch(change("editUnitSerialNumberForm", `serialNumber`, ""));
+  dispatch(change("editUnitSerialNumberForm", `description`, ""));
 };

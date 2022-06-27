@@ -169,7 +169,7 @@ const mapDispatchToProps = (dispatch) => ({
       UnitSerialNumberActions.setSelectedUnitSerialNumberData(record)
     );
     await dispatch(ComponentActions.setGlobalModal(true));
-    await UnitSerialNumberActions.mapDetailUnitModelToForm();
+    await UnitSerialNumberActions.mapDetailUnitSerialNumberToForm();
   },
   handlePressDelete: async (unitModelId) => {
     await dispatch(

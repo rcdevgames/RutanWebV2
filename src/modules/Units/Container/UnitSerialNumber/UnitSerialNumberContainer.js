@@ -1,8 +1,9 @@
 import { Space } from "antd";
 import React from "react";
 import { connect } from "react-redux";
-import { reduxForm } from "redux-form";
+import { getFormValues, reduxForm } from "redux-form";
 import * as UnitSerialNumberActions from "../../Store/UnitSerialNumberActions";
+import * as CustomerActions from "../../../Customers/Store/CustomersActions";
 import * as ComponentActions from "../../../App/Store/ComponentAction";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CButtonAntd from "../../../../components/CButton/CButtonAntd";
@@ -12,20 +13,40 @@ import UnitSerialNumberComponent from "../../Component/UnitSerialNumber/UnitSeri
 
 const UnitSerialNumberContainer = (props) => {
   const {
-    getListUnitModels,
+    getUnitSerialNumber,
     handlePressEdit,
     handlePressDelete,
     handlePressAddNew,
-    unitModels: { listUnitModels, paging, selectedUnitModelsData },
+    unitSerialNumber: {
+      listUnitSerialNumber,
+      paging,
+      selectedtUnitSerialNumber,
+    },
+    unitModels: { selectedUnitModelsData },
+    customers: { listCustomersDropdown },
+    unitSerialNumberFormValues,
   } = props;
 
+  const { dispatch } = store;
   const { page, limit, totalPage } = paging;
 
-  if (listUnitModels.length > 0) {
-    listUnitModels.map((item, index) => {
-      listUnitModels[index] = { ...item, no: getIndex(page, limit)[index] };
+  if (listUnitSerialNumber.length > 0) {
+    listUnitSerialNumber.map((item, index) => {
+      listUnitSerialNumber[index] = {
+        ...item,
+        no: getIndex(page, limit)[index],
+      };
     });
   }
+
+  const SelectCustomerData = [];
+  listCustomersDropdown.map((item, index) => {
+    SelectCustomerData.push({
+      id: `customer-${index}`,
+      value: item.id,
+      label: item.name,
+    });
+  });
 
   const headers = [
     {
@@ -36,18 +57,18 @@ const UnitSerialNumberContainer = (props) => {
       sorter: (a, b) => a.no - b.no,
     },
     {
-      title: "Nama Model",
-      dataIndex: "name",
-      key: "name",
+      title: "Serial Number",
+      dataIndex: "serial_number",
+      key: "serial_number",
       width: "30%",
-      sorter: (a, b) => a.name.length - b.name.length,
+      sorter: (a, b) => a.serial_number.length - b.serial_number.length,
     },
     {
-      title: "Dibuat",
-      dataIndex: "created_at",
-      key: "created_at",
+      title: "Deskripsi",
+      dataIndex: "descriptions",
+      key: "descriptions",
       width: "30%",
-      sorter: (a, b) => a.created_at.length - b.created_at.length,
+      sorter: (a, b) => a.descriptions.length - b.descriptions.length,
     },
   ];
 
@@ -72,7 +93,8 @@ const UnitSerialNumberContainer = (props) => {
   );
 
   React.useEffect(() => {
-    getListUnitModels(page, limit);
+    CustomerActions.getCustomerListDataByPaging(1, 999999, "", "", true);
+    // getUnitSerialNumber(page, limit);
   }, []);
 
   const onChangePagination = async (nextPage, pageSize) => {
@@ -81,23 +103,41 @@ const UnitSerialNumberContainer = (props) => {
     paging.limit = pageSize;
     paging.totalPage = totalPage;
     await store.dispatch(UnitSerialNumberActions.setPagingUnitModel(paging));
-    getListUnitModels(nextPage, pageSize);
+    getUnitSerialNumber(nextPage, pageSize);
   };
 
-  const onSearch = (val) => {
-    getListUnitModels(page, limit, val);
+  const onSearch = (keyword) => {
+    UnitSerialNumberActions.handleSearch(unitSerialNumberFormValues, keyword);
+  };
+
+  const handleOnchangeCustomer = (customer) => {
+    if (!customer) {
+      dispatch(UnitSerialNumberActions.setUnitSerialNumberData([]));
+      return;
+    }
+
+    const splitCustomerId = customer.split("|");
+    UnitSerialNumberActions.getUnitSerialNumber(
+      page,
+      limit,
+      "",
+      splitCustomerId[0]
+    );
   };
 
   return (
     <UnitSerialNumberComponent
       headers={headers}
-      listUnits={listUnitModels}
+      listUnitSerialNumber={listUnitSerialNumber}
       renderActionTable={renderActionTable}
       handlePressAddNew={handlePressAddNew}
       onChangePagination={onChangePagination}
       onSearch={onSearch}
       paging={paging}
+      listCustomer={SelectCustomerData}
       selectedUnitModelsData={selectedUnitModelsData}
+      selectedtUnitSerialNumber={selectedtUnitSerialNumber}
+      onChangeCustomer={handleOnchangeCustomer}
       // {...props}
     />
   );
@@ -105,27 +145,36 @@ const UnitSerialNumberContainer = (props) => {
 
 const mapStateToProps = (state) => ({
   units: state.units,
+  unitSerialNumber: state.unitSerialNumber,
   unitModels: state.unitModels,
+  customers: state.customers,
+  unitSerialNumberFormValues: getFormValues("unitSerialNumberForm")(state),
 });
 const mapDispatchToProps = (dispatch) => ({
-  getListUnitModels: (page, limit, keyword) =>
-    UnitSerialNumberActions.getUnitModelListDataRequested(page, limit, keyword),
+  getUnitSerialNumber: (page, limit, keyword) =>
+    UnitSerialNumberActions.getUnitSerialNumber(page, limit, keyword),
   handlePressAddNew: async () => {
-    await dispatch(UnitSerialNumberActions.setSelectedUnitModelData({}));
-    await dispatch(UnitSerialNumberActions.setSelectedUnitModelId(""));
+    await dispatch(UnitSerialNumberActions.setSelectedUnitSerialNumberData({}));
+    await dispatch(UnitSerialNumberActions.setSelectedUnitSerialNumberId(""));
     dispatch(UnitSerialNumberActions.setFormStatus("add"));
     dispatch(ComponentActions.setGlobalModal(true));
     UnitSerialNumberActions.resetForm();
   },
   handlePressEdit: async (record) => {
     await dispatch(UnitSerialNumberActions.setFormStatus("edit"));
-    await dispatch(UnitSerialNumberActions.setSelectedUnitModelId(record.id));
-    await dispatch(UnitSerialNumberActions.setSelectedUnitModelData(record));
+    await dispatch(
+      UnitSerialNumberActions.setSelectedUnitSerialNumberId(record.id)
+    );
+    await dispatch(
+      UnitSerialNumberActions.setSelectedUnitSerialNumberData(record)
+    );
     await dispatch(ComponentActions.setGlobalModal(true));
     await UnitSerialNumberActions.mapDetailUnitModelToForm();
   },
   handlePressDelete: async (unitModelId) => {
-    await dispatch(UnitSerialNumberActions.setSelectedUnitModelId(unitModelId));
+    await dispatch(
+      UnitSerialNumberActions.setSelectedUnitSerialNumberId(unitModelId)
+    );
     UnitSerialNumberActions.deleteUnitModelRequested(unitModelId);
   },
 });

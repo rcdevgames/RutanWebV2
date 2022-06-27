@@ -4,16 +4,19 @@ import { store } from "../../../app/ConfigureStore";
 import { toastr } from "react-redux-toastr";
 import { showToast } from "../../Roles/Store/RolesActions";
 import * as ComponentActions from "../../App/Store/ComponentAction";
+import { toast } from "react-toastify";
 
-export const SET_UNIT_MODEL_LIST_DATA = "SET_UNIT_LIST_DATA";
 export const SET_FORM_STATUS = "SET_FORM_STATUS";
-export const SET_SELECTED_UNIT_MODEL_ID = "SET_SELECTED_UNIT_MODEL_ID";
-export const SET_SELECTED_UNIT_MODEL_DATA = "SET_SELECTED_UNIT_MODEL_DATA";
+export const SET_UNIT_SERIAL_NUMBER_DATA = "SET_UNIT_SERIAL_NUMBER_DATA";
+export const SET_SELECTED_UNIT_SERIAL_NUMBER_ID =
+  "SET_SELECTED_UNIT_SERIAL_NUMBER_ID";
 export const SET_PAGING_UNIT_MODEL = "SET_PAGING_UNIT_MODEL";
+export const SET_SELECTED_UNIT_SERIAL_NUMBER_DATA =
+  "SET_SELECTED_UNIT_SERIAL_NUMBER_DATA";
 
-export const setUnitModelListData = (payload) => {
+export const setUnitSerialNumberData = (payload) => {
   return {
-    type: SET_UNIT_MODEL_LIST_DATA,
+    type: SET_UNIT_SERIAL_NUMBER_DATA,
     payload,
   };
 };
@@ -32,39 +35,72 @@ export const setFormStatus = (payload) => {
   };
 };
 
-export const setSelectedUnitModelId = (payload) => {
+export const setSelectedUnitSerialNumberId = (payload) => {
   return {
-    type: SET_SELECTED_UNIT_MODEL_ID,
+    type: SET_SELECTED_UNIT_SERIAL_NUMBER_ID,
     payload,
   };
 };
 
-export const setSelectedUnitModelData = (payload) => {
+export const setSelectedUnitSerialNumberData = (payload) => {
   return {
-    type: SET_SELECTED_UNIT_MODEL_DATA,
+    type: SET_SELECTED_UNIT_SERIAL_NUMBER_DATA,
     payload,
   };
 };
 
-export const getUnitModelListDataRequested = async (
+export const handleSearch = (val, keyword) => {
+  console.log("=== val : ", val);
+  const { getState, dispatch } = store;
+  const { page, limit } = getState().unitSerialNumber.paging;
+  try {
+    if (!val) {
+      toast.warning("Wajib memilih customer untuk menampilkan data serial number", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      dispatch(setUnitSerialNumberData([]));
+      return;
+    }
+    const splitCustomerId = val.customer.split("|");
+    getUnitSerialNumber(page, limit, keyword, splitCustomerId[0]);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getUnitSerialNumber = async (
   page,
   limit,
-  keyword = ""
+  keyword = "",
+  customerId
 ) => {
+  // If customerId is null or undefined return this
+  if (!customerId) {
+    store.dispatch(setUnitSerialNumberData([]));
+    return;
+  }
+
   const { getState } = store;
-  const unitId = getState().units.selectedUnitsId;
+  const unitModelId = getState().unitModels.selectedUnitModelsId;
   try {
-    const { data } = await Invoke.getListUnitModel(
+    const { data } = await Invoke.getUnitSerialNumber(
       page,
       limit,
-      unitId,
-      keyword
+      keyword,
+      unitModelId,
+      customerId
     );
     const paging = {};
     paging.page = data.callback.page;
     paging.limit = data.callback.limit;
     paging.totalPage = data.callback.totalPage;
-    store.dispatch(setUnitModelListData(data.callback.data));
+    store.dispatch(setUnitSerialNumberData(data.callback.data));
     store.dispatch(setPagingUnitModel(paging));
     await store.dispatch(ComponentActions.setGlobalLoading(false));
   } catch (error) {
@@ -93,7 +129,7 @@ const doAddUnitModelsProcess = async (values) => {
 
     await Invoke.addUnitModel(payload);
     showToast("Data Berhasil Disimpan", "success");
-    getUnitModelListDataRequested(page, limit);
+    getUnitSerialNumber(page, limit);
     dispatch(ComponentActions.setGlobalModal(false));
     dispatch(ComponentActions.setGlobalLoading(false));
   } catch (error) {
@@ -125,7 +161,7 @@ const doEditUnitModelsProcess = async (values) => {
 
     await Invoke.updateUnitModel(payload);
     showToast("Data Berhasil Disimpan", "success");
-    getUnitModelListDataRequested(page, limit);
+    getUnitSerialNumber(page, limit);
     store.dispatch(ComponentActions.setGlobalLoading(false));
     dispatch(ComponentActions.setGlobalModal(false));
   } catch (error) {
@@ -143,7 +179,7 @@ const doDeleteUnitModelsProcess = async (unitModelId) => {
   try {
     await Invoke.deleteUnitModelById(unitModelId);
     showToast("Data berhasil dihapus", "success");
-    getUnitModelListDataRequested(page, limit);
+    getUnitSerialNumber(page, limit);
   } catch (error) {
     showToast("Internal Server Error!", "error");
     console.log("error : ", error);

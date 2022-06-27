@@ -305,6 +305,11 @@ Invoke.getListUnitModel = (page, limit, unitId, keyword) => {
     `/units/models/${unitId}?page=${page}&limit=${limit}&q=${keyword}`
   );
 };
+Invoke.getUnitSerialNumber = (page, limit, keyword, unitModelId, customerId) => {
+  return ConfigAxios.get(
+    `/units/serial/${unitModelId}?page=${page}&limit=${limit}&q=${keyword}&customerId=${customerId}`
+  );
+};
 Invoke.addUnitModel = (payload) => {
   return ConfigAxios.post(`/units/models`, payload);
 };

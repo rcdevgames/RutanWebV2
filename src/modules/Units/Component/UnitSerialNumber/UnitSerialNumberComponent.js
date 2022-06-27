@@ -4,6 +4,7 @@ import CButtonAntd from "../../../../components/CButton/CButtonAntd";
 import CTableAntd from "../../../../components/CTable/CTableAntd";
 import { PlusOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import { navigate } from "../../../../app/Helpers";
+import CSelect from "../../../../components/CSelect/CSelect";
 // import UnitFieldsModalContainer from "../../Container/UnitFields/UnitFieldsModalContainer";
 
 const { Search } = Input;
@@ -11,13 +12,15 @@ const { Search } = Input;
 const UnitSerialNumberComponent = (props) => {
   const {
     headers,
-    listUnitFields,
+    listUnitSerialNumber,
+    listCustomer,
     renderActionTable,
     handlePressAddNew,
     onChangePagination,
     paging,
     onSearch,
     selectedUnitModelsData,
+    onChangeCustomer,
   } = props;
 
   const pagination = {
@@ -33,14 +36,17 @@ const UnitSerialNumberComponent = (props) => {
           <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
               <div class="card-body">
-                <div class="row d-flex justify-content-between mb-2">
-                  <h6 class="ml-3 card-title">{`Unit Serial Number : ${selectedUnitModelsData.name}`}</h6>
+                <div class="mb-2">
+                  <h6 class="ml-1 card-title">{`Unit Serial Number : ${selectedUnitModelsData.name}`}</h6>
+                  <p class="card-description ml-1">
+                    Silahkan pilih customer untuk menampilkan data serial number
+                  </p>
                 </div>
                 <div class="row d-flex justify-content-between mb-2">
                   <div class="col-md-7">
                     <div class="row ml-1 mb-3">
                       <CButtonAntd
-                        onClick={() => navigate("unit")}
+                        onClick={() => navigate("unit-models")}
                         type="primary"
                         icon={<ArrowLeftOutlined />}
                         size="middle"
@@ -59,8 +65,20 @@ const UnitSerialNumberComponent = (props) => {
                       </CButtonAntd>
                     </div>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-7">
+                    <CSelect
+                      showSearch
+                      data={listCustomer}
+                      name="customer"
+                      label="Pilih Customer"
+                      onChange={(customer) => {
+                        onChangeCustomer(customer);
+                      }}
+                    />
+                  </div>
+                  <div class="col-md-4 mt-4">
                     <Search
+                      name="keyword"
                       placeholder="Cari"
                       onSearch={onSearch}
                       enterButton
@@ -69,7 +87,7 @@ const UnitSerialNumberComponent = (props) => {
                 </div>
                 <div class="table-responsive">
                   <CTableAntd
-                    data={listUnitFields}
+                    data={listUnitSerialNumber}
                     headers={headers}
                     renderActions={renderActionTable}
                     pagination={pagination}

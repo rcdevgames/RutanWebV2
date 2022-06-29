@@ -38,6 +38,7 @@ const DetailServiceTransactionContainer = (props) => {
       selectedServiceHistories,
       selectedServiceChecklist,
       selectedServiceRejected,
+      groupingSelectedServiceSummary,
       selectedUnit,
     },
   } = props;
@@ -68,7 +69,9 @@ const DetailServiceTransactionContainer = (props) => {
       key: "panel-summary",
       title: "Summary",
       icon: <FileTextOutlined />,
-      component: <TabPanelSummaryContainer summary={selectedServiceSummary} />,
+      component: (
+        <TabPanelSummaryContainer summary={groupingSelectedServiceSummary} />
+      ),
     },
     {
       key: "panel-teknisi",
@@ -164,21 +167,37 @@ const DetailServiceTransactionContainer = (props) => {
   const getMediaGrouping = async () => {
     // Hit media api and grouping by units :
     let groupingMediaList = [];
+    let groupingSummaryList = [];
     if (selectedJobService.units) {
       await selectedJobService.units.map(async (item, index) => {
-        const { data } = await Invoke.getJobServiceMedia(
+        const { data: dataMedia } = await Invoke.getJobServiceMedia(
           selectedJobService.id,
           item.id
         );
+        const { data: dataSummary } = await Invoke.getJobServiceSummary(
+          selectedJobService.id,
+          item.id
+        );
+
+        // Push to tempporary array
         groupingMediaList.push({
           unitName: item.unit_name,
-          image: data.callback.data,
+          image: dataMedia.callback.data,
+        });
+        groupingSummaryList.push({
+          unitName: item.unit_name,
+          summary: dataSummary.callback.summary,
         });
       });
+
+      // Save to reducer
       dispatch(
         DetailServiceActions.setGroupingSelectedServicesMediaData(
           groupingMediaList
         )
+      );
+      dispatch(
+        DetailServiceActions.setGroupingSummaryData(groupingSummaryList)
       );
     }
   };
@@ -238,7 +257,7 @@ const DetailServiceTransactionContainer = (props) => {
     DetailServiceActions.getJobServiceMedia(selectedJobService.id, unitId[0]);
     // DetailServiceActions.getJobServiceEmployeeList(selectedJobService.id);
     DetailServiceActions.getJobServiceSummary(selectedJobService.id, unitId[0]);
-    DetailServiceActions.getJobServiceDailies(selectedJobService.id, unitId[0]);
+    // DetailServiceActions.getJobServiceDailies(selectedJobService.id, unitId[0]);
     // DetailServiceActions.getJobServiceHistories(selectedJobService.id);
     if (unitModelsId !== undefined) {
       DetailServiceActions.getChecklistData(unitModelsId.id);

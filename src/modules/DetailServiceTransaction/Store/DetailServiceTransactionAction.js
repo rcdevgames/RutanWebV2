@@ -14,6 +14,8 @@ export const SET_SELECTED_SERVICES_EMPLOYEE_LIST_DATA =
 export const SET_GROUPING_SELECTED_SERVICES_MEDIA_DATA =
   "SET_GROUPING_SELECTED_SERVICES_MEDIA_DATA";
 
+export const SET_GROUPING_SUMMARY_DATA = "SET_GROUPING_SUMMARY_DATA";
+
 export const SET_SELECTED_SERVICES_SUMMARY_DATA =
   "SET_SELECTED_SERVICES_SUMMARY_DATA";
 
@@ -68,6 +70,13 @@ export const setEditTransactionModal = (payload) => {
 export const setGroupingSelectedServicesMediaData = (payload) => {
   return {
     type: SET_GROUPING_SELECTED_SERVICES_MEDIA_DATA,
+    payload,
+  };
+};
+
+export const setGroupingSummaryData = (payload) => {
+  return {
+    type: SET_GROUPING_SUMMARY_DATA,
     payload,
   };
 };

@@ -1,8 +1,20 @@
 import React from "react";
-import { Typography, Row, Empty } from "antd";
+import { Typography, Row, Empty, Divider } from "antd";
 import { FileOutlined } from "@ant-design/icons";
 
 const { Paragraph } = Typography;
+
+const RenderItemSummary = ({ summary }) => {
+  return summary.length > 0 ? (
+    summary.map((item, index) => (
+      <div key={`item-summary-${index}`}>
+        <Typography>{item}</Typography>
+      </div>
+    ))
+  ) : (
+    <Typography>Summary belum ada</Typography>
+  );
+};
 
 const TabPanelSummaryComponent = (props) => {
   const { summaryArr } = props;
@@ -20,8 +32,12 @@ const TabPanelSummaryComponent = (props) => {
       <hr />
       {summaryArr.length > 0 ? (
         summaryArr.map((item, index) => (
-          <div>
-            <Typography>{item}</Typography>
+          <div key={`item-unit-label-${index}`}>
+            <Divider
+              style={{ textTransform: "capitalize" }}
+              plain
+            >{`Unit ${item.unitName}`}</Divider>
+            <RenderItemSummary summary={item.summary} />
           </div>
         ))
       ) : (

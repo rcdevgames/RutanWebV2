@@ -4,9 +4,13 @@ import { FileOutlined } from "@ant-design/icons";
 
 const { Paragraph } = Typography;
 
-const RenderItemSummary = ({ summary }) => {
+const RenderItemSummary = ({ summary, index }) => {
   return summary.length > 0 ? (
-    summary.map((item, index) => <Typography>{item}</Typography>)
+    summary.map((item, indexText) => (
+      <Typography key={`item-summary${index}-text-${indexText}`}>
+        {item}
+      </Typography>
+    ))
   ) : (
     <Typography>Summary belum ada</Typography>
   );
@@ -39,7 +43,7 @@ const TabPanelSummaryComponent = (props) => {
                   }}
                   plain
                 >{`Unit ${item.unitName}`}</Divider>
-                <RenderItemSummary summary={item.summary} />
+                <RenderItemSummary index={index} summary={item.summary} />
               </div>
             </Col>
           ))

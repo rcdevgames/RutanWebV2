@@ -55,6 +55,12 @@ export const setRejectionsModal = (payload) => {
   };
 };
 
+export const resetDetailService = () => {
+  return {
+    type: RESET_DETAIL_SERVICE,
+  };
+};
+
 export const setSelectedUnit = (payload) => {
   return {
     type: SET_SELECTED_UNIT,

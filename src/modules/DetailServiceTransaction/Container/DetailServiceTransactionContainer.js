@@ -20,11 +20,11 @@ import TabPanelDailiesContainer from "./TabPanel/TabPanelDailiesContainer";
 import TabPanelHistoriesContainer from "./TabPanel/TabPanelHistoriesContainer";
 import { exportDetailServicePdf } from "../Store/DetailServiceTransactionReport";
 import * as ListServiceActions from "../../ListServices/Store/ListServicesActions";
-import { enumSelectGenerator } from "../../../app/Helpers";
 import TabPanelRejectionsContainer from "./TabPanel/TabPanelRejectionsContainer";
 import TabPanelChecklistContainer from "./TabPanel/TabPanelChecklistContainer";
 import { store } from "../../../app/ConfigureStore";
 import Invoke from "../../../app/axios/Invoke";
+import { navigate } from "../../../app/Helpers";
 
 const DetailServiceTransactionContainer = (props) => {
   const {
@@ -115,7 +115,9 @@ const DetailServiceTransactionContainer = (props) => {
       title: "Checklist",
       icon: <CheckCircleOutlined />,
       component: (
-        <TabPanelChecklistContainer checklist={groupingSelectedServiceChecklist} />
+        <TabPanelChecklistContainer
+          checklist={groupingSelectedServiceChecklist}
+        />
       ),
     });
 
@@ -136,11 +138,11 @@ const DetailServiceTransactionContainer = (props) => {
         break;
 
       case "panel-summary":
-        DetailServiceActions.getJobServiceSummary(selectedJobService.id);
+        // DetailServiceActions.getJobServiceSummary(selectedJobService.id);
         break;
 
       case "panel-gambar":
-        DetailServiceActions.getJobServiceMedia(selectedJobService.id);
+        // DetailServiceActions.getJobServiceMedia(selectedJobService.id);
         break;
 
       case "panel-dailies":
@@ -170,9 +172,7 @@ const DetailServiceTransactionContainer = (props) => {
     await DetailServiceActions.getJobServiceEmployeeList(selectedJobService.id);
     await DetailServiceActions.getJobServiceDailies(selectedJobService.id);
     await DetailServiceActions.getJobServiceHistories(selectedJobService.id);
-    await DetailServiceActions.getJobServiceSummary(selectedJobService.id);
     await DetailServiceActions.getJobServiceRejections(selectedJobService.id);
-    await DetailServiceActions.getJobServiceMedia(selectedJobService.id);
     await getGroupingUnitData();
   };
 
@@ -209,15 +209,15 @@ const DetailServiceTransactionContainer = (props) => {
       });
 
       // Save to reducer
-      dispatch(
+      await dispatch(
         DetailServiceActions.setGroupingSelectedServicesMediaData(
           groupingMediaList
         )
       );
-      dispatch(
+      await dispatch(
         DetailServiceActions.setGroupingSummaryData(groupingSummaryList)
       );
-      dispatch(
+      await dispatch(
         DetailServiceActions.setGroupingChecklistData(groupingChecklist)
       );
     }
@@ -225,58 +225,17 @@ const DetailServiceTransactionContainer = (props) => {
 
   React.useEffect(() => {
     callInitialize();
-
-    return () => {
-      store.dispatch(
-        DetailServiceActions.setSelectedServicesChecklisttData([])
-      );
-      store.dispatch(DetailServiceActions.setSelectedServiceDailiesData([]));
-      store.dispatch(DetailServiceActions.setSelectedServiceRejectedData([]));
-      store.dispatch(DetailServiceActions.setSelectedServiceHistoriesData([]));
-      store.dispatch(DetailServiceActions.setSelectedServiceMediaData([]));
-      store.dispatch(
-        DetailServiceActions.setSelectedServicesEmployeeListData([])
-      );
-    };
   }, []);
 
   const handlePressGeneratePdf = () => {
     exportDetailServicePdf(printedData);
   };
 
-  // Mapping units from list_service
-  const listUnitsFromService = [];
-  if (selectedJobService.units) {
-    selectedJobService.units.map((item, index) => {
-      listUnitsFromService.push({ id: item.unit_id, name: item.unit_name });
-    });
-  }
-
-  const SelectUnits = enumSelectGenerator(listUnitsFromService, "unit");
-
-  const onchangeUnit = (val) => {
-    const { dispatch } = store;
-    const unitId = val.split("|");
-    const [unitModelsId] = selectedJobService.units.filter(
-      (x) => x.unit_id === unitId[0]
-    );
-
-    if (unitId[1] === undefined) {
-      dispatch(DetailServiceActions.setSelectedUnit("Seluruh Unit"));
-    } else {
-      dispatch(DetailServiceActions.setSelectedUnit(unitId[1]));
-    }
-
-    DetailServiceActions.getJobServiceMedia(selectedJobService.id, unitId[0]);
-    // DetailServiceActions.getJobServiceEmployeeList(selectedJobService.id);
-    DetailServiceActions.getJobServiceSummary(selectedJobService.id, unitId[0]);
-    // DetailServiceActions.getJobServiceDailies(selectedJobService.id, unitId[0]);
-    // DetailServiceActions.getJobServiceHistories(selectedJobService.id);
-    if (unitModelsId !== undefined) {
-      DetailServiceActions.getChecklistData(unitModelsId.id);
-    } else {
-      dispatch(DetailServiceActions.setSelectedServicesChecklisttData([]));
-    }
+  const handleBackToListService = () => {
+    store.dispatch(DetailServiceActions.resetDetailService());
+    setTimeout(() => {
+      navigate("list_service");
+    }, 500);
   };
 
   return (
@@ -285,8 +244,7 @@ const DetailServiceTransactionContainer = (props) => {
       TabPanel={TabPanel}
       onChangeTab={onChangeTab}
       handlePressGeneratePdf={handlePressGeneratePdf}
-      enumUnits={SelectUnits}
-      onchangeUnit={onchangeUnit}
+      goBack={handleBackToListService}
       {...props}
     />
   );

@@ -14,7 +14,7 @@ import {
   RESET_DETAIL_SERVICE,
   SET_GROUPING_SELECTED_SERVICES_MEDIA_DATA,
   SET_GROUPING_SUMMARY_DATA,
-  SET_GROUPING_CHECKLIST_DATA
+  SET_GROUPING_CHECKLIST_DATA,
 } from "./DetailServiceTransactionAction";
 
 export const initialState = {
@@ -57,7 +57,7 @@ export default function detailServiceTransactionReducer(
     case SET_GROUPING_SUMMARY_DATA:
       newState.groupingSelectedServiceSummary = action.payload;
       return { ...newState };
-      case SET_GROUPING_CHECKLIST_DATA:
+    case SET_GROUPING_CHECKLIST_DATA:
       newState.groupingSelectedServiceChecklist = action.payload;
       return { ...newState };
     case SET_SELECTED_SERVICES_DAILIES_DATA:
@@ -88,8 +88,7 @@ export default function detailServiceTransactionReducer(
       newState.selectedUnit = action.payload;
       return { ...newState };
     case RESET_DETAIL_SERVICE:
-      newState = initialState;
-      return { ...newState };
+      return initialState;
   }
 
   return state;

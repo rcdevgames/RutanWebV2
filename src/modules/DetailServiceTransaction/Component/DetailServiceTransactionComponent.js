@@ -1,5 +1,5 @@
 import React from "react";
-import { Divider, Tabs } from "antd";
+import { Tabs } from "antd";
 import { Typography } from "antd";
 import CBadgeText from "../../../components/CBadgeText/CBadgeText";
 import moment from "moment";
@@ -12,8 +12,6 @@ import {
   CheckCircleOutlined,
   CloseCircleOutlined,
 } from "@ant-design/icons";
-import { navigate } from "../../../app/Helpers";
-import CSelect from "../../../components/CSelect/CSelect";
 import { Themes } from "../../../property/colors";
 import RejectedModalContainer from "../Container/RejectedModalContainer";
 import EditModalTransactionContainer from "../Container/EditModalTransactionContainer";
@@ -28,8 +26,7 @@ const DetailServiceTransactionComponent = (props) => {
     TabPanel,
     onChangeTab,
     handlePressGeneratePdf,
-    enumUnits,
-    onchangeUnit,
+    goBack,
     handlePressActions,
     handlePressEdit,
   } = props;
@@ -124,7 +121,7 @@ const DetailServiceTransactionComponent = (props) => {
                 </div>
                 <div class="row mb-3">
                   <CButtonAntd
-                    onClick={() => navigate("list_service")}
+                    onClick={goBack}
                     type="primary"
                     icon={<ArrowLeftOutlined />}
                     size="middle"

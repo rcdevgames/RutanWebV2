@@ -3,8 +3,8 @@ import TabPanelChecklistComponent from "../../Component/TabPanel/TabPanelCheckli
 
 const TabPanelChecklistContainer = (props) => {
   const { checklist } = props;
-
-  return <TabPanelChecklistComponent checklist={checklist} {...props} />;
+  console.log("=== checklist : ", checklist);
+  return <TabPanelChecklistComponent {...props} />;
 };
 
 export default TabPanelChecklistContainer;

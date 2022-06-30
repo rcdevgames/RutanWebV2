@@ -34,12 +34,12 @@ const DetailServiceTransactionContainer = (props) => {
       selectedServiceSummary,
       selectedServiceMedia,
       groupingSelectedServiceMedia,
+      groupingSelectedServiceSummary,
+      groupingSelectedServiceChecklist,
       selectedServiceDailies,
       selectedServiceHistories,
       selectedServiceChecklist,
       selectedServiceRejected,
-      groupingSelectedServiceSummary,
-      groupingSelectedServiceChecklist,
       selectedUnit,
     },
   } = props;
@@ -55,6 +55,9 @@ const DetailServiceTransactionContainer = (props) => {
     selectedServiceChecklist,
     selectedServiceRejected,
     selectedUnit,
+    groupingSelectedServiceMedia,
+    groupingSelectedServiceSummary,
+    groupingSelectedServiceChecklist,
   };
 
   const TabPanel = [

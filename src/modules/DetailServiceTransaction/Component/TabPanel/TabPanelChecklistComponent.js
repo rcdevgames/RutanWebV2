@@ -6,7 +6,7 @@ import Text from "antd/lib/typography/Text";
 import { Themes } from "../../../../property/colors";
 
 const TabPanelChecklistComponent = (props) => {
-  const { checklist } = props;
+  const { checklistArr } = props;
   return (
     <div class="page-content">
       <Row
@@ -19,8 +19,8 @@ const TabPanelChecklistComponent = (props) => {
       </Row>
       <hr />
       <div class="row d-flex flex-wrap col md-12">
-        {checklist.length > 0 ? (
-          checklist.map((itemUnit, indexUnit) => (
+        {checklistArr.length > 0 ? (
+          checklistArr.map((itemUnit, indexUnit) => (
             <div>
               <Divider
                 style={{

@@ -12,6 +12,9 @@ export const exportDetailServicePdf = (data) => {
     selectedServiceHistories,
     selectedServiceChecklist,
     selectedUnit,
+    groupingSelectedServiceMedia,
+    groupingSelectedServiceSummary,
+    groupingSelectedServiceChecklist,
   } = data;
   const startDate = moment(selectedJobService.start).format("YYYY-MM-DD");
   const dueDate = moment(selectedJobService.due).format("YYYY-MM-DD");

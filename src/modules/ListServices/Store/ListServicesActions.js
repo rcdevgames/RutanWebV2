@@ -5,6 +5,7 @@ import { toastr } from "react-redux-toastr";
 import { showToast } from "../../Roles/Store/RolesActions";
 import { setGlobalLoading } from "../../App/Store/ComponentAction";
 import { setRejectionsModal } from "../../DetailServiceTransaction/Store/DetailServiceTransactionAction";
+import * as DetailServiceActions from "../../DetailServiceTransaction/Store/DetailServiceTransactionAction";
 
 export const SET_LIST_SERVICES = "SET_LIST_SERVICES";
 export const SET_SELECTED_JOB_SERVICE = "SET_SELECTED_JOB_SERVICE";
@@ -111,15 +112,42 @@ export const handleSearch = async (page, limit, keyword, filterValues) => {
   }
 };
 
+const getDetailServicePerUnit = async (service) => {
+  console.log("=== service : ", service);
+
+  const { dispatch } = store;
+  // Hit media api and grouping by units :
+  let groupingChecklist = [];
+  if (service.units) {
+    await service.units.map(async (item, index) => {
+      const { data: dataChecklist } = await Invoke.getChecklistData(item.id);
+
+      console.log("=== dataChecklist : ", dataChecklist);
+      // Push to tempporary array
+      groupingChecklist.push({
+        unitName: item.unit_name,
+        checklist: dataChecklist.callback,
+      });
+    });
+
+    // Save to reducer
+    await dispatch(
+      DetailServiceActions.setGroupingChecklistData(groupingChecklist)
+    );
+  }
+};
+
 export const handlePressEdit = async (values) => {
+  store.dispatch(setGlobalLoading(true));
   try {
     const { data } = await Invoke.getOneServices(values.id);
-    await store.dispatch(
-      setSelectedJobService({ ...data.callback, units: values.unit_models })
-    );
+    const dataService = { ...data.callback, units: values.unit_models };
+    await store.dispatch(setSelectedJobService(dataService));
+    // await getDetailServicePerUnit(dataService);
     setTimeout(() => {
+      store.dispatch(setGlobalLoading(false));
       navigate("detail-services");
-    }, 500);
+    }, 1500);
   } catch (error) {
     console.log(error);
   }

@@ -44,6 +44,7 @@ const DetailServiceTransactionContainer = (props) => {
     },
   } = props;
   const { dispatch } = store;
+  const [isLoadedChecklist, setIsLoadedChecklist] = React.useState(false);
 
   const printedData = {
     selectedJobService,
@@ -119,6 +120,7 @@ const DetailServiceTransactionContainer = (props) => {
       icon: <CheckCircleOutlined />,
       component: (
         <TabPanelChecklistContainer
+          isLoaded={isLoadedChecklist}
           checklist={groupingSelectedServiceChecklist}
         />
       ),
@@ -194,7 +196,18 @@ const DetailServiceTransactionContainer = (props) => {
           selectedJobService.id,
           item.id
         );
-        const { data: dataChecklist } = await Invoke.getChecklistData(item.id);
+        Invoke.getChecklistData(item.id)
+          .then((dataChecklist) => {
+            console.log("=== dataChecklist : ", dataChecklist);
+            groupingChecklist.push({
+              unitName: item.unit_name,
+              checklist: dataChecklist.data.callback,
+            });
+            if (index + 1 === selectedJobService.units.length) {
+              setIsLoadedChecklist(true);
+            }
+          })
+          .catch(() => setIsLoadedChecklist(true));
 
         // Push to tempporary array
         groupingMediaList.push({
@@ -204,10 +217,6 @@ const DetailServiceTransactionContainer = (props) => {
         groupingSummaryList.push({
           unitName: item.unit_name,
           summary: dataSummary.callback.summary,
-        });
-        groupingChecklist.push({
-          unitName: item.unit_name,
-          checklist: dataChecklist.callback,
         });
       });
 

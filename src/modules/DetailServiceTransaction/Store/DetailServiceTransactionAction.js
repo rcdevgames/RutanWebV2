@@ -16,6 +16,8 @@ export const SET_GROUPING_SELECTED_SERVICES_MEDIA_DATA =
 
 export const SET_GROUPING_SUMMARY_DATA = "SET_GROUPING_SUMMARY_DATA";
 
+export const SET_GROUPING_CHECKLIST_DATA = "SET_GROUPING_CHECKLIST_DATA";
+
 export const SET_SELECTED_SERVICES_SUMMARY_DATA =
   "SET_SELECTED_SERVICES_SUMMARY_DATA";
 
@@ -77,6 +79,13 @@ export const setGroupingSelectedServicesMediaData = (payload) => {
 export const setGroupingSummaryData = (payload) => {
   return {
     type: SET_GROUPING_SUMMARY_DATA,
+    payload,
+  };
+};
+
+export const setGroupingChecklistData = (payload) => {
+  return {
+    type: SET_GROUPING_CHECKLIST_DATA,
     payload,
   };
 };

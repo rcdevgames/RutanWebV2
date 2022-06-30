@@ -32,7 +32,11 @@ const TabPanelSummaryComponent = (props) => {
             <Col key={`col-unit-${index}`} span={12}>
               <div class="card p-2">
                 <Divider
-                  style={{ fontSize: 12, fontWeight: "bold" }}
+                  style={{
+                    fontSize: 12,
+                    fontWeight: "bold",
+                    textTransform: "uppercase",
+                  }}
                   plain
                 >{`Unit ${item.unitName}`}</Divider>
                 <RenderItemSummary summary={item.summary} />

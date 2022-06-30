@@ -6,18 +6,14 @@ const TabPanelSummaryContainer = (props) => {
   const [summaryArr, setSummaryArr] = React.useState([]);
 
   React.useEffect(() => {
-    if (summary.length > 0) {
-      const summaryMapping = [];
-      summary.map((item, index) => {
-        const summaryText = item.summary.split("\n");
-        console.log("=== summary : ", summaryText);
-        summaryMapping.push({ unitName: item.unitName, summary: summaryText });
-      });
-      setSummaryArr(summaryMapping);
-      console.log("=== summaryMapping : ", summaryMapping);
-    } else {
-      setSummaryArr([]);
-    }
+    const summaryMapping = [];
+
+    summary.map((item, index) => {
+      const summaryText = item.summary;
+      const splitSummary = summaryText.split("\n");
+      summaryMapping.push({ unitName: item.unitName, summary: splitSummary });
+    });
+    setSummaryArr(summaryMapping);
   }, [summary]);
 
   return <TabPanelSummaryComponent summaryArr={summaryArr} {...props} />;

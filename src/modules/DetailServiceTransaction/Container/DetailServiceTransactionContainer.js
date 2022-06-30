@@ -39,6 +39,7 @@ const DetailServiceTransactionContainer = (props) => {
       selectedServiceChecklist,
       selectedServiceRejected,
       groupingSelectedServiceSummary,
+      groupingSelectedServiceChecklist,
       selectedUnit,
     },
   } = props;
@@ -114,7 +115,7 @@ const DetailServiceTransactionContainer = (props) => {
       title: "Checklist",
       icon: <CheckCircleOutlined />,
       component: (
-        <TabPanelChecklistContainer checklist={selectedServiceChecklist} />
+        <TabPanelChecklistContainer checklist={groupingSelectedServiceChecklist} />
       ),
     });
 
@@ -164,10 +165,22 @@ const DetailServiceTransactionContainer = (props) => {
     }
   };
 
-  const getMediaGrouping = async () => {
+  const callInitialize = async () => {
+    await EmployeesActions.loadEmployeeListData(1, 99999);
+    await DetailServiceActions.getJobServiceEmployeeList(selectedJobService.id);
+    await DetailServiceActions.getJobServiceDailies(selectedJobService.id);
+    await DetailServiceActions.getJobServiceHistories(selectedJobService.id);
+    await DetailServiceActions.getJobServiceSummary(selectedJobService.id);
+    await DetailServiceActions.getJobServiceRejections(selectedJobService.id);
+    await DetailServiceActions.getJobServiceMedia(selectedJobService.id);
+    await getGroupingUnitData();
+  };
+
+  const getGroupingUnitData = async () => {
     // Hit media api and grouping by units :
     let groupingMediaList = [];
     let groupingSummaryList = [];
+    let groupingChecklist = [];
     if (selectedJobService.units) {
       await selectedJobService.units.map(async (item, index) => {
         const { data: dataMedia } = await Invoke.getJobServiceMedia(
@@ -178,6 +191,7 @@ const DetailServiceTransactionContainer = (props) => {
           selectedJobService.id,
           item.id
         );
+        const { data: dataChecklist } = await Invoke.getChecklistData(item.id);
 
         // Push to tempporary array
         groupingMediaList.push({
@@ -187,6 +201,10 @@ const DetailServiceTransactionContainer = (props) => {
         groupingSummaryList.push({
           unitName: item.unit_name,
           summary: dataSummary.callback.summary,
+        });
+        groupingChecklist.push({
+          unitName: item.unit_name,
+          checklist: dataChecklist.callback,
         });
       });
 
@@ -199,20 +217,15 @@ const DetailServiceTransactionContainer = (props) => {
       dispatch(
         DetailServiceActions.setGroupingSummaryData(groupingSummaryList)
       );
+      dispatch(
+        DetailServiceActions.setGroupingChecklistData(groupingChecklist)
+      );
     }
   };
 
   React.useEffect(() => {
-    EmployeesActions.loadEmployeeListData(1, 99999);
-    DetailServiceActions.getJobServiceEmployeeList(selectedJobService.id);
-    DetailServiceActions.getJobServiceDailies(selectedJobService.id);
-    DetailServiceActions.getJobServiceHistories(selectedJobService.id);
-    DetailServiceActions.getJobServiceSummary(selectedJobService.id);
-    DetailServiceActions.getJobServiceRejections(selectedJobService.id);
-    DetailServiceActions.getJobServiceMedia(selectedJobService.id);
+    callInitialize();
 
-    // Call this function
-    getMediaGrouping();
     return () => {
       store.dispatch(
         DetailServiceActions.setSelectedServicesChecklisttData([])

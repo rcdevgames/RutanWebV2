@@ -217,7 +217,7 @@ const DetailServiceTransactionComponent = (props) => {
               </div>
 
               {/* This for filter unit */}
-              <Divider orientation="left">Filter Data</Divider>
+              {/* <Divider orientation="left">Filter Data</Divider>
               <div class="row d-flex mb-2">
                 <div class="col-md-3">
                   <CSelect
@@ -228,23 +228,25 @@ const DetailServiceTransactionComponent = (props) => {
                     onChange={onchangeUnit}
                   />
                 </div>
-              </div>
+              </div> */}
 
-              <Tabs defaultActiveKey="1" onChange={onChangeTab}>
-                {TabPanel.map((item, index) => (
-                  <TabPane
-                    tab={
-                      <span>
-                        {item.icon}
-                        {item.title}
-                      </span>
-                    }
-                    key={item.key}
-                  >
-                    {item.component}
-                  </TabPane>
-                ))}
-              </Tabs>
+              <div class="ml-2 mt-3">
+                <Tabs defaultActiveKey="1" onChange={onChangeTab}>
+                  {TabPanel.map((item, index) => (
+                    <TabPane
+                      tab={
+                        <span>
+                          {item.icon}
+                          {item.title}
+                        </span>
+                      }
+                      key={item.key}
+                    >
+                      {item.component}
+                    </TabPane>
+                  ))}
+                </Tabs>
+              </div>
             </div>
           </div>
         </div>

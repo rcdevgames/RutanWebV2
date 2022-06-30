@@ -47,7 +47,11 @@ const TabPanelImagesComponent = (props) => {
         medias.map((item, index) => (
           <div>
             <Divider
-              style={{ textTransform: "capitalize" }}
+              style={{
+                textTransform: "uppercase",
+                fontSize: 12,
+                fontWeight: "bold",
+              }}
               plain
             >{`Unit ${item.unitName}`}</Divider>
             <Row>

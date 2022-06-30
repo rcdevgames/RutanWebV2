@@ -117,7 +117,7 @@ const TabPanelEmployeeComponent = (props) => {
       <Row>
         {employees.map((item, index) => {
           return (
-            <Col style={{ margin: 16 }}>
+            <Col style={{ margin: 16 }} key={`employee-${index}`}>
               <Text strong>{`Teknisi-${index + 1}`}</Text>
               <Card
                 style={{ width: 350, marginTop: 8 }}

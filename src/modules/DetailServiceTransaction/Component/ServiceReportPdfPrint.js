@@ -571,6 +571,7 @@ class ServiceReportPdfPrint extends React.Component {
           </Row>
         </div>
 
+        <div class="pagebreak"></div>
         <div class="m-4">
           <Row gutter={[16, 16]} style={{ marginTop: 30 }}>
             <Col

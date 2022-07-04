@@ -38,6 +38,17 @@ export const generateEmployeeToolsReport = async (data) => {
       // --> Draw circle :)
       // penjelasan parameter (x, y, r(panjang jari-jari lingkaran), style ("F"|"FD"))
       doc.circle(dataCell.cell.x + 22, dataCell.cell.y + 4, 2, "FD");
+    } else if (
+      dataCell.cell.section === "body" &&
+      dataCell.column.index === 3
+    ) {
+      // --> set width of line Circle
+      docCell.setLineWidth(0.3);
+      // --> set fill color of circle
+      doc.setFillColor(255, 255, 255);
+      // --> Draw circle :)
+      // penjelasan parameter (x, y, r(panjang jari-jari lingkaran), style ("F"|"FD"))
+      doc.circle(dataCell.cell.x + 12, dataCell.cell.y + 4, 2, "FD");
     }
     // --> This for custom styling font too
     // else if (dataCell.column.dataKey === "no") {
@@ -69,7 +80,8 @@ export const generateEmployeeToolsReport = async (data) => {
     columns: [
       { header: "#", dataKey: "no" },
       { header: "Nama Peralatan", dataKey: "name" },
-      { header: "Check", dataKey: "" },
+      { header: "Check", dataKey: "test1" },
+      { header: "NA", dataKey: "test2" },
     ],
     willDrawCell: drawCell,
     didParseCell: didParseCell,

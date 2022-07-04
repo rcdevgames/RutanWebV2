@@ -127,7 +127,7 @@ const DetailServiceTransactionComponent = (props) => {
                 <div>
                   <h6 class="card-title">Detail Transaksi</h6>
                 </div>
-                <div class="row mb-3">
+                <div class="row mb-3 ml-2 mr-2">
                   <CButtonAntd
                     onClick={goBack}
                     type="primary"

@@ -244,7 +244,7 @@ class ServiceReportPdfPrint extends React.Component {
               <th>Tanggal Mulai</th>
             </tr>
             {employeeList.map((itemEmployee, indexEmployee) => (
-              <tr>
+              <tr key={`employee-list-${indexEmployee}`}>
                 <td>{itemEmployee.no}</td>
                 <td>{itemEmployee.nik}</td>
                 <td>{itemEmployee.name}</td>
@@ -285,8 +285,8 @@ class ServiceReportPdfPrint extends React.Component {
                   plain
                 >{`Unit ${itemUnit.unitName}`}</Divider>
                 <Row gutter={[16, 16]}>
-                  {itemUnit.checklist.map((itemChecklist, index) => (
-                    <Col span={12}>
+                  {itemUnit.checklist.map((itemChecklist, indexChecklist) => (
+                    <Col key={`item-checklist-${indexChecklist}`} span={12}>
                       <div style={{ width: "100%" }}>
                         <div>
                           <div class="mb-2 mt-2 pb-2">
@@ -354,6 +354,7 @@ class ServiceReportPdfPrint extends React.Component {
                                 (itemFields, indexFields) => {
                                   return (
                                     <Row
+                                      key={`item-fields-${indexFields}`}
                                       gutter={16}
                                       style={{
                                         alignItems: "center",
@@ -475,7 +476,7 @@ class ServiceReportPdfPrint extends React.Component {
         {medias &&
           medias.length > 0 &&
           medias.map((item, index) => (
-            <div class="ml-4">
+            <div key={`item-media-${index}`} class="ml-4">
               <Divider
                 orientation="center"
                 style={{
@@ -516,7 +517,7 @@ class ServiceReportPdfPrint extends React.Component {
               <th>Jam</th>
             </tr>
             {dailyList.map((itemDily, indexDily) => (
-              <tr>
+              <tr key={`item-daily-${indexDily}`}>
                 <td>{itemDily.no}</td>
                 <td>{itemDily.name}</td>
                 <td>{itemDily.description}</td>
@@ -635,9 +636,11 @@ class ServiceReportPdfPrint extends React.Component {
                   margin: "auto",
                 }}
               >
-                <Typography style={{ fontSize: 16, fontWeight: "normal" }}>
-                  {`( ${employeeList[0].name} )`}
-                </Typography>
+                {employeeList.length > 0 && (
+                  <Typography style={{ fontSize: 16, fontWeight: "normal" }}>
+                    {`( ${employeeList[0].name} )`}
+                  </Typography>
+                )}
               </div>
             </Col>
           </Row>

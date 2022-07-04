@@ -36,8 +36,8 @@ const TabPanelChecklistComponent = (props) => {
                   plain
                 >{`Unit ${itemUnit.unitName}`}</Divider>
                 <Row gutter={[16, 16]}>
-                  {itemUnit.checklist.map((itemChecklist, index) => (
-                    <Col span={12}>
+                  {itemUnit.checklist.map((itemChecklist, indexChecklist) => (
+                    <Col key={`item-unit-checklist-${indexChecklist}`} span={12}>
                       <div style={{ width: "100%" }}>
                         <div>
                           <div class="mb-2 mt-2 pb-2">
@@ -105,6 +105,7 @@ const TabPanelChecklistComponent = (props) => {
                                 (itemFields, indexFields) => {
                                   return (
                                     <Row
+                                      key={`item-fields-${indexFields}`}
                                       gutter={16}
                                       style={{
                                         alignItems: "center",

@@ -25,6 +25,7 @@ import TabPanelChecklistContainer from "./TabPanel/TabPanelChecklistContainer";
 import { store } from "../../../app/ConfigureStore";
 import Invoke from "../../../app/axios/Invoke";
 import { navigate } from "../../../app/Helpers";
+import { exportDetailServicePdfRevision } from "../Store/DetailServiceTransactionReportRevision";
 
 const DetailServiceTransactionContainer = (props) => {
   const {
@@ -240,7 +241,7 @@ const DetailServiceTransactionContainer = (props) => {
   }, []);
 
   const handlePressGeneratePdf = () => {
-    exportDetailServicePdf(printedData);
+    exportDetailServicePdfRevision(printedData);
   };
 
   const handleBackToListService = () => {
@@ -257,6 +258,8 @@ const DetailServiceTransactionContainer = (props) => {
       onChangeTab={onChangeTab}
       handlePressGeneratePdf={handlePressGeneratePdf}
       goBack={handleBackToListService}
+      medias={groupingSelectedServiceMedia}
+      checklist={groupingSelectedServiceChecklist}
       {...props}
     />
   );

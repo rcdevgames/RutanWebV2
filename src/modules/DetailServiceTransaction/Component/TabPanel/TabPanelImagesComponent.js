@@ -2,7 +2,6 @@ import React from "react";
 import { Typography, Row, Empty, Card, Col, Image, Divider } from "antd";
 import { CameraOutlined } from "@ant-design/icons";
 
-const { Paragraph } = Typography;
 const { Meta } = Card;
 
 const RenderImage = ({ medias, unit }) => {

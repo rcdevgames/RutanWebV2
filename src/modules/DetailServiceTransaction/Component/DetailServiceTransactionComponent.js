@@ -1,5 +1,5 @@
 import React from "react";
-import { Tabs } from "antd";
+import { Button, Tabs } from "antd";
 import { Typography } from "antd";
 import CBadgeText from "../../../components/CBadgeText/CBadgeText";
 import moment from "moment";
@@ -16,6 +16,8 @@ import { Themes } from "../../../property/colors";
 import RejectedModalContainer from "../Container/RejectedModalContainer";
 import EditModalTransactionContainer from "../Container/EditModalTransactionContainer";
 import EditModalDailiesContainer from "../Container/EditModalDailiesContainer";
+import ReactToPrint from "react-to-print";
+import ServiceReportPdfPrint from "./ServiceReportPdfPrint";
 
 const { Text } = Typography;
 const { TabPane } = Tabs;
@@ -29,7 +31,10 @@ const DetailServiceTransactionComponent = (props) => {
     goBack,
     handlePressActions,
     handlePressEdit,
+    medias,
+    checklist
   } = props;
+  let componentRef = React.useRef();
 
   const RenderButtonAction = ({ status }) => {
     let button;
@@ -151,6 +156,17 @@ const DetailServiceTransactionComponent = (props) => {
                     Cetak Formulir
                   </CButtonAntd>
                   <div class="mr-3" />
+                  {/* button to trigger printing of target component */}
+                  <ReactToPrint
+                    fonts={[
+                      {
+                        name: "'Courier Prime', monospace",
+                        url: "https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap",
+                      },
+                    ]}
+                    trigger={() => <Button>Print this out!</Button>}
+                    content={() => componentRef}
+                  />
                 </div>
               </div>
               <div
@@ -213,20 +229,6 @@ const DetailServiceTransactionComponent = (props) => {
                 <div class="col-md-4"></div>
               </div>
 
-              {/* This for filter unit */}
-              {/* <Divider orientation="left">Filter Data</Divider>
-              <div class="row d-flex mb-2">
-                <div class="col-md-3">
-                  <CSelect
-                    data={enumUnits ?? []}
-                    name="unit"
-                    label="Filter Unit"
-                    placeholder="-Pilih Semua-"
-                    onChange={onchangeUnit}
-                  />
-                </div>
-              </div> */}
-
               <div class="ml-2 mt-3">
                 <Tabs defaultActiveKey="1" onChange={onChangeTab}>
                   {TabPanel.map((item, index) => (
@@ -252,6 +254,15 @@ const DetailServiceTransactionComponent = (props) => {
       <RejectedModalContainer />
       <EditModalTransactionContainer />
       <EditModalDailiesContainer />
+      {/* component to be printed */}
+      <div style={{ display: "block", width: "100%", flex: 1 }}>
+        <ServiceReportPdfPrint
+          ref={(el) => (componentRef = el)}
+          data={data}
+          medias={medias}
+          checklist={checklist}
+        />
+      </div>
     </div>
   );
 };

@@ -22,8 +22,8 @@ const RenderImage = ({ medias, unit }) => {
       <Col key={`item-image-${index}`} span={12}>
         <Card
           hoverable
-          style={{ width: 240, height: 200 }}
-          cover={<Image width={"100%"} height={150} src={item.path} />}
+          style={{ width: 300, height: 260 }}
+          cover={<Image width={"100%"} height={260} src={item.path} />}
         >
           <Meta
             style={{ marginTop: -10 }}
@@ -35,11 +35,61 @@ const RenderImage = ({ medias, unit }) => {
   });
 };
 
+const RenderItemSummary = ({ summary, index }) => {
+  return summary.length > 0 ? (
+    summary.map((item, indexText) => (
+      <Typography key={`item-summary${index}-text-${indexText}`}>
+        {item}
+      </Typography>
+    ))
+  ) : (
+    <Typography>Summary belum ada</Typography>
+  );
+};
+
 class ServiceReportPdfPrint extends React.Component {
   render() {
-    const { data, medias, checklist } = this.props;
+    const { data, medias, checklist, employees, dailies, summary } = this.props;
     const startDate = moment(data.start).format("YYYY-MM-DD");
     const dueDate = moment(data.due).format("YYYY-MM-DD");
+    const employeeList = [];
+    const dailyList = [];
+
+    const summaryMapping = [];
+    summary.map((item, index) => {
+      const summaryText = item.summary;
+      const splitSummary = summaryText.split("\n");
+      summaryMapping.push({ unitName: item.unitName, summary: splitSummary });
+    });
+
+    if (employees.length > 0) {
+      employees.map((item, index) => {
+        employeeList.push({
+          no: index + 1,
+          nik: item.nik,
+          name: item.name,
+          phone: item.phone,
+          address: item.address,
+          startDate: item.created_date,
+        });
+      });
+    }
+
+    if (dailies.length > 0) {
+      dailies.map((item, index) => {
+        dailyList.push({
+          no: index + 1,
+          name: item.employee_name,
+          description: item.description,
+          start: moment(item.daily_start).format("DD-MMM-YYYY"),
+          end: moment(item.daily_end).format("DD-MMM-YYYY"),
+          time: item.hours,
+        });
+      });
+    } else {
+      dailyList.push([]);
+    }
+
     return (
       <div>
         {/* Header */}
@@ -86,6 +136,7 @@ class ServiceReportPdfPrint extends React.Component {
               </div>
             </div>
             {/* Section 4 */}
+            <div style={{ marginTop: 60 }} />
             <div class="row">
               <div class="col-md-12 p-1">
                 <Text style={{ marginRight: 70 }}>Customer</Text>
@@ -182,6 +233,28 @@ class ServiceReportPdfPrint extends React.Component {
             {`Teknisi`}
           </Divider>
         </div>
+        <div class="m-4">
+          <table>
+            <tr>
+              <th>#</th>
+              <th>NIK</th>
+              <th>Nama Karyawan</th>
+              <th>No. Telpon</th>
+              <th>Alamat</th>
+              <th>Tanggal Mulai</th>
+            </tr>
+            {employeeList.map((itemEmployee, indexEmployee) => (
+              <tr>
+                <td>{itemEmployee.no}</td>
+                <td>{itemEmployee.nik}</td>
+                <td>{itemEmployee.name}</td>
+                <td>{itemEmployee.phone}</td>
+                <td>{itemEmployee.address}</td>
+                <td>{itemEmployee.startDate}</td>
+              </tr>
+            ))}
+          </table>
+        </div>
         {/* Checklist */}
         <div style={{ width: "100%" }}>
           <Divider
@@ -190,6 +263,7 @@ class ServiceReportPdfPrint extends React.Component {
               fontSize: 16,
               fontWeight: "bold",
               marginBottom: 16,
+              marginTop: 70,
             }}
             orientation="left"
             plain
@@ -197,7 +271,7 @@ class ServiceReportPdfPrint extends React.Component {
             {`Checklist`}
           </Divider>
         </div>
-        <div class="row d-flex flex-wrap col md-12">
+        <div class="row d-flex flex-wrap col md-12 ml-4">
           {checklist.length > 0 ? (
             checklist.map((itemUnit, indexUnit) => (
               <div key={`checklist-unit-${indexUnit}`}>
@@ -384,7 +458,7 @@ class ServiceReportPdfPrint extends React.Component {
           )}
         </div>
         {/* Media */}
-        <div style={{ width: "100%" }}>
+        <div style={{ width: "100%", marginTop: 70 }}>
           <Divider
             orientation="left"
             style={{
@@ -395,13 +469,13 @@ class ServiceReportPdfPrint extends React.Component {
             }}
             plain
           >
-            {`Media`}
+            {`Gambar - Gambar`}
           </Divider>
         </div>
         {medias &&
           medias.length > 0 &&
           medias.map((item, index) => (
-            <div>
+            <div class="ml-4">
               <Divider
                 orientation="center"
                 style={{
@@ -416,6 +490,251 @@ class ServiceReportPdfPrint extends React.Component {
               </Row>
             </div>
           ))}
+        {/* Dailies */}
+        <div style={{ width: "100%", marginTop: 70 }}>
+          <Divider
+            orientation="left"
+            style={{
+              textTransform: "uppercase",
+              fontSize: 16,
+              fontWeight: "bold",
+              marginBottom: 16,
+            }}
+            plain
+          >
+            {`Catatan Teknisi`}
+          </Divider>
+        </div>
+        <div class="m-4">
+          <table>
+            <tr>
+              <th>#</th>
+              <th>Karyawan</th>
+              <th>Deskripsi</th>
+              <th>Mulai</th>
+              <th>Selesai</th>
+              <th>Jam</th>
+            </tr>
+            {dailyList.map((itemDily, indexDily) => (
+              <tr>
+                <td>{itemDily.no}</td>
+                <td>{itemDily.name}</td>
+                <td>{itemDily.description}</td>
+                <td>{itemDily.start}</td>
+                <td>{itemDily.end}</td>
+                <td>{itemDily.time}</td>
+              </tr>
+            ))}
+          </table>
+        </div>
+        {/* Dailies */}
+        <div style={{ width: "100%", marginTop: 70 }}>
+          <Divider
+            orientation="left"
+            style={{
+              textTransform: "uppercase",
+              fontSize: 16,
+              fontWeight: "bold",
+              marginBottom: 16,
+            }}
+            plain
+          >
+            {`Laporan Akhir`}
+          </Divider>
+        </div>
+        <div class="m-4">
+          <Row gutter={[16, 16]}>
+            {summaryMapping.length > 0 ? (
+              summaryMapping.map((itemSummary, indexSummary) => (
+                <Col key={`col-unit-${indexSummary}`} span={12}>
+                  <div class="card p-2">
+                    <Divider
+                      style={{
+                        fontSize: 12,
+                        fontWeight: "bold",
+                        textTransform: "uppercase",
+                      }}
+                      plain
+                    >{`Unit ${itemSummary.unitName}`}</Divider>
+                    <RenderItemSummary
+                      index={indexSummary}
+                      summary={itemSummary.summary}
+                    />
+                  </div>
+                </Col>
+              ))
+            ) : (
+              <div>
+                <Typography>Tidak ada data</Typography>
+              </div>
+            )}
+          </Row>
+        </div>
+
+        <div class="m-4">
+          <Row gutter={[16, 16]} style={{ marginTop: 30 }}>
+            <Col
+              span={12}
+              style={{ alignItems: "center", justifyContent: "center" }}
+            >
+              <div
+                style={{
+                  width: "50%",
+                  textAlign: "center",
+                  margin: "auto",
+                }}
+              >
+                <Typography style={{ fontSize: 16, fontWeight: "bold" }}>
+                  Customer
+                </Typography>
+                <Divider style={{ marginTop: 0 }} />
+              </div>
+            </Col>
+            <Col span={12}>
+              <div
+                style={{
+                  width: "50%",
+                  textAlign: "center",
+                  alignItems: "center",
+                  margin: "auto",
+                }}
+              >
+                <Typography style={{ fontSize: 16, fontWeight: "bold" }}>
+                  Teknisi
+                </Typography>
+                <Divider style={{ marginTop: 0 }} />
+              </div>
+            </Col>
+          </Row>
+
+          {/* Sign */}
+          <Row gutter={[16, 16]} style={{ marginTop: 50 }}>
+            <Col
+              span={12}
+              style={{ alignItems: "center", justifyContent: "center" }}
+            >
+              <div
+                style={{
+                  width: "50%",
+                  textAlign: "center",
+                  margin: "auto",
+                }}
+              >
+                <Typography style={{ fontSize: 16, fontWeight: "normal" }}>
+                  {`( ${data.customer_name} )`}
+                </Typography>
+              </div>
+            </Col>
+            <Col span={12}>
+              <div
+                style={{
+                  width: "50%",
+                  textAlign: "center",
+                  alignItems: "center",
+                  margin: "auto",
+                }}
+              >
+                <Typography style={{ fontSize: 16, fontWeight: "normal" }}>
+                  {`( ${employeeList[0].name} )`}
+                </Typography>
+              </div>
+            </Col>
+          </Row>
+
+          <Row
+            gutter={[16, 16]}
+            style={{
+              marginTop: 30,
+              margin: "auto",
+              alignContent: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Col span={12}>
+              <Typography style={{ textAlign: "center" }}>
+                MENGETAHUI
+              </Typography>
+            </Col>
+          </Row>
+
+          {/* Section 2 sign */}
+          <Row gutter={[16, 16]} style={{ marginTop: 30 }}>
+            <Col
+              span={12}
+              style={{ alignItems: "center", justifyContent: "center" }}
+            >
+              <div
+                style={{
+                  width: "50%",
+                  textAlign: "center",
+                  margin: "auto",
+                }}
+              >
+                <Typography style={{ fontSize: 16, fontWeight: "bold" }}>
+                  Coordinator/Supervisor
+                </Typography>
+                <Divider style={{ marginTop: 0 }} />
+              </div>
+            </Col>
+            <Col span={12}>
+              <div
+                style={{
+                  width: "50%",
+                  textAlign: "center",
+                  alignItems: "center",
+                  margin: "auto",
+                }}
+              >
+                <Typography style={{ fontSize: 16, fontWeight: "bold" }}>
+                  Branch Manager/Service Manager
+                </Typography>
+                <Divider style={{ marginTop: 0 }} />
+              </div>
+            </Col>
+          </Row>
+
+          {/* Sign */}
+          <Row gutter={[16, 16]} style={{ marginTop: 50 }}>
+            <Col
+              span={12}
+              style={{ alignItems: "center", justifyContent: "center" }}
+            >
+              <div
+                style={{
+                  width: "50%",
+                  textAlign: "center",
+                  margin: "auto",
+                }}
+              >
+                <div
+                  style={{
+                    borderStyle: "dotted",
+                    borderWidth: 1,
+                    borderRadius: 1,
+                  }}
+                />
+              </div>
+            </Col>
+            <Col span={12}>
+              <div
+                style={{
+                  width: "50%",
+                  textAlign: "center",
+                  alignItems: "center",
+                  margin: "auto",
+                }}
+              >
+                <div
+                  style={{
+                    borderStyle: "dotted",
+                    borderWidth: 1,
+                    borderRadius: 1,
+                  }}
+                />
+              </div>
+            </Col>
+          </Row>
+        </div>
       </div>
     );
   }

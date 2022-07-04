@@ -260,6 +260,9 @@ const DetailServiceTransactionContainer = (props) => {
       goBack={handleBackToListService}
       medias={groupingSelectedServiceMedia}
       checklist={groupingSelectedServiceChecklist}
+      employees={selectedServiceEmployeeList}
+      dailies={selectedServiceDailies}
+      summary={groupingSelectedServiceSummary}
       {...props}
     />
   );

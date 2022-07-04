@@ -32,7 +32,10 @@ const DetailServiceTransactionComponent = (props) => {
     handlePressActions,
     handlePressEdit,
     medias,
-    checklist
+    checklist,
+    employees,
+    dailies,
+    summary,
   } = props;
   let componentRef = React.useRef();
 
@@ -146,15 +149,6 @@ const DetailServiceTransactionComponent = (props) => {
                     </CButtonAntd>
                   )}
                   <RenderButtonAction status={data.status} />
-                  <div class="ml-3" />
-                  <CButtonAntd
-                    onClick={handlePressGeneratePdf}
-                    type="primary"
-                    icon={<FilePdfOutlined />}
-                    size="middle"
-                  >
-                    Cetak Formulir
-                  </CButtonAntd>
                   <div class="mr-3" />
                   {/* button to trigger printing of target component */}
                   <ReactToPrint
@@ -164,7 +158,16 @@ const DetailServiceTransactionComponent = (props) => {
                         url: "https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap",
                       },
                     ]}
-                    trigger={() => <Button>Print this out!</Button>}
+                    trigger={() => (
+                      <CButtonAntd
+                        onClick={handlePressGeneratePdf}
+                        type="primary"
+                        icon={<FilePdfOutlined />}
+                        size="middle"
+                      >
+                        Cetak Formulir
+                      </CButtonAntd>
+                    )}
                     content={() => componentRef}
                   />
                 </div>
@@ -261,6 +264,9 @@ const DetailServiceTransactionComponent = (props) => {
           data={data}
           medias={medias}
           checklist={checklist}
+          employees={employees}
+          dailies={dailies}
+          summary={summary}
         />
       </div>
     </div>

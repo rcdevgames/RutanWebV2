@@ -258,7 +258,7 @@ const DetailServiceTransactionComponent = (props) => {
       <EditModalTransactionContainer />
       <EditModalDailiesContainer />
       {/* component to be printed */}
-      <div style={{ display: "block", width: "100%", flex: 1 }}>
+      <div style={{ display: "none", width: "100%", flex: 1 }}>
         <ServiceReportPdfPrint
           ref={(el) => (componentRef = el)}
           data={data}

@@ -548,4 +548,15 @@ Invoke.getReportEmployee = (page, limit, from, until, keyword, branchId) => {
   );
 };
 
+// Download pdf from server
+Invoke.getTransactionPdfUrl = (jobId, unitId) => {
+  return ConfigAxios.get(
+    `/services/print_job/282a2140-451c-42da-b84e-fa29f4e1efb3/12bb7ea3-e30e-420e-ab17-f1ffd87f9cea`
+  );
+};
+// Download pdf to BLOB
+Invoke.downloadPdfFromUrl = (url) => {
+  return ConfigAxios.get(url, { responseType: "blob" });
+};
+
 export default Invoke;

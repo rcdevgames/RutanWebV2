@@ -241,7 +241,8 @@ const DetailServiceTransactionContainer = (props) => {
   }, []);
 
   const handlePressGeneratePdf = () => {
-    exportDetailServicePdfRevision(printedData);
+    // exportDetailServicePdfRevision(printedData);
+    DetailServiceActions.downloadTransactionPdf()
   };
 
   const handleBackToListService = () => {

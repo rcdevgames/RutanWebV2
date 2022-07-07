@@ -7,6 +7,7 @@ import { showToast } from "../../Roles/Store/RolesActions";
 import { change } from "redux-form";
 import moment from "moment";
 import { setSelectedJobService } from "../../ListServices/Store/ListServicesActions";
+import fileDownload from "js-file-download";
 
 export const SET_SELECTED_SERVICES_EMPLOYEE_LIST_DATA =
   "SET_SELECTED_SERVICES_EMPLOYEE_LIST_DATA";
@@ -411,4 +412,17 @@ export const mapDailiesToForm = async () => {
   dispatch(change("editDailiesForm", `endDate`, moment(data.selesai) ?? ""));
   dispatch(change("editDailiesForm", `title`, data.title ?? ""));
   dispatch(change("editDailiesForm", `description`, data.deskripsi ?? ""));
+};
+
+export const downloadTransactionPdf = async () => {
+  const { data: dataTransactionPdf } = await Invoke.getTransactionPdfUrl(
+    "",
+    ""
+  );
+  const downloadUrl = dataTransactionPdf.callback.pdf.url.replace(
+    "103.158.192.161:3000",
+    ""
+  );
+  const { data } = await Invoke.downloadPdfFromUrl(downloadUrl);
+  fileDownload(data, `${dataTransactionPdf.callback.pdf.filename}.pdf`);
 };

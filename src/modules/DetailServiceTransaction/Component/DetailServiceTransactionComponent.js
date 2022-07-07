@@ -22,6 +22,24 @@ import ServiceReportPdfPrint from "./ServiceReportPdfPrint";
 const { Text } = Typography;
 const { TabPane } = Tabs;
 
+const pageStyle = `
+  @page {
+    size: 80mm 50mm;
+  }
+
+  @media all {
+    .pagebreak {
+      display: none;
+    }
+  }
+
+  @media print {
+    .pagebreak {
+      page-break-before: always;
+    }
+  }
+`;
+
 const DetailServiceTransactionComponent = (props) => {
   const {
     data,
@@ -151,13 +169,22 @@ const DetailServiceTransactionComponent = (props) => {
                   <RenderButtonAction status={data.status} />
                   <div class="mr-3" />
                   {/* button to trigger printing of target component */}
-                  <ReactToPrint
+                  <CButtonAntd
+                    onClick={handlePressGeneratePdf}
+                    type="primary"
+                    icon={<FilePdfOutlined />}
+                    size="middle"
+                  >
+                    Cetak Formulir
+                  </CButtonAntd>
+                  {/* <ReactToPrint
                     fonts={[
                       {
                         name: "'Courier Prime', monospace",
                         url: "https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap",
                       },
                     ]}
+                    pageStyle={pageStyle}
                     trigger={() => (
                       <CButtonAntd
                         onClick={handlePressGeneratePdf}
@@ -169,7 +196,7 @@ const DetailServiceTransactionComponent = (props) => {
                       </CButtonAntd>
                     )}
                     content={() => componentRef}
-                  />
+                  /> */}
                 </div>
               </div>
               <div

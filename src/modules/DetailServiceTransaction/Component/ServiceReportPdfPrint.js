@@ -136,7 +136,7 @@ class ServiceReportPdfPrint extends React.Component {
               </div>
             </div>
             {/* Section 4 */}
-            <div style={{ marginTop: 60 }} />
+
             <div class="row">
               <div class="col-md-12 p-1">
                 <Text style={{ marginRight: 70 }}>Customer</Text>
@@ -572,7 +572,7 @@ class ServiceReportPdfPrint extends React.Component {
           </Row>
         </div>
 
-        <div class="pagebreak"></div>
+        <div class="page-break"></div>
         <div class="m-4">
           <Row gutter={[16, 16]} style={{ marginTop: 30 }}>
             <Col

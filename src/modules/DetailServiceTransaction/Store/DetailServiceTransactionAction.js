@@ -415,14 +415,23 @@ export const mapDailiesToForm = async () => {
 };
 
 export const downloadTransactionPdf = async () => {
-  const { data: dataTransactionPdf } = await Invoke.getTransactionPdfUrl(
-    "",
-    ""
-  );
-  const downloadUrl = dataTransactionPdf.callback.pdf.url.replace(
-    "103.158.192.161:3000",
-    ""
-  );
-  const { data } = await Invoke.downloadPdfFromUrl(downloadUrl);
-  fileDownload(data, `${dataTransactionPdf.callback.pdf.filename}.pdf`);
+  const { dispatch, getState } = store;
+  dispatch(ComponentActions.setGlobalLoading(true));
+
+  try {
+    const { data: dataTransactionPdf } = await Invoke.getTransactionPdfUrl(
+      "",
+      ""
+    );
+    const downloadUrl = dataTransactionPdf.callback.pdf.url.replace(
+      "103.158.192.161:3000",
+      ""
+    );
+    const { data } = await Invoke.downloadPdfFromUrl(downloadUrl);
+    dispatch(ComponentActions.setGlobalLoading(false));
+    fileDownload(data, `${dataTransactionPdf.callback.pdf.filename}.pdf`);
+  } catch (error) {
+    dispatch(ComponentActions.setGlobalLoading(false));
+    showToast("Gagal mengunduh report!", "warning");
+  }
 };

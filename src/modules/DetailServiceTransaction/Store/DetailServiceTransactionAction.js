@@ -416,12 +416,12 @@ export const mapDailiesToForm = async () => {
 
 export const downloadTransactionPdf = async () => {
   const { dispatch, getState } = store;
+  const jobId = getState().services.selectedJobService.id;
   dispatch(ComponentActions.setGlobalLoading(true));
 
   try {
     const { data: dataTransactionPdf } = await Invoke.getTransactionPdfUrl(
-      "",
-      ""
+      jobId
     );
     const downloadUrl = dataTransactionPdf.callback.pdf.url.replace(
       "103.158.192.161:3000",
@@ -432,6 +432,6 @@ export const downloadTransactionPdf = async () => {
     fileDownload(data, `${dataTransactionPdf.callback.pdf.filename}.pdf`);
   } catch (error) {
     dispatch(ComponentActions.setGlobalLoading(false));
-    showToast("Gagal mengunduh report!", "warning");
+    showToast("Gagal mengunduh report!", "error");
   }
 };

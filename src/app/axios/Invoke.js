@@ -235,7 +235,7 @@ Invoke.setApprovedService = (jobId) => {
   return ConfigAxios.get(`/m_services/approve/${jobId}`);
 };
 Invoke.setRejectedService = (jobId, payload) => {
-  return ConfigAxios.post(`/m_services/reject/${jobId}`, payload);
+  return ConfigAxios.post(`/m_services/reject/${jobId}?allowReject=true`, payload);
 };
 // === End Service API ===
 

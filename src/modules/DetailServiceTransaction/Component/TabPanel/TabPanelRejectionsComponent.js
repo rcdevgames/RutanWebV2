@@ -15,7 +15,7 @@ const RenderDailies = ({ rejections }) => {
     },
     {
       title: "Nama Karyawan",
-      dataIndex: "name",
+      dataIndex: "employee_name",
     },
     {
       title: "Alasan Reject",
@@ -23,17 +23,17 @@ const RenderDailies = ({ rejections }) => {
     },
     {
       title: "Tanggal Di-Reject",
-      dataIndex: "rejectionDate",
+      dataIndex: "created_date",
     },
   ];
   const data = [];
   rejections.map((item, index) => {
     data.push({
-      key: index,
+      no: index + 1,
       nik: item.nik,
-      name: item.name,
+      employee_name: item.employee_name,
       reason: item.reason,
-      selesai: moment(item.daily_end).format("DD-MMM-YYYY"),
+      created_date: moment(item.created_date).format("DD-MMM-YYYY"),
     });
   });
   return <Table columns={columns} dataSource={data} size="middle" />;

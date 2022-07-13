@@ -1,5 +1,5 @@
 import React from "react";
-import { Input } from "antd";
+import { Input, Table } from "antd";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import CTableAntd from "../../../components/CTable/CTableAntd";
 import { PlusOutlined } from "@ant-design/icons";
@@ -54,10 +54,12 @@ const UnitsComponent = (props) => {
                   </div>
                 </div>
                 <div class="table-responsive">
-                  <CTableAntd
-                    data={listUnits}
-                    headers={headers}
-                    renderActions={renderActionTable}
+                  <Table
+                    bordered
+                    size="small"
+                    columns={headers}
+                    dataSource={listUnits}
+                    // renderActions={renderActionTable}
                     pagination={pagination}
                   />
                 </div>

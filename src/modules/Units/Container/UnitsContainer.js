@@ -1,4 +1,4 @@
-import { Space, Tooltip } from "antd";
+import { Button, Space, Tooltip, Typography } from "antd";
 import React from "react";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
@@ -36,37 +36,6 @@ const UnitsContainer = (props) => {
     });
   }
 
-  const headers = [
-    {
-      title: "No",
-      dataIndex: "no",
-      key: "no",
-      width: "10%",
-      sorter: (a, b) => a.no - b.no,
-    },
-    {
-      title: "Nama Unit",
-      dataIndex: "name",
-      key: "name",
-      width: "30%",
-      sorter: (a, b) => a.name.length - b.name.length,
-    },
-    {
-      title: "Divisi",
-      dataIndex: "division",
-      key: "division",
-      width: "10%",
-      sorter: (a, b) => a.division.length - b.division.length,
-    },
-    {
-      title: "Deskripsi",
-      dataIndex: "description",
-      key: "description",
-      width: "30%",
-      sorter: (a, b) => a.description.length - b.description.length,
-    },
-  ];
-
   const renderActionTable = (text, record) => (
     <Space size="middle">
       <CButtonAntd
@@ -100,6 +69,57 @@ const UnitsContainer = (props) => {
       />
     </Space>
   );
+
+  const headers = [
+    {
+      title: "No",
+      dataIndex: "no",
+      key: "no",
+      width: "10%",
+      sorter: (a, b) => a.no - b.no,
+    },
+    {
+      title: "Nama Unit",
+      dataIndex: "name",
+      key: "name",
+      width: "30%",
+      sorter: (a, b) => a.name.length - b.name.length,
+      render: (unit) => (
+        <Button
+          block
+          type="link"
+          style={{ whiteSpace: "normal", textAlign: "left" }}
+        >
+          <Typography
+            style={{ color: "#1890ff", fontWeight: "bold", fontSize: 11 }}
+          >
+            {unit}
+          </Typography>
+        </Button>
+      ),
+    },
+    {
+      title: "Divisi",
+      dataIndex: "division",
+      key: "division",
+      width: "10%",
+      sorter: (a, b) => a.division.length - b.division.length,
+    },
+    {
+      title: "Deskripsi",
+      dataIndex: "description",
+      key: "description",
+      width: "30%",
+      sorter: (a, b) => a.description.length - b.description.length,
+    },
+    {
+      align: "center",
+      title: "Aksi",
+      key: "action",
+      width: "30%",
+      render: renderActionTable,
+    },
+  ];
 
   React.useEffect(() => {
     getListUnit(page, limit);

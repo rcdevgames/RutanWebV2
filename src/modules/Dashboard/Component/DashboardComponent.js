@@ -1,5 +1,6 @@
 import { Table } from "antd";
 import React from "react";
+import '../../../app/style/tableStyle.css'
 
 const DashboardComponent = (props) => {
   const { userDetail, headers, listServices, dashboard } = props;

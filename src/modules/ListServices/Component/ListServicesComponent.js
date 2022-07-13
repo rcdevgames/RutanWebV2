@@ -23,16 +23,16 @@ const ListServiceComponent = (props) => {
     pageSize: paging.limit,
     onChange: onChangePagination,
   };
-  const tableHeight = 500;
-  const maxWidthPerCell = 600;
+  // const tableHeight = 500;
+  // const maxWidthPerCell = 600;
 
   // This helper function helps to calculate the width for each column
   // based on all table cells - column cell and source cell
-  const dataTable = calculateColumnsWidth(
-    columns,
-    listServices,
-    maxWidthPerCell
-  );
+  // const dataTable = calculateColumnsWidth(
+  //   columns,
+  //   listServices,
+  //   maxWidthPerCell
+  // );
 
   return (
     <div class="page-content">
@@ -95,7 +95,7 @@ const ListServiceComponent = (props) => {
                       showSizeChanger: true,
                       ...pagination,
                     }}
-                    scroll={{ x: dataTable.tableWidth, y: tableHeight }}
+                    // scroll={{ x: dataTable.tableWidth, y: tableHeight }}
                   />
                 </div>
               </div>

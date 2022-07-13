@@ -67,28 +67,28 @@ const ListServicesContainer = (props) => {
     }
   };
 
-  const columns = [
-    { dataIndex: "no", title: "No" },
-    { dataIndex: "type", title: "Tipe" },
-    { dataIndex: "customer_name", title: "Customer" },
-    { dataIndex: "employees", title: "Teknisi" },
-    { dataIndex: "unit_models", title: "Unit" },
-    { dataIndex: "due", title: "Due Date" },
-    { dataIndex: "status", title: "Status" },
-    { dataIndex: "created_date", title: "Dibuat" },
-    { dataIndex: "action", title: "Aksi", fixed: "right" },
-  ];
+  // const columns = [
+  //   { dataIndex: "no", title: "No" },
+  //   { dataIndex: "type", title: "Tipe" },
+  //   { dataIndex: "customer_name", title: "Customer" },
+  //   { dataIndex: "employees", title: "Teknisi" },
+  //   { dataIndex: "unit_models", title: "Unit" },
+  //   { dataIndex: "due", title: "Due Date" },
+  //   { dataIndex: "status", title: "Status" },
+  //   { dataIndex: "created_date", title: "Dibuat" },
+  //   { dataIndex: "action", title: "Aksi", fixed: "right" },
+  // ];
 
-  const source = listServices.map((service) => ({
-    no: service.no,
-    type: service.type,
-    customer_name: service.customer_name,
-    unit_models: service.unit_models,
-    due: service.due,
-    status: service.status,
-    created_date: service.created_date,
-    action: service.actions,
-  }));
+  // const source = listServices.map((service) => ({
+  //   no: service.no,
+  //   type: service.type,
+  //   customer_name: service.customer_name,
+  //   unit_models: service.unit_models,
+  //   due: service.due,
+  //   status: service.status,
+  //   created_date: service.created_date,
+  //   action: service.actions,
+  // }));
 
   const headers = [
     {
@@ -230,7 +230,7 @@ const ListServicesContainer = (props) => {
   return (
     <ListServicesComponent
       headers={headers}
-      listServices={source}
+      listServices={listServices}
       renderActionTable={renderActionTable}
       handlePressEdit={handlePressEdit}
       onChangePagination={onChangePagination}
@@ -238,7 +238,7 @@ const ListServicesContainer = (props) => {
       paging={paging}
       enumType={enumTypeExternalServices}
       enumStatus={SelectStatusServices}
-      columns={columns}
+      // columns={columns}
     />
   );
 };

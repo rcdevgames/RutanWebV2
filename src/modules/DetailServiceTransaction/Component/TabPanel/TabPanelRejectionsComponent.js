@@ -36,7 +36,7 @@ const RenderDailies = ({ rejections }) => {
       created_date: moment(item.created_date).format("DD-MMM-YYYY"),
     });
   });
-  return <Table columns={columns} dataSource={data} size="middle" />;
+  return <Table bordered columns={columns} dataSource={data} size="middle" />;
 };
 
 const TabPanelRejectionsComponent = (props) => {

@@ -12,7 +12,6 @@ import {
 import Text from "antd/lib/typography/Text";
 import moment from "moment";
 import React from "react";
-import "../Style/PrintPdfStyle.css";
 import Meta from "antd/lib/card/Meta";
 import { Themes } from "../../../property/colors";
 

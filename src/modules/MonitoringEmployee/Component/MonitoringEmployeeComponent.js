@@ -106,6 +106,7 @@ const MonitoringEmployeeComponent = (props) => {
                 </div>
                 <div class="table-responsive">
                   <Table
+                    bordered
                     columns={headers}
                     dataSource={listMonitoringEmployee}
                     size={"small"}

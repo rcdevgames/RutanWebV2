@@ -64,7 +64,7 @@ const RenderDailies = ({ dailies, handlePressEdit }) => {
       jam: item.hours,
     });
   });
-  return <Table columns={columns} dataSource={data} size="middle" />;
+  return <Table bordered columns={columns} dataSource={data} size="middle" />;
 };
 
 const TabPanelDailiesComponent = (props) => {

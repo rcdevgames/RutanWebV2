@@ -92,6 +92,7 @@ const DashboardComponent = (props) => {
                 {/* <canvas id="monthly-sales-chart"></canvas> */}
                 <div class="table-responsive">
                   <Table
+                    bordered
                     columns={headers}
                     dataSource={listServices}
                     size={"middle"}

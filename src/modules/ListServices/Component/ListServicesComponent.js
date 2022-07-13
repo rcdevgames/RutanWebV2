@@ -1,6 +1,6 @@
 import React from "react";
 import { Badge, Divider, Input, Table } from "antd";
-import { categoryServices } from "../../../app/Helpers";
+import { calculateColumnsWidth, categoryServices } from "../../../app/Helpers";
 import CSelect from "../../../components/CSelect/CSelect";
 
 const { Search } = Input;
@@ -14,6 +14,7 @@ const ListServiceComponent = (props) => {
     onChangePagination,
     paging,
     onSearch,
+    columns,
   } = props;
 
   const pagination = {
@@ -22,6 +23,16 @@ const ListServiceComponent = (props) => {
     pageSize: paging.limit,
     onChange: onChangePagination,
   };
+  const tableHeight = 500;
+  const maxWidthPerCell = 600;
+
+  // This helper function helps to calculate the width for each column
+  // based on all table cells - column cell and source cell
+  const dataTable = calculateColumnsWidth(
+    columns,
+    listServices,
+    maxWidthPerCell
+  );
 
   return (
     <div class="page-content">
@@ -74,6 +85,7 @@ const ListServiceComponent = (props) => {
                 </div>
                 <div class="table-responsive">
                   <Table
+                    bordered
                     columns={headers}
                     dataSource={listServices}
                     size={"middle"}
@@ -83,6 +95,7 @@ const ListServiceComponent = (props) => {
                       showSizeChanger: true,
                       ...pagination,
                     }}
+                    scroll={{ x: dataTable.tableWidth, y: tableHeight }}
                   />
                 </div>
               </div>

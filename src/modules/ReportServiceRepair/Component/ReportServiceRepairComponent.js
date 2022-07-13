@@ -69,6 +69,7 @@ const ReportServiceRepairComponent = (props) => {
                 </div>
                 <div class="table-responsive">
                   <Table
+                    bordered
                     columns={headers}
                     dataSource={listServiceRepair}
                     size={"small"}

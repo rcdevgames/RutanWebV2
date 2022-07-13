@@ -69,6 +69,7 @@ const ReportEmployeeComponent = (props) => {
                 </div>
                 <div class="table-responsive">
                   <Table
+                    bordered
                     columns={headers}
                     dataSource={listReportEmployee}
                     size={"small"}

@@ -77,6 +77,7 @@ const CTableAntd = (props) => {
 
   return (
     <Table
+      bordered
       id={id ?? "my-table-customize"}
       columns={columns}
       dataSource={data}

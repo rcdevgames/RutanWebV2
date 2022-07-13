@@ -95,7 +95,7 @@ const ListServicesContainer = (props) => {
       title: "No",
       dataIndex: "no",
       key: "no",
-      width: "5%",
+      width: "7%",
       sorter: (a, b) => a.no - b.no,
     },
     {

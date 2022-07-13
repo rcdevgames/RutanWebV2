@@ -32,7 +32,7 @@ const ToolsContainer = (props) => {
       title: "No",
       dataIndex: "no",
       key: "no",
-      width: "10%",
+      width: "7%",
       sorter: (a, b) => a.no - b.no,
     },
     {

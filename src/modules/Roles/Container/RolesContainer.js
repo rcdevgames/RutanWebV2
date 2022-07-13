@@ -28,7 +28,7 @@ const RolesContainer = (props) => {
       title: "No",
       dataIndex: "no",
       key: "no",
-      width: "30%",
+      width: "7%",
       sorter: (a, b) => a.no - b.no,
     },
     {

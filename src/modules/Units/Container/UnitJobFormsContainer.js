@@ -65,7 +65,7 @@ const UnitJobFormsContainer = (props) => {
     <UnitJobFormsComponent
       headers={headers}
       selectedUnitsData={selectedUnitsData}
-      listUnitSerialNumber={listUnitJobForms}
+      listUnitJobForms={listUnitJobForms}
       onSearch={onSearch}
       // {...props}
     />

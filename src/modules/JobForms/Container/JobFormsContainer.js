@@ -32,7 +32,7 @@ const JobFormsContainer = (props) => {
       title: "No",
       dataIndex: "no",
       key: "no",
-      width: "30%",
+      width: "7%",
       sorter: (a, b) => a.no - b.no,
     },
     {
@@ -46,7 +46,7 @@ const JobFormsContainer = (props) => {
       title: "Deskripsi",
       dataIndex: "description",
       key: "description",
-      width: "30%",
+      width: "40%",
       sorter: (a, b) => a.description.length - b.description.length,
     },
   ];

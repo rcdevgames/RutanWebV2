@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/app/style/tableStyle.css"],"names":[],"mappings":"AAAA,oBAAsB,cAAiB","file":"main.9fe79e71.chunk.css","sourcesContent":[".ant-table table td { font-size: 12px; }"]}

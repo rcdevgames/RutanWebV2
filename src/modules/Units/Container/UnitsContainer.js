@@ -23,6 +23,7 @@ const UnitsContainer = (props) => {
     handlePressAddNew,
     handlePressUnitModel,
     handlePressUnitFields,
+    handlePressLink,
     units: { listUnits, paging },
   } = props;
 
@@ -38,14 +39,16 @@ const UnitsContainer = (props) => {
 
   const renderActionTable = (text, record) => (
     <Space size="middle">
-      <CButtonAntd
-        onClick={() => {
-          handlePressEdit(record);
-        }}
-        type="primary"
-        icon={<EditOutlined />}
-        size="middle"
-      />
+      <Tooltip placement="topLeft" title="Edit unit">
+        <CButtonAntd
+          onClick={() => {
+            handlePressEdit(record);
+          }}
+          type="primary"
+          icon={<EditOutlined />}
+          size="middle"
+        />
+      </Tooltip>
       <Tooltip placement="top" title={tooltipText}>
         <CButtonAntd
           onClick={() => handlePressUnitModel(record.id)}
@@ -84,9 +87,10 @@ const UnitsContainer = (props) => {
       key: "name",
       width: "30%",
       sorter: (a, b) => a.name.length - b.name.length,
-      render: (unit) => (
+      render: (unit, record) => (
         <Button
           block
+          onClick={() => handlePressLink(record)}
           type="link"
           style={{ whiteSpace: "normal", textAlign: "left" }}
         >
@@ -189,6 +193,14 @@ const mapDispatchToProps = (dispatch) => ({
     await dispatch(UnitsActions.setSelectedUnitData(record));
     setTimeout(() => {
       navigate("unit-fields");
+    }, 500);
+  },
+  handlePressLink: async (record) => {
+    await dispatch(ComponentActions.setGlobalLoading(true));
+    await dispatch(UnitsActions.setSelectedUnitId(record.id));
+    await dispatch(UnitsActions.setSelectedUnitData(record));
+    setTimeout(() => {
+      navigate("unit-job-forms");
     }, 500);
   },
 });

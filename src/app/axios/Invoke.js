@@ -235,7 +235,10 @@ Invoke.setApprovedService = (jobId) => {
   return ConfigAxios.get(`/m_services/approve/${jobId}`);
 };
 Invoke.setRejectedService = (jobId, payload) => {
-  return ConfigAxios.post(`/m_services/reject/${jobId}?allowReject=true`, payload);
+  return ConfigAxios.post(
+    `/m_services/reject/${jobId}?allowReject=true`,
+    payload
+  );
 };
 // === End Service API ===
 
@@ -347,6 +350,9 @@ Invoke.getListUnitFields = (page, limit, unitId, keyword) => {
   return ConfigAxios.get(
     `/units/fields/${unitId}?page=${page}&limit=${limit}&q=${keyword}`
   );
+};
+Invoke.getListUnitJobForms = (unitId, jobFormId) => {
+  return ConfigAxios.get(`/units/job_forms/${unitId}?job_form_id=${jobFormId}`);
 };
 Invoke.addUnitFields = (payload) => {
   return ConfigAxios.post(`/units/fields`, payload);

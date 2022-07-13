@@ -1,7 +1,6 @@
 import React from "react";
-import { Input, Table } from "antd";
+import { Input, Table, Tooltip } from "antd";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
-import CTableAntd from "../../../components/CTable/CTableAntd";
 import { PlusOutlined } from "@ant-design/icons";
 import UnitsModalContainer from "../Container/UnitsModalContainer";
 
@@ -11,7 +10,6 @@ const UnitsComponent = (props) => {
   const {
     headers,
     listUnits,
-    renderActionTable,
     handlePressAddNew,
     onChangePagination,
     paging,
@@ -36,14 +34,16 @@ const UnitsComponent = (props) => {
                 </div>
                 <div class="row d-flex justify-content-between mb-2">
                   <div class="col-md-7">
-                    <CButtonAntd
-                      onClick={handlePressAddNew}
-                      type="primary"
-                      icon={<PlusOutlined />}
-                      size="middle"
-                    >
-                      Tambah Unit
-                    </CButtonAntd>
+                    <Tooltip placement="top" title="Edit unit">
+                      <CButtonAntd
+                        onClick={handlePressAddNew}
+                        type="primary"
+                        icon={<PlusOutlined />}
+                        size="middle"
+                      >
+                        Tambah Unit
+                      </CButtonAntd>
+                    </Tooltip>
                   </div>
                   <div class="col-md-4">
                     <Search

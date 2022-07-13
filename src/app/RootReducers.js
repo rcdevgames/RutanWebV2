@@ -30,6 +30,7 @@ import divisionReducer from "../modules/Division/Store/DivisionReducer";
 import divisionUnitReducer from "../modules/Division/Store/DivisionUnitReducer";
 import dashboardReducer from "../modules/Dashboard/Store/DashboardReducer";
 import unitSerialNumberReducer from "../modules/Units/Store/UnitSerialNumberReducer";
+import unitJobFormsReducer from "../modules/Units/Store/UnitJobFormsReducer";
 
 const rootReducers = combineReducers({
   router: connectRouter(history),
@@ -42,6 +43,7 @@ const rootReducers = combineReducers({
   unitModels: unitModelReducer,
   unitFields: unitFieldsReducer,
   unitSerialNumber: unitSerialNumberReducer,
+  unitJobForms: unitJobFormsReducer,
   jobForms: jobFormsReducer,
   customers: customersReducer,
   employees: employeesReducer,

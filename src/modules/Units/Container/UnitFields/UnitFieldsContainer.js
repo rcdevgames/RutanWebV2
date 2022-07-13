@@ -51,6 +51,13 @@ const UnitFieldsContainer = (props) => {
       sorter: (a, b) => a.name.length - b.name.length,
     },
     {
+      title: "Kategori",
+      dataIndex: "category_form_name",
+      key: "category_form_name",
+      width: "30%",
+      sorter: (a, b) => a.category_form_name.length - b.category_form_name.length,
+    },
+    {
       title: "Deskripsi",
       dataIndex: "descriptions",
       key: "descriptions",

@@ -21,6 +21,12 @@ const DashboardContainer = (props) => {
     services: { dashboardListServices },
     dashboard: { dashboardData },
   } = props;
+  if (dashboardListServices.length > 0) {
+    dashboardListServices.map((item, index) => {
+      dashboardListServices[index] = { ...item, no: index + 1 };
+    });
+  }
+
   React.useEffect(() => {
     store.dispatch(setGlobalLoading(false));
     ListServiceActions.getTopTenService();

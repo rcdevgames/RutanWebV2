@@ -16,29 +16,29 @@ import { Themes } from "../../../property/colors";
 import RejectedModalContainer from "../Container/RejectedModalContainer";
 import EditModalTransactionContainer from "../Container/EditModalTransactionContainer";
 import EditModalDailiesContainer from "../Container/EditModalDailiesContainer";
-import ReactToPrint from "react-to-print";
-import ServiceReportPdfPrint from "./ServiceReportPdfPrint";
+// import ReactToPrint from "react-to-print";
+// import ServiceReportPdfPrint from "./ServiceReportPdfPrint";
 
 const { Text } = Typography;
 const { TabPane } = Tabs;
 
-const pageStyle = `
-  @page {
-    size: 80mm 50mm;
-  }
+// const pageStyle = `
+//   @page {
+//     size: 80mm 50mm;
+//   }
 
-  @media all {
-    .pagebreak {
-      display: none;
-    }
-  }
+//   @media all {
+//     .pagebreak {
+//       display: none;
+//     }
+//   }
 
-  @media print {
-    .pagebreak {
-      page-break-before: always;
-    }
-  }
-`;
+//   @media print {
+//     .pagebreak {
+//       page-break-before: always;
+//     }
+//   }
+// `;
 
 const DetailServiceTransactionComponent = (props) => {
   const {
@@ -49,13 +49,13 @@ const DetailServiceTransactionComponent = (props) => {
     goBack,
     handlePressActions,
     handlePressEdit,
-    medias,
-    checklist,
-    employees,
-    dailies,
-    summary,
+    // medias,
+    // checklist,
+    // employees,
+    // dailies,
+    // summary,
   } = props;
-  let componentRef = React.useRef();
+  // let componentRef = React.useRef();
 
   const RenderButtonAction = ({ status }) => {
     let button;
@@ -285,7 +285,7 @@ const DetailServiceTransactionComponent = (props) => {
       <EditModalTransactionContainer />
       <EditModalDailiesContainer />
       {/* component to be printed */}
-      <div style={{ display: "none", width: "100%", flex: 1 }}>
+      {/* <div style={{ display: "none", width: "100%", flex: 1 }}>
         <ServiceReportPdfPrint
           ref={(el) => (componentRef = el)}
           data={data}
@@ -295,7 +295,7 @@ const DetailServiceTransactionComponent = (props) => {
           dailies={dailies}
           summary={summary}
         />
-      </div>
+      </div> */}
     </div>
   );
 };

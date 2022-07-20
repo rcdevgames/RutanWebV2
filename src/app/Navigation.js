@@ -42,6 +42,7 @@ import DivisionUnitContainer from "../modules/Division/Container/DivisionUnit/Di
 import DetailServiceReportContainer from "../modules/ReportPdf/Containers/DetailServiceReportContainer";
 import UnitSerialNumberContainer from "../modules/Units/Container/UnitSerialNumber/UnitSerialNumberContainer";
 import UnitJobFormsContainer from "../modules/Units/Container/UnitJobFormsContainer";
+import WorkingHoursContainer from "../modules/WorkingHours/Container/WorkingHoursContainer";
 
 export default function Navigation() {
   const authenticatedPage = (component, footerImg, footer) => {
@@ -89,6 +90,7 @@ export default function Navigation() {
     true
   );
   const ReportEmployee = authenticatedPage(ReportEmployeeContainer, true);
+  const WorkingHours = authenticatedPage(WorkingHoursContainer, true);
   const ListServices = authenticatedPage(ListServicesContainer, true);
   const ReportIdentification = authenticatedPage(
     ReportIdentificationContainer,
@@ -159,6 +161,7 @@ export default function Navigation() {
         <Route exact path="/list_service" component={ListServices} />
         <Route exact path="/detail-services" component={DetailService} />
         <Route exact path="/report_employee" component={ReportEmployee} />
+        <Route exact path="/working-hours" component={WorkingHours} />
         <Route
           exact
           path="/report_identification"

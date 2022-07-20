@@ -31,6 +31,7 @@ import divisionUnitReducer from "../modules/Division/Store/DivisionUnitReducer";
 import dashboardReducer from "../modules/Dashboard/Store/DashboardReducer";
 import unitSerialNumberReducer from "../modules/Units/Store/UnitSerialNumberReducer";
 import unitJobFormsReducer from "../modules/Units/Store/UnitJobFormsReducer";
+import workingHoursReducer from "../modules/WorkingHours/Store/WorkingHoursReducer";
 
 const rootReducers = combineReducers({
   router: connectRouter(history),
@@ -50,6 +51,7 @@ const rootReducers = combineReducers({
   employeeTools: employeeToolsReducer,
   component: ComponentReducer,
   identification: identificationReducer,
+  workingHours: workingHoursReducer,
   masters: masterDataReducer,
   branch: branchReducer,
   formCategory: formCategoryReducer,

@@ -80,6 +80,9 @@ const TemplateContainer = (props) => {
       case "/report_employee":
         return "list";
 
+      case "/working-hours":
+        return "clock";
+
       default:
         return "command";
     }
@@ -124,7 +127,8 @@ const TemplateContainer = (props) => {
       } else if (
         item.path === "/report_trans" ||
         item.path === "/report_employee" ||
-        item.path === "/report_identification"
+        item.path === "/report_identification" ||
+        item.path === "/working-hours"
       ) {
         reportDataMenu.push(menu);
       } else {

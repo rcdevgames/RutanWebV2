@@ -554,6 +554,13 @@ Invoke.getReportEmployee = (page, limit, from, until, keyword, branchId) => {
   );
 };
 
+// Working Hours
+Invoke.getWorkingHours = (page, limit, from, until, keyword) => {
+  return ConfigAxios.get(
+    `/services/monitor/hour?startDate=${from}&endDate=${until}&page=${page}&limit=${limit}&q=${keyword}`
+  );
+};
+
 // Download pdf from server
 Invoke.getTransactionPdfUrl = (jobId) => {
   return ConfigAxios.get(`/services/print_job/${jobId}`);

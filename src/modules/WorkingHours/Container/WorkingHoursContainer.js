@@ -6,8 +6,7 @@ import * as BranchActions from "../../Branch/Store/BranchActions";
 import { store } from "../../../app/ConfigureStore";
 import {
   enumTypeMonitoringEmployee,
-  SelectStatusServices,
-  getStatus,
+  getStatusWorkingHours,
 } from "../../../app/Helpers";
 import { Tag, Typography } from "antd";
 import WorkingHoursComponent from "../Component/WorkingHoursComponent";
@@ -105,20 +104,20 @@ const WorkingHoursContainer = (props) => {
       width: "30%",
       sorter: (a, b) => a.status.length - b.status.length,
       render: (status) => {
-        let color = getStatus(status).color;
+        let color = getStatusWorkingHours(status).color;
         return (
           <Tag style={{ width: 112, textAlign: "center" }} color={color}>
-            {status ? getStatus(status).value : "-"}
+            {status ? getStatusWorkingHours(status).value : "-"}
           </Tag>
         );
       },
     },
     {
       title: "Tanggal Selesai",
-      dataIndex: "done_date",
-      key: "done_date",
+      dataIndex: "done",
+      key: "done",
       width: "30%",
-      sorter: (a, b) => a.done_date.length - b.done_date.length,
+      sorter: (a, b) => a.done.length - b.done.length,
     },
   ];
 

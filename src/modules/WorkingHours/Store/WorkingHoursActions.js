@@ -56,6 +56,7 @@ export const getWorkingHoursListDataRequested = async (
       data.callback.data.map((item, index) => {
         newListWorkingHours.push({
           created: moment(item.created_date).format("YYYY-MM-DD"),
+          done: moment(item.done_date).format("YYYY-MM-DD"),
           ...item,
         });
       });

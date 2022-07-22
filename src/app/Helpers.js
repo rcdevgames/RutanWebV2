@@ -307,6 +307,32 @@ export const getStatus = (status = "") => {
   return statusItem;
 };
 
+export const getStatusWorkingHours = (status = "") => {
+  let statusItem = {};
+  switch (status.toUpperCase()) {
+    case "S1":
+      statusItem = { value: "Draft", color: "#fff566" };
+      break;
+    case "S2":
+      statusItem = { value: "Progress", color: "#108ee9" };
+      break;
+    case "S3":
+      statusItem = { value: "Completed", color: "#95de64" };
+      break;
+    case "S4":
+      statusItem = { value: "Approved", color: "#95de64" };
+      break;
+    case "S5":
+      statusItem = { value: "Rejected", color: "#f50" };
+      break;
+    default:
+      statusItem = { value: "-", color: "#f50" };
+      break;
+  }
+
+  return statusItem;
+};
+
 // This list not used
 export const machineConf = [
   {

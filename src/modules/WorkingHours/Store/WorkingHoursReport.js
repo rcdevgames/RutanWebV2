@@ -1,6 +1,7 @@
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import moment from "moment";
+import { getStatusWorkingHours } from "../../../app/Helpers";
 
 export const exportWorkingHoursReportPdf = (data, values) => {
   const { listWorkingHours, from, until } = data;
@@ -17,7 +18,7 @@ export const exportWorkingHoursReportPdf = (data, values) => {
       customerName: item.customer_name,
       type: item.job_type,
       totalHours: item.total_hours,
-      status: item.status,
+      status: item.status ? getStatusWorkingHours(item.status).value : "-",
       createdDate: item.created,
       doneDate: item.done,
     });

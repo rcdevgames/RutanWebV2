@@ -1,6 +1,5 @@
 import React from "react";
 import { Badge, Divider, Table } from "antd";
-import { categoryMonitoringServices } from "../../../app/Helpers";
 import CDatePicker from "../../../components/CDatePicker/CDatePicker";
 import CSelect from "../../../components/CSelect/CSelect";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
@@ -17,6 +16,7 @@ const WorkingHoursComponent = (props) => {
     onChangePagination,
     paging,
     onSearch,
+    handlePressGeneratePdf,
   } = props;
 
   const pagination = {
@@ -63,6 +63,14 @@ const WorkingHoursComponent = (props) => {
                         Cari
                       </CButtonAntd>
                       <div class="ml-2" />
+                      <CButtonAntd
+                        onClick={handlePressGeneratePdf}
+                        type="primary"
+                        icon={<FilePdfOutlined />}
+                        size="middle"
+                      >
+                        Cetak Laporan
+                      </CButtonAntd>
                     </div>
                   </div>
                 </div>

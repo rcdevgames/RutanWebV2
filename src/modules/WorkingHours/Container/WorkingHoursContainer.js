@@ -10,6 +10,8 @@ import {
 } from "../../../app/Helpers";
 import { Tag, Typography } from "antd";
 import WorkingHoursComponent from "../Component/WorkingHoursComponent";
+import { exportWorkingHoursReportPdf } from "../Store/WorkingHoursReport";
+import moment from "moment";
 
 const WorkingHoursContainer = (props) => {
   const {
@@ -21,6 +23,12 @@ const WorkingHoursContainer = (props) => {
   } = props;
 
   const { page, limit, totalPage } = paging;
+
+  const printedData = {
+    listWorkingHours,
+    from: moment(),
+    until: moment(),
+  };
 
   if (listWorkingHours.length > 0) {
     listWorkingHours.map((item, index) => {
@@ -151,7 +159,7 @@ const WorkingHoursContainer = (props) => {
   };
 
   const handlePressGeneratePdf = () => {
-    // exportMonitoringEmployeePdf(printedData, monitoringEmployeeFormValues);
+    exportWorkingHoursReportPdf(printedData, workingHoursFormValues);
   };
 
   return (

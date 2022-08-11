@@ -17,6 +17,7 @@ import moment from "moment";
 
 const ListServicesContainer = (props) => {
   const {
+    user: { roles },
     getListServices,
     handlePressEdit,
     handlePressDelete,
@@ -31,6 +32,7 @@ const ListServicesContainer = (props) => {
       listServices[index] = { ...item, no: getIndex(page, limit)[index] };
     });
   }
+  console.log("=== roles : ", roles);
 
   const renderActionTable = (text, record) => (
     <Space size="middle">
@@ -42,13 +44,15 @@ const ListServicesContainer = (props) => {
         icon={<EditOutlined />}
         size="middle"
       />
-      <CButtonAntd
-        onClick={() => handlePressDelete(record.id)}
-        type="primary"
-        icon={<DeleteOutlined />}
-        size="middle"
-        danger
-      />
+      {roles[0].name === "Administrator" && (
+        <CButtonAntd
+          onClick={() => handlePressDelete(record.id)}
+          type="primary"
+          icon={<DeleteOutlined />}
+          size="middle"
+          danger
+        />
+      )}
     </Space>
   );
 
@@ -246,6 +250,7 @@ const ListServicesContainer = (props) => {
 const mapStateToProps = (state) => ({
   services: state.services,
   listServiceFormValues: getFormValues("listServices")(state),
+  user: state.auth.userDetail,
 });
 const mapDispatchToProps = (dispatch) => ({
   getListServices: (page, limit, keyword, filterValues) => {

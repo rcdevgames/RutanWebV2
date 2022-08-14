@@ -290,13 +290,16 @@ export const getMachineConf = (data) => {
 export const getStatus = (status = "") => {
   let statusItem = {};
   switch (status.toUpperCase()) {
-    case "S1":
+    case "S2":
       statusItem = { value: "Progress", color: "#108ee9" };
       break;
-    case "S2":
-      statusItem = { value: "Finished", color: "#87d068" };
-      break;
     case "S3":
+      statusItem = { value: "Completed", color: "#87d068" };
+      break;
+    case "S4":
+      statusItem = { value: "Approved", color: "#87d068" };
+      break;
+    case "S5":
       statusItem = { value: "Rejected", color: "#f50" };
       break;
     default:

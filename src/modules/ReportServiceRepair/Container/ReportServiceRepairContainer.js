@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { getFormValues, reduxForm } from "redux-form";
-import { EditOutlined, BookOutlined } from "@ant-design/icons";
+import { BookOutlined } from "@ant-design/icons";
 import { enumTypeMonitoringEmployee, getStatus } from "../../../app/Helpers";
 import * as ReportServiceRepairActions from "../Store/ReportServiceRepairActions";
 import Text from "antd/lib/typography/Text";
@@ -9,6 +9,8 @@ import { Space, Tag } from "antd";
 import ReportServiceRepairComponent from "../Component/ReportServiceRepairComponent";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import moment from "moment";
+import * as ListServiceActions from "../../ListServices/Store/ListServicesActions";
+
 
 const ReportServiceRepairContainer = (props) => {
   const {
@@ -218,6 +220,7 @@ const mapDispatchToProps = (dispatch) => ({
       from,
       until
     ),
+  handlePressEdit: async (value) => ListServiceActions.handlePressEdit(value),
 });
 
 const EnhanceContainer = connect(

@@ -32,35 +32,16 @@ const DetailServiceTransactionContainer = (props) => {
     services: { selectedJobService },
     detailService: {
       selectedServiceEmployeeList,
-      selectedServiceSummary,
-      selectedServiceMedia,
       groupingSelectedServiceMedia,
       groupingSelectedServiceSummary,
       groupingSelectedServiceChecklist,
       selectedServiceDailies,
       selectedServiceHistories,
-      selectedServiceChecklist,
       selectedServiceRejected,
-      selectedUnit,
     },
   } = props;
   const { dispatch } = store;
   const [isLoadedChecklist, setIsLoadedChecklist] = React.useState(false);
-
-  const printedData = {
-    selectedJobService,
-    selectedServiceEmployeeList,
-    selectedServiceSummary,
-    selectedServiceMedia,
-    selectedServiceDailies,
-    selectedServiceHistories,
-    selectedServiceChecklist,
-    selectedServiceRejected,
-    selectedUnit,
-    groupingSelectedServiceMedia,
-    groupingSelectedServiceSummary,
-    groupingSelectedServiceChecklist,
-  };
 
   const TabPanel = [
     {

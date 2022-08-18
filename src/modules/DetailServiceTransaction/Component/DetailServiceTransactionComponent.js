@@ -90,15 +90,6 @@ const DetailServiceTransactionComponent = (props) => {
         button = (
           <>
             <div class="ml-3" />
-            <CButtonAntd
-              onClick={() => handlePressActions(data.id, "rejected")}
-              type="primary"
-              icon={<CloseCircleOutlined />}
-              size="middle"
-              backgroundColor={Themes.warning}
-            >
-              Reject
-            </CButtonAntd>
             <div class="ml-3" />
             <CButtonAntd
               onClick={() => handlePressActions(data.id, "finished")}

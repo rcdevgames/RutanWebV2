@@ -542,3 +542,55 @@ export const calculateColumnsWidth = (
     tableWidth,
   };
 };
+
+// Check if roles is blocked on menu list service:
+export const isBlockedRoleListService = (role) => {
+  let isBlocked;
+  switch (role) {
+    case "b58df788-26e0-4d41-a3af-39ac1005a2bc":
+      isBlocked = true;
+      break;
+
+    case "1b775fda-6798-4769-b31b-b0eecacb3381":
+      isBlocked = true;
+      break;
+
+    case "b7e003a1-5574-4a03-96fa-c71e6714d269":
+      isBlocked = true;
+      break;
+
+    case "7cf419b8-9275-479b-846a-cda27aa173eb":
+      isBlocked = true;
+      break;
+
+    default:
+      isBlocked = false;
+      break;
+  }
+
+  return isBlocked;
+};
+
+// Check if roles is blocked on menu customer:
+export const isBlockedRoleCustomer = (role) => {
+  let isBlocked = false;
+  switch (role) {
+    case "b58df788-26e0-4d41-a3af-39ac1005a2bc":
+      isBlocked = true;
+      break;
+
+    case "1b775fda-6798-4769-b31b-b0eecacb3381":
+      isBlocked = true;
+      break;
+
+    case "7cf419b8-9275-479b-846a-cda27aa173eb":
+      isBlocked = true;
+      break;
+
+    default:
+      isBlocked = false;
+      break;
+  }
+
+  return isBlocked;
+};

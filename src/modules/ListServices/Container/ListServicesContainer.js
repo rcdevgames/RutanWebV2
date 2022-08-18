@@ -6,6 +6,7 @@ import { store } from "../../../app/ConfigureStore";
 import {
   enumTypeExternalServices,
   getIndex,
+  isBlockedRoleListService,
   SelectStatusServices,
 } from "../../../app/Helpers";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
@@ -24,6 +25,7 @@ const ListServicesContainer = (props) => {
     services: { listServices, paging },
     listServiceFormValues,
   } = props;
+  const [isBlocked, setisBlocked] = React.useState(false);
 
   const { page, limit, totalPage } = paging;
 
@@ -32,7 +34,6 @@ const ListServicesContainer = (props) => {
       listServices[index] = { ...item, no: getIndex(page, limit)[index] };
     });
   }
-  console.log("=== roles : ", roles);
 
   const renderActionTable = (text, record) => (
     <Space size="middle">
@@ -214,8 +215,20 @@ const ListServicesContainer = (props) => {
     },
   ];
 
-  React.useEffect(() => {
+  const checkBlockedRole = () => {
     getListServices(page, limit);
+
+    const roleId = roles[0].role_id;
+    const isBlockedRole = isBlockedRoleListService(roleId);
+    if (isBlockedRole) {
+      setisBlocked(isBlockedRole);
+    } else {
+      setisBlocked(false);
+    }
+  };
+
+  React.useEffect(() => {
+    checkBlockedRole();
   }, []);
 
   const onChangePagination = async (nextPage, pageSize) => {

@@ -10,12 +10,13 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import CustomerComponent from "../Component/CustomerComponent";
 import { store } from "../../../app/ConfigureStore";
-import { getIndex } from "../../../app/Helpers";
+import { getIndex, isBlockedRoleCustomer } from "../../../app/Helpers";
 
 const selector = formValueSelector("customerForm");
 
 const CustomerContainer = (props) => {
   const {
+    user: { roles },
     getListCustomer,
     getListBranch,
     getListProvince,
@@ -26,6 +27,7 @@ const CustomerContainer = (props) => {
     customers: { listCustomers, paging, keyword },
     branch: { listBranch },
   } = props;
+  const [isBlocked, setisBlocked] = React.useState(false);
 
   const { page, totalPage, limit } = paging;
 
@@ -102,10 +104,22 @@ const CustomerContainer = (props) => {
     </Space>
   );
 
-  React.useEffect(() => {
+  const checkBlockedRole = () => {
     getListCustomer(1, 10, "");
+
+    const roleId = roles[0].role_id;
+    const isBlockedRole = isBlockedRoleCustomer(roleId);
+    if (isBlockedRole) {
+      setisBlocked(isBlockedRole);
+    } else {
+      setisBlocked(false);
+    }
+  };
+
+  React.useEffect(() => {
     getListBranch();
     getListProvince();
+    checkBlockedRole();
   }, []);
 
   const onChangePagination = async (nextPage) => {
@@ -125,6 +139,7 @@ const CustomerContainer = (props) => {
     <CustomerComponent
       headers={headers}
       paging={paging}
+      isBlocked={isBlocked}
       listCustomers={listCustomers}
       renderActionTable={renderActionTable}
       handlePressAddNew={handlePressAddNew}
@@ -140,6 +155,7 @@ const mapStateToProps = (state) => ({
   customers: state.customers,
   branch: state.branch,
   customerBranchValue: selector(state, "branch"),
+  user: state.auth.userDetail,
 });
 const mapDispatchToProps = (dispatch) => ({
   getListCustomer: (page, limit, keyword, branchId) => {

@@ -16,7 +16,7 @@ const selector = formValueSelector("customerForm");
 
 const CustomerContainer = (props) => {
   const {
-    user: { roles },
+    user: { roles, branchId },
     getListCustomer,
     getListBranch,
     getListProvince,
@@ -105,10 +105,19 @@ const CustomerContainer = (props) => {
   );
 
   const checkBlockedRole = () => {
-    getListCustomer(1, 10, "");
-
     const roleId = roles[0].role_id;
     const isBlockedRole = isBlockedRoleCustomer(roleId);
+
+    if (branchId) {
+      if (isBlockedRole) {
+        getListCustomer(1, 10, "", branchId);
+      } else {
+        getListCustomer(1, 10, "");
+      }
+    } else {
+      getListCustomer(1, 10, "");
+    }
+
     if (isBlockedRole) {
       setisBlocked(isBlockedRole);
     } else {
@@ -132,7 +141,18 @@ const CustomerContainer = (props) => {
   };
 
   const onSearch = (val) => {
-    getListCustomer(page, limit, val, customerBranchValue);
+    const roleId = roles[0].role_id;
+    const isBlockedRole = isBlockedRoleCustomer(roleId);
+
+    if (branchId) {
+      if (isBlockedRole) {
+        getListCustomer(page, limit, val, branchId);
+      } else {
+        getListCustomer(page, limit, val, customerBranchValue);
+      }
+    } else {
+      getListCustomer(page, limit, val, customerBranchValue);
+    }
   };
 
   return (

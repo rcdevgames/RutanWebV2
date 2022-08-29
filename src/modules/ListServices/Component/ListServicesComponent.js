@@ -1,6 +1,6 @@
 import React from "react";
 import { Badge, Divider, Input, Table } from "antd";
-import { calculateColumnsWidth, categoryServices } from "../../../app/Helpers";
+import { categoryServices } from "../../../app/Helpers";
 import CSelect from "../../../components/CSelect/CSelect";
 
 const { Search } = Input;
@@ -14,7 +14,7 @@ const ListServiceComponent = (props) => {
     onChangePagination,
     paging,
     onSearch,
-    columns,
+    listEmployee
   } = props;
 
   const pagination = {
@@ -23,16 +23,6 @@ const ListServiceComponent = (props) => {
     pageSize: paging.limit,
     onChange: onChangePagination,
   };
-  // const tableHeight = 500;
-  // const maxWidthPerCell = 600;
-
-  // This helper function helps to calculate the width for each column
-  // based on all table cells - column cell and source cell
-  // const dataTable = calculateColumnsWidth(
-  //   columns,
-  //   listServices,
-  //   maxWidthPerCell
-  // );
 
   return (
     <div class="page-content">
@@ -53,6 +43,20 @@ const ListServiceComponent = (props) => {
                   ))}
                 </div>
                 <Divider orientation="left">Filter Data</Divider>
+                <div class="row d-flex mb-2">
+                  {/* This Filter */}
+                  <div class="col-md-6">
+                    <CSelect
+                      showSearch
+                      data={listEmployee ?? []}
+                      name="employee"
+                      label="Pilih Karyawan"
+                      onChange={(employee) => {
+                        // handleAutoPopulateEmployee(employee, indexEmployee);
+                      }}
+                    />
+                  </div>
+                </div>
                 <div class="row d-flex justify-content-between mb-2">
                   <div class="col-md-7">
                     <div class="row d-flex mb-2">

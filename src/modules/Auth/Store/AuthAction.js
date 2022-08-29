@@ -3,7 +3,6 @@ import { store } from "../../../app/ConfigureStore";
 import history from "../../../app/History";
 import { toastr } from "react-redux-toastr";
 import { setGlobalLoading } from "../../App/Store/ComponentAction";
-import { initializeApp } from "../../../app/InitializeApp";
 
 export const SET_ACCESS_TOKEN_DATA = "SET_ACCESS_TOKEN_DATA";
 export const SET_USER_DETAIL_DATA = "SET_USER_DETAIL_DATA";
@@ -56,8 +55,6 @@ const appendItem = async (data) =>
 export const handleSubmitLogin = async (values) => {
   const { username, password } = values;
   const payload = { username, password };
-
-  console.log("=== user pass : ", username, password);
 
   store.dispatch(setGlobalLoading(true));
 

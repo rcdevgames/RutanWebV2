@@ -492,7 +492,6 @@ export const calculateColumnsWidth = (
   maxWidthPerCell = 500
 ) => {
   const columnsParsed = JSON.parse(JSON.stringify(columns));
-  console.log("=== columnsParsed : ", columnsParsed);
 
   // First we calculate the width for each column
   // The column width is based on its string length
@@ -502,7 +501,6 @@ export const calculateColumnsWidth = (
       width: getTextWidth(column.title),
     })
   );
-  console.log("=== columnsWithWidth : ", columnsWithWidth);
 
   // Since we have a minimum width (column's width already calculated),
   // now we are going to verify if the cell value is bigger
@@ -533,8 +531,6 @@ export const calculateColumnsWidth = (
     .reduce((a, b) => {
       return a + b;
     });
-  console.log("=== tableWidth : ", tableWidth);
-  console.log("=== source : ", source);
 
   return {
     columns: columnsWithWidth,

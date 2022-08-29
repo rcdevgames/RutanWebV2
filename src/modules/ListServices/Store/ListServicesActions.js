@@ -53,7 +53,8 @@ export const getListServicesRequested = async (
   limit,
   keyword = "",
   type = "",
-  status = ""
+  status = "",
+  employeeId = ""
 ) => {
   try {
     const { data } = await Invoke.getListServices(
@@ -61,7 +62,8 @@ export const getListServicesRequested = async (
       limit,
       keyword,
       type,
-      status
+      status,
+      employeeId
     );
     const paging = {};
     paging.page = data.callback.page;
@@ -76,7 +78,7 @@ export const getListServicesRequested = async (
 
 export const getTopTenService = async () => {
   try {
-    const { data } = await Invoke.getListServices(1, 10, "", "", "");
+    const { data } = await Invoke.getListServices(1, 10, "", "", "", "");
     store.dispatch(setDashboardListService(data.callback.data));
   } catch (error) {
     console.log(error);

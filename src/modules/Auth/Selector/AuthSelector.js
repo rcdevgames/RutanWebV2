@@ -10,3 +10,7 @@ export const UserDetail = () =>
   createSelector(selectorAuth, (state) => state.userDetail);
 export const ErrorData = () =>
   createSelector(selectorAuth, (state) => state.error);
+export const UserRole = () =>
+  createSelector(selectorAuth, (state) => state?.userDetail?.roles);
+  export const UserMenus = () =>
+  createSelector(selectorAuth, (state) => state?.userDetail?.menus);

@@ -14,10 +14,18 @@ export const SET_SELECTED_EMPLOYEE_DATA = "SET_SELECTED_EMPLOYEE_DATA";
 export const SET_FORM_STATUS = "SET_FORM_STATUS";
 export const SET_SELECTED_ROLE_EMPLOYEE = "SET_SELECTED_ROLE_EMPLOYEE";
 export const SET_PAGING_EMPLOYEES = "SET_PAGING_EMPLOYEES";
+export const SET_EMPLOYEE_LIST_DROPDOWN = "SET_EMPLOYEE_LIST_DROPDOWN";
 
 export const setEmployeeListData = (payload) => {
   return {
     type: SET_EMPLOYEE_LIST_DATA,
+    payload,
+  };
+};
+
+export const setEmployeeListDropdown = (payload) => {
+  return {
+    type: SET_EMPLOYEE_LIST_DROPDOWN,
     payload,
   };
 };
@@ -80,6 +88,18 @@ export const loadEmployeeListData = async (
     paging.totalPage = data.callback.totalPage;
     store.dispatch(setEmployeeListData(data.callback.data));
     store.dispatch(setPagingEmployees(paging));
+    store.dispatch(setGlobalLoading(false));
+  } catch (error) {
+    store.dispatch(setGlobalLoading(false));
+    console.log(error);
+  }
+};
+
+export const loadEmployeeDataDropdown = async () => {
+  try {
+    const { data } = await Invoke.getEmployeeList(1, 99999999, "", "", "", "");
+
+    store.dispatch(setEmployeeListDropdown(data.callback.data));
     store.dispatch(setGlobalLoading(false));
   } catch (error) {
     store.dispatch(setGlobalLoading(false));

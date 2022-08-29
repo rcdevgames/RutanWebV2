@@ -4,6 +4,7 @@ import { change, reduxForm } from "redux-form";
 import * as ComponentActions from "../../App/Store/ComponentAction";
 import * as EmployeesActions from "../../Employees/Store/EmployeesActions";
 import * as MasterDataActions from "../../MasterData/Store/MasterDataActions";
+import * as RolesActions from "../../Roles/Store/RolesActions";
 import EmployeeEditComponent from "../Component/EmployeeEditComponent";
 import { validateFormEmployee } from "../../../app/validateForm";
 import { store } from "../../../app/ConfigureStore";
@@ -13,6 +14,7 @@ import Invoke from "../../../app/axios/Invoke";
 const EmployeeEditContainer = (props) => {
   const {
     valid,
+    getListRoles,
     handleCancel,
     component: { isModalVisible },
     roles: { listRoles },
@@ -67,6 +69,8 @@ const EmployeeEditContainer = (props) => {
   });
 
   React.useEffect(() => {
+    getListRoles();
+
     let subItem = [];
     listCity.map((item, index) => {
       subItem.push({
@@ -165,6 +169,7 @@ const mapStateToProps = (state) => ({
   masters: state.masters,
 });
 const mapDispatchToProps = (dispatch) => ({
+  getListRoles: () => RolesActions.getListRolesRequested(),
   handleCancel: () => dispatch(ComponentActions.setGlobalModal(false)),
   getDetailEmployee: async (employeeId) =>
     await EmployeesActions.getEmployeeDataByIdRequested(employeeId),

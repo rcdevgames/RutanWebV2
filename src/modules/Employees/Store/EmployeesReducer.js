@@ -5,10 +5,12 @@ import {
   SET_FORM_STATUS,
   SET_SELECTED_ROLE_EMPLOYEE,
   SET_PAGING_EMPLOYEES,
+  SET_EMPLOYEE_LIST_DROPDOWN
 } from "./EmployeesActions";
 
 export const initialState = {
   listEmployees: [],
+  listEmployeeDropdown: [],
   selectedEmployeeId: "",
   selectedEmployeeData: {},
   selectedRoleEmployee: [],
@@ -26,6 +28,10 @@ export default function employeesReducer(state = initialState, action) {
   switch (action.type) {
     case SET_EMPLOYEE_LIST_DATA:
       newState.listEmployees = action.payload;
+      return { ...newState };
+
+      case SET_EMPLOYEE_LIST_DROPDOWN:
+      newState.listEmployeeDropdown = action.payload;
       return { ...newState };
 
     case SET_SELECTED_EMPLOYEE_ID:

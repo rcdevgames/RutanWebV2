@@ -16,9 +16,9 @@ Invoke.submitLoginEmployee = (data) => {
   return ConfigAxios.post("/m_auth", data);
 };
 
-Invoke.getListServices = (page, limit, keyword, type, status) => {
+Invoke.getListServices = (page, limit, keyword, type, status, employeeId) => {
   return ConfigAxios.get(
-    `/services?page=${page}&limit=${limit}&q=${keyword}&type=${type}&status=${status}`
+    `/services?page=${page}&limit=${limit}&q=${keyword}&type=${type}&status=${status}&employeeId=${employeeId}`
   );
 };
 

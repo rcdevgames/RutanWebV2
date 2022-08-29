@@ -13,6 +13,7 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import ListServicesComponent from "../Component/ListServicesComponent";
 import * as ListServiceActions from "../Store/ListServicesActions";
+import * as EmployeeActions from "../../Employees/Store/EmployeesActions";
 import Text from "antd/lib/typography/Text";
 import moment from "moment";
 
@@ -24,6 +25,8 @@ const ListServicesContainer = (props) => {
     handlePressDelete,
     services: { listServices, paging },
     listServiceFormValues,
+    getListEmployeesDropdown,
+    listEmployee,
   } = props;
   const [isBlocked, setisBlocked] = React.useState(false);
 
@@ -71,29 +74,6 @@ const ListServicesContainer = (props) => {
         break;
     }
   };
-
-  // const columns = [
-  //   { dataIndex: "no", title: "No" },
-  //   { dataIndex: "type", title: "Tipe" },
-  //   { dataIndex: "customer_name", title: "Customer" },
-  //   { dataIndex: "employees", title: "Teknisi" },
-  //   { dataIndex: "unit_models", title: "Unit" },
-  //   { dataIndex: "due", title: "Due Date" },
-  //   { dataIndex: "status", title: "Status" },
-  //   { dataIndex: "created_date", title: "Dibuat" },
-  //   { dataIndex: "action", title: "Aksi", fixed: "right" },
-  // ];
-
-  // const source = listServices.map((service) => ({
-  //   no: service.no,
-  //   type: service.type,
-  //   customer_name: service.customer_name,
-  //   unit_models: service.unit_models,
-  //   due: service.due,
-  //   status: service.status,
-  //   created_date: service.created_date,
-  //   action: service.actions,
-  // }));
 
   const headers = [
     {
@@ -228,6 +208,7 @@ const ListServicesContainer = (props) => {
   };
 
   React.useEffect(() => {
+    getListEmployeesDropdown();
     checkBlockedRole();
   }, []);
 
@@ -244,6 +225,15 @@ const ListServicesContainer = (props) => {
     ListServiceActions.handleSearch(1, 10, val, listServiceFormValues);
   };
 
+  const SelectEmployeeData = [];
+  listEmployee.map((item, index) => {
+    SelectEmployeeData.push({
+      id: `employee-${index}`,
+      value: item.id,
+      label: item.name,
+    });
+  });
+
   return (
     <ListServicesComponent
       headers={headers}
@@ -255,6 +245,7 @@ const ListServicesContainer = (props) => {
       paging={paging}
       enumType={enumTypeExternalServices}
       enumStatus={SelectStatusServices}
+      listEmployee={SelectEmployeeData}
       // columns={columns}
     />
   );
@@ -264,6 +255,7 @@ const mapStateToProps = (state) => ({
   services: state.services,
   listServiceFormValues: getFormValues("listServices")(state),
   user: state.auth.userDetail,
+  listEmployee: state.employees.listEmployeeDropdown,
 });
 const mapDispatchToProps = (dispatch) => ({
   getListServices: (page, limit, keyword, filterValues) => {
@@ -278,6 +270,9 @@ const mapDispatchToProps = (dispatch) => ({
   handlePressDelete: async (jobServiceId) => {
     await dispatch(ListServiceActions.setSelectedJobServiceId(jobServiceId));
     ListServiceActions.deleteJobServiceRequested(jobServiceId);
+  },
+  getListEmployeesDropdown: () => {
+    EmployeeActions.loadEmployeeDataDropdown();
   },
 });
 

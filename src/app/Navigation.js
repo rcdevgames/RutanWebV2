@@ -45,9 +45,10 @@ import UnitJobFormsContainer from "../modules/Units/Container/UnitJobFormsContai
 import WorkingHoursContainer from "../modules/WorkingHours/Container/WorkingHoursContainer";
 
 export default function Navigation() {
-  const authenticatedPage = (component, footerImg, footer) => {
+  const authenticatedPage = (component, footerImg, menuPath = "", footer) => {
     return AuthMiddleware(
-      withTemplate(TemplateContainer, component, footerImg, footer)
+      withTemplate(TemplateContainer, component, footerImg, footer),
+      menuPath
     );
   };
 
@@ -57,27 +58,36 @@ export default function Navigation() {
 
   const Login = templating(LoginContainer, false);
   const NotFound = templating(NotFoundPage, false);
-  const Admin = authenticatedPage(AdminContainer, true);
-  const Roles = authenticatedPage(RolesContainer, true);
-  const JobForms = authenticatedPage(JobFormsContainer, true);
-  const Branches = authenticatedPage(BranchContainer, true);
+  const Admin = authenticatedPage(AdminContainer, true, "/admin");
+  const Roles = authenticatedPage(RolesContainer, true, "/role");
+  const JobForms = authenticatedPage(JobFormsContainer, true, "/jobforms");
+  const Branches = authenticatedPage(BranchContainer, true, "/cabang");
   const EmployeeList = authenticatedPage(EmployeesListContainer, true);
   const EmployeeTools = authenticatedPage(EmployeeToolsContainer, true);
   const Division = authenticatedPage(DivisionContainer, true);
   const DivisionUnit = authenticatedPage(DivisionUnitContainer, true);
   const EditEmployee = authenticatedPage(EmployeeEditContainer, true);
-  const Dashboard = authenticatedPage(DashboardContainer, true);
-  const Units = authenticatedPage(UnitsContainer, true);
-  const UnitModels = authenticatedPage(UnitModelsContainer, true);
-  const UnitFields = authenticatedPage(UnitFieldsContainer, true);
-  const UnitJobForms = authenticatedPage(UnitJobFormsContainer, true);
-  const UnitSerialNumber = authenticatedPage(UnitSerialNumberContainer, true);
-  const Tools = authenticatedPage(ToolsContainer, true);
-  const Customers = authenticatedPage(CustomerContainer, true);
-  const FormCategory = authenticatedPage(FormCategoryContainer, true);
+  const Dashboard = authenticatedPage(DashboardContainer, true, "/dashboard");
+  const Units = authenticatedPage(UnitsContainer, true, "/unit");
+  const UnitModels = authenticatedPage(
+    UnitModelsContainer,
+    true,
+    "/unit-models"
+  );
+  const UnitFields = authenticatedPage(
+    UnitFieldsContainer,
+    true,
+    "/unit-fields"
+  );
+  const UnitJobForms = authenticatedPage(UnitJobFormsContainer, true, "/unit-job-forms");
+  const UnitSerialNumber = authenticatedPage(UnitSerialNumberContainer, true, "/unit-serial-number");
+  const Tools = authenticatedPage(ToolsContainer, true, "/tools");
+  const Customers = authenticatedPage(CustomerContainer, true, "/customer");
+  const FormCategory = authenticatedPage(FormCategoryContainer, true, "/category");
   const MachineConfiguration = authenticatedPage(
     MachineConfigurationContainer,
-    true
+    true,
+    "/machine"
   );
   const InternalService = authenticatedPage(InternalServiceContainer, true);
   const ExternalService = authenticatedPage(ExternalServiceContainer, true);
@@ -91,7 +101,11 @@ export default function Navigation() {
   );
   const ReportEmployee = authenticatedPage(ReportEmployeeContainer, true);
   const WorkingHours = authenticatedPage(WorkingHoursContainer, true);
-  const ListServices = authenticatedPage(ListServicesContainer, true);
+  const ListServices = authenticatedPage(
+    ListServicesContainer,
+    true,
+    "/list_service"
+  );
   const ReportIdentification = authenticatedPage(
     ReportIdentificationContainer,
     true

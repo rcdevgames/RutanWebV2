@@ -253,6 +253,11 @@ const EmployeeEditComponent = (props) => {
                         component={CInput}
                         typeComponent="textarea"
                       />
+                      <br />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
                       <hr />
                       {formStatus === "edit" && (
                         <div class="card">
@@ -266,7 +271,6 @@ const EmployeeEditComponent = (props) => {
                           </div>
                         </div>
                       )}
-                      <br />
                     </div>
                   </div>
                   <div class="row ml-2">

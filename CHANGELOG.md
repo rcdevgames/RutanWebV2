@@ -1,3 +1,5 @@
+### Changelog v.2.4.5
+- fix: Fixing secure routing to all route navigation
 ### Changelog v.2.4.4
 - fix: Check role when allowed filter branch
 

@@ -148,7 +148,7 @@ const EmployeeEditComponent = (props) => {
                         label="Password"
                         placeholder="* Isi jika ingin merubah password"
                         component={CInput}
-                        type="text"
+                        type="password"
                       />
                     </div>
                     <div class="col-md-6">

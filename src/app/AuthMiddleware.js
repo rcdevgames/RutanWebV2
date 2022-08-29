@@ -6,17 +6,19 @@ import * as Selectors from "../modules/Auth/Selector/AuthSelector";
 import ConfigAxios from "./axios/ConfigAxios";
 import { navigate } from "./Helpers";
 
-const AuthMiddleware = (ComposedComponent, menuPath) => {
+const AuthMiddleware = (ComposedComponent, menuPath, isSecureRoute) => {
   const returnData = (props) => {
     const { isAuthenticated, redirect, userMenus, redirectToServices } = props;
 
     if (!isAuthenticated) {
       redirect();
     } else {
-      const isMenuCanAccess = userMenus.filter((x) => x.path === menuPath);
+      if (isSecureRoute) {
+        const isMenuCanAccess = userMenus.filter((x) => x.path === menuPath);
 
-      if (isMenuCanAccess.length <= 0) {
-        redirectToServices();
+        if (isMenuCanAccess.length <= 0) {
+          redirectToServices();
+        }
       }
       ConfigAxios.defaults.headers[
         "Authorization"

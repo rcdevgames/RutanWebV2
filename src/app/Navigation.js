@@ -45,10 +45,17 @@ import UnitJobFormsContainer from "../modules/Units/Container/UnitJobFormsContai
 import WorkingHoursContainer from "../modules/WorkingHours/Container/WorkingHoursContainer";
 
 export default function Navigation() {
-  const authenticatedPage = (component, footerImg, menuPath = "", footer) => {
+  const authenticatedPage = (
+    component,
+    footerImg,
+    menuPath = "",
+    isSecureRoute = false,
+    footer
+  ) => {
     return AuthMiddleware(
       withTemplate(TemplateContainer, component, footerImg, footer),
-      menuPath
+      menuPath,
+      isSecureRoute
     );
   };
 
@@ -58,68 +65,146 @@ export default function Navigation() {
 
   const Login = templating(LoginContainer, false);
   const NotFound = templating(NotFoundPage, false);
-  const Admin = authenticatedPage(AdminContainer, true, "/admin");
-  const Roles = authenticatedPage(RolesContainer, true, "/role");
-  const JobForms = authenticatedPage(JobFormsContainer, true, "/jobforms");
-  const Branches = authenticatedPage(BranchContainer, true, "/cabang");
-  const EmployeeList = authenticatedPage(EmployeesListContainer, true);
-  const EmployeeTools = authenticatedPage(EmployeeToolsContainer, true);
-  const Division = authenticatedPage(DivisionContainer, true);
-  const DivisionUnit = authenticatedPage(DivisionUnitContainer, true);
-  const EditEmployee = authenticatedPage(EmployeeEditContainer, true);
+  const Admin = authenticatedPage(AdminContainer, true, "/admin", true);
+  const Roles = authenticatedPage(RolesContainer, true, "/role", true);
+  const JobForms = authenticatedPage(
+    JobFormsContainer,
+    true,
+    "/jobforms",
+    true
+  );
+  const Branches = authenticatedPage(BranchContainer, true, "/cabang", true);
+  const EmployeeList = authenticatedPage(
+    EmployeesListContainer,
+    true,
+    "/employees",
+    true
+  );
+  const EmployeeTools = authenticatedPage(
+    EmployeeToolsContainer,
+    true,
+    "/employee-tool",
+    true
+  );
+  const Division = authenticatedPage(
+    DivisionContainer,
+    true,
+    "/division",
+    true
+  );
+  const DivisionUnit = authenticatedPage(
+    DivisionUnitContainer,
+    true,
+    "/division-unit",
+    true
+  );
+  const EditEmployee = authenticatedPage(
+    EmployeeEditContainer,
+    true,
+    "/edit-employee",
+    true
+  );
   const Dashboard = authenticatedPage(DashboardContainer, true, "/dashboard");
-  const Units = authenticatedPage(UnitsContainer, true, "/unit");
+  const Units = authenticatedPage(UnitsContainer, true, "/unit", true);
   const UnitModels = authenticatedPage(
     UnitModelsContainer,
     true,
-    "/unit-models"
+    "/unit-models",
+    true
   );
   const UnitFields = authenticatedPage(
     UnitFieldsContainer,
     true,
-    "/unit-fields"
+    "/unit-fields",
+    true
   );
-  const UnitJobForms = authenticatedPage(UnitJobFormsContainer, true, "/unit-job-forms");
-  const UnitSerialNumber = authenticatedPage(UnitSerialNumberContainer, true, "/unit-serial-number");
+  const UnitJobForms = authenticatedPage(
+    UnitJobFormsContainer,
+    true,
+    "/unit-job-forms",
+    true
+  );
+  const UnitSerialNumber = authenticatedPage(
+    UnitSerialNumberContainer,
+    true,
+    "/unit-serial-number"
+  );
   const Tools = authenticatedPage(ToolsContainer, true, "/tools");
   const Customers = authenticatedPage(CustomerContainer, true, "/customer");
-  const FormCategory = authenticatedPage(FormCategoryContainer, true, "/category");
+  const FormCategory = authenticatedPage(
+    FormCategoryContainer,
+    true,
+    "/category",
+    true
+  );
   const MachineConfiguration = authenticatedPage(
     MachineConfigurationContainer,
     true,
-    "/machine"
+    "/machine",
+    true
   );
-  const InternalService = authenticatedPage(InternalServiceContainer, true);
-  const ExternalService = authenticatedPage(ExternalServiceContainer, true);
+  const InternalService = authenticatedPage(
+    InternalServiceContainer,
+    true,
+    "/internal-service",
+    true
+  );
+  const ExternalService = authenticatedPage(
+    ExternalServiceContainer,
+    true,
+    "/external-service",
+    true
+  );
   const MonitoringEmployee = authenticatedPage(
     MonitoringEmployeeContainer,
+    true,
+    "/monitoring-employee",
     true
   );
   const ReportServiceRepair = authenticatedPage(
     ReportServiceRepairContainer,
+    true,
+    "/report_trans",
     true
   );
-  const ReportEmployee = authenticatedPage(ReportEmployeeContainer, true);
-  const WorkingHours = authenticatedPage(WorkingHoursContainer, true);
+  const ReportEmployee = authenticatedPage(
+    ReportEmployeeContainer,
+    true,
+    "/report_employee",
+    true
+  );
+  const WorkingHours = authenticatedPage(
+    WorkingHoursContainer,
+    true,
+    "/working-hours",
+    true
+  );
   const ListServices = authenticatedPage(
     ListServicesContainer,
     true,
-    "/list_service"
+    "/list_service",
+    true
   );
   const ReportIdentification = authenticatedPage(
     ReportIdentificationContainer,
+    true,
+    "/report_identification",
     true
   );
   const DetailService = authenticatedPage(
     DetailServiceTransactionContainer,
-    true
+    true,
+    "/detail-services"
   );
   const FormWizardIdentification = authenticatedPage(
     FormWizardIdentificationContainer,
-    true
+    true,
+    "/form-identification"
   );
   const ListIdentification = authenticatedPage(
     ListIdentificationContainer,
+    true,
+    "/identification",
     true
   );
 

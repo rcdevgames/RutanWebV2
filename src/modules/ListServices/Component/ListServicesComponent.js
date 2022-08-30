@@ -14,7 +14,7 @@ const ListServiceComponent = (props) => {
     onChangePagination,
     paging,
     onSearch,
-    listEmployee
+    listEmployee,
   } = props;
 
   const pagination = {
@@ -43,20 +43,6 @@ const ListServiceComponent = (props) => {
                   ))}
                 </div>
                 <Divider orientation="left">Filter Data</Divider>
-                <div class="row d-flex mb-2">
-                  {/* This Filter */}
-                  <div class="col-md-6">
-                    <CSelect
-                      showSearch
-                      data={listEmployee ?? []}
-                      name="employee"
-                      label="Pilih Karyawan"
-                      onChange={(employee) => {
-                        // handleAutoPopulateEmployee(employee, indexEmployee);
-                      }}
-                    />
-                  </div>
-                </div>
                 <div class="row d-flex justify-content-between mb-2">
                   <div class="col-md-7">
                     <div class="row d-flex mb-2">

@@ -96,7 +96,6 @@ export default function Navigation() {
     DivisionUnitContainer,
     true,
     "/division-unit",
-    true
   );
   const EditEmployee = authenticatedPage(
     EmployeeEditContainer,
@@ -109,19 +108,16 @@ export default function Navigation() {
     UnitModelsContainer,
     true,
     "/unit-models",
-    true
   );
   const UnitFields = authenticatedPage(
     UnitFieldsContainer,
     true,
     "/unit-fields",
-    true
   );
   const UnitJobForms = authenticatedPage(
     UnitJobFormsContainer,
     true,
     "/unit-job-forms",
-    true
   );
   const UnitSerialNumber = authenticatedPage(
     UnitSerialNumberContainer,

@@ -1,3 +1,6 @@
+### Changelog v.2.4.7
+- fix: Takeout filter employee on list services
+
 ### Changelog v.2.4.6
 - fix: Fixing secure routing to detail employee
 

@@ -103,7 +103,7 @@ export default function Navigation() {
     true,
     "/edit-employee"
   );
-  const Dashboard = authenticatedPage(DashboardContainer, true, "/dashboard");
+  const Dashboard = authenticatedPage(DashboardContainer, true, "/dashboard", true);
   const Units = authenticatedPage(UnitsContainer, true, "/unit", true);
   const UnitModels = authenticatedPage(
     UnitModelsContainer,

@@ -18,17 +18,16 @@ import TabPanelSummaryContainer from "./TabPanel/TabPanelSummaryContainer";
 import TabPanelImagesContainer from "./TabPanel/TabPanelImagesContainer";
 import TabPanelDailiesContainer from "./TabPanel/TabPanelDailiesContainer";
 import TabPanelHistoriesContainer from "./TabPanel/TabPanelHistoriesContainer";
-import { exportDetailServicePdf } from "../Store/DetailServiceTransactionReport";
 import * as ListServiceActions from "../../ListServices/Store/ListServicesActions";
 import TabPanelRejectionsContainer from "./TabPanel/TabPanelRejectionsContainer";
 import TabPanelChecklistContainer from "./TabPanel/TabPanelChecklistContainer";
 import { store } from "../../../app/ConfigureStore";
 import Invoke from "../../../app/axios/Invoke";
-import { navigate } from "../../../app/Helpers";
-import { exportDetailServicePdfRevision } from "../Store/DetailServiceTransactionReportRevision";
+import { isBlockedRoleDetailService, navigate } from "../../../app/Helpers";
 
 const DetailServiceTransactionContainer = (props) => {
   const {
+    userRole,
     services: { selectedJobService },
     detailService: {
       selectedServiceEmployeeList,
@@ -42,6 +41,7 @@ const DetailServiceTransactionContainer = (props) => {
   } = props;
   const { dispatch } = store;
   const [isLoadedChecklist, setIsLoadedChecklist] = React.useState(false);
+  const [isBlockedRole, setIsBlockedRole] = React.useState(false);
 
   const TabPanel = [
     {
@@ -217,13 +217,19 @@ const DetailServiceTransactionContainer = (props) => {
     }
   };
 
+  const checkBlockedRole = () => {
+    const isBlock = isBlockedRoleDetailService(userRole[0].role_id);
+    setIsBlockedRole(isBlock);
+  };
+
   React.useEffect(() => {
     callInitialize();
+    checkBlockedRole();
   }, []);
 
   const handlePressGeneratePdf = () => {
     // exportDetailServicePdfRevision(printedData);
-    DetailServiceActions.downloadTransactionPdf()
+    DetailServiceActions.downloadTransactionPdf();
   };
 
   const handleBackToListService = () => {
@@ -236,6 +242,7 @@ const DetailServiceTransactionContainer = (props) => {
   return (
     <DetailServiceTransactionComponent
       data={selectedJobService}
+      isBlockedRole={isBlockedRole}
       TabPanel={TabPanel}
       onChangeTab={onChangeTab}
       handlePressGeneratePdf={handlePressGeneratePdf}
@@ -254,6 +261,7 @@ const mapStateToProps = (state) => ({
   services: state.services,
   detailService: state.detailService,
   units: state.units,
+  userRole: state.auth.userDetail.roles,
 });
 const mapDispatchToProps = (dispatch) => ({
   handlePressDelete: (jobId) => {

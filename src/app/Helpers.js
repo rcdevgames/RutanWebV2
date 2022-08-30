@@ -186,7 +186,7 @@ export const SelectMilling = [
 export const enumTypeInternalServices = [
   { id: `enum-type-1`, value: "T1", label: "Repair" },
   { id: `enum-type-2`, value: "T2", label: "TroubleShoot" },
-  { id: `enum-type-3`, value: "T3", label: "Training" },
+  { id: `enum-type-3`, value: "T4", label: "Training" },
 ];
 
 export const enumTypeExternalServices = [
@@ -537,6 +537,21 @@ export const calculateColumnsWidth = (
     source,
     tableWidth,
   };
+};
+
+export const isBlockedRoleDetailService = (role) => {
+  let isBlocked;
+  switch (role) {
+    case "b7e003a1-5574-4a03-96fa-c71e6714d269":
+      isBlocked = true;
+      break;
+
+    default:
+      isBlocked = false;
+      break;
+  }
+
+  return isBlocked;
 };
 
 // Check if roles is blocked on menu list service:

@@ -1,3 +1,8 @@
+### Changelog v.2.4.9
+- fix: Add isBlockedRoleDetailService
+- fix: Update type Training on internal service to T4
+- fix: Hide button "Ubah" on detail service when role is blocked
+
 ### Changelog v.2.4.8
 - fix: Update secure routing
 

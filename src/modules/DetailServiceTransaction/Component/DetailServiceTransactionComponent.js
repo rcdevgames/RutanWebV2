@@ -43,6 +43,7 @@ const { TabPane } = Tabs;
 const DetailServiceTransactionComponent = (props) => {
   const {
     data,
+    isBlockedRole,
     TabPanel,
     onChangeTab,
     handlePressGeneratePdf,
@@ -147,7 +148,7 @@ const DetailServiceTransactionComponent = (props) => {
                     Kembali
                   </CButtonAntd>
                   <div class="ml-3" />
-                  {data.status.toLowerCase() !== "approved" && (
+                  {data.status.toLowerCase() !== "approved" && !isBlockedRole && (
                     <CButtonAntd
                       onClick={handlePressEdit}
                       type="primary"

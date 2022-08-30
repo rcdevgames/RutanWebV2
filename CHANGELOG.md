@@ -1,3 +1,6 @@
+### Changelog v.2.4.8
+- fix: Update secure routing
+
 ### Changelog v.2.4.7
 - fix: Takeout filter employee on list services
 

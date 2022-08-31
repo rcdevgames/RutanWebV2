@@ -58,7 +58,7 @@ const DetailServiceTransactionComponent = (props) => {
   } = props;
   // let componentRef = React.useRef();
 
-  const RenderButtonAction = ({ status }) => {
+  const RenderButtonAction = ({ status, role }) => {
     let button;
     switch (status.toLowerCase()) {
       case "completed":
@@ -87,10 +87,9 @@ const DetailServiceTransactionComponent = (props) => {
           </>
         );
         break;
-      case "approved":
+      case "progress":
         button = (
           <>
-            <div class="ml-3" />
             <div class="ml-3" />
             <CButtonAntd
               onClick={() => handlePressActions(data.id, "finished")}

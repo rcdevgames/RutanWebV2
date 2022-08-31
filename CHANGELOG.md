@@ -1,3 +1,6 @@
+### Changelog v.2.4.10
+- fix: Show button "finished" when status is progress
+
 ### Changelog v.2.4.9
 - fix: Add isBlockedRoleDetailService
 - fix: Update type Training on internal service to T4

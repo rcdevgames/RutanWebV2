@@ -15,6 +15,9 @@ import {
   SET_GROUPING_SELECTED_SERVICES_MEDIA_DATA,
   SET_GROUPING_SUMMARY_DATA,
   SET_GROUPING_CHECKLIST_DATA,
+  SET_INSERT_MEDIA_MODAL,
+  SET_TYPE_FORM_DAILIES,
+  SET_EDIT_SUMMARY_MODAL,
 } from "./DetailServiceTransactionAction";
 
 export const initialState = {
@@ -31,6 +34,9 @@ export const initialState = {
   rejectionsModal: false,
   editTransactionModal: false,
   editDailiesModal: false,
+  editSummaryModal: false,
+  insertMediaModal: false,
+  typeFormDailies: "add",
   selectedEditDailies: {},
   selectedUnit: "Seluruh Unit",
 };
@@ -86,6 +92,15 @@ export default function detailServiceTransactionReducer(
       return { ...newState };
     case SET_SELECTED_UNIT:
       newState.selectedUnit = action.payload;
+      return { ...newState };
+    case SET_INSERT_MEDIA_MODAL:
+      newState.insertMediaModal = action.payload;
+      return { ...newState };
+    case SET_TYPE_FORM_DAILIES:
+      newState.typeFormDailies = action.payload;
+      return { ...newState };
+    case SET_EDIT_SUMMARY_MODAL:
+      newState.editSummaryModal = action.payload;
       return { ...newState };
     case RESET_DETAIL_SERVICE:
       return initialState;

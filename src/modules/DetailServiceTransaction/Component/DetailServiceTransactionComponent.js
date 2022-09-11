@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Tabs } from "antd";
+import { Tabs } from "antd";
 import { Typography } from "antd";
 import CBadgeText from "../../../components/CBadgeText/CBadgeText";
 import moment from "moment";
@@ -16,29 +16,11 @@ import { Themes } from "../../../property/colors";
 import RejectedModalContainer from "../Container/RejectedModalContainer";
 import EditModalTransactionContainer from "../Container/EditModalTransactionContainer";
 import EditModalDailiesContainer from "../Container/EditModalDailiesContainer";
-// import ReactToPrint from "react-to-print";
-// import ServiceReportPdfPrint from "./ServiceReportPdfPrint";
+import InsertImageModalContainer from "../Container/InsertImageModalContainer";
+import EditModalSummaryContainer from "../Container/EditModalSummaryContainer";
 
 const { Text } = Typography;
 const { TabPane } = Tabs;
-
-// const pageStyle = `
-//   @page {
-//     size: 80mm 50mm;
-//   }
-
-//   @media all {
-//     .pagebreak {
-//       display: none;
-//     }
-//   }
-
-//   @media print {
-//     .pagebreak {
-//       page-break-before: always;
-//     }
-//   }
-// `;
 
 const DetailServiceTransactionComponent = (props) => {
   const {
@@ -50,13 +32,7 @@ const DetailServiceTransactionComponent = (props) => {
     goBack,
     handlePressActions,
     handlePressEdit,
-    // medias,
-    // checklist,
-    // employees,
-    // dailies,
-    // summary,
   } = props;
-  // let componentRef = React.useRef();
 
   const RenderButtonAction = ({ status, role }) => {
     let button;
@@ -98,7 +74,7 @@ const DetailServiceTransactionComponent = (props) => {
               size="middle"
               backgroundColor={Themes.success}
             >
-              Finished
+              Complete
             </CButtonAntd>
           </>
         );
@@ -168,26 +144,6 @@ const DetailServiceTransactionComponent = (props) => {
                   >
                     Cetak Formulir
                   </CButtonAntd>
-                  {/* <ReactToPrint
-                    fonts={[
-                      {
-                        name: "'Courier Prime', monospace",
-                        url: "https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap",
-                      },
-                    ]}
-                    pageStyle={pageStyle}
-                    trigger={() => (
-                      <CButtonAntd
-                        onClick={handlePressGeneratePdf}
-                        type="primary"
-                        icon={<FilePdfOutlined />}
-                        size="middle"
-                      >
-                        Cetak Formulir
-                      </CButtonAntd>
-                    )}
-                    content={() => componentRef}
-                  /> */}
                 </div>
               </div>
               <div
@@ -275,18 +231,8 @@ const DetailServiceTransactionComponent = (props) => {
       <RejectedModalContainer />
       <EditModalTransactionContainer />
       <EditModalDailiesContainer />
-      {/* component to be printed */}
-      {/* <div style={{ display: "none", width: "100%", flex: 1 }}>
-        <ServiceReportPdfPrint
-          ref={(el) => (componentRef = el)}
-          data={data}
-          medias={medias}
-          checklist={checklist}
-          employees={employees}
-          dailies={dailies}
-          summary={summary}
-        />
-      </div> */}
+      <InsertImageModalContainer />
+      <EditModalSummaryContainer />
     </div>
   );
 };

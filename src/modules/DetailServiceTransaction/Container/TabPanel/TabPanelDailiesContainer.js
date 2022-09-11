@@ -1,25 +1,44 @@
+import moment from "moment";
 import React from "react";
 import { connect } from "react-redux";
+import { change } from "redux-form";
 import { store } from "../../../../app/ConfigureStore";
 import TabPanelDailiesComponent from "../../Component/TabPanel/TabPanelDailiesComponent";
 import {
   mapDailiesToForm,
   setEditDailiesModal,
   setSelectedEditDailiesData,
+  setTypeFormDailies,
 } from "../../Store/DetailServiceTransactionAction";
 
 const TabPanelDailiesContainer = (props) => {
-  return <TabPanelDailiesComponent {...props} />;
+  const {
+    detailService: { typeFormDailies },
+  } = props;
+  return (
+    <TabPanelDailiesComponent typeFormDailies={typeFormDailies} {...props} />
+  );
 };
 
 const mapStateToProps = (state) => ({
-  // dailies: state.dailies,
+  detailService: state.detailService,
 });
 const mapDispatchToProps = (dispatch) => ({
   handlePressEdit: async (values) => {
+    await dispatch(setTypeFormDailies("edit"));
     await dispatch(setSelectedEditDailiesData(values));
     store.dispatch(setEditDailiesModal(true));
     mapDailiesToForm();
+  },
+  handlePressAdd: async () => {
+    dispatch(change("editDailiesForm", `id`, ""));
+    dispatch(change("editDailiesForm", `startDate`, ""));
+    dispatch(change("editDailiesForm", `endDate`, ""));
+    dispatch(change("editDailiesForm", `title`, ""));
+    dispatch(change("editDailiesForm", `description`, ""));
+    await dispatch(setSelectedEditDailiesData({}));
+    await dispatch(setTypeFormDailies("add"));
+    store.dispatch(setEditDailiesModal(true));
   },
   handlePressCancel: () => {
     store.dispatch(setEditDailiesModal(false));

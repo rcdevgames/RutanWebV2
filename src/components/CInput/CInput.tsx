@@ -17,6 +17,8 @@ interface IProps {
   rows: number;
   key: string;
   labelSize: number;
+  linebreak: boolean;
+  onKeyDown: any;
 }
 
 const CInput: React.FC<IProps> = (props) => {
@@ -26,6 +28,7 @@ const CInput: React.FC<IProps> = (props) => {
         <div className="form-group">
           <label htmlFor={props.name}>{props.label}</label>
           <textarea
+            style={{ whiteSpace: props.linebreak ? "pre-line" : "normal" }}
             key={props.key ?? ""}
             id={props.name}
             className={`form-control ${props.error && "is-invalid"}`}
@@ -33,6 +36,7 @@ const CInput: React.FC<IProps> = (props) => {
             rows={props.rows ?? 8}
             name={props.name}
             onChange={props.onChange}
+            onKeyDown={props.onKeyDown}
             placeholder={props.placeholder ?? ""}
             value={props.value}
             {...props.input}

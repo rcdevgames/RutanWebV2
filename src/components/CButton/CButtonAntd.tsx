@@ -25,11 +25,14 @@ const CButtonAntd: React.FC<IProps> = (props) => {
     type,
     size,
     danger,
-    backgroundColor
+    backgroundColor,
   } = props;
   return (
     <Button
-      style={{backgroundColor: backgroundColor, borderColor: backgroundColor}}
+      style={{
+        backgroundColor: backgroundColor,
+        borderColor: backgroundColor,
+      }}
       block={props.block ?? false}
       icon={icon ?? null}
       type={type ?? "default"}

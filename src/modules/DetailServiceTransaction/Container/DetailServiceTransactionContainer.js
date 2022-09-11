@@ -28,6 +28,9 @@ import { isBlockedRoleDetailService, navigate } from "../../../app/Helpers";
 const DetailServiceTransactionContainer = (props) => {
   const {
     userRole,
+    setMediaList,
+    setChecklist,
+    setSummaryList,
     services: { selectedJobService },
     detailService: {
       selectedServiceEmployeeList,
@@ -39,9 +42,12 @@ const DetailServiceTransactionContainer = (props) => {
       selectedServiceRejected,
     },
   } = props;
-  const { dispatch } = store;
   const [isLoadedChecklist, setIsLoadedChecklist] = React.useState(false);
   const [isBlockedRole, setIsBlockedRole] = React.useState(false);
+  const [isCompleteLoadedMedia, setIsCompleteLoadedMedia] =
+    React.useState(false);
+  const [isCompleteLoadedSummary, setIsCompleteLoadedSummary] =
+    React.useState(false);
 
   const TabPanel = [
     {
@@ -49,7 +55,10 @@ const DetailServiceTransactionContainer = (props) => {
       title: "Gambar",
       icon: <FileImageOutlined />,
       component: (
-        <TabPanelImagesContainer medias={groupingSelectedServiceMedia} />
+        <TabPanelImagesContainer
+          medias={groupingSelectedServiceMedia}
+          isLoaded={isCompleteLoadedMedia}
+        />
       ),
     },
     {
@@ -57,7 +66,10 @@ const DetailServiceTransactionContainer = (props) => {
       title: "Summary",
       icon: <FileTextOutlined />,
       component: (
-        <TabPanelSummaryContainer summary={groupingSelectedServiceSummary} />
+        <TabPanelSummaryContainer
+          summary={groupingSelectedServiceSummary}
+          isLoaded={isCompleteLoadedSummary}
+        />
       ),
     },
     {
@@ -125,11 +137,11 @@ const DetailServiceTransactionContainer = (props) => {
         break;
 
       case "panel-summary":
-        // DetailServiceActions.getJobServiceSummary(selectedJobService.id);
+        groupingUnitSummary();
         break;
 
       case "panel-gambar":
-        // DetailServiceActions.getJobServiceMedia(selectedJobService.id);
+        groupingUnitMedia();
         break;
 
       case "panel-dailies":
@@ -141,7 +153,7 @@ const DetailServiceTransactionContainer = (props) => {
         break;
 
       case "panel-checklist":
-        // DetailServiceActions.getChecklistData(selectedJobService.id);
+        groupingUnitChecklist();
         break;
 
       case "panel-rejected":
@@ -160,27 +172,118 @@ const DetailServiceTransactionContainer = (props) => {
     await DetailServiceActions.getJobServiceDailies(selectedJobService.id);
     await DetailServiceActions.getJobServiceHistories(selectedJobService.id);
     await DetailServiceActions.getJobServiceRejections(selectedJobService.id);
-    await getGroupingUnitData();
+    await groupingUnitMedia();
+    await groupingUnitSummary();
+    await groupingUnitChecklist();
   };
 
-  const getGroupingUnitData = async () => {
-    // Hit media api and grouping by units :
-    let groupingMediaList = [];
-    let groupingSummaryList = [];
-    let groupingChecklist = [];
+  const groupingUnitMedia = async () => {
+    setIsCompleteLoadedMedia(false);
+    const groupingMediaList = [];
+    let sequence = 0;
+
+    const setDispatch = () => {
+      if (sequence === selectedJobService.units.length) {
+        setTimeout(() => {
+          setMediaList(groupingMediaList);
+          setIsCompleteLoadedMedia(true);
+        }, 1000);
+      }
+    };
+
     if (selectedJobService.units) {
       await selectedJobService.units.map(async (item, index) => {
+        await Invoke.getJobServiceMedia(selectedJobService.id, item.id).then(
+          (dataMedia) => {
+            const imageList = dataMedia.data.callback.data ?? [];
+            // Push to tempporary array
+            groupingMediaList.push({
+              unitName: item.unit_name,
+              image: imageList ?? [],
+            });
+            sequence += 1;
+            setDispatch();
+          }
+        );
+      });
+    } else {
+      try {
+        // Get media without unitId
         const { data: dataMedia } = await Invoke.getJobServiceMedia(
-          selectedJobService.id,
-          item.id
+          selectedJobService.id
         );
-        const { data: dataSummary } = await Invoke.getJobServiceSummary(
-          selectedJobService.id,
-          item.id
-        );
+        // Push to tempporary array
+        groupingMediaList.push({
+          unitName: "All Unit",
+          image: dataMedia.callback.data ?? [],
+        });
+      } catch (error) {
+        setMediaList([]);
+        setIsCompleteLoadedMedia(true);
+      }
+
+      setTimeout(() => {
+        setMediaList(groupingMediaList);
+        setIsCompleteLoadedMedia(true);
+      }, 1000);
+    }
+  };
+
+  const groupingUnitSummary = async () => {
+    setIsCompleteLoadedSummary(false);
+    const groupingSummaryList = [];
+    let sequence = 0;
+
+    const setDispatch = (responseStatus) => {
+      if (sequence === selectedJobService.units.length) {
+        if (responseStatus === "error") {
+          setTimeout(() => {
+            setSummaryList(groupingSummaryList);
+            setIsCompleteLoadedSummary(true);
+          }, 1000);
+        } else {
+          setTimeout(() => {
+            setSummaryList(groupingSummaryList);
+            setIsCompleteLoadedSummary(true);
+          }, 1000);
+        }
+      }
+    };
+
+    if (selectedJobService.units) {
+      await selectedJobService.units.map(async (item, index) => {
+        await Invoke.getJobServiceSummary(selectedJobService.id, item.id)
+          .then((dataSummary) => {
+            groupingSummaryList.push({
+              id: item.id,
+              unitName: item.unit_name,
+              summary: dataSummary.data.callback.summary,
+            });
+
+            sequence += 1;
+            setDispatch(dataSummary.status);
+          })
+          .catch((err) => {
+            groupingSummaryList.push({
+              id: item.id,
+              unitName: item.unit_name,
+              summary: [],
+            });
+            sequence += 1;
+            setDispatch("error");
+            console.log(err);
+          });
+      });
+    }
+  };
+
+  const groupingUnitChecklist = async () => {
+    const groupingChecklist = [];
+
+    if (selectedJobService.units) {
+      await selectedJobService.units.map(async (item, index) => {
         Invoke.getChecklistData(item.id)
           .then((dataChecklist) => {
-            console.log("=== dataChecklist : ", dataChecklist);
             groupingChecklist.push({
               unitName: item.unit_name,
               checklist: dataChecklist.data.callback,
@@ -190,30 +293,11 @@ const DetailServiceTransactionContainer = (props) => {
             }
           })
           .catch(() => setIsLoadedChecklist(true));
-
-        // Push to tempporary array
-        groupingMediaList.push({
-          unitName: item.unit_name,
-          image: dataMedia.callback.data,
-        });
-        groupingSummaryList.push({
-          unitName: item.unit_name,
-          summary: dataSummary.callback.summary,
-        });
       });
 
-      // Save to reducer
-      await dispatch(
-        DetailServiceActions.setGroupingSelectedServicesMediaData(
-          groupingMediaList
-        )
-      );
-      await dispatch(
-        DetailServiceActions.setGroupingSummaryData(groupingSummaryList)
-      );
-      await dispatch(
-        DetailServiceActions.setGroupingChecklistData(groupingChecklist)
-      );
+      setTimeout(() => {
+        setChecklist(groupingChecklist);
+      }, 1000);
     }
   };
 
@@ -274,6 +358,15 @@ const mapDispatchToProps = (dispatch) => ({
     await dispatch(DetailServiceActions.setEditTransactionModal(true));
     await DetailServiceActions.mapDetailTransactionToForm();
     dispatch(DetailServiceActions.setEditTransactionModal(true));
+  },
+  setMediaList: (list) => {
+    dispatch(DetailServiceActions.setGroupingSelectedServicesMediaData(list));
+  },
+  setSummaryList: (list) => {
+    dispatch(DetailServiceActions.setGroupingSummaryData(list));
+  },
+  setChecklist: (list) => {
+    dispatch(DetailServiceActions.setGroupingChecklistData(list));
   },
 });
 

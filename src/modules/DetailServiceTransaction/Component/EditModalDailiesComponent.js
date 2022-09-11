@@ -79,10 +79,13 @@ const RenderContent = ({
   formStatus,
   onChangeRoleMenu,
   handleCancel,
+  typeFormDailies,
 }) => {
   return (
     <div class="page-content">
-      <Divider orientation="left">Ubah Catatan Teknisi</Divider>
+      <Divider orientation="left">{`${
+        typeFormDailies === "add" ? "Tambah" : "Ubah"
+      } Catatan Teknisi`}</Divider>
       <Form onSubmit={handleSubmit(submitForm)}>
         <div class="row mt-2">
           <div class="col-md-12">
@@ -142,6 +145,7 @@ const EditModalDailiesComponent = (props) => {
     menuChecked,
     formStatus,
     onChangeRoleMenu,
+    typeFormDailies,
   } = props;
 
   return (
@@ -164,6 +168,7 @@ const EditModalDailiesComponent = (props) => {
           defaultValuesMenu={menuChecked}
           formStatus={formStatus}
           onChangeRoleMenu={onChangeRoleMenu}
+          typeFormDailies={typeFormDailies}
         />
       }
     />

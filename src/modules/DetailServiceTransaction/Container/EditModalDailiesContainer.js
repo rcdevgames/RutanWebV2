@@ -10,7 +10,7 @@ const EditModalDailiesContainer = (props) => {
   const {
     valid,
     handleCancel,
-    detailService: { editDailiesModal },
+    detailService: { editDailiesModal, typeFormDailies },
     masters: { listMenu },
   } = props;
 
@@ -36,6 +36,7 @@ const EditModalDailiesContainer = (props) => {
       handleCancel={handleCancel}
       submitForm={submitForm}
       enumMenu={SelectMenu}
+      typeFormDailies={typeFormDailies}
       {...props}
     />
   );

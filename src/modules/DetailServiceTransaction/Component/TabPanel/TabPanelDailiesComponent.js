@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography, Row, Empty, Table, Space } from "antd";
-import { EditOutlined } from "@ant-design/icons";
+import { EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import moment from "moment";
 import CButtonAntd from "../../../../components/CButton/CButtonAntd";
 
@@ -68,16 +68,27 @@ const RenderDailies = ({ dailies, handlePressEdit }) => {
 };
 
 const TabPanelDailiesComponent = (props) => {
-  const { dailies, handlePressEdit } = props;
+  const { dailies, handlePressEdit, handlePressAdd } = props;
   return (
     <div class="page-content">
       <Row
         style={{
           alignItems: "center",
+          justifyContent: "space-between",
         }}
       >
-        <EditOutlined />
-        <Typography style={{ marginLeft: 5 }}>Catatan</Typography>
+        <Row>
+          <EditOutlined />
+          <Typography style={{ marginLeft: 5 }}>Catatan</Typography>
+        </Row>
+        <CButtonAntd
+          onClick={handlePressAdd}
+          type="primary"
+          icon={<PlusCircleOutlined />}
+          size="middle"
+        >
+          Tambah Catatan
+        </CButtonAntd>
       </Row>
       <hr />
       {dailies && dailies.length > 0 ? (

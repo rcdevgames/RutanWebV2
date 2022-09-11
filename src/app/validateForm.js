@@ -188,6 +188,21 @@ export const validateFormTransaction = (values) => {
   return errors;
 };
 
+export const validateFormEditMedia = (values) => {
+  const errors = {};
+  if (!values.imageUrl) {
+    errors.imageUrl = "Field ini wajib diisi!";
+  }
+  if (!values.title) {
+    errors.title = "Field ini wajib diisi!";
+  }
+  if (!values.unit) {
+    errors.unit = "Wajib pilih unit!";
+  }
+
+  return errors;
+};
+
 export const validateUnitSerialNumberForm = (values) => {
   const errors = {};
   if (!values.customer) {

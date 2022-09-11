@@ -49,6 +49,12 @@ export const SET_SELECTED_UNIT = "SET_SELECTED_UNIT";
 
 export const RESET_DETAIL_SERVICE = "RESET_DETAIL_SERVICE";
 
+export const SET_INSERT_MEDIA_MODAL = "SET_INSERT_MEDIA_MODAL";
+
+export const SET_TYPE_FORM_DAILIES = "SET_TYPE_FORM_DAILIES";
+
+export const SET_EDIT_SUMMARY_MODAL = "SET_EDIT_SUMMARY_MODAL";
+
 export const setRejectionsModal = (payload) => {
   return {
     type: SET_REJECTIONS_MODAL,
@@ -100,6 +106,20 @@ export const setGroupingChecklistData = (payload) => {
 export const setEditDailiesModal = (payload) => {
   return {
     type: SET_EDIT_DAILIES_MODAL,
+    payload,
+  };
+};
+
+export const setEditSummaryModal = (payload) => {
+  return {
+    type: SET_EDIT_SUMMARY_MODAL,
+    payload,
+  };
+};
+
+export const setInsertMediaModal = (payload) => {
+  return {
+    type: SET_INSERT_MEDIA_MODAL,
     payload,
   };
 };
@@ -156,6 +176,13 @@ export const setSelectedServiceRejectedData = (payload) => {
 export const setSelectedEditDailiesData = (payload) => {
   return {
     type: SET_SELECTED_EDIT_DAILIES_DATA,
+    payload,
+  };
+};
+
+export const setTypeFormDailies = (payload) => {
+  return {
+    type: SET_TYPE_FORM_DAILIES,
     payload,
   };
 };
@@ -343,15 +370,38 @@ export const handlePressRejectedRequested = async (jobId, values) => {
 const doEditDailiesProcess = async (values) => {
   const { dispatch, getState } = store;
   const dataService = getState().services.selectedJobService;
+  const typeForm = getState().detailService.typeFormDailies;
 
   const payload = {};
+  const insertPayload = {};
+
   payload.id = values.id;
   payload.title = values.title ?? "";
-  payload.daily_start = moment(values.startDate).format("YYYY-MM-DD");
-  payload.daily_end = moment(values.endDate).format("YYYY-MM-DD");
+  payload.daily_start = values.startDate
+    ? moment(values.startDate).format("YYYY-MM-DD")
+    : moment().format("YYYY-MM-DD");
+  payload.daily_end = values.endDate
+    ? moment(values.endDate).format("YYYY-MM-DD")
+    : moment().format("YYYY-MM-DD");
   payload.description = values.description ?? "";
+
+  insertPayload.title = values.title ?? "";
+  insertPayload.daily_start = values.startDate
+    ? moment(values.startDate).format("YYYY-MM-DD")
+    : moment().format("YYYY-MM-DD HH:mm:ss");
+  insertPayload.daily_end = values.endDate
+    ? moment(values.endDate).format("YYYY-MM-DD")
+    : moment().format("YYYY-MM-DD HH:mm:ss");
+  insertPayload.description = values.description ?? "";
+  insertPayload.type = values.type ?? "Perjalanan";
+
   try {
-    await Invoke.updateJobServiceDailies(payload);
+    if (typeForm === "add") {
+      await Invoke.addJobServiceDaily(insertPayload, dataService.id);
+    } else {
+      await Invoke.updateJobServiceDailies(payload);
+    }
+
     showToast("Berhasil menyimpan data", "success");
     await getJobServiceDailies(dataService.id);
     dispatch(setEditDailiesModal(false));
@@ -361,10 +411,86 @@ const doEditDailiesProcess = async (values) => {
   }
 };
 
+const doEditSummaryProcess = async (values) => {
+  const { dispatch, getState } = store;
+  const dataService = getState().services.selectedJobService;
+
+  const payload = {};
+
+  payload.summary = values.summary ?? "";
+
+  try {
+    await Invoke.updateSummary(payload, dataService.id, values.unitId);
+    showToast("Berhasil menyimpan data", "success");
+    //
+    dispatch(setEditSummaryModal(false));
+  } catch (error) {
+    showToast("Proses manyimpan gagal, silahkan coba lagi", "error");
+    dispatch(setEditSummaryModal(false));
+  }
+};
+
 export const handlePressEditDailiesRequested = async (values) => {
   const toastrConfirmOptions = {
     onOk: () => {
       doEditDailiesProcess(values);
+    },
+    okText: "Ya",
+    cancelText: "Tidak",
+  };
+
+  toastr.confirm(
+    "Apakah anda yakin ingin menyimpan data ini?",
+    toastrConfirmOptions
+  );
+};
+
+export const handlePressEditSummaryRequested = async (values) => {
+  const toastrConfirmOptions = {
+    onOk: () => {
+      doEditSummaryProcess(values);
+    },
+    okText: "Ya",
+    cancelText: "Tidak",
+  };
+
+  toastr.confirm(
+    "Apakah anda yakin ingin menyimpan data ini?",
+    toastrConfirmOptions
+  );
+};
+
+const doInsertMedia = async (values) => {
+  const { dispatch, getState } = store;
+  const dataService = getState().services.selectedJobService;
+
+  const media = [];
+  const payload = {};
+
+  const splitUnit = values.unit.split("|");
+  const unitId = splitUnit[0] ?? "";
+
+  payload.title = values.title ?? "";
+  payload.description = values.description ?? "";
+  payload.type = "image";
+  payload.base64 = values.imageUrl ?? "";
+
+  media.push(payload);
+  try {
+    await Invoke.addJobServiceMedia(media, dataService.id, unitId);
+    showToast("Berhasil menyimpan data", "success");
+    await getJobServiceDailies(dataService.id);
+    dispatch(setInsertMediaModal(false));
+  } catch (error) {
+    showToast("Proses manyimpan gagal, silahkan coba lagi", "error");
+    dispatch(setInsertMediaModal(false));
+  }
+};
+
+export const handlePressInsertMediaRequested = async (values) => {
+  const toastrConfirmOptions = {
+    onOk: () => {
+      doInsertMedia(values);
     },
     okText: "Ya",
     cancelText: "Tidak",
@@ -434,4 +560,12 @@ export const downloadTransactionPdf = async () => {
     dispatch(ComponentActions.setGlobalLoading(false));
     showToast("Gagal mengunduh report!", "error");
   }
+};
+
+export const resetFormModalImage = async () => {
+  const { dispatch } = store;
+  dispatch(change("editMediaForm", `imageUrl`, ""));
+  dispatch(change("editMediaForm", `title`, ""));
+  dispatch(change("editMediaForm", `description`, ""));
+  dispatch(change("editMediaForm", `unit`, ""));
 };

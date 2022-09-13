@@ -68,7 +68,7 @@ const RenderDailies = ({ dailies, handlePressEdit }) => {
 };
 
 const TabPanelDailiesComponent = (props) => {
-  const { dailies, handlePressEdit, handlePressAdd } = props;
+  const { dailies, handlePressEdit, handlePressAdd, isBlockedRole } = props;
   return (
     <div class="page-content">
       <Row
@@ -81,14 +81,16 @@ const TabPanelDailiesComponent = (props) => {
           <EditOutlined />
           <Typography style={{ marginLeft: 5 }}>Catatan</Typography>
         </Row>
-        <CButtonAntd
-          onClick={handlePressAdd}
-          type="primary"
-          icon={<PlusCircleOutlined />}
-          size="middle"
-        >
-          Tambah Catatan
-        </CButtonAntd>
+        {isBlockedRole && (
+          <CButtonAntd
+            onClick={handlePressAdd}
+            type="primary"
+            icon={<PlusCircleOutlined />}
+            size="middle"
+          >
+            Tambah Catatan
+          </CButtonAntd>
+        )}
       </Row>
       <hr />
       {dailies && dailies.length > 0 ? (

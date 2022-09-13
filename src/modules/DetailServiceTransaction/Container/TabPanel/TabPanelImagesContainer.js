@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { isBlockedRoleDetailService } from "../../../../app/Helpers";
 import TabPanelImagesComponent from "../../Component/TabPanel/TabPanelImagesComponent";
 import {
   resetFormModalImage,
@@ -7,10 +8,25 @@ import {
 } from "../../Store/DetailServiceTransactionAction";
 
 const TabPanelImagesContainer = (props) => {
-  return <TabPanelImagesComponent {...props} />;
+  const { userRole } = props;
+  const [isBlockedRole, setIsBlockedRole] = React.useState(false);
+
+  const checkBlockedRole = () => {
+    const isBlock = isBlockedRoleDetailService(userRole[0].role_id);
+    console.log("=== blocked : ", isBlock);
+    setIsBlockedRole(isBlock);
+  };
+
+  React.useEffect(() => {
+    checkBlockedRole();
+  }, []);
+
+  return <TabPanelImagesComponent isBlockedRole={isBlockedRole} {...props} />;
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  userRole: state.auth.userDetail.roles,
+});
 const mapDispatchToProps = (dispatch) => ({
   handlePressAdd: async (values) => {
     await dispatch(setInsertMediaModal(true));

@@ -16,7 +16,7 @@ const RenderItemSummary = ({ summary, index }) => {
 };
 
 const TabPanelSummaryComponent = (props) => {
-  const { summaryArr, isLoaded, handlePressEdit } = props;
+  const { summaryArr, isLoaded, handlePressEdit, isBlockedRole } = props;
 
   return (
     <div class="page-content">
@@ -40,14 +40,16 @@ const TabPanelSummaryComponent = (props) => {
               summaryArr.map((item, index) => (
                 <Col key={`col-unit-${index}`} span={12}>
                   <div class="card p-2">
-                    <CButtonAntd
-                      onClick={() => handlePressEdit(item.id)}
-                      type="primary"
-                      icon={<EditOutlined />}
-                      size="middle"
-                    >
-                      Ubah Summary
-                    </CButtonAntd>
+                    {isBlockedRole && (
+                      <CButtonAntd
+                        onClick={() => handlePressEdit(item.id)}
+                        type="primary"
+                        icon={<EditOutlined />}
+                        size="middle"
+                      >
+                        Ubah Summary
+                      </CButtonAntd>
+                    )}
                     <Divider
                       style={{
                         fontSize: 12,

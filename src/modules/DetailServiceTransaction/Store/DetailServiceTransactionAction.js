@@ -422,8 +422,9 @@ const doEditSummaryProcess = async (values) => {
   try {
     await Invoke.updateSummary(payload, dataService.id, values.unitId);
     showToast("Berhasil menyimpan data", "success");
-    //
     dispatch(setEditSummaryModal(false));
+    // Call function to referesh summary unit group
+    getUnitSummary()
   } catch (error) {
     showToast("Proses manyimpan gagal, silahkan coba lagi", "error");
     dispatch(setEditSummaryModal(false));
@@ -464,7 +465,6 @@ const doInsertMedia = async (values) => {
   const { dispatch, getState } = store;
   const dataService = getState().services.selectedJobService;
 
-  const media = [];
   const payload = {};
 
   const splitUnit = values.unit.split("|");
@@ -475,7 +475,7 @@ const doInsertMedia = async (values) => {
   payload.type = "image";
   payload.base64 = values.imageUrl ?? "";
 
-  media.push(payload);
+  const media = { media: [payload] };
   try {
     await Invoke.addJobServiceMedia(media, dataService.id, unitId);
     showToast("Berhasil menyimpan data", "success");
@@ -568,4 +568,60 @@ export const resetFormModalImage = async () => {
   dispatch(change("editMediaForm", `title`, ""));
   dispatch(change("editMediaForm", `description`, ""));
   dispatch(change("editMediaForm", `unit`, ""));
+};
+
+export const getUnitSummary = async (callback) => {
+  const { dispatch, getState } = store;
+  const dataService = getState().services.selectedJobService;
+
+  // setIsCompleteLoadedSummary(false);
+  const groupingSummaryList = [];
+  let sequence = 0;
+
+  const setDispatch = (responseStatus) => {
+    if (sequence === dataService.units.length) {
+      if (responseStatus === "error") {
+        setTimeout(() => {
+          dispatch(setGroupingSummaryData(groupingSummaryList));
+          // setIsCompleteLoadedSummary(true);
+          callback(true);
+        }, 1000);
+      } else {
+        setTimeout(() => {
+          dispatch(setGroupingSummaryData(groupingSummaryList));
+          // setIsCompleteLoadedSummary(true);
+          callback(true);
+        }, 1000);
+      }
+    }
+  };
+
+  if (dataService.units.length > 0) {
+    await dataService.units.map(async (item, index) => {
+      await Invoke.getJobServiceSummary(dataService.id, item.id)
+        .then((dataSummary) => {
+          groupingSummaryList.push({
+            id: item.id,
+            unitName: item.unit_name,
+            summary: dataSummary.data.callback.summary,
+          });
+
+          sequence += 1;
+          setDispatch(dataSummary.status);
+        })
+        .catch((err) => {
+          groupingSummaryList.push({
+            id: item.id,
+            unitName: item.unit_name,
+            summary: [],
+          });
+          sequence += 1;
+          setDispatch("error");
+          callback(true);
+          console.log(err);
+        });
+    });
+  } else {
+    callback(true);
+  }
 };

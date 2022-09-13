@@ -31,7 +31,7 @@ const RenderImage = ({ medias, unit }) => {
 };
 
 const TabPanelImagesComponent = (props) => {
-  const { medias, handlePressAdd, isLoaded } = props;
+  const { medias, handlePressAdd, isLoaded, isBlockedRole } = props;
 
   return (
     <div class="page-content">
@@ -55,14 +55,16 @@ const TabPanelImagesComponent = (props) => {
               <CameraOutlined />
               <Typography style={{ marginLeft: 5 }}>Media</Typography>
             </Row>
-            <CButtonAntd
-              onClick={handlePressAdd}
-              type="primary"
-              icon={<PlusCircleOutlined />}
-              size="middle"
-            >
-              Tambah Gambar
-            </CButtonAntd>
+            {!isBlockedRole && (
+              <CButtonAntd
+                onClick={handlePressAdd}
+                type="primary"
+                icon={<PlusCircleOutlined />}
+                size="middle"
+              >
+                Tambah Gambar
+              </CButtonAntd>
+            )}
           </Row>
           <hr />
           {medias && medias.length > 0 ? (

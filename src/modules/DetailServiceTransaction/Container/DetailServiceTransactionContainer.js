@@ -191,10 +191,10 @@ const DetailServiceTransactionContainer = (props) => {
       }
     };
 
-    if (selectedJobService.units) {
+    if (selectedJobService.units.length > 0) {
       await selectedJobService.units.map(async (item, index) => {
-        await Invoke.getJobServiceMedia(selectedJobService.id, item.id).then(
-          (dataMedia) => {
+        await Invoke.getJobServiceMedia(selectedJobService.id, item.id)
+          .then((dataMedia) => {
             const imageList = dataMedia.data.callback.data ?? [];
             // Push to tempporary array
             groupingMediaList.push({
@@ -203,8 +203,16 @@ const DetailServiceTransactionContainer = (props) => {
             });
             sequence += 1;
             setDispatch();
-          }
-        );
+          })
+          .catch((err) => {
+            groupingMediaList.push({
+              unitName: item.unit_name,
+              image: [],
+            });
+
+            sequence += 1;
+            setDispatch();
+          });
       });
     } else {
       try {
@@ -214,9 +222,10 @@ const DetailServiceTransactionContainer = (props) => {
         );
         // Push to tempporary array
         groupingMediaList.push({
-          unitName: "All Unit",
+          unitName: "All",
           image: dataMedia.callback.data ?? [],
         });
+        setIsCompleteLoadedMedia(true);
       } catch (error) {
         setMediaList([]);
         setIsCompleteLoadedMedia(true);
@@ -231,50 +240,55 @@ const DetailServiceTransactionContainer = (props) => {
 
   const groupingUnitSummary = async () => {
     setIsCompleteLoadedSummary(false);
-    const groupingSummaryList = [];
-    let sequence = 0;
+    await DetailServiceActions.getUnitSummary((isCompleted) => {
+      console.log("=== isCompleted : ", isCompleted);
+      setIsCompleteLoadedSummary(isCompleted);
+    });
 
-    const setDispatch = (responseStatus) => {
-      if (sequence === selectedJobService.units.length) {
-        if (responseStatus === "error") {
-          setTimeout(() => {
-            setSummaryList(groupingSummaryList);
-            setIsCompleteLoadedSummary(true);
-          }, 1000);
-        } else {
-          setTimeout(() => {
-            setSummaryList(groupingSummaryList);
-            setIsCompleteLoadedSummary(true);
-          }, 1000);
-        }
-      }
-    };
+    // const groupingSummaryList = [];
+    // let sequence = 0;
 
-    if (selectedJobService.units) {
-      await selectedJobService.units.map(async (item, index) => {
-        await Invoke.getJobServiceSummary(selectedJobService.id, item.id)
-          .then((dataSummary) => {
-            groupingSummaryList.push({
-              id: item.id,
-              unitName: item.unit_name,
-              summary: dataSummary.data.callback.summary,
-            });
+    // const setDispatch = (responseStatus) => {
+    //   if (sequence === selectedJobService.units.length) {
+    //     if (responseStatus === "error") {
+    //       setTimeout(() => {
+    //         setSummaryList(groupingSummaryList);
+    //         setIsCompleteLoadedSummary(true);
+    //       }, 1000);
+    //     } else {
+    //       setTimeout(() => {
+    //         setSummaryList(groupingSummaryList);
+    //         setIsCompleteLoadedSummary(true);
+    //       }, 1000);
+    //     }
+    //   }
+    // };
 
-            sequence += 1;
-            setDispatch(dataSummary.status);
-          })
-          .catch((err) => {
-            groupingSummaryList.push({
-              id: item.id,
-              unitName: item.unit_name,
-              summary: [],
-            });
-            sequence += 1;
-            setDispatch("error");
-            console.log(err);
-          });
-      });
-    }
+    // if (selectedJobService.units) {
+    //   await selectedJobService.units.map(async (item, index) => {
+    //     await Invoke.getJobServiceSummary(selectedJobService.id, item.id)
+    //       .then((dataSummary) => {
+    //         groupingSummaryList.push({
+    //           id: item.id,
+    //           unitName: item.unit_name,
+    //           summary: dataSummary.data.callback.summary,
+    //         });
+
+    //         sequence += 1;
+    //         setDispatch(dataSummary.status);
+    //       })
+    //       .catch((err) => {
+    //         groupingSummaryList.push({
+    //           id: item.id,
+    //           unitName: item.unit_name,
+    //           summary: [],
+    //         });
+    //         sequence += 1;
+    //         setDispatch("error");
+    //         console.log(err);
+    //       });
+    //   });
+    // }
   };
 
   const groupingUnitChecklist = async () => {

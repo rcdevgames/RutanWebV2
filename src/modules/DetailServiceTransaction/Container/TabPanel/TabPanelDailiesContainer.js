@@ -1,8 +1,8 @@
-import moment from "moment";
 import React from "react";
 import { connect } from "react-redux";
 import { change } from "redux-form";
 import { store } from "../../../../app/ConfigureStore";
+import { isBlockedRoleDetailService } from "../../../../app/Helpers";
 import TabPanelDailiesComponent from "../../Component/TabPanel/TabPanelDailiesComponent";
 import {
   mapDailiesToForm,
@@ -13,15 +13,32 @@ import {
 
 const TabPanelDailiesContainer = (props) => {
   const {
+    userRole,
     detailService: { typeFormDailies },
   } = props;
+  const [isBlockedRole, setIsBlockedRole] = React.useState(false);
+
+  const checkBlockedRole = () => {
+    const isBlock = isBlockedRoleDetailService(userRole[0].role_id);
+    setIsBlockedRole(isBlock);
+  };
+
+  React.useEffect(() => {
+    checkBlockedRole();
+  }, []);
+
   return (
-    <TabPanelDailiesComponent typeFormDailies={typeFormDailies} {...props} />
+    <TabPanelDailiesComponent
+      isBlockedRole={isBlockedRole}
+      typeFormDailies={typeFormDailies}
+      {...props}
+    />
   );
 };
 
 const mapStateToProps = (state) => ({
   detailService: state.detailService,
+  userRole: state.auth.userDetail.roles,
 });
 const mapDispatchToProps = (dispatch) => ({
   handlePressEdit: async (values) => {

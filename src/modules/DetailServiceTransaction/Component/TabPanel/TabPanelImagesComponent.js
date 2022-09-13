@@ -55,7 +55,7 @@ const TabPanelImagesComponent = (props) => {
               <CameraOutlined />
               <Typography style={{ marginLeft: 5 }}>Media</Typography>
             </Row>
-            {!isBlockedRole && (
+            {isBlockedRole && (
               <CButtonAntd
                 onClick={handlePressAdd}
                 type="primary"

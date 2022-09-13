@@ -1,3 +1,8 @@
+### Changelog v.2.4.11
+- feat: Add new feature to insert media from web if role is 'CSA'
+- feat: Add new feature to update summary from web if role is 'CSA'
+- feat: Add new feature to add dailies from web if role is 'CSA'
+
 ### Changelog v.2.4.10
 - fix: Show button "finished" when status is progress
 

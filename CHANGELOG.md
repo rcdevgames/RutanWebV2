@@ -1,3 +1,6 @@
+### Changelog v.2.4.12
+-fix: Add role access to fill job service
+
 ### Changelog v.2.4.11
 - feat: Add new feature to insert media from web if role is 'CSA'
 - feat: Add new feature to update summary from web if role is 'CSA'

@@ -59,7 +59,6 @@ export const getEmployeeToolsRequested = async (
 ) => {
   try {
     const { data } = await Invoke.getEmployeeTools(employeeId, page, limit);
-    console.log("=== data : ", data);
     const paging = {};
     paging.page = data.callback.page;
     paging.limit = data.callback.limit;

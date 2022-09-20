@@ -169,7 +169,6 @@ export const exportDetailServicePdfRevision = (data) => {
     // drawCell is function for styling font, color and add content to every cell
     const drawCellChecklist = (dataCell) => {
       let docCell = dataCell.doc;
-      console.log("=== dataCell  : ", dataCell);
 
       // --> Draw Circle shape for checklist
       if (

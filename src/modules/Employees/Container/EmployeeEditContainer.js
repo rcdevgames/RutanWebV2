@@ -108,7 +108,6 @@ const EmployeeEditContainer = (props) => {
   }, [formStatus, selectedEmployeeData.province_id]);
 
   const onChangeRoleEmployee = (roles) => {
-    console.log("=== roles : ", roles);
     setRoleSelected(roles);
     store.dispatch(change("editEmployeeForm", "selectedRoles", roles));
   };

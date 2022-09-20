@@ -29,7 +29,7 @@ const CSelectAntd: React.FC<IProps> = (props) => {
   };
 
   const onSearch = (value: any) => {
-    console.log("search:", value);
+    // console.log("search:", value);
   };
   return (
     <div>

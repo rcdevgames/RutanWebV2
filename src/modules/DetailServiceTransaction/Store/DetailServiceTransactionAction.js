@@ -17,6 +17,8 @@ export const SET_GROUPING_SELECTED_SERVICES_MEDIA_DATA =
 
 export const SET_GROUPING_SUMMARY_DATA = "SET_GROUPING_SUMMARY_DATA";
 
+export const SET_SINGLE_SUMMARY_DATA = "SET_SINGLE_SUMMARY_DATA";
+
 export const SET_GROUPING_CHECKLIST_DATA = "SET_GROUPING_CHECKLIST_DATA";
 
 export const SET_SELECTED_SERVICES_SUMMARY_DATA =
@@ -92,6 +94,13 @@ export const setGroupingSelectedServicesMediaData = (payload) => {
 export const setGroupingSummaryData = (payload) => {
   return {
     type: SET_GROUPING_SUMMARY_DATA,
+    payload,
+  };
+};
+
+export const setSingleSummaryData = (payload) => {
+  return {
+    type: SET_SINGLE_SUMMARY_DATA,
     payload,
   };
 };
@@ -419,12 +428,45 @@ const doEditSummaryProcess = async (values) => {
 
   payload.summary = values.summary ?? "";
 
+  if (dataService.is_external) {
+    try {
+      await Invoke.updateSummary(payload, dataService.id, values.unitId);
+      showToast("Berhasil menyimpan data", "success");
+      dispatch(setEditSummaryModal(false));
+      // Call function to referesh summary unit group
+      getUnitSummary((res) => {});
+    } catch (error) {
+      showToast("Proses manyimpan gagal, silahkan coba lagi", "error");
+      dispatch(setEditSummaryModal(false));
+    }
+  } else {
+    try {
+      await Invoke.updateSummary(payload, dataService.id, null);
+      showToast("Berhasil menyimpan data", "success");
+      dispatch(setEditSummaryModal(false));
+      // Call function to referesh summary unit single
+      getUnitSummary((res) => {});
+    } catch (error) {
+      showToast("Proses manyimpan gagal, silahkan coba lagi", "error");
+      dispatch(setEditSummaryModal(false));
+    }
+  }
+};
+
+const doAddSummaryProcess = async (values) => {
+  const { dispatch, getState } = store;
+  const dataService = getState().services.selectedJobService;
+
+  const payload = {};
+
+  payload.summary = values.summary ?? "";
+
   try {
-    await Invoke.updateSummary(payload, dataService.id, values.unitId);
+    await Invoke.updateSummary(payload, dataService.id, null);
     showToast("Berhasil menyimpan data", "success");
     dispatch(setEditSummaryModal(false));
     // Call function to referesh summary unit group
-    getUnitSummary()
+    getUnitSummary((res) => {});
   } catch (error) {
     showToast("Proses manyimpan gagal, silahkan coba lagi", "error");
     dispatch(setEditSummaryModal(false));
@@ -449,7 +491,11 @@ export const handlePressEditDailiesRequested = async (values) => {
 export const handlePressEditSummaryRequested = async (values) => {
   const toastrConfirmOptions = {
     onOk: () => {
-      doEditSummaryProcess(values);
+      if (values.type === "NEW") {
+        doAddSummaryProcess(values);
+      } else {
+        doEditSummaryProcess(values);
+      }
     },
     okText: "Ya",
     cancelText: "Tidak",
@@ -576,25 +622,52 @@ export const getUnitSummary = async (callback) => {
 
   // setIsCompleteLoadedSummary(false);
   const groupingSummaryList = [];
+  const singleSummary = {};
   let sequence = 0;
 
   const setDispatch = (responseStatus) => {
     if (sequence === dataService.units.length) {
       if (responseStatus === "error") {
         setTimeout(() => {
-          dispatch(setGroupingSummaryData(groupingSummaryList));
-          // setIsCompleteLoadedSummary(true);
+          if (dataService.is_external) {
+            dispatch(setGroupingSummaryData(groupingSummaryList));
+          } else {
+            dispatch(setSingleSummaryData(singleSummary));
+          }
+
           callback(true);
         }, 1000);
       } else {
         setTimeout(() => {
-          dispatch(setGroupingSummaryData(groupingSummaryList));
-          // setIsCompleteLoadedSummary(true);
+          if (dataService.is_external) {
+            dispatch(setGroupingSummaryData(groupingSummaryList));
+          } else {
+            dispatch(setSingleSummaryData(singleSummary));
+          }
+
           callback(true);
         }, 1000);
       }
     }
   };
+
+  if (!dataService.is_external) {
+    await Invoke.getJobServiceSummary(dataService.id, null)
+      .then((dataSummary) => {
+        singleSummary.id = dataService.id;
+        singleSummary.summary = dataSummary.data.callback.summary;
+
+        setDispatch(dataSummary.status);
+      })
+      .catch((err) => {
+        singleSummary.id = dataService.id;
+        singleSummary.summary = "";
+
+        setDispatch("error");
+        callback(true);
+        console.log(err);
+      });
+  }
 
   if (dataService.units.length > 0) {
     await dataService.units.map(async (item, index) => {

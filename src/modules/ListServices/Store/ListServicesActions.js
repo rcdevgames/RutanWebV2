@@ -115,7 +115,6 @@ export const handleSearch = async (page, limit, keyword, filterValues) => {
 };
 
 const getDetailServicePerUnit = async (service) => {
-  console.log("=== service : ", service);
 
   const { dispatch } = store;
   // Hit media api and grouping by units :
@@ -123,8 +122,6 @@ const getDetailServicePerUnit = async (service) => {
   if (service.units) {
     await service.units.map(async (item, index) => {
       const { data: dataChecklist } = await Invoke.getChecklistData(item.id);
-
-      console.log("=== dataChecklist : ", dataChecklist);
       // Push to tempporary array
       groupingChecklist.push({
         unitName: item.unit_name,

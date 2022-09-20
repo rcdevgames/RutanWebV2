@@ -201,7 +201,6 @@ export const exportDetailServicePdf = (data) => {
     };
 
     // Check if the index of data is even or odd
-    console.log("=== checklistData : ", checklistData);
     checklistData.map((item, index) => {
       if (!isEven(index + 1)) {
         doc.autoTable({

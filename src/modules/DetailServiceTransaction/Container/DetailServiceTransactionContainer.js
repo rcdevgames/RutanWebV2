@@ -40,6 +40,7 @@ const DetailServiceTransactionContainer = (props) => {
       selectedServiceDailies,
       selectedServiceHistories,
       selectedServiceRejected,
+      singleSelectedServiceSummary,
     },
   } = props;
   const [isLoadedChecklist, setIsLoadedChecklist] = React.useState(false);
@@ -67,7 +68,11 @@ const DetailServiceTransactionContainer = (props) => {
       icon: <FileTextOutlined />,
       component: (
         <TabPanelSummaryContainer
-          summary={groupingSelectedServiceSummary}
+          summary={
+            selectedJobService.is_external
+              ? groupingSelectedServiceSummary
+              : singleSelectedServiceSummary
+          }
           isLoaded={isCompleteLoadedSummary}
         />
       ),
@@ -241,7 +246,6 @@ const DetailServiceTransactionContainer = (props) => {
   const groupingUnitSummary = async () => {
     setIsCompleteLoadedSummary(false);
     await DetailServiceActions.getUnitSummary((isCompleted) => {
-      console.log("=== isCompleted : ", isCompleted);
       setIsCompleteLoadedSummary(isCompleted);
     });
 

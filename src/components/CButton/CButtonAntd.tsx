@@ -30,6 +30,7 @@ const CButtonAntd: React.FC<IProps> = (props) => {
   return (
     <Button
       style={{
+        alignSelf: "center",
         backgroundColor: backgroundColor,
         borderColor: backgroundColor,
       }}

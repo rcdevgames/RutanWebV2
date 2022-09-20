@@ -224,7 +224,7 @@ const doEditEmployeeProcess = async (values, roleSelected) => {
     const payload = {};
     payload.id = values.id;
     payload.nik = values.nik;
-    payload.password = values.password;
+    payload.password = values.password ?? "";
     payload.name = values.name;
     payload.branch_id = branchId[0] ?? "";
     payload.province_id = provinceId[0] ?? "";
@@ -241,9 +241,9 @@ const doEditEmployeeProcess = async (values, roleSelected) => {
     // Save Employee data actions
     await Invoke.updateEmployee(payload);
     showToast("Data Berhasil Disimpan", "success");
-    setTimeout(() => {
-      navigate("/employees");
-    }, 1000);
+    // setTimeout(() => {
+    //   navigate("/employees");
+    // }, 1000);
   } catch (error) {
     dispatch(ComponentActions.setGlobalLoading(false));
   }

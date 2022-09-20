@@ -13,7 +13,7 @@ const TabPanelImagesContainer = (props) => {
 
   const checkBlockedRole = () => {
     const isBlock = isBlockedRoleDetailService(userRole[0].role_id);
-    console.log("=== blocked : ", isBlock);
+    
     setIsBlockedRole(isBlock);
   };
 

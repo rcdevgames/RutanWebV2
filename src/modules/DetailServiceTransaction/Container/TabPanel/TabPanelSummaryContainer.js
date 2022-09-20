@@ -6,7 +6,7 @@ import TabPanelSummaryComponent from "../../Component/TabPanel/TabPanelSummaryCo
 import { setEditSummaryModal } from "../../Store/DetailServiceTransactionAction";
 
 const TabPanelSummaryContainer = (props) => {
-  const { summary, userRole } = props;
+  const { summary, userRole, selectedService } = props;
   const [summaryArr, setSummaryArr] = React.useState([]);
   const [isBlockedRole, setIsBlockedRole] = React.useState(false);
 
@@ -22,31 +22,52 @@ const TabPanelSummaryContainer = (props) => {
   React.useEffect(() => {
     const summaryMapping = [];
 
-    summary.map((item, index) => {
-      const summaryText = item.summary ?? "";
-      const checkBreakLine = summaryText.includes("\n");
+    if (selectedService.is_external) {
+      summary.map((item, index) => {
+        const summaryText = item.summary ?? "";
+        const checkBreakLine = summaryText.includes("\n");
+
+        if (checkBreakLine) {
+          const splitSummary = summaryText.split("\n");
+          summaryMapping.push({
+            id: item.id,
+            unitName: item.unitName,
+            summary: splitSummary,
+          });
+        } else {
+          summaryMapping.push({
+            id: item.id,
+            unitName: item.unitName,
+            summary: [summaryText],
+          });
+        }
+      });
+
+      setSummaryArr(summaryMapping);
+    } else {
+      const data = {};
+      const summaryText = summary.summary ?? "";
+      const checkBreakLine = summaryText.includes("\\n");
 
       if (checkBreakLine) {
-        const splitSummary = summaryText.split("\n");
-        summaryMapping.push({
-          id: item.id,
-          unitName: item.unitName,
-          summary: splitSummary,
-        });
+        const splitSummary = summaryText.split("\\n");
+        data.id = selectedService.id;
+        data.unitName = "";
+        data.summary = splitSummary;
       } else {
-        summaryMapping.push({
-          id: item.id,
-          unitName: item.unitName,
-          summary: [summaryText],
-        });
+        data.id = selectedService.id;
+        data.unitName = "";
+        data.summary = [summaryText];
       }
-    });
-    setSummaryArr(summaryMapping);
-  }, [summary]);
+
+      setSummaryArr([data]);
+    }
+  }, [selectedService.id, selectedService.is_external, summary]);
 
   return (
     <TabPanelSummaryComponent
       summaryArr={summaryArr}
+      isExternal={selectedService.is_external}
       isBlockedRole={isBlockedRole}
       {...props}
     />
@@ -55,10 +76,17 @@ const TabPanelSummaryContainer = (props) => {
 
 const mapStateToProps = (state) => ({
   userRole: state.auth.userDetail.roles,
+  selectedService: state.services.selectedJobService,
 });
 const mapDispatchToProps = (dispatch) => ({
   handlePressEdit: async (unitId) => {
-    dispatch(change("editSummaryForm", `unitId`, unitId));
+    if (unitId === "NEW_SUMMARY") {
+      dispatch(change("editSummaryForm", `type`, "NEW"));
+    } else {
+      dispatch(change("editSummaryForm", `type`, "EDIT"));
+      dispatch(change("editSummaryForm", `unitId`, unitId));
+    }
+
     await dispatch(setEditSummaryModal(true));
   },
 });

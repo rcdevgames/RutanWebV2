@@ -146,7 +146,7 @@ const EmployeeEditComponent = (props) => {
                       <Field
                         name="password"
                         label="Password"
-                        placeholder="* Isi jika ingin merubah password"
+                        placeholder={formStatus === 'edit' ? "* Isi jika ingin merubah kata sandi" : "* Masukan kata sandi anda"}
                         component={CInput}
                         type="password"
                       />

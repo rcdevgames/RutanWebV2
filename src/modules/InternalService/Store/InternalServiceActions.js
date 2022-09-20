@@ -182,8 +182,6 @@ export const setAutoPopulateCustomer = async (customerId, isReset = false) => {
       citySelected = filteredCity;
     }
 
-    console.log("=== City : ", cityData);
-
     // Mapping data to redux-form
     store.dispatch(
       change(

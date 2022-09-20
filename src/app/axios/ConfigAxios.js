@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 // Next we make an 'instance' of it
 const ConfigAxios = axios.create({
   // .. where we make our configurations
-  baseURL: "http://103.158.192.161:3000",
+  baseURL: "http://103.169.7.90:3000",
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",

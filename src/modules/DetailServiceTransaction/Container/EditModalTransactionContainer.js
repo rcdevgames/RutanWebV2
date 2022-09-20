@@ -15,7 +15,6 @@ const RolesEditModalContainer = (props) => {
 
   const submitForm = (values) => {
     if (valid) {
-      console.log("valid");
       // handleSubmitForm("edit", values, menuSelected);
       DetailServiceTransactionAction.handlePressEditRequested(values);
     } else {

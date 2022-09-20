@@ -195,8 +195,6 @@ const doUpdateIdentificationRegular = async (values, isFinished) => {
       return;
     }
 
-    console.log("=== values : ", values);
-
     const identificationId = getState().identification.selectedIdentificationId;
     const splitInstanceType = values?.instanceType.split("|");
     const splitMillingStatus = values.millingStatus

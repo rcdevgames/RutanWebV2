@@ -1,6 +1,10 @@
 import React, { Fragment } from "react";
 import { Typography, Row, Empty, Divider, Col, Spin } from "antd";
-import { FileOutlined, EditOutlined } from "@ant-design/icons";
+import {
+  FileOutlined,
+  EditOutlined,
+  PlusCircleOutlined,
+} from "@ant-design/icons";
 import CButtonAntd from "../../../../components/CButton/CButtonAntd";
 
 const RenderItemSummary = ({ summary, index }) => {
@@ -16,7 +20,8 @@ const RenderItemSummary = ({ summary, index }) => {
 };
 
 const TabPanelSummaryComponent = (props) => {
-  const { summaryArr, isLoaded, handlePressEdit, isBlockedRole } = props;
+  const { summaryArr, isLoaded, handlePressEdit, isBlockedRole, isExternal } =
+    props;
 
   return (
     <div class="page-content">
@@ -29,10 +34,30 @@ const TabPanelSummaryComponent = (props) => {
           <Row
             style={{
               alignItems: "center",
+              justifyContent: "space-between",
             }}
           >
-            <FileOutlined />
-            <Typography style={{ marginLeft: 5 }}>Laporan Akhir</Typography>
+            <Row
+              style={{
+                alignItems: "center",
+              }}
+            >
+              <FileOutlined />
+              <Typography style={{ marginLeft: 5 }}>Laporan Akhir</Typography>
+            </Row>
+            <div>
+              {(isExternal === false && summaryArr !== "") ||
+                (summaryArr !== null && (
+                  <CButtonAntd
+                    onClick={() => handlePressEdit("NEW_SUMMARY")}
+                    type="primary"
+                    icon={<PlusCircleOutlined />}
+                    size="middle"
+                  >
+                    Tambah Summary
+                  </CButtonAntd>
+                ))}
+            </div>
           </Row>
           <hr />
           <Row gutter={[16, 16]}>
@@ -57,13 +82,15 @@ const TabPanelSummaryComponent = (props) => {
                         textTransform: "uppercase",
                       }}
                       plain
-                    >{`Unit ${item.unitName}`}</Divider>
+                    >
+                      {isExternal ? `Unit ${item.unitName}` : "Job Summary"}
+                    </Divider>
                     {<RenderItemSummary index={index} summary={item.summary} />}
                   </div>
                 </Col>
               ))
             ) : (
-              <div>
+              <div class="col-md-12 px-auto">
                 <Empty />
               </div>
             )}

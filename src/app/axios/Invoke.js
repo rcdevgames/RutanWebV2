@@ -262,7 +262,9 @@ Invoke.setStatusEmployeeService = (jobId, payload) => {
 
 // === Service - Views API ===
 Invoke.getJobServiceSummary = (jobId, unitId) => {
-  return ConfigAxios.get(`/m_services/summary/${jobId}/${unitId}`);
+  return ConfigAxios.get(
+    `/m_services/summary/${jobId}${unitId ? "/" + unitId : ""}`
+  );
 };
 Invoke.getJobServiceMedia = (jobId, unitId) => {
   return ConfigAxios.get(
@@ -293,7 +295,10 @@ Invoke.addJobServiceDaily = (payload, jobId) => {
   return ConfigAxios.post(`/m_services/daily/${jobId}`, payload);
 };
 Invoke.updateSummary = (payload, jobId, unitId) => {
-  return ConfigAxios.put(`/m_services/summary/${jobId}/${unitId}`, payload);
+  return ConfigAxios.put(
+    `/m_services/summary/${jobId}${unitId ? "/" + unitId : ""}`,
+    payload
+  );
 };
 
 // === End Service Views ===

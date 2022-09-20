@@ -1,3 +1,9 @@
+### Changelog v.3.0.0
+- fix: Insert summary to internal job service
+- fix: Insert summary to external job service
+- refactor: Delete unused code
+- api: Change API pinned IP address
+
 ### Changelog v.2.4.12
 -fix: Add role access to fill job service
 

@@ -48,10 +48,14 @@ export const setSelectedJobFormsData = (payload) => {
 
 // === INTERNAL FUNCTION ===
 const doDeleteBranchProcess = async (jobFormsId) => {
+  const { getState } = store;
+  const data = getState().jobForms;
+  const { paging } = data;
+
   try {
     await Invoke.deleteJobForms(jobFormsId);
     showToast("Data berhasil dihapus", "success");
-    getJobFormsListDataRequested();
+    getJobFormsListDataRequested(paging.page, paging.limit);
   } catch (error) {
     showToast("Internal Server Error!", "error");
     console.log("error : ", error);
@@ -117,9 +121,9 @@ export const getJobFormsListDataRequested = async (
   try {
     const { data } = await Invoke.getListJobForm(page, limit, keyword);
     const paging = {};
-    paging.page = data.callback.page;
-    paging.limit = data.callback.limit;
-    paging.totalPage = data.callback.totalPage;
+    paging.page = data.callback.page ?? 1;
+    paging.limit = data.callback.limit ?? 10;
+    paging.totalPage = data.callback.totalPage ?? 1;
     store.dispatch(setJobFormsListData(data.callback.data));
     store.dispatch(setPagingJobForm(paging));
   } catch (error) {

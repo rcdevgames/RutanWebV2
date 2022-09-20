@@ -1,3 +1,7 @@
+### Changelog v.3.0.1
+- fix: Fixing actions delete job forms
+- fix: Takeout authectication page on employee-tool
+
 ### Changelog v.3.0.0
 - fix: Insert summary to internal job service
 - fix: Insert summary to external job service

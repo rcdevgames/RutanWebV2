@@ -83,8 +83,7 @@ export default function Navigation() {
   const EmployeeTools = authenticatedPage(
     EmployeeToolsContainer,
     true,
-    "/employee-tool",
-    true
+    "/employee-tool"
   );
   const Division = authenticatedPage(
     DivisionContainer,
@@ -95,29 +94,34 @@ export default function Navigation() {
   const DivisionUnit = authenticatedPage(
     DivisionUnitContainer,
     true,
-    "/division-unit",
+    "/division-unit"
   );
   const EditEmployee = authenticatedPage(
     EmployeeEditContainer,
     true,
     "/edit-employee"
   );
-  const Dashboard = authenticatedPage(DashboardContainer, true, "/dashboard", false);
+  const Dashboard = authenticatedPage(
+    DashboardContainer,
+    true,
+    "/dashboard",
+    false
+  );
   const Units = authenticatedPage(UnitsContainer, true, "/unit", true);
   const UnitModels = authenticatedPage(
     UnitModelsContainer,
     true,
-    "/unit-models",
+    "/unit-models"
   );
   const UnitFields = authenticatedPage(
     UnitFieldsContainer,
     true,
-    "/unit-fields",
+    "/unit-fields"
   );
   const UnitJobForms = authenticatedPage(
     UnitJobFormsContainer,
     true,
-    "/unit-job-forms",
+    "/unit-job-forms"
   );
   const UnitSerialNumber = authenticatedPage(
     UnitSerialNumberContainer,

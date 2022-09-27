@@ -1,3 +1,10 @@
+### Changelog v.3.0.2
+- fix: Slow loading when change between screen
+- fix: Add time picker when input or edit dailies employee
+- fix: Hide 'Cetak Formulir' & 'Tambah Teknisi' jika user login adalah Teknisi (CSA)
+- fix: Add condition unit when input image media
+- fix: Fixing bugs on summary tab
+
 ### Changelog v.3.0.1
 - fix: Fixing actions delete job forms
 - fix: Takeout authectication page on employee-tool

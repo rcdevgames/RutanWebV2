@@ -1,4 +1,6 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
+import { Command } from "react-feather";
 
 const Sidebar = ({
   role,
@@ -30,7 +32,7 @@ const Sidebar = ({
               mainMenu.map((item, index) => (
                 <li key={`sidebar-main-menu-${index}`} class="nav-item">
                   <a href={item.path} class="nav-link">
-                    <i class="link-icon" data-feather={item.icon}></i>
+                    {item.icon}
                     <span class="link-title">{item.name}</span>
                   </a>
                 </li>
@@ -42,7 +44,7 @@ const Sidebar = ({
               masterDataMenu.map((item, index) => (
                 <li key={`sidebar-master-data-${index}`} class="nav-item">
                   <a class="nav-link" href={item.path}>
-                    <i class="link-icon" data-feather={item.icon}></i>
+                    {item.icon}
                     <span class="link-title">{item.name}</span>
                   </a>
                 </li>
@@ -54,7 +56,7 @@ const Sidebar = ({
               serviceRepairMenu.map((item, index) => (
                 <li key={`sidebar-master-data-${index}`} class="nav-item">
                   <a class="nav-link" href={item.path}>
-                    <i class="link-icon" data-feather={item.icon}></i>
+                    {item.icon}
                     <span class="link-title">{item.name}</span>
                   </a>
                 </li>
@@ -66,7 +68,7 @@ const Sidebar = ({
               reportMenu.map((item, index) => (
                 <li key={`sidebar-master-data-${index}`} class="nav-item">
                   <a class="nav-link" href={item.path}>
-                    <i class="link-icon" data-feather={item.icon}></i>
+                    {item.icon}
                     <span class="link-title">{item.name}</span>
                   </a>
                 </li>
@@ -78,7 +80,7 @@ const Sidebar = ({
               reportDataMenu.map((item, index) => (
                 <li key={`sidebar-master-data-${index}`} class="nav-item">
                   <a class="nav-link" href={item.path}>
-                    <i class="link-icon" data-feather={item.icon}></i>
+                    {item.icon}
                     <span class="link-title">{item.name}</span>
                   </a>
                 </li>
@@ -90,4 +92,4 @@ const Sidebar = ({
   );
 };
 
-export default Sidebar;
+export default withRouter(Sidebar);

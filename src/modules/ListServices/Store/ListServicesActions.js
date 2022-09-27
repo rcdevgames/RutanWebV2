@@ -145,6 +145,7 @@ export const handlePressEdit = async (values) => {
     // await getDetailServicePerUnit(dataService);
     setTimeout(() => {
       store.dispatch(setGlobalLoading(false));
+      
       navigate("detail-services");
     }, 1500);
   } catch (error) {

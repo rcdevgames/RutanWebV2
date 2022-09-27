@@ -101,18 +101,19 @@ const TabPanelEmployeeComponent = (props) => {
     handlePressNonactive,
     jobId,
     handlePressActive,
+    isBlockedRole,
   } = props;
   return (
     <div class="page-content">
       <Row style={{ marginLeft: 16 }}>
-        <CButtonAntd
+        {!isBlockedRole && <CButtonAntd
           onClick={handlePressAddNew}
           type="primary"
           icon={<PlusOutlined />}
           size="middle"
         >
           Tambah Teknisi
-        </CButtonAntd>
+        </CButtonAntd>}
       </Row>
       <Row>
         {employees.map((item, index) => {

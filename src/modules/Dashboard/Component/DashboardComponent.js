@@ -1,9 +1,9 @@
 import { Table } from "antd";
 import React from "react";
-import '../../../app/style/tableStyle.css'
+import "../../../app/style/tableStyle.css";
 
 const DashboardComponent = (props) => {
-  const { userDetail, headers, listServices, dashboard } = props;
+  const { userDetail, headers, listServices, dashboard, isBlocked } = props;
   return (
     <div>
       <div class="page-content">
@@ -12,60 +12,62 @@ const DashboardComponent = (props) => {
             userDetail.fullname ?? "Anonym"
           }`}</h4>
         </div>
-        <div class="row">
-          <div class="col-12 col-xl-12 stretch-card">
-            <div class="row flex-grow">
-              <div class="col-md-3 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-baseline">
-                      <h6 class="card-title mb-0">Total Customer</h6>
-                    </div>
-                    <div class="row">
-                      <div class="col-12 col-md-12 col-xl-8">
-                        <h3 class="mb-2">{dashboard.totalCustomer}</h3>
+        {!isBlocked && (
+          <div class="row">
+            <div class="col-12 col-xl-12 stretch-card">
+              <div class="row flex-grow">
+                <div class="col-md-3 grid-margin stretch-card">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-baseline">
+                        <h6 class="card-title mb-0">Total Customer</h6>
+                      </div>
+                      <div class="row">
+                        <div class="col-12 col-md-12 col-xl-8">
+                          <h3 class="mb-2">{dashboard.totalCustomer}</h3>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-md-3 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-baseline">
-                      <h6 class="card-title mb-0">Total Service Internal</h6>
-                    </div>
-                    <div class="row">
-                      <div class="col-6 col-md-12 col-xl-8">
-                        <h3 class="mb-2">{dashboard.totalInternalService}</h3>
+                <div class="col-md-3 grid-margin stretch-card">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-baseline">
+                        <h6 class="card-title mb-0">Total Service Internal</h6>
+                      </div>
+                      <div class="row">
+                        <div class="col-6 col-md-12 col-xl-8">
+                          <h3 class="mb-2">{dashboard.totalInternalService}</h3>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-md-3 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-baseline">
-                      <h6 class="card-title mb-0">Total Service External</h6>
-                    </div>
-                    <div class="row">
-                      <div class="col-6 col-md-12 col-xl-8">
-                        <h3 class="mb-2">{dashboard.totalExternalService}</h3>
+                <div class="col-md-3 grid-margin stretch-card">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-baseline">
+                        <h6 class="card-title mb-0">Total Service External</h6>
+                      </div>
+                      <div class="row">
+                        <div class="col-6 col-md-12 col-xl-8">
+                          <h3 class="mb-2">{dashboard.totalExternalService}</h3>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-md-3 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-baseline">
-                      <h6 class="card-title mb-0">Total Identifikasi</h6>
-                    </div>
-                    <div class="row">
-                      <div class="col-6 col-md-12 col-xl-8">
-                        <h3 class="mb-2">{dashboard.totalIdentification}</h3>
+                <div class="col-md-3 grid-margin stretch-card">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-baseline">
+                        <h6 class="card-title mb-0">Total Identifikasi</h6>
+                      </div>
+                      <div class="row">
+                        <div class="col-6 col-md-12 col-xl-8">
+                          <h3 class="mb-2">{dashboard.totalIdentification}</h3>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -73,7 +75,7 @@ const DashboardComponent = (props) => {
               </div>
             </div>
           </div>
-        </div>
+        )}
 
         <div class="row">
           <div class="col-12 col-xl-12 grid-margin stretch-card"></div>

@@ -7,6 +7,7 @@ import * as DetailServiceTransactionAction from "../Store/DetailServiceTransacti
 import InsertImageModalComponent from "../Component/InsertImageModalComponent";
 import { store } from "../../../app/ConfigureStore";
 import { showToast } from "../../Roles/Store/RolesActions";
+import { setGlobalLoading } from "../../App/Store/ComponentAction";
 
 const InsertImageModalContainer = (props) => {
   const {
@@ -16,12 +17,21 @@ const InsertImageModalContainer = (props) => {
     formValues,
     services: { selectedJobService },
   } = props;
+  const [isImageLoaded, setIsImageLoaded] = React.useState(null);
+
+  const handleError = () => {
+    setIsImageLoaded(false);
+    showToast("Harap lengkapi form!", "error");
+  };
 
   const submitForm = (values) => {
-    if (valid && formValues.imageUrl) {
-      DetailServiceTransactionAction.handlePressInsertMediaRequested(values);
-    } else {
-      showToast("Harap lengkapi form!", "error");
+    if (valid) {
+      if (formValues.imageUrl) {
+        setIsImageLoaded(true);
+        DetailServiceTransactionAction.handlePressInsertMediaRequested(values);
+      } else {
+        handleError();
+      }
     }
   };
 
@@ -47,6 +57,11 @@ const InsertImageModalContainer = (props) => {
       submitForm={submitForm}
       enumUnit={SelectUnit}
       handleUploadPhoto={handleUploadPhoto}
+      isImageLoaded={isImageLoaded}
+      defaultImage={
+        formValues && formValues.imageUrl ? formValues.imageUrl : ""
+      }
+      isExternal={selectedJobService.is_external}
       {...props}
     />
   );
@@ -64,9 +79,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   handleCancel: () =>
     dispatch(DetailServiceTransactionAction.setInsertMediaModal(false)),
-  handleClearModalContent: () => {
-    // dispatch(DetailServiceTransactionAction.setSelectedRoleMenu([]));
-  },
 });
 
 const EnhanceContainer = connect(

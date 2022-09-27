@@ -289,7 +289,10 @@ Invoke.getJobServiceHistories = (jobId, page, limit, keyword) => {
   );
 };
 Invoke.addJobServiceMedia = (payload, jobId, unitId) => {
-  return ConfigAxios.post(`/m_services/media/${jobId}/${unitId}`, payload);
+  return ConfigAxios.post(
+    `/m_services/media/${jobId}${unitId ? "/" + unitId : ""}`,
+    payload
+  );
 };
 Invoke.addJobServiceDaily = (payload, jobId) => {
   return ConfigAxios.post(`/m_services/daily/${jobId}`, payload);

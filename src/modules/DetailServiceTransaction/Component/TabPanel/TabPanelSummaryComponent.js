@@ -46,17 +46,16 @@ const TabPanelSummaryComponent = (props) => {
               <Typography style={{ marginLeft: 5 }}>Laporan Akhir</Typography>
             </Row>
             <div>
-              {(isExternal === false && summaryArr !== "") ||
-                (summaryArr !== null && (
-                  <CButtonAntd
-                    onClick={() => handlePressEdit("NEW_SUMMARY")}
-                    type="primary"
-                    icon={<PlusCircleOutlined />}
-                    size="middle"
-                  >
-                    Tambah Summary
-                  </CButtonAntd>
-                ))}
+              {isExternal === false && summaryArr.length < 0 && (
+                <CButtonAntd
+                  onClick={() => handlePressEdit("NEW_SUMMARY")}
+                  type="primary"
+                  icon={<PlusCircleOutlined />}
+                  size="middle"
+                >
+                  Tambah Summary
+                </CButtonAntd>
+              )}
             </div>
           </Row>
           <hr />

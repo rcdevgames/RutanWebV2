@@ -11,6 +11,7 @@ import Text from "antd/lib/typography/Text";
 import moment from "moment";
 import { getDashboardProgressData } from "../Store/DashboardActions";
 import { initializeApp } from "../../../app/InitializeApp";
+import { isBlockedRoleDetailService } from "../../../app/Helpers";
 
 const DashboardContainer = (props) => {
   const {
@@ -19,13 +20,27 @@ const DashboardContainer = (props) => {
     services: { dashboardListServices },
     dashboard: { dashboardData },
   } = props;
+  const [isBlocked, setisBlocked] = React.useState(false);
+
+
   if (dashboardListServices.length > 0) {
     dashboardListServices.map((item, index) => {
       dashboardListServices[index] = { ...item, no: index + 1 };
     });
   }
 
+  const checkBlockedRole = () => {
+    const roleId = userDetail.roles[0].role_id;
+    const isBlockedRole = isBlockedRoleDetailService(roleId);
+    if (isBlockedRole) {
+      setisBlocked(isBlockedRole);
+    } else {
+      setisBlocked(false);
+    }
+  };
+
   React.useEffect(() => {
+    checkBlockedRole()
     initializeApp();
     store.dispatch(setGlobalLoading(false));
     ListServiceActions.getTopTenService();
@@ -200,6 +215,7 @@ const DashboardContainer = (props) => {
       headers={headers}
       listServices={dashboardListServices}
       dashboard={dashboardData}
+      isBlocked={isBlocked}
     />
   );
 };

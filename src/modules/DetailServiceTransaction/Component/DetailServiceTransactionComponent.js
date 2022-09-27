@@ -136,14 +136,16 @@ const DetailServiceTransactionComponent = (props) => {
                   <RenderButtonAction status={data.status} />
                   <div class="mr-3" />
                   {/* button to trigger printing of target component */}
-                  <CButtonAntd
-                    onClick={handlePressGeneratePdf}
-                    type="primary"
-                    icon={<FilePdfOutlined />}
-                    size="middle"
-                  >
-                    Cetak Formulir
-                  </CButtonAntd>
+                  {!isBlockedRole && (
+                    <CButtonAntd
+                      onClick={handlePressGeneratePdf}
+                      type="primary"
+                      icon={<FilePdfOutlined />}
+                      size="middle"
+                    >
+                      Cetak Formulir
+                    </CButtonAntd>
+                  )}
                 </div>
               </div>
               <div

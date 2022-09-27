@@ -45,9 +45,10 @@ const RenderContent = ({
   beforeUpload,
   handleChange,
   imageUrl,
-  defaultImage,
   uploadButton,
   enumUnit,
+  isImageLoaded,
+  isExternal,
 }) => {
   return (
     <div class="page-content">
@@ -70,18 +71,20 @@ const RenderContent = ({
               beforeUpload={beforeUpload}
               onChange={handleChange}
             >
-              {imageUrl || defaultImage ? (
+              {imageUrl !== "" ? (
                 <>
-                  {<img
-                    src={imageUrl}
-                    alt="avatar"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      resizeMode: "stretch",
-                      borderRadius: 5,
-                    }}
-                  />}
+                  {
+                    <img
+                      src={imageUrl}
+                      alt="avatar"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        resizeMode: "stretch",
+                        borderRadius: 5,
+                      }}
+                    />
+                  }
                   <div
                     class="row"
                     style={{
@@ -109,6 +112,11 @@ const RenderContent = ({
                 uploadButton
               )}
             </Upload>
+            {isImageLoaded === false && (
+              <Typography style={{ fontSize: 10, color: "red" }}>
+                Field foto wajib diisi!
+              </Typography>
+            )}
           </div>
         </Row>
         <div class="row mt-2">
@@ -131,19 +139,18 @@ const RenderContent = ({
             />
           </div>
         </div>
-        <div class="row mt-2">
-          <div class="col-md-12">
-            <CSelect
-              showSearch
-              data={enumUnit}
-              name="unit"
-              label="Pilih Unit"
-              // onChange={(customer) => {
-              //   onChangeUnit(customer);
-              // }}
-            />
+        {isExternal && (
+          <div class="row mt-2">
+            <div class="col-md-12">
+              <CSelect
+                showSearch
+                data={enumUnit}
+                name="unit"
+                label="Pilih Unit"
+              />
+            </div>
           </div>
-        </div>
+        )}
       </Form>
     </div>
   );
@@ -163,6 +170,8 @@ const InsertImageModalComponent = (props) => {
     onChangeRoleMenu,
     defaultImage,
     handleUploadPhoto,
+    isImageLoaded,
+    isExternal,
   } = props;
   const [loading, setLoading] = React.useState(false);
   const [imageUrl, setImageUrl] = React.useState("");
@@ -170,8 +179,10 @@ const InsertImageModalComponent = (props) => {
   React.useEffect(() => {
     if (defaultImage) {
       setImageUrl(defaultImage);
+    } else {
+      setImageUrl("");
     }
-  }, [defaultImage]);
+  }, [defaultImage, imageUrl]);
 
   const beforeUpload = (file) => {
     const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
@@ -233,6 +244,8 @@ const InsertImageModalComponent = (props) => {
           handleChange={handleChange}
           uploadButton={uploadButton}
           imageUrl={imageUrl}
+          isImageLoaded={isImageLoaded}
+          isExternal={isExternal}
         />
       }
     />

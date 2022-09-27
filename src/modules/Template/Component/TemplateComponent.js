@@ -3,6 +3,7 @@ import CGlobalOverlay from "../../../components/CGlobalOverlay/CGlobalOverlay";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import Footer from "../../../components/Footer/Footer";
 import Navbar from "../../../components/Navbar/Navbar";
+import { withRouter } from "react-router-dom";
 
 const TemplateComponent = (props) => {
   const {
@@ -41,4 +42,4 @@ const TemplateComponent = (props) => {
   );
 };
 
-export default TemplateComponent;
+export default withRouter(TemplateComponent);

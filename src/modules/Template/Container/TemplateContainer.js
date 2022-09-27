@@ -7,6 +7,22 @@ import { createStructuredSelector } from "reselect";
 import * as authActions from "../../Auth/Store/AuthAction";
 import * as AuthSelector from "../../Auth/Selector/AuthSelector";
 import * as AppSelector from "../../App/Selector/AppSelector";
+import {
+  Box,
+  Briefcase,
+  Clock,
+  Command,
+  FilePlus,
+  FileText,
+  Key,
+  Link,
+  List,
+  Monitor,
+  Settings,
+  Tool,
+  User,
+  Users,
+} from "react-feather";
 
 const TemplateContainer = (props) => {
   const [role, setRole] = React.useState("");
@@ -21,67 +37,67 @@ const TemplateContainer = (props) => {
   const getIconName = (menu) => {
     switch (menu) {
       case "/dashboard":
-        return "command";
+        return <Command size={14} style={{ marginRight: -15 }} />;
 
       case "/admin":
-        return "user";
+        return <User size={14} style={{ marginRight: -15 }} />;
 
       case "/cabang":
-        return "link";
+        return <Link size={14} style={{ marginRight: -15 }} />;
 
       case "/employees":
-        return "users";
+        return <Users size={14} style={{ marginRight: -15 }} />;
 
       case "/customer":
-        return "users";
+        return <Users size={14} style={{ marginRight: -15 }} />;
 
       case "/division":
-        return "briefcase";
+        return <Briefcase size={14} style={{ marginRight: -15 }} />;
 
       case "/role":
-        return "key";
+        return <Key size={14} style={{ marginRight: -15 }} />;
 
       case "/tools":
-        return "tool";
+        return <Tool size={14} style={{ marginRight: -15 }} />;
 
       case "/machine":
-        return "settings";
+        return <Settings size={14} style={{ marginRight: -15 }} />;
 
       case "/jobforms":
-        return "file-text";
+        return <FileText size={14} style={{ marginRight: -15 }} />;
 
       case "/category":
-        return "file-text";
+        return <FileText size={14} style={{ marginRight: -15 }} />;
 
       case "/unit":
-        return "box";
+        return <Box size={14} style={{ marginRight: -15 }} />;
 
       case "/internal-service":
-        return "file-plus";
+        return <FilePlus size={14} style={{ marginRight: -15 }} />;
 
       case "/external-service":
-        return "file-plus";
+        return <FilePlus size={14} style={{ marginRight: -15 }} />;
 
       case "/list_service":
-        return "list";
+        return <List size={14} style={{ marginRight: -15 }} />;
 
       case "/monitoring-employee":
-        return "monitor";
+        return <Monitor size={14} style={{ marginRight: -15 }} />;
 
       case "/identification":
-        return "list";
+        return <List size={14} style={{ marginRight: -15 }} />;
 
       case "/report_trans":
-        return "list";
+        return <List size={14} style={{ marginRight: -15 }} />;
 
       case "/report_identification":
-        return "list";
+        return <List size={14} style={{ marginRight: -15 }} />;
 
       case "/report_employee":
-        return "list";
+        return <List size={14} style={{ marginRight: -15 }} />;
 
       case "/working-hours":
-        return "clock";
+        return <Clock size={14} style={{ marginRight: -15 }} />;
 
       default:
         return "command";

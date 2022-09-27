@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { reduxForm } from "redux-form";
-import { validateFormTransaction } from "../../../app/validateForm";
+import { change, getFormValues, reduxForm } from "redux-form";
+import { validateDailiesForm } from "../../../app/validateForm";
 import * as DetailServiceTransactionAction from "../Store/DetailServiceTransactionAction";
 
 import EditModalDailiesComponent from "../Component/EditModalDailiesComponent";
@@ -12,12 +12,13 @@ const EditModalDailiesContainer = (props) => {
     handleCancel,
     detailService: { editDailiesModal, typeFormDailies },
     masters: { listMenu },
+    setTimeDailiesForm,
+    editDailiesFormValues,
   } = props;
 
   const submitForm = (values) => {
     if (valid) {
       DetailServiceTransactionAction.handlePressEditDailiesRequested(values);
-    } else {
     }
   };
 
@@ -30,6 +31,10 @@ const EditModalDailiesContainer = (props) => {
     });
   });
 
+  const handleChangeTimePicker = (time) => {
+    setTimeDailiesForm(time);
+  };
+
   return (
     <EditModalDailiesComponent
       isModalVisible={editDailiesModal}
@@ -37,6 +42,12 @@ const EditModalDailiesContainer = (props) => {
       submitForm={submitForm}
       enumMenu={SelectMenu}
       typeFormDailies={typeFormDailies}
+      handleChangeTimePicker={handleChangeTimePicker}
+      timeStartEnd={
+        editDailiesFormValues && editDailiesFormValues.timeStartEnd 
+          ? editDailiesFormValues.timeStartEnd
+          : ["", ""]
+      }
       {...props}
     />
   );
@@ -49,12 +60,16 @@ const mapStateToProps = (state) => ({
   masters: state.masters,
   detailService: state.detailService,
   services: state.services,
+  editDailiesFormValues: getFormValues("editDailiesForm")(state),
 });
 const mapDispatchToProps = (dispatch) => ({
   handleCancel: () =>
     dispatch(DetailServiceTransactionAction.setEditDailiesModal(false)),
   handleClearModalContent: () => {
     // dispatch(DetailServiceTransactionAction.setSelectedRoleMenu([]));
+  },
+  setTimeDailiesForm: (time) => {
+    dispatch(change("editDailiesForm", "timeStartEnd", time ?? ""));
   },
 });
 
@@ -65,5 +80,5 @@ const EnhanceContainer = connect(
 
 export default reduxForm({
   form: "editDailiesForm",
-  validate: validateFormTransaction,
+  validate: validateDailiesForm,
 })(EnhanceContainer);

@@ -1,3 +1,6 @@
+import React from "react";
+import { store } from "./ConfigureStore";
+
 export const validateFormLogin = (values) => {
   const errors = {};
   if (!values.username) {
@@ -189,6 +192,9 @@ export const validateFormTransaction = (values) => {
 };
 
 export const validateFormEditMedia = (values) => {
+  const { getState } = store;
+  const dataService = getState().services.selectedJobService;
+
   const errors = {};
   if (!values.imageUrl) {
     errors.imageUrl = "Field ini wajib diisi!";
@@ -196,7 +202,7 @@ export const validateFormEditMedia = (values) => {
   if (!values.title) {
     errors.title = "Field ini wajib diisi!";
   }
-  if (!values.unit) {
+  if (!values.unit && dataService.is_external === true) {
     errors.unit = "Wajib pilih unit!";
   }
 
@@ -213,6 +219,23 @@ export const validateUnitSerialNumberForm = (values) => {
   }
   if (!values.descriptions) {
     errors.descriptions = "Deskripsi wajib diisi!";
+  }
+  return errors;
+};
+
+export const validateDailiesForm = (values) => {
+  const errors = {};
+  if (!values.activityType) {
+    errors.activityType = "Field ini wajib diisi!";
+  }
+  if (!values.title) {
+    errors.title = "Field ini wajib diisi!";
+  }
+  if (!values.daily_start) {
+    errors.daily_start = "Field ini wajib diisi!";
+  }
+  if (!values.daily_end) {
+    errors.daily_end = "Field ini wajib diisi!";
   }
   return errors;
 };

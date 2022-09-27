@@ -1,8 +1,9 @@
+import React from "react";
 import history from "./History";
 
 export const navigate = (path) => {
   history.push(path);
-  window.location.reload();
+  // window.location.reload();
 };
 
 export const getIndex = (currentpage, limit) => {
@@ -201,6 +202,13 @@ export const enumTypeExternalServices = [
 export const enumWarranty = [
   { id: `enum-warranty-1`, value: true, label: "Warranty" },
   { id: `enum-warranty-2`, value: false, label: "No Warranty" },
+];
+
+export const enumTypeActivities = [
+  { id: `enum-activity-1`, value: "Perjalanan", label: "Perjalanan" },
+  { id: `enum-activity-2`, value: "Pekerjaan", label: "Pekerjaan" },
+  { id: `enum-activity-3`, value: "Istirahat", label: "Istirahat" },
+  { id: `enum-activity-4`, value: "Perjalanan Pulang", label: "Perjalanan Pulang" },
 ];
 
 export const warrantyMonths = () => {

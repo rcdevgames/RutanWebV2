@@ -3,11 +3,12 @@ import CModal from "../../../components/CModal/CModal";
 import { Field, Form } from "redux-form";
 import CInput from "../../../components/CInput/CInput";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
-import { Checkbox, Col, Divider, InputNumber, Row, Typography } from "antd";
+import { Checkbox, Col, Divider, Row, TimePicker, Typography } from "antd";
 import CDatePicker from "../../../components/CDatePicker/CDatePicker";
 import CSelect from "../../../components/CSelect/CSelect";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
-import { enumWarranty, warrantyMonths } from "../../../app/Helpers";
+import { enumTypeActivities } from "../../../app/Helpers";
+import moment from "moment";
 
 const RenderFooter = ({ handleSaveForm, handleClose }) => {
   return [
@@ -80,6 +81,8 @@ const RenderContent = ({
   onChangeRoleMenu,
   handleCancel,
   typeFormDailies,
+  handleChangeTimePicker,
+  timeStartEnd,
 }) => {
   return (
     <div class="page-content">
@@ -98,22 +101,44 @@ const RenderContent = ({
             />
           </div>
         </div>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <Typography
+              style={{ marginBottom: 7 }}
+            >{`Jam Mulai -> Selesai`}</Typography>
+            <TimePicker.RangePicker
+              name="timeStartEnd"
+              value={[timeStartEnd[0] ?? "", timeStartEnd[1] ?? ""]}
+              onChange={handleChangeTimePicker}
+            />
+          </div>
+        </div>
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-5">
             <CDatePicker name="startDate" label="Tanggal Mulai" />
           </div>
-          <div class="col-md-4">
+          <div class="col-md-5">
             <CDatePicker name="endDate" label="Tanggal Akhir" />
           </div>
         </div>
+
         <div class="row mt-2">
           <div class="col-md-12">
             <Field
               name="description"
               label="Deskripsi"
-              // placeholder=""
               component={CInput}
               typeComponents="text"
+            />
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-12">
+            <CSelect
+              showSearch
+              data={enumTypeActivities}
+              name="activityType"
+              label="Pilih Kegiatan"
             />
           </div>
         </div>
@@ -146,6 +171,8 @@ const EditModalDailiesComponent = (props) => {
     formStatus,
     onChangeRoleMenu,
     typeFormDailies,
+    handleChangeTimePicker,
+    timeStartEnd,
   } = props;
 
   return (
@@ -169,6 +196,8 @@ const EditModalDailiesComponent = (props) => {
           formStatus={formStatus}
           onChangeRoleMenu={onChangeRoleMenu}
           typeFormDailies={typeFormDailies}
+          handleChangeTimePicker={handleChangeTimePicker}
+          timeStartEnd={timeStartEnd}
         />
       }
     />

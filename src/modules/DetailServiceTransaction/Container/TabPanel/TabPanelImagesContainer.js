@@ -13,7 +13,7 @@ const TabPanelImagesContainer = (props) => {
 
   const checkBlockedRole = () => {
     const isBlock = isBlockedRoleDetailService(userRole[0].role_id);
-    
+
     setIsBlockedRole(isBlock);
   };
 
@@ -29,8 +29,8 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
   handlePressAdd: async (values) => {
+    await resetFormModalImage();
     await dispatch(setInsertMediaModal(true));
-    resetFormModalImage();
   },
 });
 

@@ -383,26 +383,31 @@ const doEditDailiesProcess = async (values) => {
 
   const payload = {};
   const insertPayload = {};
+  const splitActivity = values.activityType.split("|") ?? "";
+  const timeStart = values.timeStartEnd[0]
+    ? moment(values.timeStartEnd[0]).format("HH:mm:ss")
+    : moment().format("HH:mm:ss");
+  const timeEnd = values.timeStartEnd[1]
+    ? moment(values.timeStartEnd[1]).format("HH:mm:ss")
+    : moment().format("HH:mm:ss");
+
+  const dailyStart = `${moment(values.startDate).format(
+    "YYYY-MM-DD"
+  )} ${timeStart}`;
+
+  const dailyEnd = `${moment(values.endDate).format("YYYY-MM-DD")} ${timeEnd}`;
 
   payload.id = values.id;
   payload.title = values.title ?? "";
-  payload.daily_start = values.startDate
-    ? moment(values.startDate).format("YYYY-MM-DD")
-    : moment().format("YYYY-MM-DD");
-  payload.daily_end = values.endDate
-    ? moment(values.endDate).format("YYYY-MM-DD")
-    : moment().format("YYYY-MM-DD");
+  payload.daily_start = dailyStart;
+  payload.daily_end = dailyEnd;
   payload.description = values.description ?? "";
 
   insertPayload.title = values.title ?? "";
-  insertPayload.daily_start = values.startDate
-    ? moment(values.startDate).format("YYYY-MM-DD")
-    : moment().format("YYYY-MM-DD HH:mm:ss");
-  insertPayload.daily_end = values.endDate
-    ? moment(values.endDate).format("YYYY-MM-DD")
-    : moment().format("YYYY-MM-DD HH:mm:ss");
+  insertPayload.daily_start = dailyEnd;
+  insertPayload.daily_end = dailyStart;
   insertPayload.description = values.description ?? "";
-  insertPayload.type = values.type ?? "Perjalanan";
+  insertPayload.type = splitActivity[0] ?? "none";
 
   try {
     if (typeForm === "add") {
@@ -511,9 +516,11 @@ const doInsertMedia = async (values) => {
   const { dispatch, getState } = store;
   const dataService = getState().services.selectedJobService;
 
+  dispatch(ComponentActions.setGlobalLoading(true));
+
   const payload = {};
 
-  const splitUnit = values.unit.split("|");
+  const splitUnit = values.unit ? values.unit.split("|") : "";
   const unitId = splitUnit[0] ?? "";
 
   payload.title = values.title ?? "";
@@ -523,13 +530,19 @@ const doInsertMedia = async (values) => {
 
   const media = { media: [payload] };
   try {
-    await Invoke.addJobServiceMedia(media, dataService.id, unitId);
+    if (dataService.is_external) {
+      await Invoke.addJobServiceMedia(media, dataService.id, unitId);
+    } else {
+      await Invoke.addJobServiceMedia(media, dataService.id);
+    }
     showToast("Berhasil menyimpan data", "success");
-    await getJobServiceDailies(dataService.id);
+    await getUnitMedia((callback) => {});
     dispatch(setInsertMediaModal(false));
+    dispatch(ComponentActions.setGlobalLoading(false));
   } catch (error) {
     showToast("Proses manyimpan gagal, silahkan coba lagi", "error");
     dispatch(setInsertMediaModal(false));
+    dispatch(ComponentActions.setGlobalLoading(false));
   }
 };
 
@@ -584,6 +597,16 @@ export const mapDailiesToForm = async () => {
   dispatch(change("editDailiesForm", `endDate`, moment(data.selesai) ?? ""));
   dispatch(change("editDailiesForm", `title`, data.title ?? ""));
   dispatch(change("editDailiesForm", `description`, data.deskripsi ?? ""));
+  dispatch(
+    change("editDailiesForm", `activityType`, `${data.type}|${data.type}` ?? "")
+  );
+  dispatch(
+    change(
+      "editDailiesForm",
+      `timeStartEnd`,
+      [moment(data.mulai), moment(data.selesai)] ?? ""
+    )
+  );
 };
 
 export const downloadTransactionPdf = async () => {
@@ -610,7 +633,7 @@ export const downloadTransactionPdf = async () => {
 
 export const resetFormModalImage = async () => {
   const { dispatch } = store;
-  dispatch(change("editMediaForm", `imageUrl`, ""));
+  dispatch(change("editMediaForm", `imageUrl`, null));
   dispatch(change("editMediaForm", `title`, ""));
   dispatch(change("editMediaForm", `description`, ""));
   dispatch(change("editMediaForm", `unit`, ""));
@@ -696,5 +719,68 @@ export const getUnitSummary = async (callback) => {
     });
   } else {
     callback(true);
+  }
+};
+
+export const getUnitMedia = async (callback) => {
+  const { dispatch, getState } = store;
+  const dataService = getState().services.selectedJobService;
+
+  const groupingMediaList = [];
+  let sequence = 0;
+
+  const setDispatch = () => {
+    if (sequence === dataService.units.length) {
+      setTimeout(() => {
+        dispatch(setGroupingSelectedServicesMediaData(groupingMediaList));
+        callback(true);
+      }, 1000);
+    }
+  };
+
+  if (dataService.units.length > 0) {
+    await dataService.units.map(async (item, index) => {
+      await Invoke.getJobServiceMedia(dataService.id, item.id)
+        .then((dataMedia) => {
+          const imageList = dataMedia.data.callback.data ?? [];
+          // Push to tempporary array
+          groupingMediaList.push({
+            unitName: item.unit_name,
+            image: imageList ?? [],
+          });
+          sequence += 1;
+          setDispatch();
+        })
+        .catch((err) => {
+          groupingMediaList.push({
+            unitName: item.unit_name,
+            image: [],
+          });
+
+          sequence += 1;
+          setDispatch();
+        });
+    });
+  } else {
+    try {
+      // Get media without unitId
+      const { data: dataMedia } = await Invoke.getJobServiceMedia(
+        dataService.id
+      );
+      // Push to tempporary array
+      groupingMediaList.push({
+        unitName: "All",
+        image: dataMedia.callback.data ?? [],
+      });
+      callback(true);
+    } catch (error) {
+      dispatch(setGroupingSelectedServicesMediaData([]));
+      callback(true);
+    }
+
+    setTimeout(() => {
+      dispatch(setGroupingSelectedServicesMediaData(groupingMediaList));
+      callback(true);
+    }, 1000);
   }
 };

@@ -53,6 +53,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(change("editDailiesForm", `endDate`, ""));
     dispatch(change("editDailiesForm", `title`, ""));
     dispatch(change("editDailiesForm", `description`, ""));
+    dispatch(change("editDailiesForm", `type`, ""));
+    dispatch(change("editDailiesForm", `timeStartEnd`, null));
     await dispatch(setSelectedEditDailiesData({}));
     await dispatch(setTypeFormDailies("add"));
     store.dispatch(setEditDailiesModal(true));

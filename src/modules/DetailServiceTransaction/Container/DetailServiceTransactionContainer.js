@@ -28,9 +28,7 @@ import { isBlockedRoleDetailService, navigate } from "../../../app/Helpers";
 const DetailServiceTransactionContainer = (props) => {
   const {
     userRole,
-    setMediaList,
     setChecklist,
-    setSummaryList,
     services: { selectedJobService },
     detailService: {
       selectedServiceEmployeeList,
@@ -184,63 +182,9 @@ const DetailServiceTransactionContainer = (props) => {
 
   const groupingUnitMedia = async () => {
     setIsCompleteLoadedMedia(false);
-    const groupingMediaList = [];
-    let sequence = 0;
-
-    const setDispatch = () => {
-      if (sequence === selectedJobService.units.length) {
-        setTimeout(() => {
-          setMediaList(groupingMediaList);
-          setIsCompleteLoadedMedia(true);
-        }, 1000);
-      }
-    };
-
-    if (selectedJobService.units.length > 0) {
-      await selectedJobService.units.map(async (item, index) => {
-        await Invoke.getJobServiceMedia(selectedJobService.id, item.id)
-          .then((dataMedia) => {
-            const imageList = dataMedia.data.callback.data ?? [];
-            // Push to tempporary array
-            groupingMediaList.push({
-              unitName: item.unit_name,
-              image: imageList ?? [],
-            });
-            sequence += 1;
-            setDispatch();
-          })
-          .catch((err) => {
-            groupingMediaList.push({
-              unitName: item.unit_name,
-              image: [],
-            });
-
-            sequence += 1;
-            setDispatch();
-          });
-      });
-    } else {
-      try {
-        // Get media without unitId
-        const { data: dataMedia } = await Invoke.getJobServiceMedia(
-          selectedJobService.id
-        );
-        // Push to tempporary array
-        groupingMediaList.push({
-          unitName: "All",
-          image: dataMedia.callback.data ?? [],
-        });
-        setIsCompleteLoadedMedia(true);
-      } catch (error) {
-        setMediaList([]);
-        setIsCompleteLoadedMedia(true);
-      }
-
-      setTimeout(() => {
-        setMediaList(groupingMediaList);
-        setIsCompleteLoadedMedia(true);
-      }, 1000);
-    }
+    await DetailServiceActions.getUnitMedia((isCompleted) => {
+      setIsCompleteLoadedMedia(isCompleted);
+    });
   };
 
   const groupingUnitSummary = async () => {
@@ -248,51 +192,6 @@ const DetailServiceTransactionContainer = (props) => {
     await DetailServiceActions.getUnitSummary((isCompleted) => {
       setIsCompleteLoadedSummary(isCompleted);
     });
-
-    // const groupingSummaryList = [];
-    // let sequence = 0;
-
-    // const setDispatch = (responseStatus) => {
-    //   if (sequence === selectedJobService.units.length) {
-    //     if (responseStatus === "error") {
-    //       setTimeout(() => {
-    //         setSummaryList(groupingSummaryList);
-    //         setIsCompleteLoadedSummary(true);
-    //       }, 1000);
-    //     } else {
-    //       setTimeout(() => {
-    //         setSummaryList(groupingSummaryList);
-    //         setIsCompleteLoadedSummary(true);
-    //       }, 1000);
-    //     }
-    //   }
-    // };
-
-    // if (selectedJobService.units) {
-    //   await selectedJobService.units.map(async (item, index) => {
-    //     await Invoke.getJobServiceSummary(selectedJobService.id, item.id)
-    //       .then((dataSummary) => {
-    //         groupingSummaryList.push({
-    //           id: item.id,
-    //           unitName: item.unit_name,
-    //           summary: dataSummary.data.callback.summary,
-    //         });
-
-    //         sequence += 1;
-    //         setDispatch(dataSummary.status);
-    //       })
-    //       .catch((err) => {
-    //         groupingSummaryList.push({
-    //           id: item.id,
-    //           unitName: item.unit_name,
-    //           summary: [],
-    //         });
-    //         sequence += 1;
-    //         setDispatch("error");
-    //         console.log(err);
-    //       });
-    //   });
-    // }
   };
 
   const groupingUnitChecklist = async () => {

@@ -1,3 +1,8 @@
+### Changelog v.3.0.3
+- feat: Add function update checklist
+- fix: Summary is not clean every change unit
+- feat: Add button 'set to progress' if job service is rejected
+
 ### Changelog v.3.0.2
 - fix: Slow loading when change between screen
 - fix: Add time picker when input or edit dailies employee

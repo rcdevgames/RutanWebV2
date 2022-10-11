@@ -10,14 +10,6 @@ const RenderDailies = ({ rejections }) => {
       dataIndex: "no",
     },
     {
-      title: "NIK",
-      dataIndex: "nik",
-    },
-    {
-      title: "Nama Karyawan",
-      dataIndex: "employee_name",
-    },
-    {
       title: "Alasan Reject",
       dataIndex: "reason",
     },
@@ -33,7 +25,7 @@ const RenderDailies = ({ rejections }) => {
       nik: item.nik,
       employee_name: item.employee_name,
       reason: item.reason,
-      created_date: moment(item.created_date).format("DD-MMM-YYYY"),
+      created_date: item.created_date,
     });
   });
   return <Table bordered columns={columns} dataSource={data} size="middle" />;

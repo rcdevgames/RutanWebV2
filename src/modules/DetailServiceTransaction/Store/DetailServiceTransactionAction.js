@@ -439,7 +439,9 @@ const doEditSummaryProcess = async (values) => {
       showToast("Berhasil menyimpan data", "success");
       dispatch(setEditSummaryModal(false));
       // Call function to referesh summary unit group
-      getUnitSummary((res) => {});
+      getUnitSummary((res) => {
+        resetModalSummary();
+      });
     } catch (error) {
       showToast("Proses manyimpan gagal, silahkan coba lagi", "error");
       dispatch(setEditSummaryModal(false));
@@ -450,7 +452,9 @@ const doEditSummaryProcess = async (values) => {
       showToast("Berhasil menyimpan data", "success");
       dispatch(setEditSummaryModal(false));
       // Call function to referesh summary unit single
-      getUnitSummary((res) => {});
+      getUnitSummary((res) => {
+        resetModalSummary();
+      });
     } catch (error) {
       showToast("Proses manyimpan gagal, silahkan coba lagi", "error");
       dispatch(setEditSummaryModal(false));
@@ -471,7 +475,9 @@ const doAddSummaryProcess = async (values) => {
     showToast("Berhasil menyimpan data", "success");
     dispatch(setEditSummaryModal(false));
     // Call function to referesh summary unit group
-    getUnitSummary((res) => {});
+    getUnitSummary((res) => {
+      resetModalSummary();
+    });
   } catch (error) {
     showToast("Proses manyimpan gagal, silahkan coba lagi", "error");
     dispatch(setEditSummaryModal(false));
@@ -607,6 +613,13 @@ export const mapDailiesToForm = async () => {
       [moment(data.mulai), moment(data.selesai)] ?? ""
     )
   );
+};
+
+export const resetModalSummary = () => {
+  const { dispatch } = store;
+  dispatch(change("editSummaryForm", `type`, ""));
+  dispatch(change("editSummaryForm", `unitId`, ""));
+  dispatch(change("editSummaryForm", `summary`, ""));
 };
 
 export const downloadTransactionPdf = async () => {

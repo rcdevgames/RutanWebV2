@@ -24,6 +24,7 @@ import TabPanelChecklistContainer from "./TabPanel/TabPanelChecklistContainer";
 import { store } from "../../../app/ConfigureStore";
 import Invoke from "../../../app/axios/Invoke";
 import { isBlockedRoleDetailService, navigate } from "../../../app/Helpers";
+import { showToast } from "../../Roles/Store/RolesActions";
 
 const DetailServiceTransactionContainer = (props) => {
   const {
@@ -41,6 +42,7 @@ const DetailServiceTransactionContainer = (props) => {
       singleSelectedServiceSummary,
     },
   } = props;
+
   const [isLoadedChecklist, setIsLoadedChecklist] = React.useState(false);
   const [isBlockedRole, setIsBlockedRole] = React.useState(false);
   const [isCompleteLoadedMedia, setIsCompleteLoadedMedia] =
@@ -117,8 +119,10 @@ const DetailServiceTransactionContainer = (props) => {
       icon: <CheckCircleOutlined />,
       component: (
         <TabPanelChecklistContainer
+          roles={userRole}
           isLoaded={isLoadedChecklist}
           checklist={groupingSelectedServiceChecklist}
+          setChecklist={setChecklist}
         />
       ),
     });
@@ -203,6 +207,7 @@ const DetailServiceTransactionContainer = (props) => {
           .then((dataChecklist) => {
             groupingChecklist.push({
               unitName: item.unit_name,
+              unitId: item.id,
               checklist: dataChecklist.data.callback,
             });
             if (index + 1 === selectedJobService.units.length) {
@@ -235,9 +240,20 @@ const DetailServiceTransactionContainer = (props) => {
 
   const handleBackToListService = () => {
     store.dispatch(DetailServiceActions.resetDetailService());
-    setTimeout(() => {
-      navigate("list_service");
-    }, 500);
+    navigate("list_service");
+  };
+
+  const handleSetOnProgress = () => {
+    Invoke.setJobToProgress(selectedJobService.id)
+      .then(() => {
+        showToast("Berhasil memindahkan job service ke On Progress", "success");
+        setTimeout(() => {
+          navigate("list_service");
+        }, 1500);
+      })
+      .catch(() => {
+        showToast("Gagal memindahkan job service ke On Progress", "error");
+      });
   };
 
   return (
@@ -253,6 +269,7 @@ const DetailServiceTransactionContainer = (props) => {
       employees={selectedServiceEmployeeList}
       dailies={selectedServiceDailies}
       summary={groupingSelectedServiceSummary}
+      handleSetOnProgress={handleSetOnProgress}
       {...props}
     />
   );

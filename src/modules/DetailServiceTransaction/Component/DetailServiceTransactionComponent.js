@@ -9,6 +9,7 @@ import {
   ArrowLeftOutlined,
   FilePdfOutlined,
   EditOutlined,
+  StarOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
 } from "@ant-design/icons";
@@ -32,6 +33,7 @@ const DetailServiceTransactionComponent = (props) => {
     goBack,
     handlePressActions,
     handlePressEdit,
+    handleSetOnProgress,
   } = props;
 
   const RenderButtonAction = ({ status, role }) => {
@@ -131,6 +133,16 @@ const DetailServiceTransactionComponent = (props) => {
                       size="middle"
                     >
                       Ubah
+                    </CButtonAntd>
+                  )}
+                  {data.status.toLowerCase() === "rejected" && !isBlockedRole && (
+                    <CButtonAntd
+                      onClick={handleSetOnProgress}
+                      type="primary"
+                      icon={<StarOutlined />}
+                      size="middle"
+                    >
+                      Set Job OnProgress
                     </CButtonAntd>
                   )}
                   <RenderButtonAction status={data.status} />

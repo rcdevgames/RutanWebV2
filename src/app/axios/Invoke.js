@@ -303,6 +303,12 @@ Invoke.updateSummary = (payload, jobId, unitId) => {
     payload
   );
 };
+Invoke.setJobToProgress = (jobId) => {
+  return ConfigAxios.get(`/m_services/progress/${jobId}`);
+};
+Invoke.updateChecklist = (payload, unitId) => {
+  return ConfigAxios.put(`/m_services/checklist/${unitId}`, payload);
+};
 
 // === End Service Views ===
 

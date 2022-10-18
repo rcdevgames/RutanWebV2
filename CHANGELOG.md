@@ -1,3 +1,8 @@
+### Changelog v.3.0.4
+- fix: Pagination on customer menu not show data based on branch
+- feat: Add filter choose customer when create job service internal/external
+- feat: Add blocked role to access customer based on branch
+
 ### Changelog v.3.0.3
 - feat: Add function update checklist
 - fix: Summary is not clean every change unit

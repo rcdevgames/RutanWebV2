@@ -15,7 +15,11 @@ import * as MasterDataActions from "../../MasterData/Store/MasterDataActions";
 import * as ExternalServiceActions from "../Store/ExternalServiceActions";
 import * as UnitsActions from "../../Units/Store/UnitsActions";
 import * as JobFormsActions from "../../JobForms/Store/JobFormsActions";
-import { enumTypeExternalServices, enumWarranty } from "../../../app/Helpers";
+import {
+  enumTypeExternalServices,
+  enumWarranty,
+  isBlockedRoleCustomerView,
+} from "../../../app/Helpers";
 
 const selector = formValueSelector("externalServiceForm");
 
@@ -26,6 +30,7 @@ const ExternalServiceContainer = (props) => {
 
   const {
     valid,
+    user: { roles, branchId },
     customers: { listCustomersDropdown },
     employees: { listEmployees },
     units: { listUnits },
@@ -65,7 +70,21 @@ const ExternalServiceContainer = (props) => {
   });
 
   React.useEffect(() => {
-    CustomerActions.getCustomerListDataByPaging(1, 999999, "", "", true);
+    const roleId = roles[0].role_id;
+    const isBlockedRole = isBlockedRoleCustomerView(roleId);
+
+    if (isBlockedRole) {
+      CustomerActions.getCustomerListDataByPaging(
+        1,
+        999999,
+        "",
+        branchId ?? "",
+        true
+      );
+    } else {
+      CustomerActions.getCustomerListDataByPaging(1, 999999, "", "", true);
+    }
+
     EmployeeActions.loadEmployeeListData(1, 99999);
     MasterDataActions.loadProvinceListData();
     return () => {

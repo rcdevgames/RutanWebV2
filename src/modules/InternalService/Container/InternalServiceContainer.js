@@ -8,17 +8,19 @@ import * as EmployeeActions from "../../Employees/Store/EmployeesActions";
 import * as MasterDataActions from "../../MasterData/Store/MasterDataActions";
 import * as InternalServiceActions from "../Store/InternalServiceActions";
 import * as ComponentAction from "../../App/Store/ComponentAction";
-import { enumTypeInternalServices } from "../../../app/Helpers";
+import {
+  enumTypeInternalServices,
+  isBlockedRoleCustomerView,
+} from "../../../app/Helpers";
 
 const InternalServiceContainer = (props) => {
   const {
     valid,
-    customers: { listCustomersDropdown, paging, keyowrd },
+    user: { roles, branchId },
+    customers: { listCustomersDropdown },
     employees: { listEmployees },
     component: { isLoadingFormGlobal },
   } = props;
-
-  const { page, limit } = paging;
 
   const submitForm = (values) => {
     if (valid) {
@@ -29,9 +31,22 @@ const InternalServiceContainer = (props) => {
 
   React.useEffect(() => {
     // Reset all form data and loading when first load data
-    ComponentAction.resetAllGlobalLoadingProcess();
     // resetForm();
-    CustomerActions.getCustomerListDataByPaging(1, 999999, "", "", true);
+    const roleId = roles[0].role_id;
+    const isBlockedRole = isBlockedRoleCustomerView(roleId);
+
+    ComponentAction.resetAllGlobalLoadingProcess();
+    if (isBlockedRole) {
+      CustomerActions.getCustomerListDataByPaging(
+        1,
+        999999,
+        "",
+        branchId ?? "",
+        true
+      );
+    } else {
+      CustomerActions.getCustomerListDataByPaging(1, 999999, "", "", true);
+    }
     EmployeeActions.loadEmployeeListData(1, 999999);
     MasterDataActions.loadProvinceListData();
     // MasterDataActions.loadCityListData();
@@ -72,6 +87,7 @@ const mapStateToProps = (state) => ({
   customers: state.customers,
   employees: state.employees,
   component: state.component,
+  user: state.auth.userDetail,
 });
 const mapDispatchToProps = (dispatch) => ({
   resetForm: () => {

@@ -10,7 +10,7 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import CustomerComponent from "../Component/CustomerComponent";
 import { store } from "../../../app/ConfigureStore";
-import { getIndex, isBlockedRoleCustomer } from "../../../app/Helpers";
+import { getIndex, isBlockedRoleCustomerView } from "../../../app/Helpers";
 
 const selector = formValueSelector("customerForm");
 
@@ -106,7 +106,7 @@ const CustomerContainer = (props) => {
 
   const checkBlockedRole = () => {
     const roleId = roles[0].role_id;
-    const isBlockedRole = isBlockedRoleCustomer(roleId);
+    const isBlockedRole = isBlockedRoleCustomerView(roleId);
 
     if (branchId) {
       if (isBlockedRole) {
@@ -132,17 +132,25 @@ const CustomerContainer = (props) => {
   }, []);
 
   const onChangePagination = async (nextPage) => {
+    const roleId = roles[0].role_id;
+    const isBlockedRole = isBlockedRoleCustomerView(roleId);
+
     const paging = {};
     paging.page = nextPage;
     paging.limit = limit;
     paging.totalPage = totalPage;
     await store.dispatch(CustomerActions.setPagingCustomer(paging));
-    getListCustomer(nextPage, limit, keyword);
+    // getListCustomer(nextPage, limit, keyword);
+    if (isBlockedRole) {
+      getListCustomer(nextPage, limit, "", branchId);
+    } else {
+      getListCustomer(nextPage, limit, "");
+    }
   };
 
   const onSearch = (val) => {
     const roleId = roles[0].role_id;
-    const isBlockedRole = isBlockedRoleCustomer(roleId);
+    const isBlockedRole = isBlockedRoleCustomerView(roleId);
 
     if (branchId) {
       if (isBlockedRole) {

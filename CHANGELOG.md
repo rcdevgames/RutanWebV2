@@ -1,3 +1,8 @@
+### Changelog v.3.0.5
+- fix: Optimize performane web
+- fix: Reduce popup loading
+- style: Change icon with react-feather 
+
 ### Changelog v.3.0.4
 - fix: Pagination on customer menu not show data based on branch
 - feat: Add filter choose customer when create job service internal/external

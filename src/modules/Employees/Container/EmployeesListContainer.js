@@ -22,6 +22,7 @@ import {
 } from "../../../app/Helpers";
 import { store } from "../../../app/ConfigureStore";
 import { getDivisionListDataRequested } from "../../Division/Store/DivisionActions";
+import { Link } from "react-router-dom";
 
 const EmployeesListContainer = (props) => {
   const {
@@ -89,12 +90,9 @@ const EmployeesListContainer = (props) => {
         icon={<EditOutlined />}
         size="middle"
       />
-      <CButtonAntd
-        onClick={() => handlePressEmployeeTools(record)}
-        type="primary"
-        icon={<SettingOutlined />}
-        size="middle"
-      />
+      <Link to={"/employee-tools"} onClick={() => handlePressEmployeeTools(record)}>
+        <CButtonAntd type="primary" icon={<SettingOutlined />} size="middle" />
+      </Link>
       <CButtonAntd
         onClick={() => handlePressDelete(record.id)}
         type="primary"
@@ -187,12 +185,8 @@ const mapDispatchToProps = (dispatch) => ({
     EmployeesActions.deleteEmployeeRequested(employeeId);
   },
   handlePressEmployeeTools: async (record) => {
-    await dispatch(ComponentActions.setGlobalLoading(true));
     await dispatch(EmployeeActions.setSelectedEmployeeId(record.id));
     await dispatch(EmployeeActions.setSelectedEmployeeData(record));
-    setTimeout(() => {
-      navigate("employee-tools");
-    }, 500);
   },
 });
 

@@ -6,13 +6,16 @@ import { Provider } from "react-redux";
 import { persistor, store } from "./app/ConfigureStore";
 import { PersistGate } from "redux-persist/integration/react";
 import Navigation from "./app/Navigation";
+import { BrowserRouter } from "react-router-dom";
 
 function App({ context }) {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <ConnectedRouter history={history}>
-          <Navigation />
+          <BrowserRouter>
+            <Navigation />
+          </BrowserRouter>
         </ConnectedRouter>
       </PersistGate>
     </Provider>

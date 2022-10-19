@@ -1,5 +1,5 @@
 import React from "react";
-import { Divider, Input } from "antd";
+import { Divider, Input, Spin } from "antd";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import CTableAntd from "../../../components/CTable/CTableAntd";
 import { PlusOutlined } from "@ant-design/icons";
@@ -18,7 +18,8 @@ const CustomerComponent = (props) => {
     paging,
     onSearch,
     enumBranch,
-    isBlocked
+    isBlocked,
+    isLoading,
   } = props;
 
   const pagination = {
@@ -50,13 +51,15 @@ const CustomerComponent = (props) => {
                 </div>
                 <Divider orientation="left">Filter Data</Divider>
                 <div class="row d-flex mb-2 mt-3">
-                  {!isBlocked && <div class="col-md-4">
-                    <CSelect
-                      data={enumBranch ?? []}
-                      name="branch"
-                      label="Cabang"
-                    />
-                  </div>}
+                  {!isBlocked && (
+                    <div class="col-md-4">
+                      <CSelect
+                        data={enumBranch ?? []}
+                        name="branch"
+                        label="Cabang"
+                      />
+                    </div>
+                  )}
                   <div class="col-md-4 mt-4">
                     <div class="mt-2" />
                     <Search
@@ -66,14 +69,20 @@ const CustomerComponent = (props) => {
                     />
                   </div>
                 </div>
-                <div class="table-responsive">
-                  <CTableAntd
-                    data={listCustomers}
-                    headers={headers}
-                    renderActions={renderActionTable}
-                    pagination={pagination}
-                  />
-                </div>
+                {isLoading ? (
+                  <div class="d-flex justify-content-center align-items-center">
+                    <Spin />
+                  </div>
+                ) : (
+                  <div class="table-responsive">
+                    <CTableAntd
+                      data={listCustomers}
+                      headers={headers}
+                      renderActions={renderActionTable}
+                      pagination={pagination}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </div>

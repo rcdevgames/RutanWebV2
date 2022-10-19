@@ -13,6 +13,7 @@ import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import { getIndex, navigate } from "../../../app/Helpers";
 import { store } from "../../../app/ConfigureStore";
 import UnitModelsComponent from "../Component/UnitModelsComponent";
+import { Link } from "react-router-dom";
 
 const UnitModelsContainer = (props) => {
   const {
@@ -66,12 +67,14 @@ const UnitModelsContainer = (props) => {
         icon={<EditOutlined />}
         size="middle"
       />
-      <CButtonAntd
-        onClick={() => handlePressSerialNumber(record)}
-        type="ghost"
-        icon={<FieldNumberOutlined />}
-        size="middle"
-      />
+      <Link to={"/unit-serial-number"}>
+        <CButtonAntd
+          onClick={() => handlePressSerialNumber(record)}
+          type="ghost"
+          icon={<FieldNumberOutlined />}
+          size="middle"
+        />
+      </Link>
       <CButtonAntd
         onClick={() => handlePressDelete(record.id)}
         type="primary"
@@ -139,12 +142,8 @@ const mapDispatchToProps = (dispatch) => ({
     UnitModelActions.deleteUnitModelRequested(unitModelId);
   },
   handlePressSerialNumber: async (record) => {
-    await dispatch(ComponentActions.setGlobalLoading(true));
     await dispatch(UnitModelActions.setSelectedUnitModelId(record.id));
     await dispatch(UnitModelActions.setSelectedUnitModelData(record));
-    setTimeout(() => {
-      navigate("unit-serial-number");
-    }, 500);
   },
 });
 

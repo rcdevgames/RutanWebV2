@@ -28,6 +28,7 @@ const CustomerContainer = (props) => {
     branch: { listBranch },
   } = props;
   const [isBlocked, setisBlocked] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const { page, totalPage, limit } = paging;
 
@@ -110,12 +111,18 @@ const CustomerContainer = (props) => {
 
     if (branchId) {
       if (isBlockedRole) {
-        getListCustomer(1, 10, "", branchId);
+        getListCustomer(1, 10, "", branchId).then(() => {
+          setIsLoading(false);
+        });
       } else {
-        getListCustomer(1, 10, "");
+        getListCustomer(1, 10, "", "").then(() => {
+          setIsLoading(false);
+        });
       }
     } else {
-      getListCustomer(1, 10, "");
+      getListCustomer(1, 10, "", "").then(() => {
+        setIsLoading(false);
+      });
     }
 
     if (isBlockedRole) {
@@ -126,6 +133,7 @@ const CustomerContainer = (props) => {
   };
 
   React.useEffect(() => {
+    setIsLoading(true);
     getListBranch();
     getListProvince();
     checkBlockedRole();
@@ -174,6 +182,7 @@ const CustomerContainer = (props) => {
       onChangePagination={onChangePagination}
       enumBranch={SelectBranch}
       onSearch={onSearch}
+      isLoading={isLoading}
       {...props}
     />
   );
@@ -186,9 +195,9 @@ const mapStateToProps = (state) => ({
   user: state.auth.userDetail,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getListCustomer: (page, limit, keyword, branchId) => {
+  getListCustomer: async (page, limit, keyword, branchId) => {
     const splitBranch = branchId ? branchId.split("|") : [""];
-    CustomerActions.getCustomerListDataByPaging(
+    await CustomerActions.getCustomerListDataByPaging(
       page,
       limit,
       keyword,

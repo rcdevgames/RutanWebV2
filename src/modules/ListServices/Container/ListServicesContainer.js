@@ -16,6 +16,7 @@ import * as ListServiceActions from "../Store/ListServicesActions";
 import * as EmployeeActions from "../../Employees/Store/EmployeesActions";
 import Text from "antd/lib/typography/Text";
 import moment from "moment";
+import { Link } from "react-router-dom";
 
 const ListServicesContainer = (props) => {
   const {
@@ -40,14 +41,16 @@ const ListServicesContainer = (props) => {
 
   const renderActionTable = (text, record) => (
     <Space size="middle">
-      <CButtonAntd
-        onClick={() => {
-          handlePressEdit(record);
-        }}
-        type="primary"
-        icon={<EditOutlined />}
-        size="middle"
-      />
+      <Link to={"/detail-services"} onClick={() => {
+            handlePressEdit(record);
+          }}>
+        <CButtonAntd
+          
+          type="primary"
+          icon={<EditOutlined />}
+          size="middle"
+        />
+      </Link>
       {roles[0].name === "Administrator" && (
         <CButtonAntd
           onClick={() => handlePressDelete(record.id)}

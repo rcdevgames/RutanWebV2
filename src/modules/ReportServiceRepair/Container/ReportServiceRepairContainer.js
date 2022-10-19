@@ -10,7 +10,7 @@ import ReportServiceRepairComponent from "../Component/ReportServiceRepairCompon
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import moment from "moment";
 import * as ListServiceActions from "../../ListServices/Store/ListServicesActions";
-
+import { Link } from "react-router-dom";
 
 const ReportServiceRepairContainer = (props) => {
   const {
@@ -32,14 +32,14 @@ const ReportServiceRepairContainer = (props) => {
 
   const renderActionTable = (text, record) => (
     <Space size="middle">
-      <CButtonAntd
+      <Link
+      to={"/detail-services"}
         onClick={() => {
           handlePressEdit(record);
         }}
-        type="primary"
-        icon={<BookOutlined />}
-        size="middle"
-      />
+      >
+        <CButtonAntd type="primary" icon={<BookOutlined />} size="middle" />
+      </Link>
     </Space>
   );
 

@@ -171,6 +171,7 @@ const mapStateToProps = (state) => ({
   jobForms: state.jobForms,
   formValues: getFormValues("externalServiceForm")(state),
   externalValues: selector(state, "units"),
+  user: state.auth.userDetail,
 });
 const mapDispatchToProps = (dispatch) => ({
   resetForm: () => {

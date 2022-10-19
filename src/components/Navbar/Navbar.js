@@ -1,4 +1,5 @@
 import React from "react";
+import {Bell, Mail} from 'react-feather'
 
 const Navbar = (props) => {
   const { onLogout, userDetail } = props;
@@ -34,7 +35,7 @@ const Navbar = (props) => {
               aria-haspopup="true"
               aria-expanded="false"
             >
-              <i data-feather="mail"></i>
+              <Mail size={14} />
             </a>
             <div class="dropdown-menu" aria-labelledby="messageDropdown">
               <div class="dropdown-header d-flex align-items-center justify-content-between">
@@ -120,7 +121,8 @@ const Navbar = (props) => {
               aria-haspopup="true"
               aria-expanded="false"
             >
-              <i data-feather="bell"></i>
+              <Bell size={14} />
+              
               <div class="indicator">
                 <div class="circle"></div>
               </div>

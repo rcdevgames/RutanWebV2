@@ -6,6 +6,7 @@ import { PlusOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import { navigate } from "../../../../app/Helpers";
 import CSelect from "../../../../components/CSelect/CSelect";
 import ModalUnitSerialNumberContainer from "../../Container/UnitSerialNumber/ModalUnitSerialNumberContainer";
+import { Link } from "react-router-dom";
 
 const { Search } = Input;
 
@@ -45,15 +46,16 @@ const UnitSerialNumberComponent = (props) => {
                 <div class="row d-flex justify-content-between mb-2">
                   <div class="col-md-7">
                     <div class="row ml-1 mb-3">
-                      <CButtonAntd
-                        onClick={() => navigate("unit-models")}
-                        type="primary"
-                        icon={<ArrowLeftOutlined />}
-                        size="middle"
-                        danger
-                      >
-                        Kembali
-                      </CButtonAntd>
+                      <Link to={"unit-models"}>
+                        <CButtonAntd
+                          type="primary"
+                          icon={<ArrowLeftOutlined />}
+                          size="middle"
+                          danger
+                        >
+                          Kembali
+                        </CButtonAntd>
+                      </Link>
                       <div class="ml-2" />
                       <CButtonAntd
                         onClick={handlePressAddNew}

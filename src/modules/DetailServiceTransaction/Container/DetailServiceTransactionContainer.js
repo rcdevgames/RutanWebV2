@@ -240,7 +240,6 @@ const DetailServiceTransactionContainer = (props) => {
 
   const handleBackToListService = () => {
     store.dispatch(DetailServiceActions.resetDetailService());
-    navigate("list_service");
   };
 
   const handleSetOnProgress = () => {

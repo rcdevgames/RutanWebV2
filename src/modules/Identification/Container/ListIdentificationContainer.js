@@ -9,6 +9,7 @@ import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import ListIdentificationComponent from "../Component/ListIdentificationComponent";
 import { getIndex, navigate } from "../../../app/Helpers";
 import { store } from "../../../app/ConfigureStore";
+import { Link } from "react-router-dom";
 
 const ListIdentificationContainer = (props) => {
   const {
@@ -74,14 +75,14 @@ const ListIdentificationContainer = (props) => {
 
   const renderActionTable = (text, record) => (
     <Space size="middle">
-      <CButtonAntd
+      <Link
+        to={"/form-identification"}
         onClick={() => {
           handlePressEdit(record);
         }}
-        type="primary"
-        icon={<EditOutlined />}
-        size="middle"
-      />
+      >
+        <CButtonAntd type="primary" icon={<EditOutlined />} size="middle" />
+      </Link>
       <CButtonAntd
         onClick={() => handlePressDelete(record.id)}
         type="primary"
@@ -142,9 +143,6 @@ const mapDispatchToProps = (dispatch) => ({
       IdentificationActions.setSelectedIdentificationId(record.id)
     );
     await dispatch(IdentificationActions.setSelectedIdentificationData(record));
-    setTimeout(() => {
-      navigate("form-identification");
-    }, 500);
   },
   handlePressDelete: async (branchId) => {
     await dispatch(IdentificationActions.setSelectedIdentificationId(branchId));

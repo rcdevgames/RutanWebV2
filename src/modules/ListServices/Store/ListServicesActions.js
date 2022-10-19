@@ -115,7 +115,6 @@ export const handleSearch = async (page, limit, keyword, filterValues) => {
 };
 
 const getDetailServicePerUnit = async (service) => {
-
   const { dispatch } = store;
   // Hit media api and grouping by units :
   let groupingChecklist = [];
@@ -137,17 +136,13 @@ const getDetailServicePerUnit = async (service) => {
 };
 
 export const handlePressEdit = async (values) => {
-  store.dispatch(setGlobalLoading(true));
   try {
     const { data } = await Invoke.getOneServices(values.id);
-    const dataService = { ...data.callback, units: values.unit_models };
+    const dataService = {
+      ...data.callback,
+      units: values.unit_models ? values.unit_models : values.units,
+    };
     await store.dispatch(setSelectedJobService(dataService));
-    // await getDetailServicePerUnit(dataService);
-    setTimeout(() => {
-      store.dispatch(setGlobalLoading(false));
-      
-      navigate("detail-services");
-    }, 1500);
   } catch (error) {
     console.log(error);
   }

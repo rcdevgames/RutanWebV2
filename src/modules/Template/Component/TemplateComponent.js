@@ -4,6 +4,7 @@ import Sidebar from "../../../components/Sidebar/Sidebar";
 import Footer from "../../../components/Footer/Footer";
 import Navbar from "../../../components/Navbar/Navbar";
 import { withRouter } from "react-router-dom";
+import "../../../style/globalStyle.css";
 
 const TemplateComponent = (props) => {
   const {
@@ -35,8 +36,12 @@ const TemplateComponent = (props) => {
       )}
       <div className={`page-wrapper ${!isLandingPage ? "full-page" : ""}`}>
         {isLandingPage && <Navbar onLogout={logout} userDetail={userDetail} />}
-        {children}
-        {isLandingPage && <Footer />}
+        <div className="container">
+          <div className="scrolled-content">
+            {children}
+            {isLandingPage && <Footer />}
+          </div>
+        </div>
       </div>
     </React.Fragment>
   );

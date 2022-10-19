@@ -15,6 +15,7 @@ import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import UnitsComponent from "../Component/DivisionComponent";
 import { getIndex, navigate } from "../../../app/Helpers";
 import { store } from "../../../app/ConfigureStore";
+import { Link } from "react-router-dom";
 
 const UnitsContainer = (props) => {
   const {
@@ -24,7 +25,7 @@ const UnitsContainer = (props) => {
     handlePressAddNew,
     handlePressDivisionUnit,
     division: { listDivision, paging },
-    getListEmlpoyee 
+    getListEmlpoyee,
   } = props;
 
   const { page, limit, totalPage } = paging;
@@ -83,12 +84,12 @@ const UnitsContainer = (props) => {
         icon={<EditOutlined />}
         size="middle"
       />
-      <CButtonAntd
+      <Link
+        to={"division-unit"}
         onClick={() => handlePressDivisionUnit(record)}
-        type="primary"
-        icon={<FileAddOutlined />}
-        size="middle"
-      />
+      >
+        <CButtonAntd type="primary" icon={<FileAddOutlined />} size="middle" />
+      </Link>
       <CButtonAntd
         onClick={() => handlePressDelete(record.id)}
         type="primary"
@@ -159,12 +160,8 @@ const mapDispatchToProps = (dispatch) => ({
     DivisionActions.deleteDivisionRequested(divisionId);
   },
   handlePressDivisionUnit: async (record) => {
-    await dispatch(ComponentActions.setGlobalLoading(true));
     await dispatch(DivisionActions.setSelectedDivisionId(record.id));
     await dispatch(DivisionActions.setSelectedDivisionData(record));
-    setTimeout(() => {
-      navigate("division-unit");
-    }, 500);
   },
 });
 

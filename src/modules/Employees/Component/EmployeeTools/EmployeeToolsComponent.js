@@ -9,6 +9,7 @@ import {
 } from "@ant-design/icons";
 import { navigate } from "../../../../app/Helpers";
 import EmployeeToolsModalContainer from "../../Container/EmployeeTools/EmployeeToolsModalContainer";
+import { Link } from "react-router-dom";
 
 const { Search } = Input;
 
@@ -44,15 +45,16 @@ const EmployeeToolsComponent = (props) => {
                 <div class="row d-flex justify-content-between mb-2">
                   <div class="col-md-7">
                     <div class="row ml-2 mb-2">
-                      <CButtonAntd
-                        onClick={() => navigate("employees")}
-                        type="primary"
-                        icon={<ArrowLeftOutlined />}
-                        size="middle"
-                        danger
-                      >
-                        Kembali
-                      </CButtonAntd>
+                      <Link to={"/employees"}>
+                        <CButtonAntd
+                          type="primary"
+                          icon={<ArrowLeftOutlined />}
+                          size="middle"
+                          danger
+                        >
+                          Kembali
+                        </CButtonAntd>
+                      </Link>
                       <div class="ml-2" />
                       <CButtonAntd
                         onClick={handlePressAddNew}

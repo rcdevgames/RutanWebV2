@@ -19,6 +19,7 @@ import EditModalTransactionContainer from "../Container/EditModalTransactionCont
 import EditModalDailiesContainer from "../Container/EditModalDailiesContainer";
 import InsertImageModalContainer from "../Container/InsertImageModalContainer";
 import EditModalSummaryContainer from "../Container/EditModalSummaryContainer";
+import { Link } from "react-router-dom";
 
 const { Text } = Typography;
 const { TabPane } = Tabs;
@@ -115,15 +116,16 @@ const DetailServiceTransactionComponent = (props) => {
                   <h6 class="card-title">Detail Transaksi</h6>
                 </div>
                 <div class="row mb-3 ml-2 mr-2">
-                  <CButtonAntd
-                    onClick={goBack}
-                    type="primary"
-                    icon={<ArrowLeftOutlined />}
-                    size="middle"
-                    danger
-                  >
-                    Kembali
-                  </CButtonAntd>
+                  <Link to={"/list_service"} onClick={goBack}>
+                    <CButtonAntd
+                      type="primary"
+                      icon={<ArrowLeftOutlined />}
+                      size="middle"
+                      danger
+                    >
+                      Kembali
+                    </CButtonAntd>
+                  </Link>
                   <div class="ml-3" />
                   {data.status.toLowerCase() !== "approved" && !isBlockedRole && (
                     <CButtonAntd

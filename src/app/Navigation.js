@@ -1,7 +1,7 @@
 import "react-toastify/dist/ReactToastify.css";
 
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, withRouter } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { ToastContainer } from "react-toastify";
 import ReduxToastr from "react-redux-toastr";
@@ -43,8 +43,9 @@ import DetailServiceReportContainer from "../modules/ReportPdf/Containers/Detail
 import UnitSerialNumberContainer from "../modules/Units/Container/UnitSerialNumber/UnitSerialNumberContainer";
 import UnitJobFormsContainer from "../modules/Units/Container/UnitJobFormsContainer";
 import WorkingHoursContainer from "../modules/WorkingHours/Container/WorkingHoursContainer";
+import Sidebar from "../components/Sidebar/Sidebar";
 
-export default function Navigation() {
+const Navigation = () => {
   const authenticatedPage = (
     component,
     footerImg,
@@ -221,58 +222,66 @@ export default function Navigation() {
         closeOnToastrClick={true}
       />
       <ToastContainer autoClose={2000} />
-      <Switch>
-        <Route exact path="/" component={Dashboard} />
-        <Route exact path="/dashboard" component={Dashboard} />
-        <Route exact path="/auth" component={Login} />
-        <Route exact path="/admin" component={Admin} />
-        <Route exact path="/role" component={Roles} />
-        <Route exact path="/cabang" component={Branches} />
-        <Route exact path="/machine" component={MachineConfiguration} />
-        <Route exact path="/jobforms" component={JobForms} />
-        <Route exact path="/unit" component={Units} />
-        <Route exact path="/unit-models" component={UnitModels} />
-        <Route exact path="/unit-fields" component={UnitFields} />
-        <Route exact path="/unit-job-forms" component={UnitJobForms} />
-        <Route exact path="/unit-serial-number" component={UnitSerialNumber} />
-        <Route exact path="/tools" component={Tools} />
-        <Route exact path="/customer" component={Customers} />
-        <Route exact path="/category" component={FormCategory} />
-        <Route exact path="/employees" component={EmployeeList} />
-        <Route exact path="/division" component={Division} />
-        <Route exact path="/division-unit" component={DivisionUnit} />
-        <Route exact path="/edit-employee" component={EditEmployee} />
-        <Route exact path="/internal-service" component={InternalService} />
-        <Route exact path="/external-service" component={ExternalService} />
-        <Route exact path="/employee-tools" component={EmployeeTools} />
-        <Route
-          exact
-          path="/report-transaction"
-          component={DetailServiceReportContainer}
-        />
-        <Route
-          exact
-          path="/monitoring-employee"
-          component={MonitoringEmployee}
-        />
-        <Route exact path="/report_trans" component={ReportServiceRepair} />
-        <Route exact path="/list_service" component={ListServices} />
-        <Route exact path="/detail-services" component={DetailService} />
-        <Route exact path="/report_employee" component={ReportEmployee} />
-        <Route exact path="/working-hours" component={WorkingHours} />
-        <Route
-          exact
-          path="/report_identification"
-          component={ReportIdentification}
-        />
-        <Route
-          exact
-          path="/form-identification"
-          component={FormWizardIdentification}
-        />
-        <Route exact path="/identification" component={ListIdentification} />
-        <Route path={"*"} component={NotFound} />
-      </Switch>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={Dashboard} />
+          <Route exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/auth" component={Login} />
+          <Route exact path="/admin" component={Admin} />
+          <Route exact path="/role" component={Roles} />
+          <Route exact path="/cabang" component={Branches} />
+          <Route exact path="/machine" component={MachineConfiguration} />
+          <Route exact path="/jobforms" component={JobForms} />
+          <Route exact path="/unit" component={Units} />
+          <Route exact path="/unit-models" component={UnitModels} />
+          <Route exact path="/unit-fields" component={UnitFields} />
+          <Route exact path="/unit-job-forms" component={UnitJobForms} />
+          <Route
+            exact
+            path="/unit-serial-number"
+            component={UnitSerialNumber}
+          />
+          <Route exact path="/tools" component={Tools} />
+          <Route exact path="/customer" component={Customers} />
+          <Route exact path="/category" component={FormCategory} />
+          <Route exact path="/employees" component={EmployeeList} />
+          <Route exact path="/division" component={Division} />
+          <Route exact path="/division-unit" component={DivisionUnit} />
+          <Route exact path="/edit-employee" component={EditEmployee} />
+          <Route exact path="/internal-service" component={InternalService} />
+          <Route exact path="/external-service" component={ExternalService} />
+          <Route exact path="/employee-tools" component={EmployeeTools} />
+          <Route
+            exact
+            path="/report-transaction"
+            component={DetailServiceReportContainer}
+          />
+          <Route
+            exact
+            path="/monitoring-employee"
+            component={MonitoringEmployee}
+          />
+          <Route exact path="/report_trans" component={ReportServiceRepair} />
+          <Route exact path="/list_service" component={ListServices} />
+          <Route exact path="/detail-services" component={DetailService} />
+          <Route exact path="/report_employee" component={ReportEmployee} />
+          <Route exact path="/working-hours" component={WorkingHours} />
+          <Route
+            exact
+            path="/report_identification"
+            component={ReportIdentification}
+          />
+          <Route
+            exact
+            path="/form-identification"
+            component={FormWizardIdentification}
+          />
+          <Route exact path="/identification" component={ListIdentification} />
+          <Route path={"*"} component={NotFound} />
+        </Switch>
+      </Router>
     </>
   );
 }
+
+export default withRouter(Navigation)

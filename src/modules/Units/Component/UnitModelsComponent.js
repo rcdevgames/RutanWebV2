@@ -5,6 +5,7 @@ import CTableAntd from "../../../components/CTable/CTableAntd";
 import { PlusOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import UnitModelsModalContainer from "../Container/UnitModelsModalContainer";
 import { navigate } from "../../../app/Helpers";
+import { Link } from "react-router-dom";
 
 const { Search } = Input;
 
@@ -37,16 +38,17 @@ const UnitModelsComponent = (props) => {
                 </div>
                 <div class="row d-flex justify-content-between mb-2">
                   <div class="col-md-7">
-                    <div class="row">
-                      <CButtonAntd
-                        onClick={() => navigate("unit")}
-                        type="primary"
-                        icon={<ArrowLeftOutlined />}
-                        size="middle"
-                        danger
-                      >
-                        Kembali
-                      </CButtonAntd>
+                    <div class="row ml-1">
+                      <Link to={"/unit"}>
+                        <CButtonAntd
+                          type="primary"
+                          icon={<ArrowLeftOutlined />}
+                          size="middle"
+                          danger
+                        >
+                          Kembali
+                        </CButtonAntd>
+                      </Link>
                       <div class="ml-2" />
                       <CButtonAntd
                         onClick={handlePressAddNew}

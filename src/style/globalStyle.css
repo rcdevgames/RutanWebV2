@@ -1,0 +1,16 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+  }
+.scrolled-content {
+    flex: 1;
+    background: #FFF;
+    overflow-y: scroll;
+}
+.sidebar-container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+  

@@ -17,6 +17,7 @@ const FormCategoryComponent = (props) => {
     paging,
     onSearch,
   } = props;
+
   const pagination = {
     total: paging.totalPage * paging.limit,
     current: paging.page,

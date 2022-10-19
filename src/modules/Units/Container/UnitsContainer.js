@@ -14,6 +14,7 @@ import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import UnitsComponent from "../Component/UnitsComponent";
 import { getIndex, navigate } from "../../../app/Helpers";
 import { store } from "../../../app/ConfigureStore";
+import { Link } from "react-router-dom";
 
 const UnitsContainer = (props) => {
   const {
@@ -49,20 +50,13 @@ const UnitsContainer = (props) => {
           size="middle"
         />
       </Tooltip>
-      <Tooltip placement="top" title={tooltipText}>
-        <CButtonAntd
-          onClick={() => handlePressUnitModel(record.id)}
-          type="primary"
-          icon={<BoxPlotOutlined />}
-          size="middle"
-        />
-      </Tooltip>
-      <CButtonAntd
-        onClick={() => handlePressUnitFields(record)}
-        type="primary"
-        icon={<FileAddOutlined />}
-        size="middle"
-      />
+
+      <Link to={"/unit-models"} onClick={() => handlePressUnitModel(record.id)}>
+        <CButtonAntd type="primary" icon={<BoxPlotOutlined />} size="middle" />
+      </Link>
+      <Link to={"/unit-fields"} onClick={() => handlePressUnitFields(record)}>
+        <CButtonAntd type="primary" icon={<FileAddOutlined />} size="middle" />
+      </Link>
       <CButtonAntd
         onClick={() => handlePressDelete(record.id)}
         type="primary"
@@ -88,18 +82,17 @@ const UnitsContainer = (props) => {
       width: "30%",
       sorter: (a, b) => a.name.length - b.name.length,
       render: (unit, record) => (
-        <Button
-          block
+        <Link
+          class="nav-link"
+          to={"/unit-job-forms"}
           onClick={() => handlePressLink(record)}
-          type="link"
-          style={{ whiteSpace: "normal", textAlign: "left" }}
         >
           <Typography
             style={{ color: "#1890ff", fontWeight: "bold", fontSize: 11 }}
           >
             {unit}
           </Typography>
-        </Button>
+        </Link>
       ),
     },
     {
@@ -181,27 +174,15 @@ const mapDispatchToProps = (dispatch) => ({
     UnitsActions.deleteUnitRequested(unitId);
   },
   handlePressUnitModel: async (unitId) => {
-    await dispatch(ComponentActions.setGlobalLoading(true));
     await dispatch(UnitsActions.setSelectedUnitId(unitId));
-    setTimeout(() => {
-      navigate("unit-models");
-    }, 500);
   },
   handlePressUnitFields: async (record) => {
-    await dispatch(ComponentActions.setGlobalLoading(true));
     await dispatch(UnitsActions.setSelectedUnitId(record.id));
     await dispatch(UnitsActions.setSelectedUnitData(record));
-    setTimeout(() => {
-      navigate("unit-fields");
-    }, 500);
   },
   handlePressLink: async (record) => {
-    await dispatch(ComponentActions.setGlobalLoading(true));
     await dispatch(UnitsActions.setSelectedUnitId(record.id));
     await dispatch(UnitsActions.setSelectedUnitData(record));
-    setTimeout(() => {
-      navigate("unit-job-forms");
-    }, 500);
   },
 });
 

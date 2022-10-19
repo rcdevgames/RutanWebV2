@@ -11,6 +11,7 @@ import {
 } from "@ant-design/icons";
 import { Checkbox, Col, message, Row, Typography, Upload } from "antd";
 import { getBase64 } from "../../../app/Helpers";
+import { Link } from "react-router-dom";
 
 const SelectRole = (props) => {
   const { data, defaultValues, onChangeRoleEmployee } = props;
@@ -146,7 +147,11 @@ const EmployeeEditComponent = (props) => {
                       <Field
                         name="password"
                         label="Password"
-                        placeholder={formStatus === 'edit' ? "* Isi jika ingin merubah kata sandi" : "* Masukan kata sandi anda"}
+                        placeholder={
+                          formStatus === "edit"
+                            ? "* Isi jika ingin merubah kata sandi"
+                            : "* Masukan kata sandi anda"
+                        }
                         component={CInput}
                         type="password"
                       />
@@ -274,16 +279,17 @@ const EmployeeEditComponent = (props) => {
                     </div>
                   </div>
                   <div class="row ml-2">
-                    <CButtonAntd
-                      key="submit"
-                      type="primary"
-                      loading={false}
-                      onClick={onBackAction}
-                      danger
-                      icon={<ArrowLeftOutlined />}
-                    >
-                      Kembali
-                    </CButtonAntd>
+                    <Link to={"/employees"} onClick={onBackAction}>
+                      <CButtonAntd
+                        key="submit"
+                        type="primary"
+                        loading={false}
+                        danger
+                        icon={<ArrowLeftOutlined />}
+                      >
+                        Kembali
+                      </CButtonAntd>
+                    </Link>
                     <div class="ml-3" />
                     <CButtonAntd
                       key="submit"

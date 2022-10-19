@@ -84,13 +84,13 @@ const EmployeesListContainer = (props) => {
 
   const renderActionTable = (text, record) => (
     <Space size="middle">
-      <CButtonAntd
-        onClick={() => handlePressEdit(record)}
-        type="primary"
-        icon={<EditOutlined />}
-        size="middle"
-      />
-      <Link to={"/employee-tools"} onClick={() => handlePressEmployeeTools(record)}>
+      <Link to={"/edit-employee"} onClick={() => handlePressEdit(record)}>
+        <CButtonAntd type="primary" icon={<EditOutlined />} size="middle" />
+      </Link>
+      <Link
+        to={"/employee-tools"}
+        onClick={() => handlePressEmployeeTools(record)}
+      >
         <CButtonAntd type="primary" icon={<SettingOutlined />} size="middle" />
       </Link>
       <CButtonAntd
@@ -160,16 +160,11 @@ const mapDispatchToProps = (dispatch) => ({
     ToolsActions.getToolsListDataRequested(page, limit);
   },
   handlePressEdit: async (employee) => {
-    dispatch(ComponentActions.setGlobalLoading(true));
     dispatch(EmployeeActions.setFormStatus("edit"));
     await EmployeesActions.getRolesByEmployeeId(employee.id);
     await MasterDataActions.loadCityListData(employee.province_id);
     await dispatch(EmployeeActions.setSelectedEmployeeId(employee.id));
     await EmployeesActions.getEmployeeDataByIdRequested(employee.id);
-    setTimeout(() => {
-      navigate("/edit-employee");
-      dispatch(ComponentActions.setGlobalLoading(false));
-    }, 500);
   },
   handlePressAddNew: async () => {
     dispatch(EmployeesActions.setFormStatus("add"));

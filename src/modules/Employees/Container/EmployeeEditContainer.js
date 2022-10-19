@@ -132,9 +132,6 @@ const EmployeeEditContainer = (props) => {
 
   const onBackAction = async () => {
     await handleClearSelectedEmployeeRole();
-    setTimeout(() => {
-      navigate("employees");
-    }, 500);
   };
 
   return (

@@ -1,3 +1,6 @@
+### Changelog v.3.0.6
+- fix: Change role permission to access download pdf on detail job service
+
 ### Changelog v.3.0.5
 - fix: Optimize performane web
 - fix: Reduce popup loading

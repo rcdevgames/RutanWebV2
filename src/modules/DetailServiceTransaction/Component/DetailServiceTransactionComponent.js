@@ -28,6 +28,7 @@ const DetailServiceTransactionComponent = (props) => {
   const {
     data,
     isNotBlockedRole,
+    isBlockedRoleActionButton,
     TabPanel,
     onChangeTab,
     handlePressGeneratePdf,
@@ -127,7 +128,7 @@ const DetailServiceTransactionComponent = (props) => {
                     </CButtonAntd>
                   </Link>
                   <div class="ml-3" />
-                  {data.status.toLowerCase() !== "approved" && !isBlockedRole && (
+                  {data.status.toLowerCase() !== "approved" && !isBlockedRoleActionButton && (
                     <CButtonAntd
                       onClick={handlePressEdit}
                       type="primary"
@@ -137,7 +138,7 @@ const DetailServiceTransactionComponent = (props) => {
                       Ubah
                     </CButtonAntd>
                   )}
-                  {data.status.toLowerCase() === "rejected" && !isBlockedRole && (
+                  {data.status.toLowerCase() === "rejected" && !isBlockedRoleActionButton && (
                     <CButtonAntd
                       onClick={handleSetOnProgress}
                       type="primary"

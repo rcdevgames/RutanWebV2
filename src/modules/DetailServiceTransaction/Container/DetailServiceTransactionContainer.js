@@ -23,7 +23,7 @@ import TabPanelRejectionsContainer from "./TabPanel/TabPanelRejectionsContainer"
 import TabPanelChecklistContainer from "./TabPanel/TabPanelChecklistContainer";
 import { store } from "../../../app/ConfigureStore";
 import Invoke from "../../../app/axios/Invoke";
-import { isNotBlockedRolePrintForm, navigate } from "../../../app/Helpers";
+import { isBlockedRoleDetailService, isNotBlockedRolePrintForm, navigate } from "../../../app/Helpers";
 import { showToast } from "../../Roles/Store/RolesActions";
 
 const DetailServiceTransactionContainer = (props) => {
@@ -45,6 +45,7 @@ const DetailServiceTransactionContainer = (props) => {
 
   const [isLoadedChecklist, setIsLoadedChecklist] = React.useState(false);
   const [isNotBlockedRole, setNotIsBlockedRole] = React.useState(false);
+  const [isBlockedRoleActionButton, setIsBlockedRoleActionButton] = React.useState(false);
   const [isCompleteLoadedMedia, setIsCompleteLoadedMedia] =
     React.useState(false);
   const [isCompleteLoadedSummary, setIsCompleteLoadedSummary] =
@@ -226,6 +227,8 @@ const DetailServiceTransactionContainer = (props) => {
   const checkBlockedRole = () => {
     const isNotBlocked = isNotBlockedRolePrintForm(userRole[0].role_id);
     setNotIsBlockedRole(isNotBlocked);
+    const isBlockedRoleButtonAction = isBlockedRoleDetailService(userRole[0].role_id);
+    setIsBlockedRoleActionButton(isBlockedRoleButtonAction)
   };
 
   React.useEffect(() => {
@@ -259,6 +262,7 @@ const DetailServiceTransactionContainer = (props) => {
     <DetailServiceTransactionComponent
       data={selectedJobService}
       isNotBlockedRole={isNotBlockedRole}
+      isBlockedRoleActionButton={isBlockedRoleActionButton}
       TabPanel={TabPanel}
       onChangeTab={onChangeTab}
       handlePressGeneratePdf={handlePressGeneratePdf}

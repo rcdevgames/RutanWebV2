@@ -208,7 +208,11 @@ export const enumTypeActivities = [
   { id: `enum-activity-1`, value: "Perjalanan", label: "Perjalanan" },
   { id: `enum-activity-2`, value: "Pekerjaan", label: "Pekerjaan" },
   { id: `enum-activity-3`, value: "Istirahat", label: "Istirahat" },
-  { id: `enum-activity-4`, value: "Perjalanan Pulang", label: "Perjalanan Pulang" },
+  {
+    id: `enum-activity-4`,
+    value: "Perjalanan Pulang",
+    label: "Perjalanan Pulang",
+  },
 ];
 
 export const warrantyMonths = () => {
@@ -547,17 +551,41 @@ export const calculateColumnsWidth = (
   };
 };
 
-export const isBlockedRoleDetailService = (role) => {
+export const isNotBlockedRolePrintForm = (role) => {
   let isBlocked;
   switch (role) {
-    case "b7e003a1-5574-4a03-96fa-c71e6714d269":
-      isBlocked = true;
-      break;
-
+    // AREA_SERVICE_COORDINATOR_(ASC)
     case "b58df788-26e0-4d41-a3af-39ac1005a2bc":
       isBlocked = true;
       break;
 
+    // CUSTOMER_SUPPORT_MANAGER_(CSM)
+    case "1b775fda-6798-4769-b31b-b0eecacb3381":
+      isBlocked = true;
+      break;
+
+    default:
+      isBlocked = false;
+      break;
+  }
+
+  return isBlocked;
+};
+
+export const isBlockedRoleDetailService = (role) => {
+  let isBlocked;
+  switch (role) {
+    // CUSTOMER_SUPPORT_ADVISOR_(CSA)
+    case "b7e003a1-5574-4a03-96fa-c71e6714d269":
+      isBlocked = true;
+      break;
+
+    // AREA_SERVICE_COORDINATOR_(ASC)
+    case "b58df788-26e0-4d41-a3af-39ac1005a2bc":
+      isBlocked = true;
+      break;
+
+    // CUSTOMER_SUPPORT_MANAGER_(CSM)
     case "1b775fda-6798-4769-b31b-b0eecacb3381":
       isBlocked = true;
       break;
@@ -572,7 +600,7 @@ export const isBlockedRoleDetailService = (role) => {
 
 // Check if roles is blocked on filter branch customer
 export const isBlockedRoleCustomerView = (role) => {
-  let isBlocked
+  let isBlocked;
   switch (role) {
     case "1b775fda-6798-4769-b31b-b0eecacb3381":
       isBlocked = true;
@@ -592,7 +620,7 @@ export const isBlockedRoleCustomerView = (role) => {
   }
 
   return isBlocked;
-}
+};
 
 // Check if roles is blocked on menu list service:
 export const isBlockedRoleListService = (role) => {

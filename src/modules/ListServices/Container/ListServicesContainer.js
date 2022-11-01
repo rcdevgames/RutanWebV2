@@ -45,7 +45,6 @@ const ListServicesContainer = (props) => {
             handlePressEdit(record);
           }}>
         <CButtonAntd
-          
           type="primary"
           icon={<EditOutlined />}
           size="middle"

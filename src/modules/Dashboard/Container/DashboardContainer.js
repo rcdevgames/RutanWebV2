@@ -12,6 +12,7 @@ import moment from "moment";
 import { getDashboardProgressData } from "../Store/DashboardActions";
 import { initializeApp } from "../../../app/InitializeApp";
 import { isBlockedRoleDetailService } from "../../../app/Helpers";
+import { Link } from "react-router-dom";
 
 const DashboardContainer = (props) => {
   const {
@@ -21,7 +22,6 @@ const DashboardContainer = (props) => {
     dashboard: { dashboardData },
   } = props;
   const [isBlocked, setisBlocked] = React.useState(false);
-
 
   if (dashboardListServices.length > 0) {
     dashboardListServices.map((item, index) => {
@@ -40,7 +40,7 @@ const DashboardContainer = (props) => {
   };
 
   React.useEffect(() => {
-    checkBlockedRole()
+    checkBlockedRole();
     initializeApp();
     store.dispatch(setGlobalLoading(false));
     ListServiceActions.getTopTenService();
@@ -64,14 +64,14 @@ const DashboardContainer = (props) => {
 
   const renderActionTable = (text, record) => (
     <Space size="middle">
-      <CButtonAntd
+      <Link
+        to={"/detail-services"}
         onClick={() => {
           handlePressEdit(record);
         }}
-        type="primary"
-        icon={<EditOutlined />}
-        size="middle"
-      />
+      >
+        <CButtonAntd type="primary" icon={<EditOutlined />} size="middle" />
+      </Link>
     </Space>
   );
 

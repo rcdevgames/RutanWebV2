@@ -27,7 +27,7 @@ const { TabPane } = Tabs;
 const DetailServiceTransactionComponent = (props) => {
   const {
     data,
-    isBlockedRole,
+    isNotBlockedRole,
     TabPanel,
     onChangeTab,
     handlePressGeneratePdf,
@@ -150,7 +150,7 @@ const DetailServiceTransactionComponent = (props) => {
                   <RenderButtonAction status={data.status} />
                   <div class="mr-3" />
                   {/* button to trigger printing of target component */}
-                  {!isBlockedRole && (
+                  {isNotBlockedRole && (
                     <CButtonAntd
                       onClick={handlePressGeneratePdf}
                       type="primary"

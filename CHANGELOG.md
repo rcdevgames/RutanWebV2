@@ -1,3 +1,9 @@
+### Changelog v.3.0.8
+
+- fix: Handle async await get list dropdown branch on 'Monitoring Karyawan'
+- fix: Handle async await get list dropdown branch on 'Service Repair'
+- fix: Handle async await get list dropdown branch on 'Laporan Karyawan'
+
 ### Changelog v.3.0.7
 
 - fix: Tombol ubah pada status ‘progress’ dan role ‘CSM’ tidak muncul

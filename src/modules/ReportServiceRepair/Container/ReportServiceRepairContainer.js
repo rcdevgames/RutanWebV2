@@ -2,7 +2,11 @@ import React from "react";
 import { connect } from "react-redux";
 import { getFormValues, reduxForm } from "redux-form";
 import { BookOutlined } from "@ant-design/icons";
-import { enumTypeMonitoringEmployee, getStatus } from "../../../app/Helpers";
+import {
+  enumTypeMonitoringEmployee,
+  getStatus,
+  isBlockedRoleCustomerView,
+} from "../../../app/Helpers";
 import * as ReportServiceRepairActions from "../Store/ReportServiceRepairActions";
 import Text from "antd/lib/typography/Text";
 import { Space, Tag } from "antd";
@@ -11,16 +15,22 @@ import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import moment from "moment";
 import * as ListServiceActions from "../../ListServices/Store/ListServicesActions";
 import { Link } from "react-router-dom";
+import * as BranchActions from "../../Branch/Store/BranchActions";
 
 const ReportServiceRepairContainer = (props) => {
   const {
-    handlePressAddNew,
-    serviceRepair: { listServiceRepair, paging },
-    branch: { listBranch },
-    serviceRepairFormValues,
-    getListServiceRepair,
     handlePressEdit,
+    handlePressAddNew,
+    getListServiceRepair,
+    branch: { listBranchDropdown },
+    serviceRepairFormValues,
+    user: { roles, branchId },
+    serviceRepair: { listServiceRepair, paging },
   } = props;
+  const [isBlockedRole, setIsBlockedRole] = React.useState(false);
+  const [successLoaded, setSuccessLoaded] = React.useState(false);
+  const [selectBranch, setSelectBranch] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const { page, limit } = paging;
 
@@ -33,7 +43,7 @@ const ReportServiceRepairContainer = (props) => {
   const renderActionTable = (text, record) => (
     <Space size="middle">
       <Link
-      to={"/detail-services"}
+        to={"/detail-services"}
         onClick={() => {
           handlePressEdit(record);
         }}
@@ -174,21 +184,74 @@ const ReportServiceRepairContainer = (props) => {
     },
   ];
 
-  const SelectBranch = [];
-  listBranch.map((item, index) => {
-    SelectBranch.push({
-      id: `branch-${index}`,
-      value: item.id,
-      label: item.name,
-    });
-  });
+  const checkBlockedRole = () => {
+    const SelectBranch = [];
+    const roleId = roles[0].role_id;
+    const blocked = isBlockedRoleCustomerView(roleId);
+
+    if (blocked) {
+      setIsBlockedRole(blocked);
+
+      if (blocked) {
+        // Call API report service only for his own branch
+        getListServiceRepair(page, limit, "", branchId).then((success) => {
+          setIsLoading(false);
+        });
+
+        // Set branch only on his own branch if role access is blocked
+        const selectedBranch = listBranchDropdown.filter((x) =>
+          x.id.includes(branchId)
+        );
+
+        // Push to enum dropdown branch reducer
+        SelectBranch.push({
+          id: `branch-${selectedBranch[0].id}`,
+          value: selectedBranch[0].id,
+          label: selectedBranch[0].name,
+        });
+        setSelectBranch(SelectBranch);
+      } else {
+        // Call API service report for all data, without filtering branch
+        getListServiceRepair(page, limit).then((success) => {
+          setIsLoading(false);
+        });
+
+        // Show all branch when not blocked role
+        listBranchDropdown.map((item, index) => {
+          SelectBranch.push({
+            id: `branch-${index}`,
+            value: item.id,
+            label: item.name,
+          });
+        });
+        setSelectBranch(SelectBranch);
+      }
+    } else {
+      setIsBlockedRole(false);
+    }
+  };
 
   React.useEffect(() => {
-    getListServiceRepair(page, limit);
+    setIsLoading(true);
+    checkBlockedRole();
+  }, []);
+
+  React.useEffect(() => {
+    checkBlockedRole();
+    BranchActions.getBranchListDataRequested(1, 99999, "", true).then(
+      (successLoadedListBranch) => {
+        setSuccessLoaded(true);
+      }
+    );
   }, []);
 
   const onSearch = () => {
-    ReportServiceRepairActions.handleSearch(serviceRepairFormValues);
+    setIsLoading(true);
+    ReportServiceRepairActions.handleSearch(serviceRepairFormValues).then(
+      () => {
+        setIsLoading(false);
+      }
+    );
   };
 
   return (
@@ -198,20 +261,22 @@ const ReportServiceRepairContainer = (props) => {
       handlePressAddNew={handlePressAddNew}
       paging={paging}
       enumTypeReport={enumTypeMonitoringEmployee}
-      enumBranch={SelectBranch}
+      enumBranch={selectBranch}
       onSearch={onSearch}
+      isLoading={isLoading}
       {...props}
     />
   );
 };
 
 const mapStateToProps = (state) => ({
-  serviceRepair: state.serviceRepair,
   branch: state.branch,
+  user: state.auth.userDetail,
+  serviceRepair: state.serviceRepair,
   serviceRepairFormValues: getFormValues("serviceRepairForm")(state),
 });
 const mapDispatchToProps = (dispatch) => ({
-  getListServiceRepair: (page, limit, keyword, branch, from, until) =>
+  getListServiceRepair: async (page, limit, keyword, branch, from, until) =>
     ReportServiceRepairActions.getServiceRepairListDataRequested(
       page,
       limit,

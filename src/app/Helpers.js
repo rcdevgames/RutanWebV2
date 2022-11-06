@@ -586,9 +586,9 @@ export const isBlockedRoleDetailService = (role) => {
       break;
 
     // CUSTOMER_SUPPORT_MANAGER_(CSM)
-    case "1b775fda-6798-4769-b31b-b0eecacb3381":
-      isBlocked = true;
-      break;
+    // case "1b775fda-6798-4769-b31b-b0eecacb3381":
+    //   isBlocked = true;
+    //   break;
 
     default:
       isBlocked = false;

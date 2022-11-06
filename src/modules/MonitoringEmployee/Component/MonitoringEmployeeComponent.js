@@ -1,5 +1,5 @@
 import React from "react";
-import { Badge, Divider, Table } from "antd";
+import { Badge, Divider, Spin, Table } from "antd";
 import { categoryMonitoringServices } from "../../../app/Helpers";
 import CDatePicker from "../../../components/CDatePicker/CDatePicker";
 import CSelect from "../../../components/CSelect/CSelect";
@@ -13,21 +13,13 @@ import { Field } from "redux-form";
 const MonitoringEmployeeComponent = (props) => {
   const {
     headers,
-    listMonitoringEmployee,
-    onChangePagination,
-    paging,
     onSearch,
+    isLoading,
     enumBranch,
     enumTypeReport,
+    listMonitoringEmployee,
     handlePressGeneratePdf,
   } = props;
-
-  const pagination = {
-    total: paging.totalPage * paging.limit,
-    current: paging.page,
-    pageSize: paging.limit,
-    onChange: onChangePagination,
-  };
 
   return (
     <div class="page-content">
@@ -39,13 +31,30 @@ const MonitoringEmployeeComponent = (props) => {
                 <div class="row d-flex justify-content-between mb-2 align-items-center">
                   <h6 class="ml-3 card-title">Monitoring Karyawan</h6>
                 </div>
-                <Divider orientation="left">Keterangan</Divider>
-                <div class="row">
-                  {categoryMonitoringServices.map((item, index) => (
-                    <div class="ml-3" key={("service", index)}>
-                      <Badge status={item.status} text={item.name} />
+                <div class="row m-auto">
+                  <div class="col-md-5 card p-2">
+                    <div class="column">
+                      <Divider orientation="left">Keterangan</Divider>
+                      <div class="row">
+                        {categoryMonitoringServices.map((item, index) => (
+                          <div class="ml-3" key={("service", index)}>
+                            <Badge status={item.status} text={item.name} />
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  ))}
+                  </div>
+                  <div class="col-md-5 card p-2 ml-3">
+                    <Divider orientation="left">Laporan</Divider>
+                    <CButtonAntd
+                      onClick={handlePressGeneratePdf}
+                      type="primary"
+                      icon={<FilePdfOutlined />}
+                      size="middle"
+                    >
+                      Cetak Laporan
+                    </CButtonAntd>
+                  </div>
                 </div>
                 <Divider orientation="left">Filter Data</Divider>
                 <div class="row align-items-center">
@@ -92,26 +101,23 @@ const MonitoringEmployeeComponent = (props) => {
                       >
                         Cari
                       </CButtonAntd>
-                      <div class="ml-2" />
-                      <CButtonAntd
-                        onClick={handlePressGeneratePdf}
-                        type="primary"
-                        icon={<FilePdfOutlined />}
-                        size="middle"
-                      >
-                        Cetak Laporan
-                      </CButtonAntd>
                     </div>
                   </div>
                 </div>
-                <div class="table-responsive">
-                  <Table
-                    bordered
-                    columns={headers}
-                    dataSource={listMonitoringEmployee}
-                    size={"small"}
-                  />
-                </div>
+                {isLoading ? (
+                  <div class="d-flex justify-content-center align-items-center">
+                    <Spin />
+                  </div>
+                ) : (
+                  <div class="table-responsive">
+                    <Table
+                      bordered
+                      columns={headers}
+                      dataSource={listMonitoringEmployee}
+                      size={"small"}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </div>

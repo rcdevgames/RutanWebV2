@@ -2,10 +2,14 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import moment from "moment";
 
-export const exportMonitoringEmployeePdf = (data, values) => {
+export const exportMonitoringEmployeePdf = (data, values = {}) => {
   const { listMonitoringEmployee, from, until } = data;
-  const startDate = moment(from).format("YYYY-MM-DD");
-  const dueDate = moment(until).format("YYYY-MM-DD");
+  const startDate = values.hasOwnProperty("startDate")
+    ? moment(values.startDate).format("YYYY-MM-DD")
+    : moment(from).format("YYYY-MM-DD");
+  const dueDate = values.hasOwnProperty("endDate")
+    ? moment(values.endDate).format("YYYY-MM-DD")
+    : moment(until).format("YYYY-MM-DD");
   const monitoringEmployeeList = [];
 
   listMonitoringEmployee.map((item, index) => {

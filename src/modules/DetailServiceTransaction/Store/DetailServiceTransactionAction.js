@@ -640,7 +640,7 @@ export const downloadTransactionPdf = async () => {
     fileDownload(data, `${dataTransactionPdf.callback.pdf.filename}.pdf`);
   } catch (error) {
     dispatch(ComponentActions.setGlobalLoading(false));
-    showToast("Gagal mengunduh report!", "error");
+    showToast("Data report tidak ditemukan!", "error");
   }
 };
 

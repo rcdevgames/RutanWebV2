@@ -4,7 +4,10 @@ import { getFormValues, reduxForm } from "redux-form";
 import * as MonitoringEmployeeActions from "../Store/MonitoringEmployeeActions";
 import * as BranchActions from "../../Branch/Store/BranchActions";
 import { store } from "../../../app/ConfigureStore";
-import { enumTypeMonitoringEmployee } from "../../../app/Helpers";
+import {
+  enumTypeMonitoringEmployee,
+  isBlockedRoleCustomerView,
+} from "../../../app/Helpers";
 import MonitoringEmployeeComponent from "../Component/MonitoringEmployeeComponent";
 import Text from "antd/lib/typography/Text";
 import { Tag } from "antd";
@@ -15,10 +18,14 @@ const MonitoringEmployeeContainer = (props) => {
   const {
     getListMonitoringEmployee,
     handlePressAddNew,
+    user: { roles, branchId },
     monitoringEmployee: { listMonitoringEmployee, paging },
     branch: { listBranchDropdown },
     monitoringEmployeeFormValues,
   } = props;
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [isBlockedRole, setIsBlockedRole] = React.useState(false);
+  const [selectBranch, setSelectBranch] = React.useState([]);
 
   const { page, limit, totalPage } = paging;
 
@@ -131,17 +138,58 @@ const MonitoringEmployeeContainer = (props) => {
     },
   ];
 
-  const SelectBranch = [];
-  listBranchDropdown.map((item, index) => {
-    SelectBranch.push({
-      id: `branch-${index}`,
-      value: item.id,
-      label: item.name,
-    });
-  });
+  const checkBlockedRole = () => {
+    const SelectBranch = [];
+    const roleId = roles[0].role_id;
+    const blocked = isBlockedRoleCustomerView(roleId);
+
+    if (blocked) {
+      setIsBlockedRole(blocked);
+
+      if (blocked) {
+        // Call API report service only for his own branch
+        getListMonitoringEmployee(page, limit, "", "", branchId).then(
+          (success) => {
+            setIsLoading(false);
+          }
+        );
+
+        // Set branch only on his own branch if role access is blocked
+        const selectedBranch = listBranchDropdown.filter((x) =>
+          x.id.includes(branchId)
+        );
+
+        // Push to enum dropdown branch reducer
+        SelectBranch.push({
+          id: `branch-${selectedBranch[0].id}`,
+          value: selectedBranch[0].id,
+          label: selectedBranch[0].name,
+        });
+        setSelectBranch(SelectBranch);
+      } else {
+        // Call API service report for all data, without filtering branch
+        getListMonitoringEmployee(page, limit).then((success) => {
+          setIsLoading(false);
+        });
+
+        // Show all branch when not blocked role
+        listBranchDropdown.map((item, index) => {
+          SelectBranch.push({
+            id: `branch-${index}`,
+            value: item.id,
+            label: item.name,
+          });
+        });
+        setSelectBranch(SelectBranch);
+      }
+    } else {
+      setIsBlockedRole(false);
+    }
+  };
 
   React.useEffect(() => {
-    getListMonitoringEmployee(page, limit);
+    setIsLoading(true);
+    checkBlockedRole();
     BranchActions.getBranchListDataRequested(1, 99999, "", true);
   }, []);
 
@@ -157,10 +205,19 @@ const MonitoringEmployeeContainer = (props) => {
   };
 
   const onSearch = () => {
-    MonitoringEmployeeActions.handleSearch(monitoringEmployeeFormValues);
+    setIsLoading(true);
+    MonitoringEmployeeActions.handleSearch(monitoringEmployeeFormValues).then(
+      (success) => {
+        setIsLoading(false);
+      }
+    );
   };
 
   const handlePressGeneratePdf = () => {
+    console.log(
+      "=== exportMonitoringEmployeePdf : ",
+      monitoringEmployeeFormValues
+    );
     exportMonitoringEmployeePdf(printedData, monitoringEmployeeFormValues);
   };
 
@@ -172,27 +229,37 @@ const MonitoringEmployeeContainer = (props) => {
       onChangePagination={onChangePagination}
       paging={paging}
       enumTypeReport={enumTypeMonitoringEmployee}
-      enumBranch={SelectBranch}
+      enumBranch={selectBranch}
       onSearch={onSearch}
+      isLoading={isLoading}
       handlePressGeneratePdf={handlePressGeneratePdf}
-      // onShowSizeChange={onShowSizeChange}
       {...props}
     />
   );
 };
 
 const mapStateToProps = (state) => ({
-  monitoringEmployee: state.monitoringEmployee,
   branch: state.branch,
+  user: state.auth.userDetail,
+  monitoringEmployee: state.monitoringEmployee,
   monitoringEmployeeFormValues: getFormValues("monitoringEmployeeForm")(state),
 });
 const mapDispatchToProps = (dispatch) => ({
-  getListMonitoringEmployee: (page, limit, keyword, type, from, until) =>
+  getListMonitoringEmployee: async (
+    page,
+    limit,
+    keyword,
+    type,
+    branchId,
+    from,
+    until
+  ) =>
     MonitoringEmployeeActions.getMonitoringEmployeeListDataRequested(
       page,
       limit,
       keyword,
       type,
+      branchId,
       from,
       until
     ),

@@ -199,8 +199,8 @@ const ReportServiceRepairContainer = (props) => {
         });
 
         // Set branch only on his own branch if role access is blocked
-        const selectedBranch = listBranchDropdown.filter((x) =>
-          x.id.includes(branchId)
+        const selectedBranch = listBranchDropdown.filter(
+          (x) => x.id === branchId
         );
 
         // Push to enum dropdown branch reducer
@@ -237,10 +237,10 @@ const ReportServiceRepairContainer = (props) => {
   }, []);
 
   React.useEffect(() => {
-    checkBlockedRole();
     BranchActions.getBranchListDataRequested(1, 99999, "", true).then(
       (successLoadedListBranch) => {
         setSuccessLoaded(true);
+        checkBlockedRole();
       }
     );
   }, []);

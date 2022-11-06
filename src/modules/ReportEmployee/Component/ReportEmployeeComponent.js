@@ -1,5 +1,5 @@
 import React from "react";
-import { Badge, Divider, Table } from "antd";
+import { Badge, Divider, Spin, Table } from "antd";
 import { categoryServices } from "../../../app/Helpers";
 import CDatePicker from "../../../components/CDatePicker/CDatePicker";
 import CSelect from "../../../components/CSelect/CSelect";
@@ -11,7 +11,8 @@ import { Field } from "redux-form";
 // const { Search } = Input;
 
 const ReportEmployeeComponent = (props) => {
-  const { headers, listReportEmployee, onSearch, enumBranch } = props;
+  const { headers, listReportEmployee, onSearch, enumBranch, isLoading } =
+    props;
 
   return (
     <div class="page-content">
@@ -67,14 +68,20 @@ const ReportEmployeeComponent = (props) => {
                     </div>
                   </div>
                 </div>
-                <div class="table-responsive">
-                  <Table
-                    bordered
-                    columns={headers}
-                    dataSource={listReportEmployee}
-                    size={"small"}
-                  />
-                </div>
+                {isLoading ? (
+                  <div class="d-flex justify-content-center align-items-center">
+                    <Spin />
+                  </div>
+                ) : (
+                  <div class="table-responsive">
+                    <Table
+                      bordered
+                      columns={headers}
+                      dataSource={listReportEmployee}
+                      size={"small"}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </div>

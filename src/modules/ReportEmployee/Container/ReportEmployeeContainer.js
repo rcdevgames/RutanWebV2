@@ -2,22 +2,28 @@ import React from "react";
 import { connect } from "react-redux";
 import { getFormValues, reduxForm } from "redux-form";
 import { EditOutlined } from "@ant-design/icons";
-import { enumTypeMonitoringEmployee } from "../../../app/Helpers";
+import {
+  enumTypeMonitoringEmployee,
+  isBlockedRoleCustomerView,
+} from "../../../app/Helpers";
 import * as ReportEmployeeActions from "../Store/ReportEmployeeActions";
 import Text from "antd/lib/typography/Text";
 import { Space, Tag } from "antd";
 import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import ReportEmployeeComponent from "../Component/ReportEmployeeComponent";
+import { saveToolsRequested } from "../../Tools/Store/ToolsActions";
 
 const ReportEmployeeContainer = (props) => {
   const {
-    reportEmployee: { listReportEmployee, paging },
-    branch: { listBranch },
-    reportEmployeeFormValues,
     getReportEmployee,
-    handlePressEdit,
+    reportEmployeeFormValues,
+    user: { roles, branchId },
+    reportEmployee: { listReportEmployee, paging },
+    branch: { listBranch, listBranchDropdown },
   } = props;
-
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [isBlockedRole, setIsBlockedRole] = React.useState(false);
+  const [selectBranch, setSelectBranch] = React.useState([]);
   const { page, limit } = paging;
 
   if (listReportEmployee.length > 0) {
@@ -26,18 +32,52 @@ const ReportEmployeeContainer = (props) => {
     });
   }
 
-  const renderActionTable = (text, record) => (
-    <Space size="middle">
-      <CButtonAntd
-        onClick={() => {
-          handlePressEdit(record);
-        }}
-        type="primary"
-        icon={<EditOutlined />}
-        size="middle"
-      />
-    </Space>
-  );
+  const checkBlockedRole = () => {
+    const SelectBranch = [];
+    const roleId = roles[0].role_id;
+    const blocked = isBlockedRoleCustomerView(roleId);
+
+    if (blocked) {
+      setIsBlockedRole(blocked);
+
+      if (blocked) {
+        // Call API report service only for his own branch
+        getReportEmployee(page, limit, "", branchId).then((success) => {
+          setIsLoading(false);
+        });
+
+        // Set branch only on his own branch if role access is blocked
+        const selectedBranch = listBranchDropdown.filter((x) =>
+          x.id.includes(branchId)
+        );
+
+        // Push to enum dropdown branch reducer
+        SelectBranch.push({
+          id: `branch-${selectedBranch[0].id}`,
+          value: selectedBranch[0].id,
+          label: selectedBranch[0].name,
+        });
+        setSelectBranch(SelectBranch);
+      } else {
+        // Call API service report for all data, without filtering branch
+        getReportEmployee(page, limit).then((success) => {
+          setIsLoading(false);
+        });
+
+        // Show all branch when not blocked role
+        listBranchDropdown.map((item, index) => {
+          SelectBranch.push({
+            id: `branch-${index}`,
+            value: item.id,
+            label: item.name,
+          });
+        });
+        setSelectBranch(SelectBranch);
+      }
+    } else {
+      setIsBlockedRole(false);
+    }
+  };
 
   const switchColorType = (isExternal, isWarranty) => {
     if (isWarranty) {
@@ -165,11 +205,17 @@ const ReportEmployeeContainer = (props) => {
   });
 
   React.useEffect(() => {
-    getReportEmployee(page, limit);
+    setIsLoading(saveToolsRequested);
+    checkBlockedRole();
   }, []);
 
   const onSearch = () => {
-    ReportEmployeeActions.handleSearch(reportEmployeeFormValues);
+    setIsLoading(true);
+    ReportEmployeeActions.handleSearch(reportEmployeeFormValues).then(
+      (success) => {
+        setIsLoading(false);
+      }
+    );
   };
 
   return (
@@ -178,24 +224,27 @@ const ReportEmployeeContainer = (props) => {
       listReportEmployee={listReportEmployee}
       paging={paging}
       enumTypeReport={enumTypeMonitoringEmployee}
-      enumBranch={SelectBranch}
+      enumBranch={selectBranch}
       onSearch={onSearch}
+      isLoading={isLoading}
       {...props}
     />
   );
 };
 
 const mapStateToProps = (state) => ({
-  reportEmployee: state.reportEmployee,
   branch: state.branch,
+  user: state.auth.userDetail,
+  reportEmployee: state.reportEmployee,
   reportEmployeeFormValues: getFormValues("reportEmployeeForm")(state),
 });
 const mapDispatchToProps = (dispatch) => ({
-  getReportEmployee: (page, limit, keyword, from, until) =>
-    ReportEmployeeActions.getReportEmployeeDataRequested(
+  getReportEmployee: async (page, limit, keyword, branchId, from, until) =>
+    await ReportEmployeeActions.getReportEmployeeDataRequested(
       page,
       limit,
       keyword,
+      branchId,
       from,
       until
     ),

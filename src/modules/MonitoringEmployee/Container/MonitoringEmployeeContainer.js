@@ -189,8 +189,11 @@ const MonitoringEmployeeContainer = (props) => {
 
   React.useEffect(() => {
     setIsLoading(true);
-    checkBlockedRole();
-    BranchActions.getBranchListDataRequested(1, 99999, "", true);
+    BranchActions.getBranchListDataRequested(1, 99999, "", true).then(
+      (success) => {
+        checkBlockedRole();
+      }
+    );
   }, []);
 
   const onChangePagination = async (nextPage, pageSize) => {
@@ -214,10 +217,6 @@ const MonitoringEmployeeContainer = (props) => {
   };
 
   const handlePressGeneratePdf = () => {
-    console.log(
-      "=== exportMonitoringEmployeePdf : ",
-      monitoringEmployeeFormValues
-    );
     exportMonitoringEmployeePdf(printedData, monitoringEmployeeFormValues);
   };
 

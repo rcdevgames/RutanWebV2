@@ -1,3 +1,7 @@
+### Changelog v.3.0.9
+
+-fix: Delete unused code
+
 ### Changelog v.3.0.8
 
 - fix: Handle async await get list dropdown branch on 'Monitoring Karyawan'

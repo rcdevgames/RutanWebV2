@@ -1,17 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 import { getFormValues, reduxForm } from "redux-form";
-import { EditOutlined } from "@ant-design/icons";
 import {
   enumTypeMonitoringEmployee,
   isBlockedRoleCustomerView,
 } from "../../../app/Helpers";
 import * as ReportEmployeeActions from "../Store/ReportEmployeeActions";
 import Text from "antd/lib/typography/Text";
-import { Space, Tag } from "antd";
-import CButtonAntd from "../../../components/CButton/CButtonAntd";
+import { Tag } from "antd";
 import ReportEmployeeComponent from "../Component/ReportEmployeeComponent";
-import { saveToolsRequested } from "../../Tools/Store/ToolsActions";
 
 const ReportEmployeeContainer = (props) => {
   const {
@@ -205,7 +202,7 @@ const ReportEmployeeContainer = (props) => {
   });
 
   React.useEffect(() => {
-    setIsLoading(saveToolsRequested);
+    setIsLoading(true);
     checkBlockedRole();
   }, []);
 

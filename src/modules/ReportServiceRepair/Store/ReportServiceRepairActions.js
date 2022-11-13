@@ -69,13 +69,28 @@ export const getServiceRepairListDataRequested = async (
   }
 };
 
-export const handleSearch = async (values) => {
+export const handleSearch = async (values, isBlock) => {
   const { getState } = store;
   const { page, limit } = getState().serviceRepair.paging;
+  const defaultBranch = getState().auth.userDetail.branchId;
 
   if (!values) {
-    await getServiceRepairListDataRequested(page, limit);
-    return;
+  }
+
+  if (!values) {
+    if (isBlock) {
+      await getServiceRepairListDataRequested(
+        page,
+        limit,
+        "",
+        "all",
+        defaultBranch
+      );
+      return;
+    } else {
+      await getServiceRepairListDataRequested(page, limit);
+      return;
+    }
   }
 
   const keyword = values.keyword ?? "";
@@ -83,7 +98,8 @@ export const handleSearch = async (values) => {
   const startDate = moment(values.startDate).format("YYYY-MM-DD") ?? "";
   const endDate = moment(values.endDate).format("YYYY-MM-DD") ?? "";
 
-  const branch = values.branch ? splitBranch[0] : "";
+  const specificBranch = values.branch ? splitBranch[0] : "";
+  const branch = isBlock ? defaultBranch : specificBranch;
 
   try {
     await getServiceRepairListDataRequested(

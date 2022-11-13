@@ -209,7 +209,7 @@ const ReportEmployeeContainer = (props) => {
 
   const onSearch = () => {
     setIsLoading(true);
-    ReportEmployeeActions.handleSearch(reportEmployeeFormValues).then(
+    ReportEmployeeActions.handleSearch(reportEmployeeFormValues, isBlockedRole).then(
       (success) => {
         setIsLoading(false);
       }

@@ -46,15 +46,17 @@ const ReportEmployeeComponent = (props) => {
                   <div class="col-md-2">
                     <CDatePicker name="endDate" label="Sampai" />
                   </div>
-                  <div class="col-md-3 mt-4">
-                    {enumBranch.length > 0 && (
-                      <CSelect
-                        data={enumBranch ?? []}
-                        name="branch"
-                        label="Cabang"
-                      />
-                    )}
-                  </div>
+                  {!isBlock && (
+                    <div class="col-md-3 mt-4">
+                      {enumBranch.length > 0 && (
+                        <CSelect
+                          data={enumBranch ?? []}
+                          name="branch"
+                          label="Cabang"
+                        />
+                      )}
+                    </div>
+                  )}
                   <div class="col-md-3 mt-3">
                     <Field
                       name="keyword"

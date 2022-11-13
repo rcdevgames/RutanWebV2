@@ -247,11 +247,12 @@ const ReportServiceRepairContainer = (props) => {
 
   const onSearch = () => {
     setIsLoading(true);
-    ReportServiceRepairActions.handleSearch(serviceRepairFormValues).then(
-      () => {
-        setIsLoading(false);
-      }
-    );
+    ReportServiceRepairActions.handleSearch(
+      serviceRepairFormValues,
+      isBlockedRole
+    ).then(() => {
+      setIsLoading(false);
+    });
   };
 
   return (
@@ -264,6 +265,7 @@ const ReportServiceRepairContainer = (props) => {
       enumBranch={selectBranch}
       onSearch={onSearch}
       isLoading={isLoading}
+      isBlock={isBlockedRole}
       {...props}
     />
   );

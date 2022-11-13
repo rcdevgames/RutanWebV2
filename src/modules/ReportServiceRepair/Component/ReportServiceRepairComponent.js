@@ -7,7 +7,14 @@ import CButtonAntd from "../../../components/CButton/CButtonAntd";
 import { SearchOutlined } from "@ant-design/icons";
 
 const ReportServiceRepairComponent = (props) => {
-  const { headers, listServiceRepair, onSearch, enumBranch, isLoading } = props;
+  const {
+    headers,
+    listServiceRepair,
+    onSearch,
+    enumBranch,
+    isLoading,
+    isBlock,
+  } = props;
 
   return (
     <div class="page-content">
@@ -34,13 +41,15 @@ const ReportServiceRepairComponent = (props) => {
                 <div class="col-md-2">
                   <CDatePicker name="endDate" label="Sampai" />
                 </div>
-                <div class="col-md-3 mt-4">
-                  <CSelect
-                    data={enumBranch ?? []}
-                    name="branch"
-                    label="Cabang"
-                  />
-                </div>
+                {!isBlock && (
+                  <div class="col-md-3 mt-4">
+                    <CSelect
+                      data={enumBranch ?? []}
+                      name="branch"
+                      label="Cabang"
+                    />
+                  </div>
+                )}
                 <div class="col-md-2 mt-4">
                   <div class="row d-flex">
                     <CButtonAntd

@@ -77,14 +77,27 @@ export const getMonitoringEmployeeListDataRequested = async (
   }
 };
 
-export const handleSearch = async (values) => {
+export const handleSearch = async (values, isBlock) => {
   const { getState } = store;
   const { page, limit } = getState().monitoringEmployee.paging;
+  const defaultBranch = getState().auth.userDetail.branchId;
 
   if (!values) {
-    await getMonitoringEmployeeListDataRequested(page, limit);
-    return;
+    if (isBlock) {
+      await getMonitoringEmployeeListDataRequested(
+        page,
+        limit,
+        "",
+        "all",
+        defaultBranch
+      );
+      return;
+    } else {
+      await getMonitoringEmployeeListDataRequested(page, limit);
+      return;
+    }
   }
+
   const splitType = values.type ? values.type.split("|") : "";
   const keyword = values.keyword ?? "";
   const splitBranch = values.branch ? values.branch.split("|") : "";
@@ -92,7 +105,8 @@ export const handleSearch = async (values) => {
   const endDate = moment(values.endDate).format("YYYY-MM-DD") ?? "";
 
   const type = values.type ? splitType[0] : "all";
-  const branch = values.branch ? splitBranch[0] : "";
+  const specificBranch = values.branch ? splitBranch[0] : "";
+  const branch = isBlock ? defaultBranch : specificBranch;
 
   try {
     await getMonitoringEmployeeListDataRequested(

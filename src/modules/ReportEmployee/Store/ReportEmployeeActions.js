@@ -52,7 +52,7 @@ export const getReportEmployeeDataRequested = async (
     paging.limit = limit;
     paging.totalPage = totalPage;
 
-    // const newReportEmployee = [];
+    const newReportEmployee = [];
 
     if (data.callback.length > 0) {
       data.callback.map((item, index) => {
@@ -71,13 +71,19 @@ export const getReportEmployeeDataRequested = async (
   }
 };
 
-export const handleSearch = async (values) => {
+export const handleSearch = async (values, isBlock) => {
   const { getState } = store;
   const { page, limit } = getState().reportEmployee.paging;
+  const defaultBranch = getState().auth.userDetail.branchId;
 
   if (!values) {
-    await getReportEmployeeDataRequested(page, limit);
-    return;
+    if (isBlock) {
+      await getReportEmployeeDataRequested(page, limit, "", defaultBranch);
+      return;
+    } else {
+      await getReportEmployeeDataRequested(page, limit);
+      return;
+    }
   }
 
   const keyword = values.keyword ?? "";
@@ -85,7 +91,8 @@ export const handleSearch = async (values) => {
   const startDate = moment(values.startDate).format("YYYY-MM-DD") ?? "";
   const endDate = moment(values.endDate).format("YYYY-MM-DD") ?? "";
 
-  const branch = values.branch ? splitBranch[0] : "";
+  const specificBranch = values.branch ? splitBranch[0] : "";
+  const branch = isBlock ? defaultBranch : specificBranch;
 
   try {
     await getReportEmployeeDataRequested(

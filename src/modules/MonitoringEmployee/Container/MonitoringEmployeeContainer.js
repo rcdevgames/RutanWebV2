@@ -209,11 +209,12 @@ const MonitoringEmployeeContainer = (props) => {
 
   const onSearch = () => {
     setIsLoading(true);
-    MonitoringEmployeeActions.handleSearch(monitoringEmployeeFormValues).then(
-      (success) => {
-        setIsLoading(false);
-      }
-    );
+    MonitoringEmployeeActions.handleSearch(
+      monitoringEmployeeFormValues,
+      isBlockedRole
+    ).then((success) => {
+      setIsLoading(false);
+    });
   };
 
   const handlePressGeneratePdf = () => {

@@ -16,6 +16,7 @@ const MonitoringEmployeeComponent = (props) => {
     onSearch,
     isLoading,
     enumBranch,
+    isBlockedRole,
     enumTypeReport,
     listMonitoringEmployee,
     handlePressGeneratePdf,
@@ -74,15 +75,17 @@ const MonitoringEmployeeComponent = (props) => {
                   <div class="col-md-2">
                     <CDatePicker name="endDate" label="Sampai" />
                   </div>
-                  <div class="col-md-3 mt-4">
-                    <CSelect
-                      // onChange={(val) => onChangeProvince(val)}
-                      data={enumBranch ?? []}
-                      name="branch"
-                      label="Cabang"
-                      placeholder="-Pilih Semua-"
-                    />
-                  </div>
+                  {!isBlockedRole && (
+                    <div class="col-md-3 mt-4">
+                      <CSelect
+                        // onChange={(val) => onChangeProvince(val)}
+                        data={enumBranch ?? []}
+                        name="branch"
+                        label="Cabang"
+                        placeholder="-Pilih Semua-"
+                      />
+                    </div>
+                  )}
                   <div class="col-md-2 mt-3">
                     <Field
                       name="keyword"

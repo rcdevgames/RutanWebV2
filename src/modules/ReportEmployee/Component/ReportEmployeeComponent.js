@@ -11,8 +11,14 @@ import { Field } from "redux-form";
 // const { Search } = Input;
 
 const ReportEmployeeComponent = (props) => {
-  const { headers, listReportEmployee, onSearch, enumBranch, isLoading } =
-    props;
+  const {
+    headers,
+    listReportEmployee,
+    onSearch,
+    enumBranch,
+    isLoading,
+    isBlock,
+  } = props;
 
   return (
     <div class="page-content">
@@ -41,11 +47,13 @@ const ReportEmployeeComponent = (props) => {
                     <CDatePicker name="endDate" label="Sampai" />
                   </div>
                   <div class="col-md-3 mt-4">
-                    <CSelect
-                      data={enumBranch ?? []}
-                      name="branch"
-                      label="Cabang"
-                    />
+                    {enumBranch.length > 0 && (
+                      <CSelect
+                        data={enumBranch ?? []}
+                        name="branch"
+                        label="Cabang"
+                      />
+                    )}
                   </div>
                   <div class="col-md-3 mt-3">
                     <Field

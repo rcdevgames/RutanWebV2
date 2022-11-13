@@ -632,7 +632,7 @@ export const downloadTransactionPdf = async () => {
       jobId
     );
     const downloadUrl = dataTransactionPdf.callback.pdf.url.replace(
-      "103.158.192.161:3000",
+      process.env.REACT_APP_API_URL.replace("http://", ""),
       ""
     );
     const { data } = await Invoke.downloadPdfFromUrl(downloadUrl);

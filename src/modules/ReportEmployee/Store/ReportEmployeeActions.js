@@ -52,7 +52,7 @@ export const getReportEmployeeDataRequested = async (
     paging.limit = limit;
     paging.totalPage = totalPage;
 
-    const newReportEmployee = [];
+    // const newReportEmployee = [];
 
     if (data.callback.length > 0) {
       data.callback.map((item, index) => {

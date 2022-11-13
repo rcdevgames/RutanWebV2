@@ -86,6 +86,13 @@ const ListServicesContainer = (props) => {
       sorter: (a, b) => a.no - b.no,
     },
     {
+      title: "No. Service",
+      dataIndex: "no_service",
+      key: "no_service",
+      width: "20%",
+      sorter: (a, b) => a.no_service - b.no_service,
+    },
+    {
       title: "Tipe",
       dataIndex: "type",
       key: "type",

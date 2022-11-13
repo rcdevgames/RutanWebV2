@@ -33,6 +33,7 @@ const ReportEmployeeContainer = (props) => {
     const SelectBranch = [];
     const roleId = roles[0].role_id;
     const blocked = isBlockedRoleCustomerView(roleId);
+    console.log("=== blocked : ", blocked);
 
     if (blocked) {
       setIsBlockedRole(blocked);
@@ -224,6 +225,7 @@ const ReportEmployeeContainer = (props) => {
       enumBranch={selectBranch}
       onSearch={onSearch}
       isLoading={isLoading}
+      isBlock={isBlockedRole}
       {...props}
     />
   );

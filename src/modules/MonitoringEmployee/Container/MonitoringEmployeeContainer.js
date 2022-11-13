@@ -231,6 +231,7 @@ const MonitoringEmployeeContainer = (props) => {
       enumBranch={selectBranch}
       onSearch={onSearch}
       isLoading={isLoading}
+      isBlockedRole={isBlockedRole}
       handlePressGeneratePdf={handlePressGeneratePdf}
       {...props}
     />

@@ -128,26 +128,29 @@ const DetailServiceTransactionComponent = (props) => {
                     </CButtonAntd>
                   </Link>
                   <div class="ml-3" />
-                  {data.status.toLowerCase() !== "approved" && !isBlockedRoleActionButton && (
-                    <CButtonAntd
-                      onClick={handlePressEdit}
-                      type="primary"
-                      icon={<EditOutlined />}
-                      size="middle"
-                    >
-                      Ubah
-                    </CButtonAntd>
-                  )}
-                  {data.status.toLowerCase() === "rejected" && !isBlockedRoleActionButton && (
-                    <CButtonAntd
-                      onClick={handleSetOnProgress}
-                      type="primary"
-                      icon={<StarOutlined />}
-                      size="middle"
-                    >
-                      Set Job OnProgress
-                    </CButtonAntd>
-                  )}
+                  {data.status.toLowerCase() !== "approved" &&
+                    !isBlockedRoleActionButton &&
+                    data.status.toLowerCase() === "progress" && (
+                      <CButtonAntd
+                        onClick={handlePressEdit}
+                        type="primary"
+                        icon={<EditOutlined />}
+                        size="middle"
+                      >
+                        Ubah
+                      </CButtonAntd>
+                    )}
+                  {data.status.toLowerCase() === "rejected" &&
+                    !isBlockedRoleActionButton && (
+                      <CButtonAntd
+                        onClick={handleSetOnProgress}
+                        type="primary"
+                        icon={<StarOutlined />}
+                        size="middle"
+                      >
+                        Set Job OnProgress
+                      </CButtonAntd>
+                    )}
                   <RenderButtonAction status={data.status} />
                   <div class="mr-3" />
                   {/* button to trigger printing of target component */}

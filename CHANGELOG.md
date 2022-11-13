@@ -1,3 +1,9 @@
+### Changelog v.3.0.11
+
+- fix: Search report employee based on branch
+- fix: Search monitoring employee based on branch
+- fix: Search report service reapair based on branch
+
 ### Changelog v.3.0.10
 
 - fix: Print pdf does not work

@@ -1,6 +1,12 @@
+### Changelog v.3.0.10
+
+- fix: Print pdf does not work
+- fix: Branch on monitoring is stayalways mixed
+- fix: action 'Ubah' only on 'Progress' status job service
+
 ### Changelog v.3.0.9
 
--fix: Delete unused code
+- fix: Delete unused code
 
 ### Changelog v.3.0.8
 

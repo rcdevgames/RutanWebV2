@@ -1,3 +1,7 @@
+### Changelog v.3.0.12
+
+- fix: Unhandled null object when navigate to detail service
+
 ### Changelog v.3.0.11
 
 - fix: Search report employee based on branch

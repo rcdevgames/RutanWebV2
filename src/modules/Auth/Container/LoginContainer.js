@@ -6,7 +6,6 @@ import * as AuthActions from "../Store/AuthAction";
 import * as AuthSelector from "../Selector/AuthSelector";
 import * as validateForm from "../../../app/validateForm";
 import { createStructuredSelector } from "reselect";
-import { navigate } from "../../../app/Helpers";
 
 const LoginContainer = (props) => {
   const { valid } = props;
@@ -27,9 +26,9 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  resetForm: () => {
-    dispatch(reset("loginForm"));
-  },
+  // resetForm: () => {
+  //   dispatch(reset("loginForm"));
+  // },
 });
 
 const EnhanceContainer = connect(

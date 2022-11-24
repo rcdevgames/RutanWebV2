@@ -40,7 +40,7 @@ const DetailServiceTransactionComponent = (props) => {
 
   const RenderButtonAction = ({ status, role }) => {
     let button;
-    switch (status.toLowerCase()) {
+    switch (status?.toLowerCase()) {
       case "completed":
         button = (
           <>
@@ -128,9 +128,9 @@ const DetailServiceTransactionComponent = (props) => {
                     </CButtonAntd>
                   </Link>
                   <div class="ml-3" />
-                  {data.status.toLowerCase() !== "approved" &&
+                  {data?.status?.toLowerCase() !== "approved" &&
                     !isBlockedRoleActionButton &&
-                    data.status.toLowerCase() === "progress" && (
+                    data?.status?.toLowerCase() === "progress" && (
                       <CButtonAntd
                         onClick={handlePressEdit}
                         type="primary"
@@ -140,7 +140,7 @@ const DetailServiceTransactionComponent = (props) => {
                         Ubah
                       </CButtonAntd>
                     )}
-                  {data.status.toLowerCase() === "rejected" &&
+                  {data?.status?.toLowerCase() === "rejected" &&
                     !isBlockedRoleActionButton && (
                       <CButtonAntd
                         onClick={handleSetOnProgress}
@@ -200,7 +200,7 @@ const DetailServiceTransactionComponent = (props) => {
                   <Text>Status Transaksi : </Text>
                   <CBadgeText
                     type={
-                      data.status.toLowerCase() === "draft"
+                      data?.status?.toLowerCase() === "draft"
                         ? "warning"
                         : "success"
                     }

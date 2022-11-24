@@ -23,7 +23,11 @@ import TabPanelRejectionsContainer from "./TabPanel/TabPanelRejectionsContainer"
 import TabPanelChecklistContainer from "./TabPanel/TabPanelChecklistContainer";
 import { store } from "../../../app/ConfigureStore";
 import Invoke from "../../../app/axios/Invoke";
-import { isBlockedRoleDetailService, isNotBlockedRolePrintForm, navigate } from "../../../app/Helpers";
+import {
+  isBlockedRoleDetailService,
+  isNotBlockedRolePrintForm,
+  navigate,
+} from "../../../app/Helpers";
 import { showToast } from "../../Roles/Store/RolesActions";
 
 const DetailServiceTransactionContainer = (props) => {
@@ -45,7 +49,8 @@ const DetailServiceTransactionContainer = (props) => {
 
   const [isLoadedChecklist, setIsLoadedChecklist] = React.useState(false);
   const [isNotBlockedRole, setNotIsBlockedRole] = React.useState(false);
-  const [isBlockedRoleActionButton, setIsBlockedRoleActionButton] = React.useState(false);
+  const [isBlockedRoleActionButton, setIsBlockedRoleActionButton] =
+    React.useState(false);
   const [isCompleteLoadedMedia, setIsCompleteLoadedMedia] =
     React.useState(false);
   const [isCompleteLoadedSummary, setIsCompleteLoadedSummary] =
@@ -139,7 +144,8 @@ const DetailServiceTransactionContainer = (props) => {
   }
 
   const onChangeTab = (activeTab) => {
-    switch (activeTab.toLowerCase()) {
+    const tab = activeTab ?? "panel-teknisi";
+    switch (tab.toLowerCase()) {
       case "panel-teknisi":
         DetailServiceActions.getJobServiceEmployeeList(selectedJobService.id);
         break;
@@ -175,14 +181,18 @@ const DetailServiceTransactionContainer = (props) => {
   };
 
   const callInitialize = async () => {
-    await EmployeesActions.loadEmployeeListData(1, 99999);
-    await DetailServiceActions.getJobServiceEmployeeList(selectedJobService.id);
-    await DetailServiceActions.getJobServiceDailies(selectedJobService.id);
-    await DetailServiceActions.getJobServiceHistories(selectedJobService.id);
-    await DetailServiceActions.getJobServiceRejections(selectedJobService.id);
-    await groupingUnitMedia();
-    await groupingUnitSummary();
-    await groupingUnitChecklist();
+    if (Object.keys(selectedJobService).length > 0) {
+      await EmployeesActions.loadEmployeeListData(1, 99999);
+      await DetailServiceActions.getJobServiceEmployeeList(
+        selectedJobService.id
+      );
+      await DetailServiceActions.getJobServiceDailies(selectedJobService.id);
+      await DetailServiceActions.getJobServiceHistories(selectedJobService.id);
+      await DetailServiceActions.getJobServiceRejections(selectedJobService.id);
+      await groupingUnitMedia();
+      await groupingUnitSummary();
+      await groupingUnitChecklist();
+    }
   };
 
   const groupingUnitMedia = async () => {
@@ -227,14 +237,16 @@ const DetailServiceTransactionContainer = (props) => {
   const checkBlockedRole = () => {
     const isNotBlocked = isNotBlockedRolePrintForm(userRole[0].role_id);
     setNotIsBlockedRole(isNotBlocked);
-    const isBlockedRoleButtonAction = isBlockedRoleDetailService(userRole[0].role_id);
-    setIsBlockedRoleActionButton(isBlockedRoleButtonAction)
+    const isBlockedRoleButtonAction = isBlockedRoleDetailService(
+      userRole[0].role_id
+    );
+    setIsBlockedRoleActionButton(isBlockedRoleButtonAction);
   };
 
   React.useEffect(() => {
     callInitialize();
     checkBlockedRole();
-  }, []);
+  }, [selectedJobService]);
 
   const handlePressGeneratePdf = () => {
     // exportDetailServicePdfRevision(printedData);

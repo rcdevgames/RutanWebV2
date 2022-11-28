@@ -5,6 +5,7 @@ import { createStructuredSelector } from "reselect";
 import * as Selectors from "../modules/Auth/Selector/AuthSelector";
 import ConfigAxios from "./axios/ConfigAxios";
 import { navigate } from "./Helpers";
+import { setGlobalLoading } from "../modules/App/Store/ComponentAction";
 
 const AuthMiddleware = (ComposedComponent, menuPath, isSecureRoute) => {
   const returnData = (props) => {
@@ -36,7 +37,12 @@ const AuthMiddleware = (ComposedComponent, menuPath, isSecureRoute) => {
     userMenus: Selectors.UserMenus(),
   });
   const mapDispatchToProps = (dispatch) => ({
-    redirect: () => history.push("/auth"),
+    redirect: () => {
+      setTimeout(() => {
+        navigate("/auth");
+        dispatch(setGlobalLoading(false));
+      }, 1000);
+    },
     redirectToServices: () => navigate("/list_service"),
   });
   return connect(mapStateToProps, mapDispatchToProps)(returnData);

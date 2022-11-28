@@ -3,7 +3,7 @@ import history from "./History";
 
 export const navigate = (path) => {
   history.push(path);
-  // window.location.reload();
+  window.location.reload();
 };
 
 export const getIndex = (currentpage, limit) => {

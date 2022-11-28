@@ -105,6 +105,10 @@ const DashboardComponent = (props) => {
                       showSizeChanger: true,
                       // ...pagination,
                     }}
+                    scroll={{
+                      x: "calc(700px + 50%)",
+                      y: 400,
+                    }}
                   />
                 </div>
                 {/* </div> */}

@@ -3,6 +3,7 @@ import { store } from "../../../app/ConfigureStore";
 import history from "../../../app/History";
 import { toastr } from "react-redux-toastr";
 import { setGlobalLoading } from "../../App/Store/ComponentAction";
+import { navigate } from "../../../app/Helpers";
 
 export const SET_ACCESS_TOKEN_DATA = "SET_ACCESS_TOKEN_DATA";
 export const SET_USER_DETAIL_DATA = "SET_USER_DETAIL_DATA";
@@ -35,6 +36,7 @@ export const logout = () => {
 export const doLogout = (dispatch) => {
   const toastrConfirmOptions = {
     onOk: () => {
+      dispatch(setGlobalLoading(true));
       dispatch(logout());
     },
     okText: "Ya",

@@ -41,14 +41,13 @@ const ListServicesContainer = (props) => {
 
   const renderActionTable = (text, record) => (
     <Space size="middle">
-      <Link to={"/detail-services"} onClick={() => {
-            handlePressEdit(record);
-          }}>
-        <CButtonAntd
-          type="primary"
-          icon={<EditOutlined />}
-          size="middle"
-        />
+      <Link
+        to={"/detail-services"}
+        onClick={() => {
+          handlePressEdit(record);
+        }}
+      >
+        <CButtonAntd type="primary" icon={<EditOutlined />} size="middle" />
       </Link>
       {roles[0].name === "Administrator" && (
         <CButtonAntd
@@ -82,21 +81,23 @@ const ListServicesContainer = (props) => {
       title: "No",
       dataIndex: "no",
       key: "no",
-      width: "7%",
+      width: 50,
       sorter: (a, b) => a.no - b.no,
     },
     {
       title: "No. Service",
       dataIndex: "no_service",
       key: "no_service",
-      width: "20%",
+      align: "center",
+      width: 150,
       sorter: (a, b) => a.no_service - b.no_service,
     },
     {
       title: "Tipe",
       dataIndex: "type",
       key: "type",
-      width: "15%",
+      align: "center",
+      width: 160,
       render: (type, items) => {
         let color = switchColorType(items.is_external, items.warranty);
         return (
@@ -105,7 +106,7 @@ const ListServicesContainer = (props) => {
             color={color}
             key={type}
           >
-            {type.toUpperCase()}
+            {type ? type?.toUpperCase() : "-"}
           </Tag>
         );
       },
@@ -115,13 +116,14 @@ const ListServicesContainer = (props) => {
       title: "Customer",
       dataIndex: "customer_name",
       key: "customer_name",
-      width: "15%",
+      width: 200,
       sorter: (a, b) => a.customer_name.length - b.customer_name.length,
     },
     {
       title: "Teknisi",
       dataIndex: "employees",
       render: (employees) =>
+        employees.length > 0 &&
         employees.map((employee) => (
           <Text>
             {employee.employee_name}
@@ -129,12 +131,13 @@ const ListServicesContainer = (props) => {
           </Text>
         )),
       key: "employees",
-      width: "15%",
+      width: 250,
     },
     {
       title: "Unit",
       dataIndex: "unit_models",
       render: (units) =>
+        units.length > 0 &&
         units.map((unit) => (
           <Text>
             {unit.unit_name}
@@ -142,12 +145,13 @@ const ListServicesContainer = (props) => {
           </Text>
         )),
       key: "unit_models",
-      width: "15%",
+      width: 250,
     },
     {
       title: "Model",
       dataIndex: "unit_models",
       render: (units) =>
+        units.length > 0 &&
         units.map((unit) => (
           <Text>
             {unit.unit_model_name}
@@ -155,14 +159,14 @@ const ListServicesContainer = (props) => {
           </Text>
         )),
       key: "unit_models",
-      width: "15%",
+      width: 250,
       sorter: (a, b) => a.customer_name.length - b.customer_name.length,
     },
     {
       title: "Due Date",
       dataIndex: "due",
       key: "due",
-      width: "15%",
+      width: 100,
       sorter: (a, b) => a.due - b.due,
       render: (due) => {
         return <Text>{moment(due).format("YYYY-MM-DD")}</Text>;
@@ -172,6 +176,7 @@ const ListServicesContainer = (props) => {
       title: "Status",
       dataIndex: "status",
       key: "status",
+      align: "center",
       render: (status) => {
         let color = status === "Progress" ? "#108ee9" : "#54BAB9";
         return (
@@ -180,25 +185,25 @@ const ListServicesContainer = (props) => {
             color={color}
             key={status}
           >
-            {status.toUpperCase()}
+            {status ? status?.toUpperCase() : "-"}
           </Tag>
         );
       },
-      width: "15%",
+      width: 150,
       sorter: (a, b) => a.status.length - b.status.length,
     },
     {
       title: "Dibuat",
       dataIndex: "created_date",
       key: "created_date",
-      width: "15%",
+      width: 150,
       sorter: (a, b) => a.created_date.length - b.created_date.length,
     },
     {
       align: "center",
       title: "Aksi",
       key: "action",
-      width: "30%",
+      width: 100,
       render: renderActionTable,
       fixed: "right",
     },

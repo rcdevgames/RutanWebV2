@@ -8,7 +8,7 @@ import * as RolesActions from "../../Roles/Store/RolesActions";
 import EmployeeEditComponent from "../Component/EmployeeEditComponent";
 import { validateFormEmployee } from "../../../app/validateForm";
 import { store } from "../../../app/ConfigureStore";
-import { getCitiesEnum, navigate } from "../../../app/Helpers";
+import { getCitiesEnum } from "../../../app/Helpers";
 import Invoke from "../../../app/axios/Invoke";
 
 const EmployeeEditContainer = (props) => {

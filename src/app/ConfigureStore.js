@@ -19,6 +19,7 @@ const resetEnhancer = (rootReducer) => (state, action) => {
   if (action.type !== "LOGOUT") {
     return rootReducer(state, action);
   } else {
+    console.log("=== run this");
     const newState = rootReducer(undefined, {});
     newState.router = state.router;
     return newState;

@@ -85,7 +85,10 @@ const ListServiceComponent = (props) => {
                       showSizeChanger: true,
                       ...pagination,
                     }}
-                    // scroll={{ x: dataTable.tableWidth, y: tableHeight }}
+                    scroll={{
+                      x: "calc(700px + 50%)",
+                      y: 500,
+                    }}
                   />
                 </div>
               </div>

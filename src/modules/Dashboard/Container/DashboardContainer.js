@@ -95,21 +95,24 @@ const DashboardContainer = (props) => {
       title: "No",
       dataIndex: "no",
       key: "no",
-      width: "7%",
+      align: "center",
+      width: 50,
       sorter: (a, b) => a.no - b.no,
     },
     {
       title: "No. Service",
       dataIndex: "no_service",
       key: "no_service",
-      width: "20%",
+      align: "center",
+      width: 150,
       sorter: (a, b) => a.no_service - b.no_service,
     },
     {
       title: "Tipe",
       dataIndex: "type",
       key: "type",
-      width: "15%",
+      align: "center",
+      width: 160,
       render: (type, items) => {
         let color = switchColorType(items.is_external, items.warranty);
         return (
@@ -128,7 +131,8 @@ const DashboardContainer = (props) => {
       title: "Customer",
       dataIndex: "customer_name",
       key: "customer_name",
-      width: "40%",
+      align: "left",
+      width: 200,
       sorter: (a, b) => a.customer_name.length - b.customer_name.length,
     },
     {
@@ -142,7 +146,8 @@ const DashboardContainer = (props) => {
           </Text>
         )),
       key: "employees",
-      width: "15%",
+      align: "left",
+      width: 250,
     },
     {
       title: "Unit",
@@ -155,7 +160,8 @@ const DashboardContainer = (props) => {
           </Text>
         )),
       key: "unit_models",
-      width: "15%",
+      align: "left",
+      width: 250,
     },
     {
       title: "Model",
@@ -168,14 +174,16 @@ const DashboardContainer = (props) => {
           </Text>
         )),
       key: "unit_models",
-      width: "15%",
+      align: "left",
+      width: 250,
       sorter: (a, b) => a.customer_name.length - b.customer_name.length,
     },
     {
       title: "Due Date",
       dataIndex: "due",
       key: "due",
-      width: "15%",
+      align: "center",
+      width: 100,
       sorter: (a, b) => a.due - b.due,
       render: (due) => {
         return <Text>{moment(due).format("YYYY-MM-DD")}</Text>;
@@ -184,6 +192,7 @@ const DashboardContainer = (props) => {
     {
       title: "Status",
       dataIndex: "status",
+      align: "center",
       key: "status",
       render: (status) => {
         let color = status === "Progress" ? "#108ee9" : "#54BAB9";
@@ -197,22 +206,24 @@ const DashboardContainer = (props) => {
           </Tag>
         );
       },
-      width: "15%",
+      width: 150,
       sorter: (a, b) => a.status.length - b.status.length,
     },
     {
       title: "Dibuat",
       dataIndex: "created_date",
       key: "created_date",
-      width: "15%",
+      align: "left",
+      width: 150,
       sorter: (a, b) => a.created_date.length - b.created_date.length,
     },
     {
       align: "center",
       title: "Aksi",
       key: "action",
-      width: "30%",
+      width: 70,
       render: renderActionTable,
+      fixed: "right",
     },
   ];
 

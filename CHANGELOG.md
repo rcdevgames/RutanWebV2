@@ -1,3 +1,9 @@
+### Changelog v.3.0.13
+
+- fix: Change table width on dashboard screen
+- fix: Change table width on list service screen
+- fix: Fixing function logout
+
 ### Changelog v.3.0.12
 
 - fix: Unhandled null object when navigate to detail service

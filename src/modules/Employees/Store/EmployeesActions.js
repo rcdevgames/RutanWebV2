@@ -249,9 +249,9 @@ const doEditEmployeeProcess = async (values, roleSelected) => {
     // Save Employee data actions
     await Invoke.updateEmployee(payload);
     showToast("Data Berhasil Disimpan", "success");
-    // setTimeout(() => {
-    //   navigate("/employees");
-    // }, 1000);
+    setTimeout(() => {
+      navigate("/employees");
+    }, 1000);
   } catch (error) {
     dispatch(ComponentActions.setGlobalLoading(false));
   }

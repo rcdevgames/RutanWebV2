@@ -19,7 +19,12 @@ const EmployeeEditContainer = (props) => {
     component: { isModalVisible },
     roles: { listRoles },
     branch: { listBranch, paging, keyword },
-    employees: { formStatus, selectedEmployeeData, selectedRoleEmployee },
+    employees: {
+      formStatus,
+      selectedEmployeeData,
+      selectedRoleEmployee,
+      isEmployeeDataLoaded,
+    },
     masters: { listProvince, listCity },
     handleClearSelectedEmployeeRole,
   } = props;
@@ -69,28 +74,33 @@ const EmployeeEditContainer = (props) => {
   });
 
   React.useEffect(() => {
+    if (isEmployeeDataLoaded) {
+      let subItem = [];
+      listCity.map((item, index) => {
+        subItem.push({
+          id: `city-${index}`,
+          value: item.id,
+          label: item.name,
+        });
+      });
+      setListCityState(subItem);
+      // Mapping detail data employee when edit
+      if (formStatus === "edit") {
+        MasterDataActions.loadCityListData(selectedEmployeeData.province_id);
+        EmployeesActions.mapDetailEmployeeToForm();
+        // convert image url to base64
+        setDefaultImage(selectedEmployeeData.photo);
+        // set selected roles to redux-form
+        store.dispatch(
+          change("editEmployeeForm", "selectedRoles", selectedRoleEmployee)
+        );
+      }
+    }
+  }, [isEmployeeDataLoaded]);
+
+  React.useEffect(() => {
     getListRoles();
 
-    let subItem = [];
-    listCity.map((item, index) => {
-      subItem.push({
-        id: `city-${index}`,
-        value: item.id,
-        label: item.name,
-      });
-    });
-    setListCityState(subItem);
-    // Mapping detail data employee when edit
-    if (formStatus === "edit") {
-      MasterDataActions.loadCityListData(selectedEmployeeData.province_id);
-      EmployeesActions.mapDetailEmployeeToForm();
-      // convert image url to base64
-      setDefaultImage(selectedEmployeeData.photo);
-      // set selected roles to redux-form
-      store.dispatch(
-        change("editEmployeeForm", "selectedRoles", selectedRoleEmployee)
-      );
-    }
     return () => {
       handleClearSelectedEmployeeRole();
     };
@@ -151,6 +161,7 @@ const EmployeeEditContainer = (props) => {
       defaultImage={defaultImage}
       onChangeProvince={onChangeProvince}
       onBackAction={onBackAction}
+      isLoaded={isEmployeeDataLoaded}
       {...props}
     />
   );

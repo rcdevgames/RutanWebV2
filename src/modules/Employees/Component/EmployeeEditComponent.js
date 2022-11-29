@@ -9,7 +9,7 @@ import {
   ArrowLeftOutlined,
   EditOutlined,
 } from "@ant-design/icons";
-import { Checkbox, Col, message, Row, Typography, Upload } from "antd";
+import { Checkbox, Col, message, Row, Spin, Typography, Upload } from "antd";
 import { getBase64 } from "../../../app/Helpers";
 import { Link } from "react-router-dom";
 
@@ -65,6 +65,7 @@ const EmployeeEditComponent = (props) => {
     onChangeProvince,
     onBackAction,
     formStatus,
+    isLoaded,
   } = props;
 
   const [loading, setLoading] = React.useState(false);
@@ -122,185 +123,195 @@ const EmployeeEditComponent = (props) => {
                   Anda dapat mengelola role ataupun mengubah data karyawan pada
                   halaman ini.
                 </p>
-                <Form>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <Field
-                        name="nik"
-                        label="NIK"
-                        placeholder="-"
-                        component={CInput}
-                        type="text"
-                      />
-                    </div>
-                    <div class="col-md-6">
-                      <CSelect
-                        data={enumProvince}
-                        name="province"
-                        label="Nama Provinsi"
-                        onChange={(val) => onChangeProvince(val)}
-                      />
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <Field
-                        name="password"
-                        label="Password"
-                        placeholder={
-                          formStatus === "edit"
-                            ? "* Isi jika ingin merubah kata sandi"
-                            : "* Masukan kata sandi anda"
-                        }
-                        component={CInput}
-                        type="password"
-                      />
-                    </div>
-                    <div class="col-md-6">
-                      <CSelect
-                        name="city"
-                        data={enumCity}
-                        label="Kota/Kabupaten"
-                        disabled={enumCity.length <= 0}
-                      />
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <Field
-                        name={"name"}
-                        label="Nama Karyawan"
-                        placeholder="-"
-                        component={CInput}
-                        type="text"
-                      />
-                    </div>
-                    <div class="col-md-6">
-                      <Typography style={{ textAlign: "left" }}>
-                        Foto Profil
-                      </Typography>
-                      <div
-                        class="card-body"
-                        style={{
-                          marginLeft: -22,
-                          marginTop: -20,
-                        }}
-                      >
-                        <Upload
-                          name="avatar"
-                          listType="picture-card"
-                          className="avatar-uploader overflow-hidden"
-                          showUploadList={false}
-                          beforeUpload={beforeUpload}
-                          onChange={handleChange}
-                        >
-                          {imageUrl || defaultImage ? (
-                            <>
-                              <img
-                                src={imageUrl}
-                                alt="avatar"
-                                style={{
-                                  width: "100%",
-                                  height: "100%",
-                                  resizeMode: "stretch",
-                                  borderRadius: 5,
-                                }}
-                              />
-                              <div
-                                class="row"
-                                style={{
-                                  backgroundColor: "#F3F3F3",
-                                  position: "absolute",
-                                  width: 80,
-                                  heigh: 30,
-                                  borderRadius: 50,
-                                  alignItems: "center",
-                                  justifyContent: "center",
-                                  opacity: 0.7,
-                                }}
-                              >
-                                <Typography style={{ fontSize: 10 }}>
-                                  Ubah
-                                </Typography>
-                                <EditOutlined
-                                  style={{
-                                    color: "#020202",
-                                    fontSize: 10,
-                                    marginLeft: 5,
-                                  }}
-                                />
-                              </div>
-                            </>
-                          ) : (
-                            uploadButton
-                          )}
-                        </Upload>
+                {isLoaded ? (
+                  <Form>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <Field
+                          name="nik"
+                          label="NIK"
+                          placeholder="-"
+                          component={CInput}
+                          type="text"
+                        />
+                      </div>
+                      <div class="col-md-6">
+                        <CSelect
+                          data={enumProvince}
+                          name="province"
+                          label="Nama Provinsi"
+                          onChange={(val) => onChangeProvince(val)}
+                        />
                       </div>
                     </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <Field
-                        name={`phone`}
-                        label="No. Telepon"
-                        placeholder="-"
-                        component={CInput}
-                        type="text"
-                      />
+                    <div class="row">
+                      <div class="col-md-6">
+                        <Field
+                          name="password"
+                          label="Password"
+                          placeholder={
+                            formStatus === "edit"
+                              ? "* Isi jika ingin merubah kata sandi"
+                              : "* Masukan kata sandi anda"
+                          }
+                          component={CInput}
+                          type="password"
+                        />
+                      </div>
+                      <div class="col-md-6">
+                        <CSelect
+                          name="city"
+                          data={enumCity}
+                          label="Kota/Kabupaten"
+                          disabled={enumCity.length <= 0}
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <CSelect data={enumBranch} name="branch" label="Cabang" />
-                      <Field
-                        name="address"
-                        label="Alamat"
-                        component={CInput}
-                        typeComponent="textarea"
-                      />
-                      <br />
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <hr />
-                      {formStatus === "edit" && (
-                        <div class="card">
-                          <div class="card-body">
-                            <h6 class="card-title text-center">Pilih Role</h6>
-                            <SelectRole
-                              data={enumRole}
-                              defaultValues={selectedRoleEmployee}
-                              onChangeRoleEmployee={onChangeRoleEmployee}
-                            />
-                          </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <Field
+                          name={"name"}
+                          label="Nama Karyawan"
+                          placeholder="-"
+                          component={CInput}
+                          type="text"
+                        />
+                      </div>
+                      <div class="col-md-6">
+                        <Typography style={{ textAlign: "left" }}>
+                          Foto Profil
+                        </Typography>
+                        <div
+                          class="card-body"
+                          style={{
+                            marginLeft: -22,
+                            marginTop: -20,
+                          }}
+                        >
+                          <Upload
+                            name="avatar"
+                            listType="picture-card"
+                            className="avatar-uploader overflow-hidden"
+                            showUploadList={false}
+                            beforeUpload={beforeUpload}
+                            onChange={handleChange}
+                          >
+                            {imageUrl || defaultImage ? (
+                              <>
+                                <img
+                                  src={imageUrl}
+                                  alt="avatar"
+                                  style={{
+                                    width: "100%",
+                                    height: "100%",
+                                    resizeMode: "stretch",
+                                    borderRadius: 5,
+                                  }}
+                                />
+                                <div
+                                  class="row"
+                                  style={{
+                                    backgroundColor: "#F3F3F3",
+                                    position: "absolute",
+                                    width: 80,
+                                    heigh: 30,
+                                    borderRadius: 50,
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    opacity: 0.7,
+                                  }}
+                                >
+                                  <Typography style={{ fontSize: 10 }}>
+                                    Ubah
+                                  </Typography>
+                                  <EditOutlined
+                                    style={{
+                                      color: "#020202",
+                                      fontSize: 10,
+                                      marginLeft: 5,
+                                    }}
+                                  />
+                                </div>
+                              </>
+                            ) : (
+                              uploadButton
+                            )}
+                          </Upload>
                         </div>
-                      )}
+                      </div>
                     </div>
-                  </div>
-                  <div class="row ml-2">
-                    <Link to={"/employees"} onClick={onBackAction}>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <Field
+                          name={`phone`}
+                          label="No. Telepon"
+                          placeholder="-"
+                          component={CInput}
+                          type="text"
+                        />
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <CSelect
+                          data={enumBranch}
+                          name="branch"
+                          label="Cabang"
+                        />
+                        <Field
+                          name="address"
+                          label="Alamat"
+                          component={CInput}
+                          typeComponent="textarea"
+                        />
+                        <br />
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <hr />
+                        {formStatus === "edit" && (
+                          <div class="card">
+                            <div class="card-body">
+                              <h6 class="card-title text-center">Pilih Role</h6>
+                              <SelectRole
+                                data={enumRole}
+                                defaultValues={selectedRoleEmployee}
+                                onChangeRoleEmployee={onChangeRoleEmployee}
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div class="row ml-2">
+                      <Link to={"/employees"} onClick={onBackAction}>
+                        <CButtonAntd
+                          key="submit"
+                          type="primary"
+                          loading={false}
+                          danger
+                          icon={<ArrowLeftOutlined />}
+                        >
+                          Kembali
+                        </CButtonAntd>
+                      </Link>
+                      <div class="ml-3" />
                       <CButtonAntd
                         key="submit"
                         type="primary"
                         loading={false}
-                        danger
-                        icon={<ArrowLeftOutlined />}
+                        onClick={handleSubmit(submitForm)}
                       >
-                        Kembali
+                        Simpan
                       </CButtonAntd>
-                    </Link>
-                    <div class="ml-3" />
-                    <CButtonAntd
-                      key="submit"
-                      type="primary"
-                      loading={false}
-                      onClick={handleSubmit(submitForm)}
-                    >
-                      Simpan
-                    </CButtonAntd>
+                    </div>
+                  </Form>
+                ) : (
+                  <div class="d-flex justify-content-center align-items-center">
+                    <Spin />
                   </div>
-                </Form>
+                )}
               </div>
             </div>
           </div>

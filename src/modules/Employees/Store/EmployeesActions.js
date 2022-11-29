@@ -15,10 +15,18 @@ export const SET_FORM_STATUS = "SET_FORM_STATUS";
 export const SET_SELECTED_ROLE_EMPLOYEE = "SET_SELECTED_ROLE_EMPLOYEE";
 export const SET_PAGING_EMPLOYEES = "SET_PAGING_EMPLOYEES";
 export const SET_EMPLOYEE_LIST_DROPDOWN = "SET_EMPLOYEE_LIST_DROPDOWN";
+export const SET_IS_EMPLOYEE_DATA_LOADED = "SET_IS_EMPLOYEE_DATA_LOADED";
 
 export const setEmployeeListData = (payload) => {
   return {
     type: SET_EMPLOYEE_LIST_DATA,
+    payload,
+  };
+};
+
+export const setISEmployeeDataLoaded = (payload) => {
+  return {
+    type: SET_IS_EMPLOYEE_DATA_LOADED,
     payload,
   };
 };

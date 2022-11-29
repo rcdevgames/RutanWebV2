@@ -160,11 +160,29 @@ const mapDispatchToProps = (dispatch) => ({
     ToolsActions.getToolsListDataRequested(page, limit);
   },
   handlePressEdit: async (employee) => {
+    dispatch(EmployeesActions.setISEmployeeDataLoaded(false));
     dispatch(EmployeeActions.setFormStatus("edit"));
-    await EmployeesActions.getRolesByEmployeeId(employee.id);
-    await MasterDataActions.loadCityListData(employee.province_id);
     await dispatch(EmployeeActions.setSelectedEmployeeId(employee.id));
-    await EmployeesActions.getEmployeeDataByIdRequested(employee.id);
+
+    const p1 = new Promise((resolve, reject) => {
+      EmployeesActions.getRolesByEmployeeId(employee.id).then((res) => {
+        resolve();
+      });
+    });
+    const p2 = new Promise((resolve, reject) => {
+      MasterDataActions.loadCityListData(employee.province_id).then((res) => {
+        resolve();
+      });
+    });
+    const p3 = new Promise((resolve, reject) => {
+      EmployeesActions.getEmployeeDataByIdRequested(employee.id).then((res) => {
+        resolve();
+      });
+    });
+
+    Promise.all([p1, p2, p3]).then(() => {
+      dispatch(EmployeesActions.setISEmployeeDataLoaded(true));
+    });
   },
   handlePressAddNew: async () => {
     dispatch(EmployeesActions.setFormStatus("add"));

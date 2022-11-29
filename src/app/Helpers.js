@@ -564,6 +564,16 @@ export const isNotBlockedRolePrintForm = (role) => {
       isBlocked = true;
       break;
 
+    // ADMINISTRATOR SERVICE
+    case "f00a9d7b-fb33-466b-a8ed-ba6fb117690d":
+      isBlocked = true;
+      break;
+
+    // ADMINISTRATOR
+    case "a808a11a-5d29-4165-8b8f-adad5fd52706":
+      isBlocked = true;
+      break;
+
     default:
       isBlocked = false;
       break;

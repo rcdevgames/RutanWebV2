@@ -1,6 +1,6 @@
 {
   "name": "rutan-web-v2",
-  "version": "3.0.14",
+  "version": "3.0.15",
   "private": true,
   "dependencies": {
     "@react-pdf/renderer": "^2.1.1",

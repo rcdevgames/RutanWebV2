@@ -1,3 +1,7 @@
+### Changelog v.3.0.15
+
+- fix: Add navigate after success edit employee
+
 ### Changelog v.3.0.14
 
 - fix: Add promise to await load data when load edit employee screen

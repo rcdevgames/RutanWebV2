@@ -1,3 +1,8 @@
+### Changelog v.3.0.14
+
+- fix: Add promise to await load data when load edit employee screen
+- fix: Add access print to Administrator & Administrator Service
+
 ### Changelog v.3.0.13
 
 - fix: Change table width on dashboard screen
